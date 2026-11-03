@@ -800,8 +800,8 @@ infer the cost changes that mergers produced, and computes the implied welfare e
 revision of the Merger Guidelines, which signaled a friendlier stance toward mergers.
 
 \casehead{The investment model}
-There are $n$ firms producing a homogeneous good. Firm $i$ starts with capacity $K_i$ and chooses investment $x_i$,
-which may be negative (scrapping). Capacity depreciates by the factor $\vartheta \in (0,1)$, so the post-investment
+There are $n$ firms producing a homogeneous good. Firm $i$ starts with capacity $K_i > 0$ and chooses investment
+$x_i \ge -\vartheta K_i$, which may be negative (scrapping). Capacity depreciates by the factor $\vartheta \in (0,1)$, so the post-investment
 capacity is $\vartheta K_i + x_i$. Adding capacity costs $r(x_i)$, while scrapping is free. Production cost is
 $C_i(\cdot)$ with marginal cost $c_i(\cdot)$. Plants run at full capacity, an assumption that fits an industry whose
 utilization averaged 93 percent, so industry output is $Q = \sum_j(\vartheta K_j + x_j)$. Firms discount the future by
@@ -822,8 +822,9 @@ convex. In an equilibrium, each firm's investment satisfies
 \begin{equation}\label{eq:11-pes-kt}
 \begin{aligned}
 x_i > 0 &: \quad \frac{\delta}{1 - \delta}\big[\mathit{MR}_i - c_i\big] = r'(x_i),\\
-x_i < 0 &: \quad \mathit{MR}_i - c_i = 0,\\
-x_i = 0 &: \quad 0 \le \frac{\delta}{1 - \delta}\big[\mathit{MR}_i - c_i\big] \le r'(0),
+-\vartheta K_i < x_i < 0 &: \quad \mathit{MR}_i - c_i = 0,\\
+x_i = 0 &: \quad 0 \le \frac{\delta}{1 - \delta}\big[\mathit{MR}_i - c_i\big] \le r'(0),\\
+x_i = -\vartheta K_i &: \quad \mathit{MR}_i - c_i \le 0,
 \end{aligned}
 \end{equation}
 where $c_i$ is evaluated at $\vartheta K_i + x_i$.
@@ -835,22 +836,26 @@ $x_i \neq 0$ its derivative is $\frac{\delta}{1-\delta}[\mathit{MR}_i - c_i] - r
 interior optimum sets it to zero, which gives the first two lines. At $x_i = 0$ the payoff has a kink. The left
 derivative is $\frac{\delta}{1-\delta}[\mathit{MR}_i - c_i]$ and the right derivative subtracts $r'(0)$. Zero is
 optimal when the left derivative is nonnegative, so scrapping does not pay, and the right derivative is nonpositive, so
-investing does not pay. This gives the third line. Pesendorfer writes the three cases compactly as
+investing does not pay. This gives the third line. At $x_i = -\vartheta K_i$ the firm scraps all its capacity and
+cannot scrap more. Optimality then requires only that the derivative be nonpositive, which gives the fourth line.
+Pesendorfer writes the first three cases compactly as
 $x_i\{[\mathit{MR}_i - c_i]\frac{\delta}{1-\delta} - r'(x_i)\indic\{x_i > 0\}\} = 0$ (eq.~(2)).
 \end{proof}
 
 Inverting \eqref{eq:11-pes-kt} gives marginal cost as a function of observables (Corollary 2, eq.~(3)):
 \begin{equation}\label{eq:11-pes-cost}
-c_i = \mathit{MR}_i - \frac{1 - \delta}{\delta}\, r'(x_i)\,\indic\{x_i > 0\} \quad (x_i \neq 0),
-\qquad
-c_i \in \Big[\mathit{MR}_i - \frac{1 - \delta}{\delta}\, r'(0),\; \mathit{MR}_i\Big] \quad (x_i = 0).
+\begin{aligned}
+c_i &= \mathit{MR}_i - \frac{1 - \delta}{\delta}\, r'(x_i)\,\indic\{x_i > 0\} && (x_i \neq 0,\ x_i > -\vartheta K_i),\\
+c_i &\in \Big[\mathit{MR}_i - \frac{1 - \delta}{\delta}\, r'(0),\; \mathit{MR}_i\Big] && (x_i = 0).
+\end{aligned}
 \end{equation}
 The right-hand side depends on industry capacity and investment, the firm's own capacity and investment, demand and
 the investment cost function. Marginal revenue falls with own capacity. So for a given capacity, a firm that invests
 more must have a lower marginal cost. This is the inference the empirical work exploits: changes in investment after a
 merger reveal changes in the merged firm's costs. Investment is measured as $x_i = K_i' - \vartheta K_i$, where $K_i'$
 is next period's capacity. With $\vartheta < 1$ a firm that keeps capacity constant invests a positive amount, so the
-interval case rarely arises.
+interval case rarely arises. A firm that scraps all its capacity reveals only the bound $c_i \ge \mathit{MR}_i$, with
+$c_i$ evaluated at zero capacity.
 
 \casehead{Merger analysis in a linear example}
 To see what the model implies, Pesendorfer specializes it. We follow \cref{sec:11-ssr} and write the demand intercept

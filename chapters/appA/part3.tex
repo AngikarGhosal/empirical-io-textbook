@@ -297,8 +297,10 @@ By (ii) the second term is of order $\frac{\sqrt n}{n_s}$, which vanishes by ass
 the maximum likelihood estimator, plus a simulation variance of order $\frac{1}{n_s}$ that also vanishes.
 \end{proof}
 
-The proposition contrasts with \cref{prop:A-msm}. MSM is consistent with a single draw per observation, while SML
-needs the number of draws to grow faster than $\sqrt n$. SML is nonetheless popular because it requires no
+The proposition contrasts with \cref{prop:A-msm}. MSM is consistent with a single draw per observation. SML is
+inconsistent for fixed $n_s$ by (ii), and under standard uniform regularity it is consistent when $n_s \to \infty$ with
+$n$. Growth faster than $\sqrt n$ is the stronger condition of (iii). It removes the simulation bias at the $\sqrt n$
+scale, so that SML attains the exact maximum likelihood limit. SML is nonetheless popular because it requires no
 instruments, is efficient in the limit, and needs only the probability of the observed outcome.
 
 \casehead{Bias correction}
@@ -442,8 +444,10 @@ densities $g_l$ and draws $u^s_{1l}, \dots, u^s_{Nl}$ from $g_l$, the simulator 
   X_{sl}(\theta) = \max\bigl(u^s_{(N-1)l}, p^o_l\bigr)\prod_{i=1}^{N}\frac{f_l(u^s_{il};\theta)}{g_l(u^s_{il})}.
 \end{equation*}
 The parameter appears only in the density ratio outside the maximum, so $Q^*_n$ is twice continuously
-differentiable when $f_l$ is. Frequency simulation of the maximum with draws from $F_l(\cdot;\theta)$ would produce a
-step function of $\theta$.
+differentiable when $f_l$ is. Simulating with draws from $F_l(\cdot;\theta)$ would instead put $\theta$ inside the
+maximum. With draws $F_l^{-1}(U^s_{il};\theta)$ from fixed uniforms $U^s_{il}$, the maximum is continuous in $\theta$ but
+kinked where the reserve starts to bind. A frequency simulator built from indicators of simulated events would be a
+step function of $\theta$. Neither would make $Q^*_n$ twice continuously differentiable.
 
 \casehead{The application}
 The data are 81 descending auctions of greenhouse eggplants in Marmande, France, in the summer of 1990, each selling
