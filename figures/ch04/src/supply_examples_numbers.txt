@@ -1,0 +1,81 @@
+Status quo (owners in the data, Bertrand-Nash)
+  outside share 0.1601, Phi 6.2457, CS 0.9159, total profit 0.5261
+  owner 0: n=3, S_f=18.87%, markup 0.6163, 100*profit 11.632
+  owner 1: n=3, S_f=4.67%, markup 0.5245, 100*profit 2.449
+  owner 2: n=6, S_f=13.68%, markup 0.5792, 100*profit 7.925
+  owner 3: n=6, S_f=21.40%, markup 0.6362, 100*profit 13.616
+  owner 4: n=7, S_f=25.36%, markup 0.6699, 100*profit 16.989
+
+1. Cost recovery at the observed (status quo) prices, alpha known
+  single-product : implied markup range 0.5022 to 0.5682; mc_hat - mc: mean +0.0982, min +0.0136, max +0.1675; negative mc_hat: 0 of 25; mean mc_hat 0.8648 (true mean 0.7666)
+  true owners    : implied markup range 0.5245 to 0.6699; mc_hat - mc: mean -0.0000, min -0.0000, max -0.0000; negative mc_hat: 0 of 25; mean mc_hat 0.7666 (true mean 0.7666)
+  one owner      : implied markup range 3.1228 to 3.1228; mc_hat - mc: mean -2.5067, min -2.5983, max -2.4529; negative mc_hat: 25 of 25; mean mc_hat -1.7401 (true mean 0.7666)
+  true mc range 0.1644 to 1.2358; observed price range 0.7437 to 1.8521
+  share-weighted Lerner index at status quo: true 0.4752
+    implied median Lerner index (single-product): 0.3821
+    implied median Lerner index (true owners): 0.4496
+    implied median Lerner index (one owner): 2.2812
+
+2. OLS of mc_hat on x = (1, X2, X3); true gamma = (0.2, 0.25, 0.3)
+  true           : gamma_hat = (0.1818, 0.2503, 0.3096), se = (0.0250, 0.0101, 0.0204), R2 = 0.967
+  single-product : gamma_hat = (0.3026, 0.2387, 0.3053), se = (0.0370, 0.0150, 0.0303), R2 = 0.925
+  true owners    : gamma_hat = (0.1818, 0.2503, 0.3096), se = (0.0250, 0.0101, 0.0204), R2 = 0.967
+  one owner      : gamma_hat = (-2.3006, 0.2353, 0.3155), se = (0.0339, 0.0137, 0.0277), R2 = 0.936
+  X2 range -0.006 to 4.183; X3 values [0. 1.]
+
+3. Merger of owners 3 and 4 (status quo -> merged), mc unchanged
+  markup iteration: 91 iterations; BR iteration: 17; MS iteration: 17; Newton (hybr): 42 function evaluations, success True
+  max |p_markup - p_BR| 4.91e-14, |p_MS - p_BR| 3.55e-15, |p_Newton - p_BR| 1.04e-14
+  Newton with analytic Jacobian (eq:04-dGdp): 6 iterations (6 Jacobian and 6 G evaluations); max |p_Newton_analytic - p_BR| 9.77e-15; analytic vs numerical Jacobian max error 3.89e-11
+  max FOC residual at solution 1.67e-15
+  500 random starts mc + U[0,5]^25: max deviation 3.06e-14
+  Price changes (post minus pre):
+    merged firm, unilateral BR at pre-merger rival prices: 0.1474 to 0.1811, mean 0.1630
+    merged firm, new equilibrium: 0.1514 to 0.1851, mean 0.1669
+      former owner 3: pre markup 0.6362, unilateral 0.8173, post markup 0.8213, dp 0.1851
+      former owner 4: pre markup 0.6699, unilateral 0.8173, post markup 0.8213, dp 0.1514
+    merged common markup post 0.8213; 1/(alpha(1-S)) = 0.8213
+    rivals (owners 0-2), new equilibrium: 0.0041 to 0.0184, mean 0.0121
+      owner 0: pre markup 0.6163, post markup 0.6348, dp 0.0184
+      owner 1: pre markup 0.5245, post markup 0.5286, dp 0.0041
+      owner 2: pre markup 0.5792, post markup 0.5921, dp 0.0129
+  Shares and profits (pre -> post):
+    owner 0: S 18.87% -> 21.23%, 100*profit 11.632 -> 13.476
+    owner 1: S 4.67% -> 5.41%, 100*profit 2.449 -> 2.857
+    owner 2: S 13.68% -> 15.56%, 100*profit 7.925 -> 9.214
+    owner 3: S 21.40% -> 17.25%, 100*profit 13.616 -> 14.167
+    owner 4: S 25.36% -> 21.87%, 100*profit 16.989 -> 17.959
+    merging parties combined: 100*profit 30.605 -> unilateral 31.730 -> equilibrium 32.126
+    rivals combined: 100*profit 22.006 -> 25.547
+  outside share 0.1601 -> 0.1869
+  CS 0.9159 -> 0.8387 (change -0.0773, -8.43%)
+  total profit 0.5261 -> 0.5767 (change +0.0506)
+  total surplus 1.4421 -> 1.4154 (change -0.0266)
+  share-weighted price 1.3553 -> 1.4465
+  compensating marginal-cost reduction (keeps all prices at pre-merger level): merged markup at pre shares 0.9392; owner 3 needs 0.3031, owner 4 needs 0.2693
+    check: max |p(compensated) - p_pre| = 8.88e-15
+    owner 3: mean mc 0.6521; reduction / mean mc = 0.465; reduction / mc range 0.356 to 0.669
+    owner 4: mean mc 0.7368; reduction / mean mc = 0.366; reduction / mc range 0.245 to 0.630
+
+4. Pass-through at the status quo (IFT and finite differences)
+  check dG/dc^T = -(Omega o Delta^T): max error 1.10e-11
+  max |IFT - finite-difference re-solve| = 1.62e-09
+  own pass-through dp_j/dc_j (equilibrium): range 0.8843 to 0.9957, mean 0.9675
+  partial own pass-through 1 - s_j: range 0.8800 to 0.9955
+  product 20 (owner 4, s_j = 0.1109): partial own 1 - s_j = 0.8891, partial on other own products -s_j = -0.1109
+    equilibrium: own 0.8930; other own products -0.1070 to -0.1070; rivals 0.00465 to 0.02451
+    numerical partial (rivals fixed): own 0.8891, other own -0.1109 to -0.1109
+  firm-wide shock to owner 4 (S_f = 0.2536): partial 1 - S_f = 0.7464
+    equilibrium: own products 0.7553 to 0.7553; rivals 0.0106 to 0.0561
+    numerical partial (rivals fixed): 0.7464 to 0.7464
+    firm-wide shock to owner 0 (S_f=0.1887): partial 0.8113, equilibrium own 0.8180, rivals mean 0.0401
+    firm-wide shock to owner 1 (S_f=0.0467): partial 0.9533, equilibrium own 0.9538, rivals mean 0.0135
+    firm-wide shock to owner 2 (S_f=0.1368): partial 0.8632, equilibrium own 0.8673, rivals mean 0.0346
+    firm-wide shock to owner 3 (S_f=0.2140): partial 0.7860, equilibrium own 0.7938, rivals mean 0.0412
+    firm-wide shock to owner 4 (S_f=0.2536): partial 0.7464, equilibrium own 0.7553, rivals mean 0.0398
+  industry-wide shock (all products): equilibrium pass-through 0.9374 to 0.9902, share-weighted mean 0.9523
+
+5. Symmetric single-product logit duopoly with s1 = s2 = 0.3 (closed form)
+  b = 0.12857; own equilibrium pass-through (1-s)/(1-b^2) = 0.7118; rival response b(1-s)/(1-b^2) = 0.0915; industry-wide (1-s)/(1-b) = 0.8033
+  numerical: own 0.7118, rival 0.0915
+  numerical industry-wide: 0.8033

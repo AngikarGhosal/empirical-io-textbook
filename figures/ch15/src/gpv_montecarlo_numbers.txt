@@ -1,0 +1,40 @@
+Design: T=200, n=5, lognormal(0,1) truncated to [0.055, 2.5], reps=1000
+Mass of the lognormal inside [0.055,2.5]: 0.8184 (left out 0.1816)
+Bid support: [0.0550, 1.6218]
+E[V] = 0.9400; g(b_low) = n/(n-1) f(v_low) = 0.1651
+
+--- bandwidth constant c = 1.0 (seed 15401) ---
+mean h_g = 0.1074, mean h_f = 0.1472, mean share of bids trimmed = 0.0884
+mean trimming bounds on bids: [0.1678, 1.5111]; inner value region (GPV fn 9): [0.3339, 2.1254]
+max |mean xi_hat - xi| on trimmed bid range: 0.0125
+max |mean f_hat - f| on inner value region: 0.0224
+share of grid points with truth inside 90% band: xi 1.000, f 1.000
+mean sup-norm error: xi 0.1614, f 0.2378
+seconds per replication (Python/numpy): 0.0279
+
+--- bandwidth constant c = 2.978 (seed 15401) ---
+mean h_g = 0.3198, mean h_f = 0.3341, mean share of bids trimmed = 0.3628
+mean trimming bounds on bids: [0.3802, 1.2987]; inner value region (GPV fn 9): [0.7805, 1.5079]
+max |mean xi_hat - xi| on trimmed bid range: 0.0029
+max |mean f_hat - f| on inner value region: 0.0064
+share of grid points with truth inside 90% band: xi 1.000, f 1.000
+mean sup-norm error: xi 0.0433, f 0.0551
+seconds per replication (Python/numpy): 0.0757
+
+--- sample-size experiment (c = 1, 200 reps each, seed 15402) ---
+fixed inner sets: bids [0.25, 1.35], values [0.40, 1.80]
+T, mean sup|xi_hat - xi|, mean sup|f_hat - f| (two-step), mean sup|f_tilde - f| (true values, same kernel and rule)
+  100  0.1486  0.2428  0.1283  ratio f/f_tilde = 1.89
+  200  0.1127  0.2268  0.1024  ratio f/f_tilde = 2.21
+  400  0.0872  0.2034  0.0799  ratio f/f_tilde = 2.54
+  800  0.0668  0.1756  0.0642  ratio f/f_tilde = 2.73
+ 1600  0.0528  0.1516  0.0494  ratio f/f_tilde = 3.07
+log-log slope of mean sup error in T, xi: -0.374
+log-log slope of mean sup error in T, f two-step: -0.173
+log-log slope of mean sup error in T, f infeasible: -0.343
+
+--- single sample (seed 15403) ---
+h_g = 0.1083; B_min = 0.0572, B_max = 1.6211
+g_hat(b_high)/g(b_high) = 0.542
+bids above B_max - h_g: 43; mean (V_hat - V) among them: -0.0607; max: 0.7140
+kept bids: mean |V_hat - V| = 0.0158
