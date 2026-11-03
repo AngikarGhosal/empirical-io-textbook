@@ -35,6 +35,7 @@ IO_Textbook.pdf    compiled book
 preamble.tex       the only preamble: packages, theorem environments, macros
 chapters/          chapter files chNN_<slug>.tex; each inputs its parts from chapters/chNN/partK.tex
 figures/chNN/      figures and table files included by chapter NN
+figures/chNN/src/  Python code (and data) that produces them and the worked numbers in the text
 references.bib     bibliography
 ```
 
@@ -50,6 +51,8 @@ pdflatex IO_Textbook.tex
 ```
 
 or simply `latexmk -pdf IO_Textbook.tex`.
+
+The figures are committed, so you do not need Python to build the book. To regenerate a figure or a number, run its script in `figures/chNN/src/` (Python 3 with numpy, scipy, pandas and matplotlib).
 
 ## Contributing
 
