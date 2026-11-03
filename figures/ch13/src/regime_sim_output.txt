@@ -1,0 +1,54 @@
+Regime path: T = 328, q11 = 0.9387, q00 = 0.9, collusive share 0.625, number of wars 11
+
+Calibration ML: a0 = 9.133, b0 = -2.739, a1 = -0.8, a2 = -0.43, b1 = 0.09, b3 = 0.545, s1 = 0.399, s2 = 0.109; separation b3/s2 = 5.00
+  model cell I=0, LAKES=0: price 0.1673, quantity 38,680
+  model cell I=0, LAKES=1: price 0.1614, quantity 25,899
+  model cell I=1, LAKES=0: price 0.2782, quantity 25,754
+  model cell I=1, LAKES=1: price 0.2683, quantity 17,244
+  known regimes (ML = 2SLS here): a0 = 9.386, a1 = -0.593, a2 = -0.401, b0 = -2.362, b1 = 0.054, b3 = 0.534, s1 = 0.400, s2 = 0.109, s12 = -0.002
+  EM, i.i.d. regimes (best of 8 starts): loglik = -106.86, lambda = 0.622, iterations = 1701, misclassified weeks = 2
+     a0 = 9.384, a1 = -0.594, a2 = -0.401, b0 = -2.326, b1 = 0.050, b3 = 0.531, s1 = 0.400, s2 = 0.110, s12 = -0.001
+  EM, i.i.d., started at the true regimes: loglik = -106.86, lambda = 0.622, misclassified = 2, a1 = -0.594, b1 = 0.050, b3 = 0.531
+  EM, Markov regimes: loglik = 28.63, q11 = 0.946, q00 = 0.918, misclassified weeks = 0
+     a0 = 9.389, a1 = -0.592, a2 = -0.401, b0 = -2.359, b1 = 0.053, b3 = 0.533, s1 = 0.400, s2 = 0.110, s12 = -0.002
+     implied mean spells: collusion 18.5 weeks, war 12.1 weeks
+  LR statistic 2(l1 - l0), i.i.d. mixture against no switching: 191.4
+  EM log-likelihood path (first 6 iterations from the median start): -175.61, -145.68, -113.96, -107.08, -106.86, -106.86
+
+Calibration 2SLS: a0 = 9.236, b0 = -4.439, a1 = -0.742, a2 = -0.437, b1 = 0.251, b3 = 0.382, s1 = 0.398, s2 = 0.243; separation b3/s2 = 1.57
+  model cell I=0, LAKES=0: price 0.1673, quantity 38,680
+  model cell I=0, LAKES=1: price 0.1525, quantity 26,761
+  model cell I=1, LAKES=0: price 0.2309, quantity 30,459
+  model cell I=1, LAKES=1: price 0.2105, quantity 21,073
+  known regimes (ML = 2SLS here): a0 = 9.684, a1 = -0.429, a2 = -0.383, b0 = -3.620, b1 = 0.174, b3 = 0.357, s1 = 0.380, s2 = 0.244, s12 = -0.015
+  EM, i.i.d. regimes (best of 8 starts): loglik = -187.44, lambda = 0.680, iterations = 838, misclassified weeks = 116
+     a0 = 3.393, a1 = -4.339, a2 = -0.546, b0 = -2.866, b1 = 0.109, b3 = 0.186, s1 = 1.180, s2 = 0.275, s12 = 0.304
+  EM, i.i.d., started at the true regimes: loglik = -189.88, lambda = 0.633, misclassified = 68, a1 = -0.484, b1 = 0.107, b3 = 0.371
+  EM, Markov regimes: loglik = -162.99, q11 = 0.935, q00 = 0.889, misclassified weeks = 25
+     a0 = 9.614, a1 = -0.472, a2 = -0.384, b0 = -3.127, b1 = 0.125, b3 = 0.361, s1 = 0.382, s2 = 0.233, s12 = -0.004
+     implied mean spells: collusion 15.3 weeks, war 9.0 weeks
+  LR statistic 2(l1 - l0), i.i.d. mixture against no switching: 7.2
+  EM log-likelihood path (first 6 iterations from the median start): -193.23, -191.99, -191.35, -190.97, -190.72, -190.55
+
+Parametric bootstrap under H0 (300 replications, T = 328, null fit of the ML calibration): quantiles 90%: 8.34, 95%: 10.17, 99%: 13.17; chi2(1): 2.71, 3.84, 6.63
+   share of bootstrap LR above 3.84: 0.487; mean 4.43
+
+Monte Carlo (60 replications per ratio, ML calibration with s2 = b3 / ratio, Markov regimes with q11 = 0.9387, q00 = 0.9):
+  ratio | misclass. iid EM | misclass. Markov EM | median a1: known, iid EM | median b3: known, iid EM
+   1.0  | 0.366            | 0.207               | -0.795, -0.681           | 0.548, 0.723
+         sd a1: known 0.092, iid EM 1.070; IQR a1 iid EM [-1.050, -0.302]
+   1.5  | 0.298            | 0.105               | -0.778, -0.826           | 0.531, 0.551
+         sd a1: known 0.075, iid EM 1.381; IQR a1 iid EM [-1.126, -0.515]
+   2.0  | 0.183            | 0.058               | -0.781, -0.781           | 0.526, 0.541
+         sd a1: known 0.095, iid EM 0.401; IQR a1 iid EM [-0.980, -0.589]
+   3.0  | 0.067            | 0.017               | -0.760, -0.782           | 0.541, 0.552
+         sd a1: known 0.105, iid EM 0.131; IQR a1 iid EM [-0.884, -0.694]
+   5.0  | 0.006            | 0.001               | -0.824, -0.822           | 0.548, 0.551
+         sd a1: known 0.089, iid EM 0.091; IQR a1 iid EM [-0.869, -0.746]
+  Bayes-rule floor (known parameters, i.i.d. regimes, lambda = 0.62): ratio 1.0: 0.288, ratio 1.5: 0.215, ratio 2.0: 0.152, ratio 3.0: 0.064, ratio 5.0: 0.006
+
+Green-Porter chain: war-start probability g = 0.0613, wars of exactly 10 weeks
+Berry-Briggs test, first-order Markov: chi2(1) = 0.34, p = 0.560; p00 = 0.111 (n = 81); p01 = 1.000 (n = 11); p10 = 0.182 (n = 11); p11 = 0.951 (n = 223)
+Berry-Briggs test, Green-Porter, wars of 10 weeks: chi2(1) = 10.11, p = 0.001; p00 = 0.110 (n = 82); p01 = 1.000 (n = 9); p10 = 0.000 (n = 10); p11 = 0.956 (n = 225)
+
+Figures saved to figures/ch13/regime_sim.pdf and figures/ch13/em_mc.pdf

@@ -26,10 +26,9 @@ import pandas as pd  # noqa: E402
 import scipy.io as sio  # noqa: E402
 from scipy.optimize import brentq  # noqa: E402
 
-# The input data come from the replication package of Grieco, Murry and Yurukoglu (2024), which is not
-# redistributed here. Download it and point GMY_DATA at its data/ folder.
-GMY_DATA = os.environ.get("GMY_DATA", "GMY_Replication/data/").rstrip("/") + "/"
 BOOK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Input data from the replication package of Grieco, Murry and Yurukoglu (2024), in figures/appC/data/gmy/.
+GMY_DATA = os.path.join(BOOK, "data", "gmy") + "/"
 OUT_DIR = BOOK + "/src"
 FIG_DIR = BOOK
 FIG_NAME = "autos_lerner.pdf"

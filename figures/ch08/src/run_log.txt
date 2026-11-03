@@ -1,0 +1,126 @@
+=== Step 1: equilibrium ===
+N obs 654, markets 100, products per market 4-9 (mean 6.54)
+owners: [np.int64(0), np.int64(1), np.int64(2), np.int64(4)]; products by owner: {0: [np.int64(5), np.int64(8)], 1: [np.int64(1), np.int64(4), np.int64(6), np.int64(7)], 2: [np.int64(2), np.int64(3), np.int64(10)], 4: [np.int64(9)]}
+M_t range 9756-10223, mean 9998.7
+zeta iterations min 10 max 13 mean 11.05 (market 0: 12)
+max |FOC| at solution 8.56e-15
+random starts [zeta]: solved 2000 of 2000, max price dev from baseline 2.1e-13
+random starts [markup]: solved 2000 of 2000, max price dev from baseline 1.6e-13
+random starts [root]: solved 13 of 2000, max price dev from baseline 1.0e-13
+markups p - mc: min 0.348 max 0.451 mean 0.386; mean Lerner 0.334
+prices: min 0.881 max 1.609 mean 1.180
+min alpha_i over firm draws 1.173
+=== Step 2: realized shares ===
+consumers 999870, zero shares 0, min realized share 0.0019 (min buyers 19)
+mean |realized - expected| 0.0014, max 0.0100, corr 0.986
+mean outside share realized 0.879, min 0.788
+market 0 table: product owner mc p p-mc s_exp s_real q delta_true
+   2 & 2 & 0.9204 & 1.3200 & 0.3995 & 0.0048 & 0.0052 & 51 & -5.581
+   3 & 2 & 0.6308 & 1.0182 & 0.3874 & 0.0272 & 0.0252 & 249 & -3.675
+   4 & 1 & 1.0286 & 1.4196 & 0.3910 & 0.0125 & 0.0126 & 124 & -4.657
+   6 & 1 & 0.6238 & 0.9993 & 0.3755 & 0.0200 & 0.0203 & 201 & -3.962
+   8 & 0 & 0.7291 & 1.1246 & 0.3955 & 0.0593 & 0.0560 & 553 & -2.941
+   9 & 4 & 1.0729 & 1.4497 & 0.3768 & 0.0072 & 0.0058 & 57 & -5.193
+  10 & 2 & 0.5585 & 0.9429 & 0.3845 & 0.0226 & 0.0201 & 199 & -3.843
+  outside: s_exp 0.8463 s_real 0.8549; M_0 = 9880
+=== Step 3: logit ===
+  Constant: OLS -1.443 (0.226)  2SLS -1.184 (0.329)
+  Sugar: OLS 0.119 (0.122)  2SLS 0.190 (0.158)
+  Organic: OLS 0.051 (0.097)  2SLS 0.153 (0.141)
+  alpha: OLS 2.330 (0.252)  2SLS 2.641 (0.412)
+  first stage: milk coef 0.497 (0.026); cluster F (7 IVs) 92.47; F of six competition IVs 2.32
+  Hansen J 8.82 df 6 p 0.184; 2SLS with milk only alpha 2.677
+=== Step 4: contraction with Sigma known ===
+  iterations per market min 13 max 21 mean 16.62; market 0 18; max |log s - log s_obs| 1.8e-13
+  market 0: product buyers logit_start recovered true
+   2 & 51 & -5.110 & -5.405 & -5.581
+   3 & 249 & -3.524 & -3.666 & -3.675
+   4 & 124 & -4.221 & -4.547 & -4.657
+   6 & 201 & -3.738 & -3.868 & -3.962
+   8 & 553 & -2.726 & -2.903 & -2.941
+   9 & 57 & -4.998 & -5.324 & -5.193
+  10 & 199 & -3.748 & -3.874 & -3.843
+  market 0 simulation part (1000 vs 100000 draws): 0.007, 0.035, 0.005, 0.037, 0.032, 0.006, 0.036
+  market 0 sampling part (100000 draws vs truth): 0.170, -0.026, 0.105, 0.058, 0.006, -0.137, -0.067
+=== Step 5: 2SLS on recovered delta ===
+  Constant: OLS -1.355 (0.227)  2SLS -1.061 (0.330)
+  Sugar: OLS 0.088 (0.122)  2SLS 0.168 (0.158)
+  Organic: OLS -0.002 (0.097)  2SLS 0.114 (0.142)
+  alpha: OLS 2.573 (0.252)  2SLS 2.926 (0.413)
+  Hansen J 8.16 df 6 p 0.227
+  alpha gap RC - logit 0.284; 2SLS coefficient of price in r-term regression 0.284; corr(r, p) 0.888
+  market 0 r-term: cheapest product 0.125, most expensive 0.326
+=== Step 6: full NFXP GMM ===
+  rank / condition number: BLP (10, 92.33167505839532), differentiation (10, 36.087209654117295)
+--- (a) BLP instruments: L = 10, outer evals 243, time 222s, mean inner iterations 25.1
+  step-1 solutions (Q, sigma): 0.954 [0.000, 0.000, 3.093, 0.609]; 0.954 [0.000, 0.000, 3.093, 0.609]; 0.954 [0.000, 0.000, 3.093, 0.609]; 0.954 [0.000, 0.000, 3.093, 0.609]; 0.954 [0.000, 0.000, 3.093, 0.609]; 1.630 [0.237, 0.000, 0.000, 0.509]
+  step-2 solutions (Q, sigma): 3.390 [0.000, 0.000, 3.307, 0.736]; 3.390 [0.000, 0.000, 3.307, 0.736]; 3.390 [0.000, 0.000, 3.307, 0.736]; 3.390 [0.000, 0.000, 3.307, 0.736]
+  Constant: -0.585 (se no-sim 0.803, sim-corrected 0.849)
+  Sugar: 0.267 (se no-sim 0.161, sim-corrected 0.161)
+  Organic: -3.427 (se no-sim 4.979, sim-corrected 5.225)
+  alpha: 3.483 (se no-sim 1.243, sim-corrected 1.319)
+  s_const: 0.000 (se no-sim 8.393, sim-corrected 8.777)
+  s_sugar: 0.000 (se no-sim 3.278, sim-corrected 3.382)
+  s_org: 3.307 (se no-sim 2.743, sim-corrected 2.874)
+  s_price: 0.736 (se no-sim 1.052, sim-corrected 1.118)
+  Hansen J 3.39 df 2 p 0.184
+  eigenvalues of G'WG: min 1.66e-05 max 1.31e+01
+  objective at the true Sigma (step-2 weight): 8.04; minimum 3.39; difference 4.65 (chi2_4 0.95 quantile 9.49)
+--- (b) differentiation instruments: L = 10, outer evals 151, time 100s, mean inner iterations 16.0
+  step-1 solutions (Q, sigma): 1.533 [0.000, 0.019, 0.000, 0.000]; 1.533 [0.000, 0.019, 0.000, 0.000]; 1.533 [0.000, 0.019, 0.000, 0.000]; 1.533 [0.000, 0.019, 0.000, 0.000]; 1.533 [0.000, 0.019, 0.000, 0.000]; 1.533 [0.000, 0.019, 0.000, 0.000]
+  step-2 solutions (Q, sigma): 7.064 [0.678, 0.003, 0.000, 0.000]; 7.064 [0.678, 0.003, 0.000, 0.000]; 7.064 [0.678, 0.003, 0.000, 0.000]; 7.064 [0.678, 0.003, 0.000, 0.000]
+  Constant: -1.385 (se no-sim 0.971, sim-corrected 0.973)
+  Sugar: 0.098 (se no-sim 0.161, sim-corrected 0.161)
+  Organic: 0.132 (se no-sim 0.158, sim-corrected 0.158)
+  alpha: 2.515 (se no-sim 0.477, sim-corrected 0.477)
+  s_const: 0.678 (se no-sim 1.931, sim-corrected 1.935)
+  s_sugar: 0.003 (se no-sim 8.368, sim-corrected 8.382)
+  s_org: 0.000 (se no-sim 17.806, sim-corrected 17.830)
+  s_price: 0.000 (se no-sim 6.935, sim-corrected 6.945)
+  Hansen J 7.06 df 2 p 0.029
+  eigenvalues of G'WG: min 4.31e-06 max 1.86e+01
+  objective at the true Sigma (step-2 weight): 7.71; minimum 7.06; difference 0.64 (chi2_4 0.95 quantile 9.49)
+  preliminary values for (c): sigma0 = [1.0, 1.0, 1.0, 1.0], theta1(sigma0) = [-0.378, -0.352, -0.172, -3.76]
+  check: max |d delta / d sigma_sugar| at sigma_sugar = 0: 2.10e-01 (simulation noise) versus 1.18e+00 at sigma_sugar = 1
+  rank / condition number: optimal (8, 114.1722893751793)
+--- (c) approximate optimal instruments: L = 8, outer evals 122, time 79s, mean inner iterations 14.8
+  step-1 solutions (Q, sigma): 0.575 [0.224, 0.000, 0.000, 0.539]; 0.575 [0.224, 0.000, 0.000, 0.539]; 0.575 [0.224, 0.000, 0.000, 0.539]
+  step-2 solutions (Q, sigma): 1.833 [0.313, 0.000, 0.000, 0.488]; 1.833 [0.313, 0.000, 0.000, 0.488]; 1.833 [0.313, 0.000, 0.000, 0.488]; 1.833 [0.313, 0.000, 0.000, 0.488]
+  Constant: -1.024 (se no-sim 0.491, sim-corrected 0.492)
+  Sugar: 0.177 (se no-sim 0.156, sim-corrected 0.156)
+  Organic: 0.153 (se no-sim 0.138, sim-corrected 0.139)
+  alpha: 2.898 (se no-sim 0.620, sim-corrected 0.621)
+  s_const: 0.313 (se no-sim 0.567, sim-corrected 0.570)
+  s_sugar: 0.000 (se no-sim 1.033, sim-corrected 1.034)
+  s_org: 0.000 (se no-sim 2.582, sim-corrected 2.585)
+  s_price: 0.488 (se no-sim 0.464, sim-corrected 0.466)
+  eigenvalues of G'WG: min 2.15e-04 max 1.71e+01
+  objective at the true Sigma (step-2 weight): 2.88; minimum 1.83; difference 1.05 (chi2_4 0.95 quantile 9.49)
+  profile (a) BLP instruments: Q(0) 4.30, min on grid 3.39 at 0.75, Q(1.5) 9.60
+    objective exceeds its minimum by the chi2_1 0.95 quantile above sigma_p = 1.37
+    excess at sigma_p = 0: 0.91 (above the quantile: False); at true 0.5: 0.20
+  profile (b) differentiation instruments: Q(0) 7.06, min on grid 7.06 at 0.00, Q(1.5) 21.59
+    objective exceeds its minimum by the chi2_1 0.95 quantile above sigma_p = 1.04
+    excess at sigma_p = 0: 0.00 (above the quantile: False); at true 0.5: 0.35
+  profile (c) approximate optimal instruments: Q(0) 2.76, min on grid 1.83 at 0.50, Q(1.5) 21.61
+    objective exceeds its minimum by the chi2_1 0.95 quantile above sigma_p = 1.02
+    excess at sigma_p = 0: 0.93 (above the quantile: False); at true 0.5: 0.00
+  fully profiled Q for (a) on sigma_price grid: 4.27, 4.17, 4.04, 3.90, 3.74, 3.59, 3.47, 3.40, 3.41, 3.55, 3.86, 4.38, 5.15, 6.21, 7.60, 9.36
+=== Step 7: market 0 elasticities (own reported as positive) ===
+  products [2, 3, 4, 6, 8, 9, 10]; prices [1.32, 1.018, 1.42, 0.999, 1.125, 1.45, 0.943]
+  Logit (2SLS): own 3.47, 2.62, 3.70, 2.59, 2.80, 3.81, 2.44; diversion to outside 85.9, 87.7, 86.6, 87.3, 90.6, 86.0, 87.2
+  RC, Sigma known: own 3.45, 2.68, 3.63, 2.65, 2.79, 3.74, 2.51; diversion to outside 79.5, 83.4, 80.1, 83.0, 86.7, 79.2, 83.1
+  RC, full GMM: own 3.45, 2.67, 3.64, 2.64, 2.81, 3.74, 2.51; diversion to outside 82.1, 85.2, 82.6, 84.8, 88.4, 81.8, 85.0
+  RC, BLP-IV GMM: own 3.78, 3.02, 3.42, 2.99, 3.12, 4.01, 2.85; diversion to outside 55.5, 85.7, 64.1, 85.2, 88.9, 55.3, 85.5
+  True: own 3.58, 2.76, 3.77, 2.74, 2.89, 3.87, 2.59; diversion to outside 80.3, 84.0, 80.8, 83.5, 87.2, 80.2, 83.8
+  Logit (2SLS): cross wrt p_4 (rows 2, 3, 4, 6, 8, 9, 10, outside): 0.047, 0.047, -3.702, 0.047, 0.047, 0.047, 0.047, 0.047
+  RC, Sigma known: cross wrt p_4 (rows 2, 3, 4, 6, 8, 9, 10, outside): 0.078, 0.067, -3.632, 0.066, 0.069, 0.079, 0.066, 0.043
+  RC, full GMM: cross wrt p_4 (rows 2, 3, 4, 6, 8, 9, 10, outside): 0.063, 0.059, -3.641, 0.059, 0.060, 0.064, 0.058, 0.044
+  RC, BLP-IV GMM: cross wrt p_4 (rows 2, 3, 4, 6, 8, 9, 10, outside): 0.988, 0.038, -3.419, 0.038, 0.039, 0.978, 0.038, 0.032
+  True: cross wrt p_4 (rows 2, 3, 4, 6, 8, 9, 10, outside): 0.069, 0.060, -3.773, 0.059, 0.062, 0.070, 0.059, 0.040
+  Logit (2SLS): cross wrt p_8: 0.166, 0.166, 0.166, 0.166, -2.804, 0.166, 0.166, 0.166
+  RC, Sigma known: cross wrt p_8: 0.241, 0.230, 0.243, 0.228, -2.792, 0.243, 0.228, 0.159
+  RC, full GMM: cross wrt p_8: 0.211, 0.203, 0.213, 0.203, -2.807, 0.214, 0.201, 0.162
+  RC, BLP-IV GMM: cross wrt p_8: 0.134, 0.247, 0.137, 0.246, -3.125, 0.138, 0.242, 0.182
+  True: cross wrt p_8: 0.238, 0.230, 0.241, 0.227, -2.889, 0.240, 0.227, 0.164
+total time 637s
