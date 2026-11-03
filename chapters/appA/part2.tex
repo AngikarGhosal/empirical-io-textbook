@@ -18,7 +18,8 @@ The \emph{limit criterion} is a nonrandom function $Q_0(\theta)$ to which $Q_n(\
 \end{definition}
 
 The $o_p(1)$ slack in \eqref{eq:A-extremum} allows for numerical optimization that stops close to, but not exactly at, the
-supremum. The leading examples are the following.
+supremum. This slack is enough for consistency. Asymptotic normality needs a tighter optimization tolerance, condition (v)
+of \cref{thm:A-asy-normal}. The leading examples are the following.
 \begin{enumerate}
   \item \emph{Nonlinear least squares} sets $Q_n(\theta) = -\frac{1}{n}\sum_{i=1}^n\{y_i - m(x_i;\theta)\}^2$, with limit
   $Q_0(\theta) = -\E[\{y_i - m(x_i;\theta)\}^2]$. Ordinary least squares is the case $m(x;\theta) = x^\T\theta$.
@@ -169,6 +170,8 @@ Suppose the following conditions hold.
   \item $\sqrt{n}\,\nabla_\theta Q_n(\theta_0) \xrightarrow{d} N(0, \Sigma)$.
   \item There is a matrix function $H(\theta)$, continuous at $\theta_0$, with $\sup_{\theta \in
   \mathcal{N}}\lVert\nabla_{\theta\theta}Q_n(\theta) - H(\theta)\rVert \xrightarrow{p} 0$ and $H = H(\theta_0)$ nonsingular.
+  \item $\sqrt{n}\,\nabla_\theta Q_n(\hat\theta) \xrightarrow{p} 0$. An exact interior maximizer satisfies this with
+  $\nabla_\theta Q_n(\hat\theta) = 0$.
 \end{enumerate}
 Then
 \begin{equation}\label{eq:A-sandwich}
@@ -178,20 +181,17 @@ Then
 
 \begin{proof}
 Because $\hat\theta \xrightarrow{p} \theta_0$ and $\theta_0$ is interior, $\hat\theta$ lies in $\mathcal{N}$ and in the
-interior of $\Theta$ w.p.a.1. On that event the first-order condition holds,
+interior of $\Theta$ w.p.a.1. Write $r_n = \nabla_\theta Q_n(\hat\theta)$ for the gradient at the estimate. By (v),
+$\sqrt{n}\,r_n \xrightarrow{p} 0$. Apply the mean value theorem to each element of the gradient. For row $k$ there is a point
+$\bar\theta^{(k)}$ on the segment between $\hat\theta$ and $\theta_0$ with
 \begin{equation*}
-  \nabla_\theta Q_n(\hat\theta) = 0.
-\end{equation*}
-Apply the mean value theorem to each element of the gradient. For row $k$ there is a point $\bar\theta^{(k)}$ on the segment
-between $\hat\theta$ and $\theta_0$ with
-\begin{equation*}
-  0 = \frac{\partial Q_n(\theta_0)}{\partial\theta_k} + \frac{\partial^2 Q_n(\bar\theta^{(k)})}{\partial\theta_k\partial\theta^\T}
+  r_{n,k} = \frac{\partial Q_n(\theta_0)}{\partial\theta_k} + \frac{\partial^2 Q_n(\bar\theta^{(k)})}{\partial\theta_k\partial\theta^\T}
   (\hat\theta - \theta_0).
 \end{equation*}
 Stack the rows into the matrix $\bar H_n$, whose row $k$ is the $k$-th row of the Hessian evaluated at $\bar\theta^{(k)}$.
 Then
 \begin{equation*}
-  0 = \nabla_\theta Q_n(\theta_0) + \bar H_n(\hat\theta - \theta_0).
+  r_n = \nabla_\theta Q_n(\theta_0) + \bar H_n(\hat\theta - \theta_0).
 \end{equation*}
 Each $\bar\theta^{(k)}$ converges in probability to $\theta_0$. By (iv) and the continuity of $H$ at $\theta_0$,
 \begin{equation*}
@@ -200,11 +200,18 @@ Each $\bar\theta^{(k)}$ converges in probability to $\theta_0$. By (iv) and the 
 \end{equation*}
 So $\bar H_n$ is invertible w.p.a.1, and
 \begin{equation*}
-  \sqrt{n}(\hat\theta - \theta_0) = -\bar H_n^{-1}\sqrt{n}\,\nabla_\theta Q_n(\theta_0).
+  \sqrt{n}(\hat\theta - \theta_0) = -\bar H_n^{-1}\sqrt{n}\,\nabla_\theta Q_n(\theta_0) + \bar H_n^{-1}\sqrt{n}\,r_n.
 \end{equation*}
-By (iii), Slutsky's theorem and the continuous mapping theorem, the right side converges in distribution to
-$-H^{-1}Z$ with $Z \sim N(0, \Sigma)$. Its variance is $H^{-1}\Sigma H^{-1}$, because $H$ is symmetric.
+The second term converges in probability to zero by (v). By (iii), Slutsky's theorem and the continuous mapping theorem, the
+right side converges in distribution to $-H^{-1}Z$ with $Z \sim N(0, \Sigma)$. Its variance is $H^{-1}\Sigma H^{-1}$, because
+$H$ is symmetric.
 \end{proof}
+
+Condition (v) cannot be dropped. Take $Y_i$ i.i.d.\ $N(0,1)$, $\theta_0 = 0$, $Q_n(\theta) = -\frac{1}{2}(\theta - \bar Y)^2$,
+and an optimizer that stops at $\hat\theta = \bar Y + n^{-\frac{1}{4}}$. The criterion shortfall is
+$\frac{1}{2}n^{-\frac{1}{2}} = o(1)$, so $\hat\theta$ is a consistent extremum estimator and (i)--(iv) hold. Yet
+$\sqrt{n}\,\hat\theta = \sqrt{n}\,\bar Y + n^{\frac{1}{4}}$ diverges. An optimization error that vanishes more slowly than
+the sampling error swamps it. Under local quadratic curvature, a criterion shortfall of order $o_p(n^{-1})$ is enough for (v).
 
 The variance in \eqref{eq:A-sandwich} is a \emph{sandwich}. The outer pieces measure the curvature of the criterion, the
 inner piece the noise in its slope at the truth. A consistent estimator replaces $H$ by $\nabla_{\theta\theta}Q_n(\hat\theta)$
