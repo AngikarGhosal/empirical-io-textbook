@@ -1,6 +1,7 @@
 """Numerical check of the aggregative uniqueness argument (thm:04-logit-unique) in the 25-product market.
 
-Market (Section 4.2.7 of the book; data file ProblemSet_1/data_simulations.csv):
+Market (Section 4.2.7 of the book; data file figures/appC/data/logit_market.csv, committed in this
+repository and shared with the Appendix C and Chapter 7 scripts):
   * 25 products with characteristics x_j = (1, X2_j, X3_j), unobserved quality xi_j, cost shock omega_j.
   * Mean utility delta_j = x_j beta - alpha p_j + xi_j with beta = (0.1, 0.25, 0.1), alpha = 2.
   * Marginal cost mc_j = x_j gamma + omega_j with gamma = (0.2, 0.25, 0.3). Market size 1.
@@ -26,7 +27,7 @@ from scipy.optimize import brentq
 from scipy.special import lambertw
 
 HERE = Path(__file__).resolve().parent
-DATA = HERE.parents[3] / "ProblemSet_1" / "data_simulations.csv"
+DATA = HERE.parents[1] / "appC" / "data" / "logit_market.csv"   # figures/appC/data
 OUT_TXT = HERE / "logit_uniqueness_check_output.txt"
 
 BETA = np.array([0.1, 0.25, 0.1])

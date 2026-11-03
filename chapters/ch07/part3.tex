@@ -419,9 +419,18 @@ Summing the numerators over $k \in g$ with $k \neq j$, over the other nests, and
 \begin{equation*}
 \sigma(1 - s_{j \mid g}) + (1-\sigma)(1 - s_j) = 1 - \sigma s_{j \mid g} - (1-\sigma)s_j ,
 \end{equation*}
-which is the denominator. At $\sigma = 0$ every ratio reduces to the logit value $\frac{s_k}{1-s_j}$. As
-$\sigma \to 1$, all diversion stays within the nest, in proportion to within-nest shares. \Cref{tab:07-nl-formulas}
-collects the formulas of this section and the next three subsections.
+which is the denominator. At $\sigma = 0$ every ratio reduces to the logit value $\frac{s_k}{1-s_j}$. Now let
+$\sigma \to 1$ with the shares held fixed and $s_{j \mid g} < 1$. Then all diversion stays within the nest, in
+proportion to within-nest shares. The condition on $s_{j \mid g}$ matters. Writing the denominator as
+$\sigma(1 - s_{j \mid g}) + (1-\sigma)(1 - s_j)$,
+\begin{equation*}
+D_{j0} = \frac{(1-\sigma)s_0}{\sigma(1 - s_{j \mid g}) + (1-\sigma)(1 - s_j)} ,
+\end{equation*}
+which vanishes only if $\frac{1 - s_{j \mid g}}{1-\sigma}$ grows without bound. A product alone in its nest has
+$s_{j \mid g} = 1$, so $D_{j0} = \frac{s_0}{1 - s_j}$ for every $\sigma$. The limit also fails when mean utilities,
+rather than shares, are held fixed and $j$ is the unique best product in its nest. Then $1 - s_{j \mid g}$ falls
+exponentially in $\frac{1}{1-\sigma}$, and $D_{j0}$ tends to $\frac{s_0}{1 - s_j}$ at the limiting shares.
+\Cref{tab:07-nl-formulas} collects the formulas of this section and the next three subsections.
 
 \begin{table}[htbp]
 \centering
@@ -562,11 +571,13 @@ s_j = \frac{e^{\frac{\delta_j}{1-\sigma}}D^{-\sigma}}{1 + D^{1-\sigma}} = \frac{
 \end{equation*}
 which is the form \citet[eq.~3]{Einav2007} uses for movies (\cref{sec:07-einav}).
 
-The nesting parameter then measures how much new or better products expand the category rather than steal
+The nesting parameter then measures how much additional products expand the category rather than steal
 business from rivals. Suppose the market has $J$ identical inside products with mean utility $\delta$. The total
 inside share is $1 - s_0 = \frac{J^{1-\sigma}e^{\delta}}{1 + J^{1-\sigma}e^{\delta}}$, whose elasticity with respect to $J$
 is $(1-\sigma)s_0$. At $\sigma = 0$ each new product draws consumers from the outside good as in the logit. As
-$\sigma \to 1$ new products only divide a fixed category. A uniform rise $\Delta$ in all inside prices multiplies
+$\sigma \to 1$ new copies only divide a fixed category. Raising the mean utility $\delta_j$ of an existing product is different. At given shares,
+$\frac{\partial\ln(1 - s_0)}{\partial\delta_j} = s_0 s_{j \mid g}$ for every $\sigma$, which is the logit value
+$\frac{s_0 s_j}{1 - s_0}$. A uniform rise $\Delta$ in all inside prices multiplies
 $D^{1-\sigma}$ by $e^{-\alpha\Delta}$, so
 \begin{equation*}
 \frac{\dd\ln(1 - s_0)}{\dd\Delta} = -\alpha s_0 ,
@@ -606,8 +617,9 @@ and reduce the concern, provided entry does not respond to transitory shocks.
 Fix a product's mean utility and add a rival to its nest. The rival lowers $\ln s_{j \mid g}$. By
 \eqref{eq:07-nl-regression}, it lowers $\ln\frac{s_j}{s_0}$ by $\sigma$ times as much. A rival added to a different
 nest changes neither the within share nor the ratio $\frac{s_j}{s_0}$. With $\sigma = 0$ the ratio $\frac{s_j}{s_0}$ does not respond at all, which is IIA. With
-$\sigma$ near one it falls one for one with the within share, because the rival steals customers only from its
-nest. Comparing the same product across markets with exogenously different nest-mates therefore traces out
+$\sigma$ near one it falls almost one for one with the within share. A rival that does not beat the best product in
+the nest then steals customers almost only from its nest-mates. A better rival also draws from the outside good,
+because it raises the nest's best mean utility. Comparing the same product across markets with exogenously different nest-mates therefore traces out
 $\sigma$. On the supply side, \citet[pp.~255--256]{Berry1994} adds that the joint behavior of prices, product shares
 and group shares in the pricing equation helps identify $\sigma$ (\cref{sec:07-nl-pricing}). Estimates of
 $\sigma$ outside $[0, 1)$ signal a misspecified tree or invalid instruments (\cref{lem:07-nl-gev}).
@@ -744,8 +756,9 @@ which rearranges to \eqref{eq:07-nl-markup}.
 This is equation (33) of \citet[p.~255]{Berry1994}. With $mc_j = w_j\gamma + \omega_j$ it becomes a linear supply
 equation, $p_j = w_j\gamma + \frac{1-\sigma}{\alpha[1 - \sigma s_{j \mid g} - (1-\sigma)s_j]} + \omega_j$, which can be
 estimated jointly with \eqref{eq:07-nl-regression} as in \cref{sec:07-cost-recovery}. When $\sigma = 0$ only the
-product share matters, as in the logit markup $\frac{1}{\alpha(1-s_j)}$. As $\sigma \to 1$ only the within-nest share
-matters. The markup is at least $\frac{1-\sigma}{\alpha}$, so the logit floor $\frac{1}{\alpha}$ falls as products become
+product share matters, as in the logit markup $\frac{1}{\alpha(1-s_j)}$. As $\sigma \to 1$ with $s_{j \mid g} < 1$
+held fixed, only the within-nest share matters. A product alone in its nest keeps the logit markup for every
+$\sigma$. The markup is at least $\frac{1-\sigma}{\alpha}$, so the logit floor $\frac{1}{\alpha}$ falls as products become
 closer substitutes. If $\sigma \to 1$ and a nest holds many products with small within shares, the markup goes to
 zero, which is Bertrand competition with perfect substitutes.
 
@@ -1161,10 +1174,22 @@ covers both.
 The log-sum formula relies on a constant marginal utility of income. Many applications instead use
 $\alpha\ln(y_i - p_j)$, as \citet{BerryLevinsohnPakes1995} do, so that richer consumers are less price sensitive.
 The marginal utility of income then varies across consumers and across the products they buy. Expected maximum
-utility no longer converts into dollars by division by a constant, and compensating variation must be computed
-consumer by consumer. For each simulated consumer one solves for the income change that restores the original
-expected maximum utility, and then averages across consumers. This calculation has no closed form, but it uses the
-same simulation draws as the random coefficients estimator of \cref{ch:blp}.
+utility no longer converts into dollars by division by a constant, and the expected compensating variation must be
+computed consumer by consumer. For each simulated consumer we draw the random coefficients and the shocks $e_{ij}$,
+and we hold the draw fixed across the two choice sets. We then solve for the income change that makes her realized
+maximum utility after the change equal to the one before it, and we average across consumers. Under the log form
+each such compensation has a closed form (\cref{sec:10-petrin-cv}). The computation reuses the random coefficient
+draws of the estimator of \cref{ch:blp} and adds draws of the shocks.
+
+A tempting shortcut integrates out the shocks first. For each draw of the random coefficients, it solves for the
+income change that restores expected maximum utility. The result is an ex ante compensation, paid before the shocks
+are known, and it generally differs from the mean compensating variation. Take a consumer with income $y$ who has
+only the outside good, with utility $\ln y + \epsilon_{i0}$, and add a free alternative with utility $\ln y +
+\epsilon_{i1}$. The expected maximum of two independent standard type-I extreme value shocks exceeds that of one by
+$\ln 2$, so restoring expected maximum utility requires $\ln(y - C) + \ln 2 = \ln y$, or $C = \frac{y}{2}$. The
+realized compensation is $y\big[1 - e^{\epsilon_{i0} - \max(\epsilon_{i0}, \epsilon_{i1})}\big]$. Because
+$\epsilon_{i1} - \epsilon_{i0}$ is logistic, the mean realized compensation is $(1 - \ln 2)y \approx 0.307y$. The two measures coincide when
+utility is linear in income, so the log-sum formula needs no such distinction.
 
 \casehead{What the shocks mean}
 The welfare formulas treat the shocks $\epsilon_{ij}$ as tastes that consumers enjoy. \Cref{sec:07-logit-setup}
@@ -1172,8 +1197,8 @@ listed other readings, from unobserved characteristics to measurement error and 
 mistakes, the log-sum counts them as real utility and overstates welfare. Under every reading, the model gives each
 product its own dimension of taste and a group of consumers who prefer it. The result is positive shares, markups
 of at least $\frac{1-\sigma}{\alpha}$, and positive value from every added product. This is the ``too many
-characteristics'' problem. It biases estimated markups and the value of new goods upward, and it prevents the model
-from using products with zero sales. \Cref{sec:07-limits-epsilon} examines its consequences and the remedies proposed
+characteristics'' problem. It biases estimated markups and the value of new goods upward, and it keeps products with zero
+sales out of the direct inversion of observed shares. \Cref{sec:07-limits-epsilon} examines its consequences and the remedies proposed
 in the literature.
 
 \casehead{Scale and the outside good}

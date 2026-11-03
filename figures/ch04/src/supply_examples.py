@@ -1,6 +1,6 @@
 """Supply-side illustrations for Section 4.5 (sec:04-supply) in the 25-product logit market.
 
-The market is the one of ex:04-logit25 (data_simulations.csv in the course folder):
+The market is the one of ex:04-logit25 (figures/appC/data/logit_market.csv, committed in this repository):
 25 products, x_j = (1, X2_j, X3_j), xi_j, omega_j, five owners (3, 3, 6, 6, 7 products),
 beta = (0.1, 0.25, 0.1), alpha = 2, mc_j = x_j gamma + omega_j with gamma = (0.2, 0.25, 0.3),
 market size 1. The multi-product Bertrand-Nash equilibrium under the owners in the data
@@ -29,8 +29,7 @@ from scipy.optimize import root
 from scipy.special import lambertw
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]                      # .../ECON_257
-DATA = ROOT / "ProblemSet_1" / "data_simulations.csv"
+DATA = HERE.parents[1] / "appC" / "data" / "logit_market.csv"   # figures/appC/data
 OUT_TXT = HERE / "supply_examples_numbers.txt"
 
 BETA = np.array([0.1, 0.25, 0.1])

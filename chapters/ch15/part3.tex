@@ -112,9 +112,10 @@ $\bm G=F\circ\beta^{-1}$ by construction, and the steps above reverse to show th
 \eqref{eq:15-lpv-ode}. For the boundary condition, LPV argue that $\ln G_{M\mid B}$ diverges at
 $\underline b$. Divergence of the logarithm alone does not force the markdown
 $\frac{G_{M\mid B}(b\mid b)}{g_{M\mid B}(b\mid b)}$ to vanish. This is why the proposition maintains
-that this ratio tends to zero as $b\downarrow\underline b$. A bid density bounded away from zero at $\underline b$ is
-sufficient but too strong. With i.i.d.\ uniform values and $n\ge3$ the density tends to zero, yet the ratio
-equals $\frac{b}{n-1}$ and still vanishes. Under the maintained condition, $\xi(\underline b)=\underline b$, so
+that this ratio tends to zero as $b\downarrow\underline b$. A density $g_{M\mid B}(b\mid b)$ of the highest rival
+bid bounded away from zero at $\underline b$ is sufficient but too strong. With i.i.d.\ uniform values on $[0,1]$,
+each bid is uniform with constant density $\frac{n}{n-1}$. For $n\ge3$ the density of the highest of the $n-1$
+rival bids still tends to zero at $\underline b=0$, yet the ratio equals $\frac{b}{n-1}$ and vanishes. Under the maintained condition, $\xi(\underline b)=\underline b$, so
 $\beta(\underline v)=\underline v$.
 Second-order conditions are maintained throughout \citep[footnote~7]{LiPerrigneVuong2002}.
 \end{proof}
@@ -175,8 +176,11 @@ $(\frac{T_n}{\log T_n})^{\frac{R}{2R+n}}$ \citep{Stone1982}. For $R=2$ and $n=2$
 $\frac{2}{15}$ and $\frac{5}{15}$. The marginal density $\hat f_n$ converges faster, with exponent
 $\frac{(R+n-1)(R+n-2)}{(R+n+1)(2R+2n-2)}$ \citep[Proposition~3]{LiPerrigneVuong2002}, which equals
 $\frac15$ for $R=2$ and $n=2$. Optimality of these rates is not established, because the minimax argument of
-\citet{GuerrePerrigneVuong2000} does not carry over. The exponents fall with $n$. This is the curse of
-dimensionality.
+\citet{GuerrePerrigneVuong2000} does not carry over. Over the range $R>n-2$ in which the proposition applies, the
+exponent for the joint density falls as $n$ rises, from $\frac{2}{15}$ at $n=2$ to $\frac18$ at $n=3$ when $R=2$.
+Stone's exponent $\frac{R}{2R+n}$ falls as well. This is the curse of dimensionality. The marginal exponent behaves
+differently. It simplifies to $\frac{R+n-2}{2(R+n+1)}$ and rises with $n$, from $\frac15$ to $\frac14$ in the same
+example.
 \end{remark}
 
 \casehead{Implementation} \citet[pp.~180--181]{LiPerrigneVuong2002} use the triweight kernel
@@ -424,7 +428,9 @@ involves the bidder's own bid and the highest bid of each type. The denominator 
 a density.
 
 \begin{proposition}[{\citealp[Proposition~1]{CampoPerrigneVuong2003}}]\label{prop:15-cpv}
-The asymmetric APV model is identified. Let $\bm G$ have support $[\underline b,\bar b]^n$. It can be
+The asymmetric APV model is identified. Assume, as \citet[footnote~5]{CampoPerrigneVuong2003} do, that strategies
+solving the first-order conditions with their boundary conditions are best responses, so that second-order
+conditions hold. Let $\bm G$ have support $[\underline b,\bar b]^n$. Under this assumption, $\bm G$ can be
 rationalized by an asymmetric APV model with $F\in\mathcal P$ if and only if two conditions hold.
 \begin{enumerate}[label=(\roman*)]
   \item $\bm G\in\mathcal P$.
@@ -437,7 +443,12 @@ $F(\bm v_1,\bm v_0)=\bm G\bigl(\xi_1^{-1}(\bm v_1;\bm G),\xi_0^{-1}(\bm v_0;\bm 
 
 The proof follows that of \cref{prop:15-lpv}. The common upper endpoint in (ii) reflects the boundary
 condition $s_1(\bar v)=s_0(\bar v)$. Identification is nonparametric and requires neither solving nor
-approximating the equilibrium. Because $\mathcal P$ contains the distributions that are exchangeable across all
+approximating the equilibrium. It uses only the necessity of the first-order conditions, so it holds whenever
+the data come from an equilibrium. The characterization is narrower. Without the maintained sufficiency
+assumption, conditions (i) and (ii) remain necessary, but they are not known to guarantee that each bid is a
+global best response. In the asymmetric APV model the first-order conditions are not known to be sufficient
+(\cref{sec:15-gpv-tests}). Conditions (i) and (ii) therefore test the first-order restrictions of the model. They
+amount to a test of equilibrium bidding only under the maintained sufficiency assumption. Because $\mathcal P$ contains the distributions that are exchangeable across all
 $n$ bidders, the symmetric model is nested and can be tested against the asymmetric one.
 
 \casehead{Estimator} The conditioning on $b_1$ drops out of the ratio in \eqref{eq:15-cpv-foc}, which equals
@@ -1146,7 +1157,7 @@ Second-price or ascending & Price with $m$ bidders, upper bids with $n>m$. Exoge
 Second-price, asymmetric & Bids with $n$ bidders, prices with subsets of bidders & Recurrence for random
 subsamples & \citet[Thm.~10]{AtheyHaile2002} \\
 First-price & Top two bids with $n$ and $n-1$ bidders & Recurrence for identified $v(S,S;n)$ & \citet[Thm.~11]{AtheyHaile2002} \\
-First-price & All bids, exogenous $n$ & $F_{v,n}$ invariant to $n$. It falls in $n$ under common values &
+First-price & All bids, exogenous $n$ & $F_{v,n}$ invariant to $n$. Under common values pivotal values fall in $n$, so $F_{v,n}$ rises in $n$ &
 \citet{HaileHongShum2003} \\
 First-price & All bids, instrument for $n$ & Pivotal values invariant to the instrument & \citet{HaileHongShum2003} \\
 First-price & All bids, instrument for entry, unobserved heterogeneity & Joint law of signals and values invariant to $n$ & \citet{CompianiHaileSantAnna2020} \\

@@ -232,7 +232,11 @@ are the excluded instruments. In the second step we construct
 and estimate the supply relation $P_t = b_0 + b_1 Q_t + \theta \hat Q^*_t + b_2 W_t + e_t$ by 2SLS. Here $Q_t$ and
 $\hat Q^*_t$ are endogenous, $(1, W_t)$ are included exogenous variables, and $(Y_t, Z_t, Y_tZ_t)$ are the excluded
 instruments. Three instruments for two endogenous regressors leave one overidentifying restriction to test. Because
-$\hat Q^*_t$ is a generated regressor, conventional second-step standard errors are too small.
+$\hat Q^*_t$ is a generated regressor, conventional second-step standard errors are generally invalid. They ignore the
+sampling error in $(\hat a_1, \hat a_3)$ and its covariance with the second-step moments, and a valid variance must
+include both. The correction has no general sign. Conventional standard errors are too small when the first-step
+estimates and the second-step moments are asymptotically uncorrelated. The correction is then the positive semidefinite
+term of \eqref{eq:03-gm-variance}, derived for sugar in \cref{sec:03-sugar}.
 \citet[p.~1033, fn.~23]{Bresnahan1989} calls this explicit two-step procedure ``so ugly that no one would ever undertake
 it'', while noting that it shows why more powerful techniques identify $\theta$.
 
@@ -452,8 +456,8 @@ A related route assumes that cost is known up to a few parameters. In sugar refi
 gives $MC = c_0 + kP^{raw}$, and $c_0$ and $k$ can be estimated jointly with $\theta$ or set from engineering evidence
 (\cref{sec:03-sugar}).
 
-Homogeneity of marginal cost in factor prices gives another restriction. Any term of the supply relation that does not
-scale with factor prices must belong to the markup, the route of \citet{Appelbaum1982} described in
+Homogeneity of marginal cost in factor prices gives another restriction. At given output and demand, any term of the
+supply relation that does not scale with factor prices must belong to the markup, the route of \citet{Appelbaum1982} described in
 \cref{sec:03-taxonomy}. Firm-specific cost shifters identify a single firm's residual demand, an object different from
 industry conduct (\cref{sec:03-residual-demand}).
 
@@ -464,8 +468,10 @@ marginal cost alone.
 
 Supply shocks identify regimes of conduct. \citet{Porter1983} lets the supply relation switch between a price-war regime
 with low conduct and a collusive regime with high conduct. \citet[Section~3.4]{Bresnahan1989} explains what identifies the
-switch. Holding the exogenous variables fixed, the joint distribution of price and quantity has two modes, one per regime,
-and switching-regression methods detect them. The risk is that an unobserved cost shock also shifts the supply relation.
+switch. Holding the exogenous variables fixed, the joint distribution of price and quantity is a two-component mixture,
+with one component per regime. Bresnahan argues that successful collusion puts the regime means far apart, so the mixture
+has two local modes. Overlapping components can produce a single mode, and switching-regression methods estimate the
+components and the regime probability without needing visible modes. The risk is that an unobserved cost shock also shifts the supply relation.
 In the railroad data the regime changes move price and quantity by about 50 percent, which, together with contemporary
 discussion of cartel adherence, makes the conduct reading plausible \citep[p.~1042]{Bresnahan1989}. We study this work in
 \cref{ch:collusion-evidence}.
@@ -810,29 +816,35 @@ K = \nu\, \E\left[\min\{\pi^m(A), K\}\right] \equiv T(K), \qquad \nu \equiv \fra
 
 \begin{lemma}[The most collusive equilibrium]\label{lem:03-fixed-point}
 (i) If $\delta < 1 - \frac{1}{N}$, the only solution of \eqref{eq:03-bertrand-fixed} is $K = 0$, and firms price at cost.
-(ii) If $\delta > 1 - \frac{1}{N}$, there is exactly one positive solution $K^*$. It is the largest fixed point, and the
-iteration $K_{n+1} = T(K_n)$ started at any $K_0 \ge \nu\E[\pi^m(A)]$ decreases to $K^*$. (iii) Monopoly pricing in every
-state is sustainable if and only if $\nu\,\E[\pi^m(A)] \ge \pi^m(\bar A)$.
+(ii) If $\delta = 1 - \frac{1}{N}$, the solutions form the interval $[0, \pi^m(\underline A)]$, and the largest is
+$K = \pi^m(\underline A) > 0$. (iii) If $\delta > 1 - \frac{1}{N}$, there is exactly one positive solution $K^*$. It is the
+largest fixed point, and the iteration $K_{n+1} = T(K_n)$ started at any $K_0 \ge \nu\E[\pi^m(A)]$ decreases to $K^*$.
+(iv) Monopoly pricing in every state is sustainable if and only if $\nu\,\E[\pi^m(A)] \ge \pi^m(\bar A)$.
 \end{lemma}
 
 \begin{proof}
 The map $T$ is increasing and concave, because $\min\{\pi^m(A), K\}$ is increasing and concave in $K$ for every $A$. It
 satisfies $T(0) = 0$, its right derivative at zero is $\nu$ (since $\pi^m(A) > 0$), and it is bounded by
 $\nu\E[\pi^m(A)]$. The condition $\nu < 1$ is equivalent to $\delta < (1 - \delta)(N - 1)$, that is, to $\delta < 1 -
-\frac{1}{N}$. (i) If $\nu < 1$, then $T(K) \le \nu K < K$ for every $K > 0$. (ii) If $\nu > 1$, the function
+\frac{1}{N}$, and $\nu = 1$ holds exactly at $\delta = 1 - \frac{1}{N}$. (i) If $\nu < 1$, then $T(K) \le \nu K < K$ for every $K > 0$. (ii) If $\nu = 1$ and $K \le
+\pi^m(\underline A)$, then $\min\{\pi^m(A), K\} = K$ in every state, so $T(K) = K$. If $K > \pi^m(\underline A)$, the
+minimum falls short of $K$ in the states with $\pi^m(A) < K$. These have positive probability, because $\pi^m$ is
+continuous and $\underline A$ is the lowest point of the support of $A$, so $T(K) < K$. (iii) If $\nu > 1$, the function
 $T(K) - K$ is positive for small $K > 0$ and negative for large $K$, so it has a positive root. It is concave and equals
 zero at $K = 0$ with positive slope there. A second positive root would force a concave function to be zero at two points
 while positive between zero and the first, which is impossible. Starting at $K_0 \ge \nu\E[\pi^m(A)] \ge K^*$, the
 sequence satisfies $K^* = T(K^*) \le T(K_n) \le K_n$, so it decreases and converges to a fixed point no smaller than
-$K^*$, which must be $K^*$. (iii) If $K \ge \pi^m(\bar A)$, then $T(K) = \nu\E[\pi^m(A)]$, and the fixed point satisfies
+$K^*$, which must be $K^*$. (iv) If $K \ge \pi^m(\bar A)$, then $T(K) = \nu\E[\pi^m(A)]$, and the fixed point satisfies
 $K \ge \pi^m(\bar A)$ exactly when $\nu\E[\pi^m(A)] \ge \pi^m(\bar A)$.
 \end{proof}
 
-Collusion above cost requires $\delta > 1 - \frac{1}{N}$, the familiar condition for Bertrand collusion with constant
-demand. It plays the role of condition (i) in \citet{RotembergSaloner1986}, which requires that the number of firms not be
-too large relative to the discount factor. They also select the greatest fixed point.
-For any $\delta$ above it, the cap exceeds $\pi^m(\underline A)$. If $K \le \pi^m(\underline A)$, then $T(K) = \nu K >
-K$, so no fixed point lies there. The lowest demand states are therefore always priced at the monopoly level.
+Collusion above cost is sustainable if and only if $\delta \ge 1 - \frac{1}{N}$, the familiar condition for Bertrand
+collusion with constant demand. It plays the role of condition (i) in \citet{RotembergSaloner1986}, which requires that
+the number of firms not be too large relative to the discount factor. They also select the greatest fixed point, and so
+do we. At $\delta = 1 - \frac{1}{N}$ that selection gives $K = \pi^m(\underline A)$, so the cap binds in every state
+above the lowest. For any $\delta$ above the cutoff, the cap exceeds $\pi^m(\underline A)$. If $0 < K \le
+\pi^m(\underline A)$, then $T(K) = \nu K > K$, so no positive fixed point lies there. Above the cutoff, the lowest demand states
+are therefore priced at the monopoly level.
 
 \casehead{Conduct and the conduct parameter estimate}
 The markup term is $m_t = Q_t$, because $\lvert\frac{\partial Q}{\partial P}\rvert = 1$. Conduct in state $A$ is
@@ -848,7 +860,9 @@ in constrained states, so it can be negative while every $\theta(A)$ lies in $(0
 
 \Cref{tab:03-corts-sim} and \cref{fig:03-corts-sim} report the numbers for $N = 2$, $c = 0$ and $A_t$ uniform on $[6, 10]$.
 Population moments are computed by quadrature, and a regression on 200,000 simulated periods reproduces them to within
-$0.002$. Collusion requires $\delta > 0.5$. Monopoly in every state requires $\nu\E[\pi^m(A)] \ge \pi^m(10)$, that is,
+$0.002$. Collusion above cost is sustainable for $\delta \ge 0.5$. At $\delta = 0.5$ the most collusive cap is
+$K = \pi^m(6) = 9$, so every state above the lowest is constrained. Mean conduct is then $0.26$ and the estimate is
+$-0.25$. Monopoly in every state requires $\nu\E[\pi^m(A)] \ge \pi^m(10)$, that is,
 $\nu \ge \frac{25}{16.33}$, which holds for $\delta \ge 0.6048$. In between, the cap binds in the high-demand states. At
 $\delta = 0.51$, conduct ranges from $0.17$ in the highest state to $1$ in the lowest, and its mean is $0.51$. The
 $m$-weighted average conduct is $\frac{\E[P_t - c]}{\E[Q_t]} = \frac{2.34}{5.66} = 0.41$. The instrumental-variables
@@ -867,6 +881,7 @@ conduct is $0.53$ and the estimate is $-0.36$.
 Discount factor & Profit cap & Cutoff state & Share of states & Mean conduct & IV estimate \\
 $\delta$ & $K$ & $A^*$ & constrained & $\E[\theta_t]$ & $\hat\theta$ \\
 \midrule
+0.5 & 9.00 & 6.00 & 1.00 & 0.26 & $-0.25$ \\
 0.5001 & 9.30 & 6.10 & 0.98 & 0.28 & $-0.27$ \\
 0.505 & 11.37 & 6.74 & 0.81 & 0.44 & $-0.35$ \\
 0.51 & 12.54 & 7.08 & 0.73 & 0.51 & $-0.36$ \\
@@ -882,7 +897,8 @@ $\delta$ & $K$ & $A^*$ & constrained & $\E[\theta_t]$ & $\hat\theta$ \\
 $[6, 10]$, grim-trigger punishment at marginal cost. $K$ is the largest solution of \eqref{eq:03-bertrand-fixed}, and the
 cap binds for $A_t > A^* = 2\sqrt K$. Conduct is $\theta_t = \frac{P_t - c}{Q_t}$, the elasticity-adjusted Lerner index.
 The estimate is $\frac{\Cov(A_t, P_t - c)}{\Cov(A_t, Q_t)}$, the limit of the instrumental-variables estimator with a
-constant and the demand state as instrument. For $\delta < 0.5$ prices equal cost and both measures are zero. Population
+constant and the demand state as instrument. For $\delta < 0.5$ prices equal cost and both measures are zero. At
+$\delta = 0.5$ every $K \in [0, 9]$ solves \eqref{eq:03-bertrand-fixed}, and the row reports the largest. Population
 moments computed by quadrature.
 \end{tablenotes}
 \end{threeparttable}
@@ -964,8 +980,14 @@ conditional moment inequalities:
 \E\left[c(Q_t, W_t; \beta) - P_t - Q_t P'(Q_t) \mid X_t\right] \ge 0 .
 \end{equation*}
 The \emph{identified set} is the set of $\beta$ that satisfy both for almost every $X_t$. Since $P'(Q_t)$ comes from an
-estimated demand curve, estimation has two steps. Bounds on $\beta$ imply bounds on marginal cost, on markups and on each
-$\theta_t$, without assuming that conduct is constant.
+estimated demand curve, estimation has two steps. Bounds on $\beta$ imply bounds on the systematic part of marginal cost,
+$c(Q_t, W_t; \beta)$, and on the conditional mean markup $\E[P_t - mc_t \mid X_t]$, without assuming that conduct is
+constant. They do not narrow the maintained bounds $[0, 1]$ on each realized $\theta_t$, because the unobserved shock $u^s_t$ can trade off against conduct
+observation by observation. Suppose $c(Q_t, W_t; \beta) = 2$ is known and every observation has $P_t = 2.5$ and
+$-Q_tP'(Q_t) = 1$. Then $\theta_t = 0.5$ with $u^s_t = 0$ fits the data. So does $\theta_t \in \{0, 1\}$ with equal
+probability, independently of $X_t$, and $u^s_t = 0.5 - \theta_t$. Narrower bounds on each $\theta_t$ need more, such as a known support $[-\bar u, \bar
+u]$ for $u^s_t$, which widens each bound on $mc_t$ by $\bar u$. The examples below have no cost shock, so there the
+bounds on $\beta$ can narrow the bounds on each $\theta_t$.
 
 A deterministic example shows the geometry. Let $mc = b_0 + b_1 Q$ with true values $(b_0, b_1) = (2, 0.5)$, and let
 inverse demand in market $t$ be $P = A_t - Q$. Four markets have $A_t = 8, 10, 12, 14$ and conduct $\theta_t = 0.2, 0.9,
@@ -1006,8 +1028,8 @@ reveal little about how market power relates to industry structure.
 
 The entries of that table are margins, and they differ from conduct parameters by the factor $\varepsilon$. Bresnahan left
 out studies whose estimates could not be converted into a Lerner index. These include the Panzar-Rosse and Sullivan
-methods, which yield tests or bounds, and the residual demand method, whose elasticities equal the Lerner index only in
-special cases \citep[fn.~47]{Bresnahan1989}. Two lessons of this section qualify the record further. A conduct estimate is
+methods, which yield tests or bounds, and the residual demand method, whose estimate $-\eta^R_1$ equals the Lerner index
+only in special cases, such as those of \cref{prop:03-rd-markup} \citep[fn.~47]{Bresnahan1989}. Two lessons of this section qualify the record further. A conduct estimate is
 a slope, so estimates in $(0, 1)$ are compatible with conduct that swings between collusion and price wars
 (\cref{sec:03-corts}). The most direct test of the methods compares them with observed costs, which is the task of
 \cref{sec:03-sugar,sec:03-electricity}.

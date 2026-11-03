@@ -66,11 +66,14 @@ consumers. Then
 \end{equation}
 and \eqref{eq:06-mu-tp} becomes a pure characteristics model on a space of dimension $K + J$. Every product carries
 its own characteristic, and every consumer has an independent taste for it. Adding a product adds a dimension to the
-characteristic space. This is the source of both implications that \citet[p.~6]{BerryPakes2007} attribute to models
-with tastes for products. First, there is a limit on substitution between products, and so a lower bound on markups.
-Second, each consumer's utility grows without bound as products are added, whatever the characteristics of the new
-products or of the consumer. Neither implication holds in a pure characteristics model. We now verify both claims in
-the simplest member of each class.
+characteristic space. \citet[p.~6]{BerryPakes2007} trace two implications of models with tastes for products to this
+feature. First, there is a limit on substitution between products, and so a lower bound on markups. Second, each
+consumer's utility grows without bound as products are added, whatever the characteristics of the new products or of
+the consumer. Neither implication holds in a pure characteristics model. Both hold in the logit with the
+qualifications of \cref{sec:06-logit-bench}. The markup floor holds for every set of products, while unbounded
+utility requires that entrants not become too unattractive. Neither implication follows from the full support of
+$\epsilon_{ij}$ alone. With normal shocks and no outside good, markups are positive for every number of products but tend
+to zero (\cref{prop:06-normal-symmetric}). We now examine both claims in the simplest member of each class.
 
 \subsection{The logit benchmark}\label{sec:06-logit-bench}
 
@@ -145,7 +148,14 @@ same $V$, each consumer's maximum utility is the maximum of $J$ independent Gumb
 $V + \ln J + \gamma_E$. Every added product hands every consumer one more lottery ticket. The ticket has positive
 expected value even when the product is physically identical to one already on sale.
 
-Parts (iii) and (iv) hold prices fixed. Equilibrium pricing does not change the conclusion. With $J$ identical
+Unbounded growth needs a condition on the entrants. For general values, expected maximum utility
+$\ln(1 + \sum_{k \le J} e^{V_k}) + \gamma_E$ grows without bound if and only if $\sum_k e^{V_k}$ diverges. This holds
+for clones and whenever the $V_k$ are bounded below. It fails when entrants become unattractive fast enough. With
+$V_j = -j^2$, the sum converges to $0.386$, so expected maximum utility converges to $\gamma_E + \ln 1.386 \approx
+0.904$. Every product still has a positive share and every shock has full support. Each entrant adds a positive gain,
+but the gains have a finite sum.
+
+Parts (iii) and (iv) hold prices fixed. Equilibrium pricing does not change the conclusion for clones. With $J$ identical
 single-product firms, \eqref{eq:06-logit-markup} gives a symmetric markup $\frac{1}{\alpha(1-s)}$, and $s \to 0$ as $J$
 grows. The equilibrium price therefore converges to $c + \frac{1}{\alpha}$, so $V$ stays bounded and surplus still grows
 like $\frac{1}{\alpha}\ln J$. \Cref{fig:06-clones} computes this case.
@@ -187,6 +197,61 @@ The parameter $\sigma_\epsilon$ measures the dispersion of tastes for products. 
 \cref{sec:06-models}, where the symmetric markup is $\frac{\tau}{N}$ and vanishes as firms crowd a fixed space. In the
 logit each entrant brings its own dimension, so entry never crowds the space and the markup stays above
 $\sigma_\epsilon$.
+
+The new dimension alone does not keep the markup up. The floor also depends on the upper tail of the Gumbel
+distribution, as the normal case shows.
+
+\begin{proposition}[Symmetric oligopoly with normal tastes for products]\label{prop:06-normal-symmetric}
+Keep the setting of \cref{prop:06-logit-symmetric}, but let utility be $u_{ij} = \delta - p_j + \sigma_\epsilon Z_{ij}$,
+where the $Z_{ij}$ are independent standard normal. Let $m_N = \E[\max_{j \le N} Z_{ij}]$. The unique symmetric
+Bertrand-Nash equilibrium has markup
+\begin{equation}\label{eq:06-normal-markup}
+  p^* - c = \frac{\sigma_\epsilon}{m_N} \ge \frac{\sigma_\epsilon}{\sqrt{2\ln N}} .
+\end{equation}
+The markup is positive for every $N \ge 2$ and converges to zero as $N \to \infty$.
+\end{proposition}
+
+\begin{proof}
+Let $\phi$ and $\Phi$ be the standard normal density and CDF. Suppose the $N - 1$ rivals charge $\bar p$. Firm $j$ wins
+a consumer when every rival's shock lies below $Z_{ij} + \frac{\bar p - p_j}{\sigma_\epsilon}$, so its share is
+\begin{equation*}
+  s_j(p_j) = \int \phi(z)\,\Phi\Bigl(z + \frac{\bar p - p_j}{\sigma_\epsilon}\Bigr)^{N-1}\,\dd z .
+\end{equation*}
+At $p_j = \bar p$ the share is $\frac{1}{N}$ and
+\begin{equation*}
+  \frac{\partial s_j}{\partial p_j} = -\frac{N-1}{\sigma_\epsilon}\int \phi(z)^2\,\Phi(z)^{N-2}\,\dd z .
+\end{equation*}
+The first-order condition $s_j + (p_j - c)\frac{\partial s_j}{\partial p_j} = 0$ then gives the single symmetric
+candidate $p^* - c = \frac{\sigma_\epsilon}{N(N-1)\int \phi^2\Phi^{N-2}\,\dd z}$. The maximum of $N$ standard normals
+has density $N\phi\,\Phi^{N-1}$. Since $z\phi(z) = -\phi'(z)$, integration by parts gives
+\begin{equation*}
+  m_N = \int z\,N\phi(z)\,\Phi(z)^{N-1}\,\dd z = N(N-1)\int \phi(z)^2\,\Phi(z)^{N-2}\,\dd z ,
+\end{equation*}
+with boundary terms that vanish because $\phi$ vanishes at both ends. This proves the equality in
+\eqref{eq:06-normal-markup}.
+
+The candidate is an equilibrium. The share $s_j$ is the probability that the shock vector lies in the set where
+$\sigma_\epsilon z_j - p_j \ge \sigma_\epsilon z_k - \bar p$ for every $k \ne j$. This set is convex in $(z, p_j)$
+jointly, and the normal density is log-concave. By Pr\'ekopa's theorem (\cref{thm:B-prekopa}), $s_j$ is log-concave in
+$p_j$. Log profit $\ln(p_j - c) + \ln s_j(p_j)$ is then strictly concave for $p_j > c$, so the first-order condition
+gives the best response.
+
+For the bound, take $t > 0$. Jensen's inequality and $\E[e^{tZ_{ij}}] = e^{\frac{t^2}{2}}$ give
+\begin{equation*}
+  e^{t m_N} \le \E\Bigl[e^{t \max_j Z_{ij}}\Bigr] \le \sum_{j=1}^{N} \E\bigl[e^{t Z_{ij}}\bigr] = N e^{\frac{t^2}{2}} .
+\end{equation*}
+Hence $m_N \le \frac{\ln N}{t} + \frac{t}{2}$, and $t = \sqrt{2\ln N}$ gives $m_N \le \sqrt{2\ln N}$. The maximum is never
+below $Z_{i1}$, which has mean zero, and it exceeds $Z_{i1}$ with positive probability, so $m_N > 0$. For the limit, fix
+$a > 0$. The maximum exceeds $a$ with probability $1 - \Phi(a)^N$ and is at least $Z_{i1}$ otherwise, so
+$m_N \ge a\bigl(1 - \Phi(a)^N\bigr) - \E|Z_{i1}|$. The right side tends to $a - \E|Z_{i1}|$ as $N \to \infty$. Since $a$ is arbitrary, $m_N \to \infty$ and
+the markup tends to zero.
+\end{proof}
+
+The decline is slow. The markup is $1.77\sigma_\epsilon$ with two firms, $0.40\sigma_\epsilon$ with one hundred and
+$0.21\sigma_\epsilon$ with one million. It still has no positive floor. The difference from the logit lies in the upper
+tail. The Gumbel tail is exponential, and the gap between a consumer's best and second-best draws does not shrink as
+$N$ grows. Normal tails are thinner, so the best draws bunch together and each consumer's top products become close
+substitutes.
 
 \subsection{The pure characteristics benchmark}\label{sec:06-pc-bench}
 
@@ -314,10 +379,12 @@ instrumented logit (1982--84 dollars, his Table~8). It falls to \$3,171 with ran
 micro moments are added. The part attributed to the logit error falls from \$95,121 to \$396 across the same columns.
 \Cref{ch:newgoods} treats these studies in full.
 
-The second implication concerns market structure. With tastes for products, markups never vanish however many
-products crowd the market, so there is always a further incentive to develop products. Market outcomes do not approach
-competition as the number of products grows \citep[p.~7]{BerryPakes2007}. A researcher studying a market with hundreds
-of products, or the welfare effect of entry, imposes these properties by choosing the model.
+The second implication concerns market structure. In the logit, markups stay above $\frac{1}{\alpha}$ however many
+products crowd the market, so there is always a further incentive to develop products. \citet[p.~7]{BerryPakes2007}
+conclude that with tastes for products market outcomes do not approach competition as the number of products grows.
+The conclusion depends on the distribution of the shock. With normal shocks and no outside good, markups are positive for
+every finite number of products but tend to zero, slowly (\cref{prop:06-normal-symmetric}). A researcher studying a market with
+hundreds of products, or the welfare effect of entry, imposes these properties by choosing the model.
 
 \subsection{What the idiosyncratic shock buys}\label{sec:06-eps-advantages}
 
@@ -331,7 +398,8 @@ the correlation between price and $\xi_j$ \citep{BerryLevinsohnPakes1995}.
 Pure characteristics models lose each advantage. The set of tastes for which a product is chosen is a polyhedron whose
 shape changes with every parameter value. \citet{FeenstraLevinsohn1995} computed these acceptance regions directly, a
 calculation that becomes complicated with several characteristics. Shares are zero whenever a product is dominated,
-so the share function has flat regions. The inversion requires new arguments, which \cref{sec:06-purechar} develops.
+so the share function has flat regions, and simulated shares have kinks where a product enters or leaves the frontier
+(\cref{sec:06-bp-shares}). The inversion requires new arguments, which \cref{sec:06-purechar} develops.
 
 \subsection{Nesting the two models: the modified BLP model}\label{sec:06-nesting}
 
@@ -482,8 +550,20 @@ $ns$ draws $\beta_1, \dots, \beta_{ns}$ from $G$ and their empirical distributio
   \indic\{\bar\nu_j(\beta_r) > \underline\nu_j(\beta_r)\} .
 \end{equation}
 Berry and Pakes note that if $F$ has a density that is differentiable in the parameters, the simulated share function is
-continuously differentiable in the parameters. The simulation adds error to the computed shares, as in
-\citet{BerryLevinsohnPakes1995}.
+continuously differentiable in the parameters. This holds only away from frontier changes. When a product enters or
+leaves the frontier of some draw $\beta_r$, the cutoffs of that draw switch formulas and the simulated share can have a
+kink. For example, let one draw give the products prices $1$ and $2$ and qualities $1 + t$ and $2$, where $t$ moves with
+the parameters, and let $\alpha_i$ be exponential with mean one. The conditional share of product $1$ for this draw, which is the simulated share when
+$ns = 1$, is $\max\{e^{-(1 - t)} - e^{-(1 + t)}, 0\}$. Its derivative at $t = 0$ is $0$ from the left and $\frac{2}{e}$ from the right,
+although $F$ is smooth. The switching type $\alpha_i = 1$ has probability zero, so a condition that rules out ties
+does not remove the kink. The simulated share \eqref{eq:06-bp-share20} is therefore continuous and piecewise continuously
+differentiable, with kinks where some draw changes its frontier. Suppose that at a given parameter value the draws
+whose frontier changes there have probability zero under $G$. Independent draws from $G$ then avoid such changes with
+probability one, so the simulated share is differentiable at that value almost surely. As the example shows, this
+does not make it continuously differentiable everywhere. The same condition makes the exact share
+\eqref{eq:06-bp-share18} differentiable at that value if the conditional shares are Lipschitz in the parameters, with a
+constant that does not depend on $\beta$. Dominated convergence then allows differentiation under the integral. The
+simulation adds error to the computed shares, as in \citet{BerryLevinsohnPakes1995}.
 
 The comparison with the random coefficients logit is instructive. There the first step integrates out $\epsilon_{ij}$
 analytically conditional on $\beta_i$, which yields the logit formula. Here the first step integrates out $\alpha_i$
@@ -491,7 +571,8 @@ analytically conditional on $\beta_i$, which yields the vertical formula. Both m
 integral. A practical version of \eqref{eq:06-bp-share20} proceeds as follows (their footnote~15).
 \begin{enumerate}
 \item Draw $\beta_1, \dots, \beta_{ns}$ from $G$ once, and keep the draws fixed across parameter values so that the
-objective function is smooth in the parameters.
+objective function is continuous in the parameters. \citet[p.~13]{BerryPakes2007} describe the resulting objective
+as smooth. It is differentiable except at the frontier changes described above.
 \item For each draw $r$, compute $\delta_j(\beta_r) = x_j \beta_r + \xi_j$ for $j = 1, \dots, J$, with $\delta_0 = p_0 = 0$.
 \item Sort the products by price and drop those that are dominated for this draw, using the frontier algorithm that
 follows \cref{prop:06-frontier}. The survivors have decreasing adjacent cutoffs.
@@ -819,8 +900,13 @@ megahertz range times $(2u_j - 1)$, with $u_j$ uniform on $[0, 1]$, so that it s
 \begin{equation}\label{eq:06-bp-mc-price}
   \ln p_j = (t - 1)\ln 0.7 + 1.1 \ln \delta_j ,
 \end{equation}
-so the price of a given bundle falls about 30 percent a year, and price remains convex in quality. Some shares are very
-small, smaller than in typical data sets. The large design uses one data set and asymptotic standard errors. Its
+so the price of a given bundle falls about 30 percent a year, and price remains convex in quality. Equation
+\eqref{eq:06-bp-mc-price} requires $\delta_j = 2 + x_j + \xi_j > 0$, and the description does not guarantee it. If the
+range is in megahertz, $\xi_j$ is uniform on $(-108, 108)$ in year 1, and $\delta_j \le 0$ with probability $0.45$ in
+year 1 and $0.46$ in years 2 and 3. If the range is in the units of $x$, these probabilities are $0.09$ in year 1 and
+$0.14$ in years 2 and 3. Berry and Pakes do not report whether they rescaled, truncated or redrew such products. The
+large design therefore cannot be reproduced exactly from its description. Some shares are very small, smaller
+than in typical data sets. The large design uses one data set and asymptotic standard errors. Its
 homotopy starts from the output of the modified BLP contraction with fixed $\mu_\epsilon$ and iterates 25 times on (their
 eq.~41)
 \begin{equation}\label{eq:06-bp-41}

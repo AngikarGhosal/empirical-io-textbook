@@ -37,6 +37,7 @@ chapters/          chapter files chNN_<slug>.tex; each inputs its parts from cha
 figures/chNN/      figures and table files included by chapter NN
 figures/chNN/src/  Python code (and data) that produces them and the worked numbers in the text
 references.bib     bibliography
+requirements.txt   Python packages the scripts in figures/*/src/ need
 ```
 
 ## Building the PDF
@@ -52,7 +53,24 @@ pdflatex IO_Textbook.tex
 
 or simply `latexmk -pdf IO_Textbook.tex`.
 
-The figures are committed, so you do not need Python to build the book. To regenerate a figure or a number, run its script in `figures/chNN/src/` (Python 3 with numpy, scipy, pandas and matplotlib).
+The figures are committed, so you do not need Python to build the book.
+
+## Regenerating figures and numbers
+
+To regenerate a figure or a number, run its script in `figures/chNN/src/` (or `figures/appX/src/` for the appendices). The scripts need Python 3.11 or later (tested with Python 3.13) and the six packages in [`requirements.txt`](requirements.txt): numpy, scipy, pandas, matplotlib, sympy and statsmodels. Install them with
+
+```
+pip install -r requirements.txt
+```
+
+The 25-product logit market used by `figures/ch04/src/logit25.py`, `logit_uniqueness_check.py`, `supply_examples.py` and `figures/ch07/src/logit_pricing_example.py` is the committed file `figures/appC/data/logit_market.csv`, which the scripts read by a path relative to their own location. In the same way, `figures/appA/src/sumner_inference.py` and `figures/appC/src/sumner_passthrough.py` read the committed cigarette panel `figures/appC/data/cigarette_panel.csv`.
+
+Most scripts use only numpy, scipy, pandas and matplotlib. The others need the following.
+
+- sympy: `figures/appA/src/kernel_constants.py`, `figures/ch12/src/chenrey_check.py` and, in `figures/ch14/src/`, `apv_example.py`, `asym_uniform.py`, `collusion_example.py` and `part2_numbers.py`.
+- statsmodels: `figures/ch03/src/sumner_replication.py`. In `figures/appC/src/sumner_passthrough.py` it runs only an optional cross-check, which the script skips when statsmodels is missing.
+- linearmodels (optional, not in `requirements.txt`): `figures/appC/src/appC_vertical_logit.py` uses it to cross-check its hand-coded clustered 2SLS. Without it, the script records `None` for that check and leaves every other result unchanged.
+- A TeX installation: `figures/ch13/src/asker_inverse_bid.py` and `figures/ch13/src/bm_static.py` typeset their labels with LaTeX (matplotlib's `text.usetex`). They need `latex` and `dvipng` on the path and the newpx packages (newpxtext and newpxmath) in the TeX installation.
 
 ## Contributing
 

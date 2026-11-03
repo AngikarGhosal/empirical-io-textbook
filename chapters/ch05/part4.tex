@@ -19,8 +19,12 @@ The TRIPS agreement, introduced in \cref{sec:05-questions}, was concluded in the
 negotiations and took effect in 1995. It requires every member of the World Trade Organization to recognize and
 enforce product patents in all fields of technology, pharmaceuticals included. Many low and
 middle-income countries had exempted pharmaceuticals from product patents, because they treated cheap access to
-essential medicines as a policy priority. Under TRIPS these countries had to amend their patent laws, and
-transition and least-developed economies had until 2005 to do so.
+essential medicines as a policy priority. Under TRIPS these countries had to amend their patent laws. Developing
+countries had until 2000 to comply. Those that did not offer product patents in a field of technology, such as
+pharmaceuticals, had five more years for that field, until 2005 \citep[p.~105]{DugganGarthwaiteGoyal2016}.
+Least-developed countries had longer
+transition periods. For pharmaceutical product patents, a decision of the TRIPS Council of 27 June 2002 extended
+their deadline to 1 January 2016.
 
 India is the leading example. Its Patents Act of 1970, effective from April 1972, excluded product patents for
 pharmaceuticals. It admitted only \emph{process patents}, which protect a method of making a drug and leave the drug
@@ -444,9 +448,12 @@ utility-maximization problem (CGJ, pp.~18--19).
 
 CGJ therefore use the revenue-weighted average $p_j^A = \sum_{k\in j}\omega_kp_k$ of \eqref{eq:05-cgj-group-price} as
 an approximation, with log approximation error $m_j = \ln p_j^A - \ln p_j^T$ (CGJ write $\ln\mu_j$). This is the
-measurement problem of \cref{sec:05-endogeneity}. The equation taken to the data is \eqref{eq:05-meas-error}, whose
-composite error $\xi_i = \varsigma_i - \sum_j\gamma_{ij}m_j$ is correlated with the observed prices for two reasons.
-The first is measurement error. The proxy contains $m_j$ by construction, and $m_j$ also appears in $\xi_i$. The
+measurement problem of \cref{sec:05-endogeneity}. The equation taken to the data is \eqref{eq:05-meas-error}, with
+the quinolone index computed from the proxies. Its composite error is $\xi_i = \varsigma_i - \sum_j\gamma_{ij}m_j +
+\beta_i(\ln P_Q^A - \ln P_Q^T)$, where $P_Q^A$ and $P_Q^T$ are the translog \eqref{eq:05-cgj-translog} at the proxies
+and at the exact indices. CGJ's own expression (p.~19) omits the last term. Their expression is exact only if the index is
+observed without error. The composite error is correlated with the observed prices for two reasons. The first is
+measurement error. The proxy contains $m_j$ by construction, and $m_j$ also appears in $\xi_i$. The
 second is the weights. The revenue weights $\omega_k$ depend on group spending, so a demand shock $\varsigma_i$ that
 shifts spending across SKUs also moves $p_j^A$. By \eqref{eq:05-meas-bias}, both channels push least squares toward
 less elastic demand, and least squares is inconsistent even if SKU prices are exogenous. The group average is
@@ -460,7 +467,8 @@ group-region dummies and total antibiotic spending at the upper level.
 \begin{assumption}[Instrument validity in CGJ]\label{ass:05-cgj-iv}
 Let $z_{rt}$ collect the number of SKUs and the prices of the five largest SKUs of every group in region $r$ and month
 $t$. It also contains the exogenous variables. Then (i) $\E[z_{rt}\,\varsigma_{irt}] = 0$ for every group $i$, (ii)
-$\E[z_{rt}\sum_j\gamma_{ij}m_{jrt}] = 0$, and (iii) $z_{rt}$ is correlated with the group prices $\ln p_{jrt}^A$.
+$\E\bigl[z_{rt}\bigl(\sum_j\gamma_{ij}m_{jrt} - \beta_i(\ln P_{Qrt}^A - \ln P_{Qrt}^T)\bigr)\bigr] = 0$, and (iii)
+$z_{rt}$ is correlated with the group prices $\ln p_{jrt}^A$.
 \end{assumption}
 
 The case for relevance is direct. Group prices move mostly because the SKU mix changes, and the count of SKUs tracks
@@ -482,10 +490,12 @@ Second, replace prices with their fitted values in \eqref{eq:05-cgj-lower-est} a
 least squares subject to the cross-equation restrictions:
 \begin{equation}\label{eq:05-cgj-cls}
 \hat\theta = \argmin_{\theta}\ \sum_{t}\sum_{r}\sum_{i}\left[w_{irt} - \hat w_{irt}(\theta)\right]^2
-\quad\text{subject to}\quad R\theta = 0.
+\quad\text{subject to}\quad R\theta = \mathbf{d}.
 \end{equation}
 Here $\hat w_{irt}(\theta)$ is the right side of \eqref{eq:05-cgj-lower-est} with fitted prices. The constraint
-$R\theta = 0$ stacks adding up, homogeneity, symmetry and the pair-type restrictions. When the first step is a linear projection of the
+$R\theta = \mathbf{d}$ stacks adding up, homogeneity, symmetry and the pair-type restrictions. All of them are homogeneous
+except the adding-up condition on the intercepts, $\sum_i\alpha_i = 1$, so $\mathbf{d}$ is zero except for a one in that
+row. When the first step is a linear projection of the
 log prices, this is restricted two-stage least squares on an equation that is linear in log prices, given the
 quinolone index. The second-step standard errors are invalid, because the residuals that enter them are computed
 with fitted prices. Analytical standard errors with many cross-equation restrictions are cumbersome, so CGJ use
@@ -871,8 +881,13 @@ group's monopoly first-order condition (CGJ, eq.~3.15):
 \begin{equation}\label{eq:05-cgj-foc}
 p'_{kr} = c_{kr}\left(1 + \frac{1}{\varepsilon_{kk}(p'_{r}, p^V_{r})}\right)^{-1}.
 \end{equation}
-The marginal cost $c_{kr}$ is set to $c^L_{kr}$ or $c^U_{kr}$, and the unconditional elasticity of
-\eqref{eq:05-cgj-uncond-closed} is evaluated at the new prices. Quinolone spending $X'_{Qr}$ and the index $P'_{Qr}$ come from the upper level. The index
+The marginal cost $c_{kr}$ is set to $c^L_{kr}$ or $c^U_{kr}$. CGJ describe $\varepsilon_{kk}$ as the unconditional
+own elasticity, a function of the new prices and the virtual prices (p.~23). The demand that a remaining group faces
+also lets the virtual prices respond to its price. Its elasticity is therefore the rationed elasticity
+\eqref{eq:05-rationed-elast-multi}. It combines the elasticities of \eqref{eq:05-cgj-uncond-closed} with the
+unconditional share derivatives of the withdrawn groups, all at the virtual prices. CGJ do not say whether their $\varepsilon_{kk}$ includes this response. If it is the unrestricted
+elasticity \eqref{eq:05-cgj-uncond-closed} evaluated at the virtual prices, \eqref{eq:05-cgj-foc} prices each group
+against a demand curve that it does not face. The simulated prices are then an approximation. Quinolone spending $X'_{Qr}$ and the index $P'_{Qr}$ come from the upper level. The index
 $P'_{Qr}$ is the translog of \eqref{eq:05-cgj-translog} at the new prices, and $X'_{Qr}$ follows from the upper-level
 share at the new index, with the other sub-segments' price indices held fixed. The system is solved region by region.
 National figures are population-weighted averages of the regional ones.
@@ -888,16 +903,20 @@ and report that the results are robust to them (notes to Table~9).
 \casehead{Welfare} Let $p^0$ be the observed price vector, $p'$ the counterfactual vector (virtual prices for the
 withdrawn groups, new prices for the others), and $u^0$ the representative consumer's initial utility. Let $e(p, u)$
 be the expenditure function of the upper-level AIDS, in which the lower level enters through the quinolone index
-$P_Q$. The compensating variation is
+$P_Q$. CGJ measure the loss by
 \begin{equation}\label{eq:05-cgj-cv}
-CV = e(p', u^0) - e(p^0, u^0)
+CV^M = e(p', u^0) - e(p^0, u^0)
 \end{equation}
-(CGJ, eq.~3.16). It is positive for a loss. CGJ split it into three parts with two intermediate price vectors. The
+(CGJ, eq.~3.16). It is positive for a loss. The virtual prices in $p'$ solve the Marshallian condition
+\eqref{eq:05-cgj-virtual}, so they set Hicksian demand to zero at the counterfactual utility. As
+\cref{sec:05-counterfactual} explains, \eqref{eq:05-cgj-cv} is therefore an approximation to the exact compensating
+variation \eqref{eq:05-cv-exact}, which uses compensated virtual prices at $u^0$. The numbers below are CGJ's, computed
+with \eqref{eq:05-cgj-cv}. CGJ split the loss into three parts with two intermediate price vectors. The
 vector $p^1$ sets virtual prices for the withdrawn groups while holding $X_Q$ and all other prices fixed. The vector
 $p^2$ recomputes the virtual prices letting $X_Q$ respond to the new quinolone index, again with all other prices
 fixed. Then
 \begin{equation}\label{eq:05-cgj-decomp}
-CV = \underbrace{e(p^1, u^0) - e(p^0, u^0)}_{\text{pure loss of variety}}
+CV^M = \underbrace{e(p^1, u^0) - e(p^0, u^0)}_{\text{pure loss of variety}}
 + \underbrace{e(p^2, u^0) - e(p^1, u^0)}_{\text{expenditure switching}}
 + \underbrace{e(p', u^0) - e(p^2, u^0)}_{\text{reduced competition}} .
 \end{equation}
@@ -956,7 +975,7 @@ All four & $11.76^{\dagger}$ & $11.35^{\dagger}$ & 17.81 \\
 \end{tabular}
 \par\smallskip
 \begin{minipage}{0.92\textwidth}\footnotesize
-Notes: Reproduced from CGJ, Table~8 (identical to the published table). Compensating variation computed with the
+Notes: Reproduced from CGJ, Table~8 (identical to the published table). CGJ's welfare measure \eqref{eq:05-cgj-cv}, computed with the
 cost lower bound. Standard errors in parentheses. $^{*}$ significant at 5 percent, $^{\dagger}$ at 10 percent. The
 published table adds that the exchange rate is 45 rupees per U.S.\ dollar and that total sales of systemic
 antibacterials in 2000 were Rs.~27 billion.
@@ -1349,13 +1368,17 @@ Notes: OLS estimates of \eqref{eq:05-dgg-dd} with molecule and year-by-quarter f
 by molecule in parentheses. Rows 1, 2 and 6: DGG Table~4, columns 1, 2 and 5. Rows 7 and 8: Table~7, columns 1 and
 5. Row 3:
 Table~4, column 4, the triple difference of DGG's eq.~(3). Row 4: Table~5, column 1, molecules granted a patent or
-with a pending application. Row 5: Table~6, column 1. The Herfindahl index is measured on a scale from 0 to 1.
+with a pending application. Row 5: Table~6, column 1, the interaction term only. The main effect of a patent in that
+regression is 0.026 (0.022). The Herfindahl index is measured on a scale from 0 to 1.
 \end{minipage}
 \end{table}
 
-The mechanism points to the grandfather clause. Among molecules first sold after 1995, a patent raises the price of a
-molecule that had only one producer in 2005 by about 0.17 log points, nearly 20 percent (Table~6). For molecules with
-several producers the estimate is 0.026 (0.022), small and insignificant. Where generic producers already existed,
+The mechanism points to the grandfather clause. Among molecules first sold after 1995, the main effect of a patent,
+which applies to molecules with several producers in 2005, is 0.026 (0.022), small and insignificant (Table~6). The
+interaction coefficient of 0.169 (0.099) is the additional log price effect for a molecule that had only one producer
+in 2005. The total effect for such a molecule is the sum, 0.195 log points or about 21.5 percent. DGG do not report a
+standard error for this sum, and they describe the interaction alone as a nearly 20 percent increase (p.~122). Where
+generic producers already existed,
 the royalty rule let them keep selling, and the patent holder's pricing power stayed limited (p.~122). The number of
 firms barely changes, and the Herfindahl index of the molecule's sales rises by 0.014 (Table~7). Sales shift toward
 the patent holder without exit by the incumbents. The price effects are also concentrated in molecules with small

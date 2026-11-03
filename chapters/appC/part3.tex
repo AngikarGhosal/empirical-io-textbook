@@ -137,8 +137,8 @@ The economic reason is that choices are invariant to a common rescaling of quali
 of type $c\nu$ facing qualities $c\delta^v_j$ compares $c(\delta^v_j - \nu p_j)$ across products and makes the same
 choice as a consumer of type $\nu$ facing $\delta^v_j$. Rescaling the type by $c$ turns the exponential rate $\lambda$
 into $\frac{\lambda}{c}$, because $\Pr(c\nu \le a) = 1 - e^{-\frac{\lambda}{c}a}$. Choices reveal how much quality
-consumers buy at each price. They measure quality in units of willingness to pay and cannot measure it in absolute
-units. The same argument applies to any scale family $F(\nu) = G(\lambda\nu)$. We normalize $\lambda = 1$, which sets the
+consumers buy at each price. They measure quality only relative to the scale of price sensitivity and cannot measure
+it in absolute units. The same argument applies to any scale family $F(\nu) = G(\lambda\nu)$. We normalize $\lambda = 1$, which sets the
 mean price sensitivity $\E[\nu_i] = \frac{1}{\lambda}$ to one. \citet[p.~251]{Berry1994} makes the same normalization
 when he assumes that his taste for quality has mean one. The estimated coefficients are then $\lambda\beta^v$.
 
@@ -191,7 +191,9 @@ Computed with \texttt{figures/appC/src/appC\_vertical\_logit.py}.
 \end{table}
 
 Quality rises with sugar content and with the organic indicator, the signs of the true taste coefficients. The
-magnitudes are in units of mean willingness to pay and cannot be compared with utility coefficients. The second column
+magnitudes use the normalization $\E[\nu_i] = 1$, so each is the willingness to pay of a consumer with $\nu_i = 1$, the mean
+price sensitivity, for one unit of the characteristic. They are not mean willingness to pay, which is infinite here because $\E[\frac{1}{\nu_i}] = \int_0^\infty
+\frac{e^{-\nu}}{\nu}\,\dd\nu$ diverges, and they cannot be compared with utility coefficients. The second column
 confirms \cref{prop:C-lambda}. With $\lambda = 2$ every coefficient and standard error is halved, while the $R^2$ is
 unchanged. Part (c) shows that every implied marginal cost is unchanged as well.
 
@@ -536,7 +538,7 @@ The logit model becomes a linear regression once shares are inverted, so all the
 apply. In this problem we estimate it on the simulated market, study the strength of the usual instruments, recover
 marginal costs with correct standard errors, and estimate demand and supply jointly. Since the data come from a random
 coefficients model, the logit is misspecified. We close by deriving the bias that omitted taste heterogeneity creates in
-the logit price coefficient and by measuring it exactly. The general theory of logit estimation is in \cref{ch:logit}.
+the logit price coefficient and by measuring it in the simulated sample. The general theory of logit estimation is in \cref{ch:logit}.
 
 \subsection{Statement}
 
@@ -554,8 +556,8 @@ multi-product Bertrand-Nash equilibrium.
   \item Derive the marginal cost equation under the assumed conduct, compute $mc_{jt}$ and estimate
   $(\gamma_1, \gamma_2)$ with standard errors that account for the estimation of $\alpha^l$.
   \item Explain how to estimate demand and supply jointly, and when joint estimation matters. Carry it out.
-  \item The true model has a random coefficient on price. Show why the logit price coefficient is then biased toward
-  zero even with valid instruments, and measure the bias.
+  \item The true model has a random coefficient on price. Show why the logit price coefficient is then biased even with
+  valid instruments, explain why the bias is toward zero in this design, and measure it.
 \end{enumerate}
 
 \subsection{Solution}
@@ -603,12 +605,14 @@ The parameters $\theta^l = (\beta^l, \alpha^l)$ are identified by the moment con
 together with the rank condition that $\E[z_{jt}^\top(x_{jt}, p_{jt})]$ has full column rank four. Economically,
 variation in price that comes from costs and from competition, and is unrelated to unobserved quality, traces out how
 shares respond to price. We estimate by \emph{two-stage least squares} (2SLS). With $Y$ the stacked left side of
-\eqref{eq:C-berry}, $X = (x, p)$ and $Z$ the instrument matrix, the estimator is
+\eqref{eq:C-berry}, $X = (x, p)$ and $Z$ the instrument matrix, the 2SLS coefficient vector is
 \[
-  \hat\theta^l_{2SLS} = (\hat X^\top\hat X)^{-1}\hat X^\top Y, \qquad \hat X = Z(Z^\top Z)^{-1}Z^\top X .
+  \hat b^l = (\hat X^\top\hat X)^{-1}\hat X^\top Y, \qquad \hat X = Z(Z^\top Z)^{-1}Z^\top X .
 \]
-Its clustered variance is \eqref{eq:C-clustervar} with $X_t$ replaced by $\hat X_t$. The residuals in the middle factor are
-the 2SLS residuals $\hat e_t = Y_t - X_t\hat\theta^l$, computed with the actual regressors (\cref{app:econometrics}).
+Since price enters \eqref{eq:C-berry} with coefficient $-\alpha^l$, $\hat b^l$ estimates $(\beta^l, -\alpha^l)$. Its first
+three entries give $\hat\beta^l$, and $\hat\alpha^l$ is minus its price entry. The clustered variance of $\hat b^l$ is
+\eqref{eq:C-clustervar} with $X_t$ replaced by $\hat X_t$. The residuals in the middle factor are the 2SLS residuals
+$\hat e_t = Y_t - X_t\hat b^l$, computed with the actual regressors (\cref{app:econometrics}).
 
 \Cref{tab:C-firststage} reports the first stage. Instrument strength comes almost entirely from the milk price,
 whose coefficient is 0.497 with standard error 0.026, close to the true cost coefficient of 0.5. The cluster-robust Wald
@@ -713,8 +717,9 @@ across markets, so the condition holds by construction.
 
 The 2SLS price coefficient, 2.641, lies below the true mean of 3, but only 0.87 standard errors below. The
 characteristic coefficients are close to the truth and imprecise, because sugar and organic status take only ten distinct
-combinations. Part (e) shows that the shortfall in $\hat\alpha^l$ is a systematic bias of the logit and is unrelated to
-sampling error.
+combinations. Part (e) splits the shortfall in $\hat\alpha^l$. Most of it, 0.284 of 0.359, is an estimate of the
+misspecification bias of the logit. The rest reflects sampling and simulation error, since the random coefficients model
+gives 2.926 on the same sample.
 
 \casehead{Part (b)}
 The logit share derivatives of \cref{sec:C-logit-bertrand}, part (a), hold with $\alpha^l$ in place of $\alpha$
@@ -944,8 +949,9 @@ Hansen $J$ (d.f., $p$) & & 8.82 (6, 0.18) & 12.85 (12, 0.38) & \\
 \begin{minipage}{0.97\textwidth}
 \footnotesize Notes: The sequential column is 2SLS for demand (clustered standard errors) and OLS
 for supply (bootstrap standard errors). The joint columns are two-step efficient GMM estimates of \eqref{eq:C-joint} with
-$z^d$ as in part (a), weights clustered by market, and GMM sandwich standard errors without a small-sample factor. The
-first step of either joint estimator reproduces the sequential point estimates.
+$z^d$ as in part (a), weights clustered by market, and GMM sandwich standard errors without a small-sample factor. With
+$z^s = (x, w)$ the first step reproduces the sequential point estimates (\cref{prop:C-redundant}). With the six added
+supply instruments the first step gives $\hat\alpha^l = 2.642$, which differs slightly from the sequential 2.641.
 Computed with \texttt{figures/appC/src/appC\_vertical\_logit.py}.
 \end{minipage}
 \end{table}
@@ -953,8 +959,10 @@ Computed with \texttt{figures/appC/src/appC\_vertical\_logit.py}.
 The numbers confirm \cref{prop:C-redundant}. With $z^s = (x, w)$, the first-step joint estimate of $\alpha^l$ is 2.641, the
 2SLS value. The second-step estimate is 2.872, exactly the two-step GMM estimate from the demand moments alone, and the
 $J$ statistic is the same 8.82. The cost coefficients do change, because the efficient weight lets demand residuals inform
-the supply block. Adding the six competition instruments to the supply side gives $\hat\alpha^l = 2.785$ with standard
-error 0.367, against 0.394 without them. The estimate is close to the demand-side estimates and to the supply-only value of
+the supply block. Adding the six competition instruments to the supply side changes even the first step, which gives
+2.642. The cost parameters can no longer set every supply moment to zero, and the remaining supply moments depend on
+$\alpha^l$ through the markups. The second step gives $\hat\alpha^l = 2.785$ with standard error 0.367, against 0.394
+without the added instruments. The estimate is close to the demand-side estimates and to the supply-only value of
 2.85. The gain in precision is modest, for the reason that made these instruments weak in the first stage. With combined shares
 of at most 0.112, the markups barely change with competition. The overidentifying restrictions are not rejected
 ($J = 12.85$ with 12 degrees of freedom, $p = 0.38$).
@@ -980,11 +988,12 @@ The logit regression \eqref{eq:C-berry} then has the dependent variable $x_{jt}\
 r_{jt}$, so its error is $\xi_{jt} + r_{jt}$.
 
 \begin{proposition}[Decomposition of the logit estimate]\label{prop:C-logit-bias}
-Use the regressors $(x_{jt}, p_{jt})$ and the instruments $z_{jt}$ throughout. Let $\hat\theta^{RC}$ be the 2SLS estimate
-with dependent variable $\delta_{jt}$, and let $\hat\theta^l$ be the one with dependent variable $\ln\frac{s_{jt}}{s_{0t}}$.
-Let $\hat b_r$ be the 2SLS estimate with dependent variable $r_{jt}$, with price coefficient $\hat b_{r,p}$. Then
+Use the regressors $(x_{jt}, p_{jt})$ and the instruments $z_{jt}$ throughout. Let $\hat b^{RC}$ be the 2SLS coefficient
+vector with dependent variable $\delta_{jt}$, and let $\hat b^l$ be the one with dependent variable $\ln\frac{s_{jt}}{s_{0t}}$.
+Write $\hat\alpha^{RC}$ and $\hat\alpha^l$ for minus their price entries. Let $\hat b_r$ be the one with dependent
+variable $r_{jt}$, with price coefficient $\hat b_{r,p}$. Then
 \begin{equation}\label{eq:C-decomp}
-  \hat\theta^l = \hat\theta^{RC} + \hat b_r, \qquad \hat\alpha^l = \hat\alpha^{RC} - \hat b_{r,p}.
+  \hat b^l = \hat b^{RC} + \hat b_r, \qquad \hat\alpha^l = \hat\alpha^{RC} - \hat b_{r,p}.
 \end{equation}
 Suppose the random coefficients model is correct and $z_{jt}$ is valid for it. Then $\plim\hat\alpha^l = \alpha - b_{r,p}$,
 where $b_{r,p}$ is the price coefficient of the population 2SLS projection of $r_{jt}$ on $(x_{jt}, p_{jt})$ with
@@ -992,16 +1001,17 @@ instruments $z_{jt}$. The logit estimate is biased toward zero whenever $b_{r,p}
 \end{proposition}
 
 \begin{proof}
-The 2SLS estimator is linear in the dependent variable, $\hat\theta(Y) = (X^\top P_ZX)^{-1}X^\top P_ZY$ with
+The 2SLS estimator is linear in the dependent variable, $\hat b(Y) = (X^\top P_ZX)^{-1}X^\top P_ZY$ with
 $P_Z = Z(Z^\top Z)^{-1}Z^\top$. Since $\ln\frac{s_{jt}}{s_{0t}} = \delta_{jt} + r_{jt}$ observation by observation,
-$\hat\theta^l = \hat\theta(\delta) + \hat\theta(r) = \hat\theta^{RC} + \hat b_r$. The price coefficient is $-\alpha$ in
-both models, which gives the second equation. Under the stated conditions $\plim\hat\alpha^{RC} = \alpha$, and $\hat
-b_{r,p}$ converges to its population counterpart.
+$\hat b^l = \hat b(\delta) + \hat b(r) = \hat b^{RC} + \hat b_r$. The price coefficient is $-\alpha$ in both models, so
+the price entries give $-\hat\alpha^l = -\hat\alpha^{RC} + \hat b_{r,p}$, which is the second equation. Under the
+stated conditions $\plim\hat\alpha^{RC} = \alpha$, and $\hat b_{r,p}$ converges to its population counterpart.
 \end{proof}
 
 The instruments do not remove this bias. The gap term depends on prices, and prices depend on the milk price and on the
-competition instruments, so $\E[z_{jt}^\top r_{jt}] \ne 0$ in general. The question is the sign of $b_{r,p}$. The next result
-shows that $r_{jt}$ rises with price when the price coefficient is random.
+competition instruments, so $\E[z_{jt}^\top r_{jt}] \ne 0$ in general. The question is the sign of $b_{r,p}$. No general
+result fixes it, because it depends on the model, the design and the instruments. The next result shows how $r_{jt}$
+varies across the products of one market when tastes are only slightly dispersed.
 
 \begin{proposition}[The gap term for small taste dispersion]\label{prop:C-gap-approx}
 Let $\Sigma$ be diagonal and $\nu_i \sim N(0, I_4)$. As $\lVert\Sigma\rVert \to 0$,
@@ -1011,7 +1021,8 @@ Let $\Sigma$ be diagonal and $\nu_i \sim N(0, I_4)$. As $\lVert\Sigma\rVert \to 
 \end{equation}
 where the sum runs over inside products. In particular, the price component of $r_{jt}$ is
 $\Sigma_{pp}^2\big(\frac{1}{2}p_{jt}^2 - p_{jt}\bar p_t\big)$, with $\Sigma_{pp}$ the price entry of $\Sigma$ and
-$\bar p_t = \sum_k s_{kt}p_{kt}$, and it increases in $p_{jt}$ whenever $p_{jt} > \bar p_t$.
+$\bar p_t = \sum_k s_{kt}p_{kt}$. All products of market $t$ share $\bar p_t$, so among the products of a market priced
+above $\bar p_t$ this component is larger for the more expensive product.
 \end{proposition}
 
 \begin{proof}
@@ -1041,17 +1052,37 @@ Take logs, use $\ln(1 + a) = a + O(a^2)$ with $a = O(\lVert\Sigma\rVert^2)$, and
 With $\nu_i \sim N(0, I_4)$ and $\Sigma$ diagonal, $\E[\mu_{ij}^2] = \tilde x_j\Sigma^2\tilde x_j^\top$ and
 $\E[\mu_{ij}\bar\mu_i] = \tilde x_j\Sigma^2\big(\sum_k s^L_k\tilde x_k\big)^\top$. Finally $s^L_k - s_k = O(\lVert\Sigma\rVert^2)$,
 and the term it multiplies is $O(\lVert\Sigma\rVert^2)$, so replacing $s^L_k$ by $s_k$ changes $r_j$ by $O(\lVert\Sigma\rVert^4)$.
+For fixed $\bar p$, the price component $\Sigma_{pp}^2(\frac{1}{2}p^2 - p\bar p)$ has derivative $\Sigma_{pp}^2(p - \bar p)$ in
+the product's own price $p$, which is positive for $p > \bar p$.
 \end{proof}
+
+The comparison in \cref{prop:C-gap-approx} holds $\bar p_t$ fixed, as it is across the products of one market. It does not
+give the response of $r_{jt}$ to a change in $p_{jt}$, which also moves the shares and hence $\bar p_t$. To leading order
+the logit share derivatives give $\frac{\partial\bar p_t}{\partial p_{jt}} = s_{jt}\big[1 - \alpha(p_{jt} - \bar p_t)\big]$,
+so the full derivative of the price component is
+\begin{equation*}
+  \Sigma_{pp}^2\Big[(p_{jt} - \bar p_t)(1 + \alpha p_{jt}s_{jt}) - p_{jt}s_{jt}\Big] .
+\end{equation*}
+It can be negative for a product with a large share. With one inside good, $p = 1$, $\alpha = 1$ and share
+$\frac{3}{4}$, it equals $-\frac{5}{16}\Sigma_{pp}^2$, although $p$ exceeds $\bar p = \frac{3}{4}$. Neither derivative
+signs $b_{r,p}$ by itself. The 2SLS projection pools products and markets with different $\bar p_t$, and the instruments
+decide which price variation it uses. The sign of the bias is therefore specific to the model, the design and the
+instruments.
+
+Our design, with small inside shares, is a favorable case for a positive $b_{r,p}$. The outside share is at least 0.788 in every market, so
+$\bar p_t$ lies between 0.064 and 0.224, while every price is at least 0.881. Every observation has
+$p_{jt} - \bar p_t \ge 0.707$. At the random coefficients estimate of $\alpha$ reported below, the full derivative is at
+least $0.729\,\Sigma_{pp}^2$ at every observation. Both derivatives are therefore positive throughout the sample.
 
 The intuition is sorting. Consumers with a low price sensitivity $\alpha_i = \alpha - \Sigma_{pp}\nu_{i4}$ buy expensive
 products more than the average consumer does. Averaging the convex logit probability over this heterogeneity raises the
 share of expensive products above what a logit with the same mean utility predicts. The logit can absorb the excess only
-in its error term, which then rises with price. By \eqref{eq:C-gap-approx}, the slope is about $\Sigma_{pp}^2 p_{jt}$, because
-$\bar p_t$ is small when the outside share is large. At the mean price of 1.18 and $\Sigma_{pp} = 0.5$, this is
-$0.25 \times 1.18 = 0.295$.
+in its error term, which is then larger for the more expensive products of a market. By \eqref{eq:C-gap-approx}, the
+within-market slope of the price component is $\Sigma_{pp}^2(p_{jt} - \bar p_t)$. With $\Sigma_{pp} = 0.5$, a mean price of
+1.18 and a mean $\bar p_t$ of 0.142 across observations, this slope averages 0.259.
 
-We now measure everything exactly. The script recovers $\delta_{jt}$ in every market by the contraction with 1,000 fixed
-draws per market (seed 2030), as in \cref{sec:C-rc-est}. Convergence to a tolerance of $10^{-10}$ takes 11 to 18
+We now compute each term of \eqref{eq:C-decomp} in our sample. The script recovers $\delta_{jt}$ in every market by the
+contraction with 1,000 fixed draws per market (seed 2030), as in \cref{sec:C-rc-est}. Convergence to a tolerance of $10^{-10}$ takes 11 to 18
 iterations. \Cref{fig:C-gap} plots $r_{jt}$ against price. The gap is positive for every observation, from 0.105 to
 0.511, so every recovered $\delta_{jt}$ lies below its logit start (\cref{prop:C-delta-lower}). Its correlation with price
 is 0.888. In market 0 it rises from 0.125 for the cheapest product to 0.326 for the
@@ -1071,10 +1102,12 @@ coefficient, which controls for characteristics, is 0.284.}
 \label{fig:C-gap}
 \end{figure}
 
-The bias of 0.284 is about 0.7 standard errors of $\hat\alpha^l$, so a single sample cannot detect it. It does not shrink
-as the number of markets grows, since it is a probability limit. Its consequences also propagate. A price coefficient that
-is too small makes demand look too inelastic, which inflates the logit markups $\frac{1}{\alpha^l(1 - S_{ft})}$ to a mean
-of 0.396 against the true 0.386. Better instruments cannot repair it, because the problem lies in the functional form.
+The estimated bias $\hat b_{r,p} = 0.284$ is about 0.7 standard errors of $\hat\alpha^l$, so a single sample cannot
+detect it. It comes from one sample of 654 observations, with 1,000 simulation draws per market, so it contains
+sampling and simulation error. Its population counterpart $b_{r,p}$ is the probability limit of the bias
+(\cref{prop:C-logit-bias}). Unlike sampling error, $b_{r,p}$ does not shrink as the number of markets grows. The
+consequences of the bias also propagate. A price coefficient that is too small makes demand look too inelastic,
+which inflates the logit markups $\frac{1}{\alpha^l(1 - S_{ft})}$ to a mean of 0.396 against the true 0.386. Better instruments cannot repair it, because the problem lies in the functional form.
 The remedy is to model the heterogeneity, which \cref{sec:C-rc-est} does. \Cref{sec:08-worked} reports the same comparison
 within the full estimation of the random coefficients model.
 

@@ -40,6 +40,11 @@ COEF = {
             (0, 3): -0.238, (1, 2): 0.524},
 }
 
+# Largest leg density (DENS, 100,000 passengers per quarter) and largest leg distance
+# (DIST, 1,000 miles) in Table 1.
+QMAX = 4.553
+DMAX = 2.704
+
 # Table 7 as printed (rows: distance in miles; columns: density).
 T7_DIST = [250, 500, 1000, 1500, 2000]
 T7_DENS = [0.25, 0.50, 0.75, 1.00, 1.50, 2.00]
@@ -62,6 +67,22 @@ def dmc_dq(col, d, q):
     return sum(n * v * d ** m * q ** (n - 1) for (m, n), v in c.items() if n >= 1)
 
 
+def dq_coeffs(col, d):
+    """Coefficients (a0, a1, a2) of dc/dQ = a0 + a1 Q + a2 Q^2 at distance d."""
+    c = COEF[col]
+    a0 = c[(0, 1)] + c[(1, 1)] * d + c[(2, 1)] * d ** 2
+    a1 = 2 * c[(0, 2)] + 2 * c[(1, 2)] * d
+    a2 = 3 * c[(0, 3)]
+    return a0, a1, a2
+
+
+def upper_root(col, d):
+    """Larger real root of dc/dQ in Q, or nan if the roots are complex."""
+    a0, a1, a2 = dq_coeffs(col, d)
+    r = [x.real for x in np.roots([a2, a1, a0]) if abs(x.imag) < 1e-12]
+    return max(r) if r else float("nan")
+
+
 def main():
     lines = []
     d_grid = np.array(T7_DIST) / 1000.0
@@ -79,32 +100,42 @@ def main():
     lines.append(f"max abs difference excluding (250, 1.50): {np.abs(diff[mask]).max():.4f}")
     lines.append(f"cell (250, 1.50): printed {T7[0, 4]}, computed {comp[0, 4]:.4f}")
 
-    # Selected levels and the zero-derivative locus.
+    # Selected levels and the zero-derivative locus. dc/dQ is a quadratic in Q, so its sign
+    # changes are its real roots. They are reported on the whole observed density range
+    # [0, QMAX], where QMAX = 4.553 is the largest leg density in Table 1, which extends
+    # beyond both Table 7 (Q <= 2.0) and the plotted range (Q <= 2.5).
+    lines.append(f"\nSign changes of dc/dQ are reported for Q in [0, {QMAX}] (largest leg density in Table 1).")
     for col in ("II", "III"):
+        c = COEF[col]
         lines.append(f"\nColumn {col}: c(0,0) = {mc(col, 0, 0):.3f}; c(1,1) = {mc(col, 1, 1):.3f};"
                      f" c(0.5,0.5) = {mc(col, 0.5, 0.5):.3f}; c(3,2.5) = {mc(col, 3, 2.5):.3f}")
-        for dm in (0.25, 0.5, 1.0, 1.5, 2.0):
-            qs = np.linspace(0.0, 2.5, 25001)
-            g = dmc_dq(col, dm, qs)
-            neg = qs[g < 0]
-            if neg.size:
-                # report the first sign change from + to - and any later return to +
-                sign = np.sign(g)
-                ch = np.where(np.diff(sign) != 0)[0]
-                if ch.size:
-                    lines.append(f"  d={dm:4.2f}: sign of dc/dQ changes at Q = "
-                                 + ", ".join(f"{qs[k]:.3f}" for k in ch)
-                                 + f" (dc/dQ at Q=0: {g[0]:+.3f})")
-                else:
-                    lines.append(f"  d={dm:4.2f}: dc/dQ<0 on all of [0,2.5]")
+        for dm in (0.25, 0.5, 1.0, 1.5, 1.7, 2.0):
+            a0, a1, a2 = dq_coeffs(col, dm)
+            roots = np.roots([a2, a1, a0])
+            roots = sorted(r.real for r in roots if abs(r.imag) < 1e-12 and 0.0 <= r.real <= QMAX)
+            coeffs = f"dc/dQ = {a0:+.3f} {a1:+.3f} Q {a2:+.3f} Q^2"
+            if roots:
+                lines.append(f"  d={dm:4.2f}: {coeffs}; sign changes at Q = "
+                             + ", ".join(f"{r:.5f}" for r in roots))
             else:
-                lines.append(f"  d={dm:4.2f}: dc/dQ>=0 on [0,2.5]")
-        # distance band with dc/dQ < 0 for all Q in [0.25, 2.0]
+                state = "<0" if a0 < 0 else ">0"
+                lines.append(f"  d={dm:4.2f}: {coeffs}; dc/dQ{state} on all of [0, {QMAX}]")
+        # distance band with dc/dQ < 0 for all Q in a density range
         ds = np.linspace(0.0, 3.0, 3001)
-        qs = np.linspace(0.25, 2.0, 351)
-        allneg = [dm for dm in ds if np.all(dmc_dq(col, dm, qs) < 0)]
-        if allneg:
-            lines.append(f"  dc/dQ<0 for every Q in [0.25,2.0] when d in [{min(allneg):.3f}, {max(allneg):.3f}]")
+        for lo, hi in ((0.25, 2.0), (0.0, QMAX)):
+            qs = np.linspace(lo, hi, 2001)
+            allneg = [dm for dm in ds if np.all(dmc_dq(col, dm, qs) < 0)]
+            if allneg:
+                lines.append(f"  dc/dQ<0 for every Q in [{lo},{hi}] when d in "
+                             f"[{min(allneg):.3f}, {max(allneg):.3f}]")
+        # long legs (d >= 1.5): distances at which dc/dQ turns negative at a high density,
+        # i.e. the larger root of the quadratic (leading coefficient < 0) lies in (0, hi]
+        dl = np.round(np.arange(1.5, DMAX + 1e-9, 0.001), 3)
+        for hi in (2.0, 2.5, QMAX):
+            hit = [dm for dm in dl if 0.0 < upper_root(col, dm) <= hi]
+            if hit:
+                lines.append(f"  d in [1.5, {DMAX}]: dc/dQ turns negative at some Q in (0, {hi}] when d in "
+                             f"[{min(hit):.3f}, {max(hit):.3f}]")
     TXT.write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
 

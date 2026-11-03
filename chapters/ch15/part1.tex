@@ -548,7 +548,8 @@ $F_{A_i}$ is continuous with the same support for all $i$. The auction covariate
 observed, together with the identity of the winner if bidders are asymmetric.
 \begin{enumerate}[label=(\roman*)]
 \item If $A_1,\dots,A_n$ are independent conditional on $Z$, each conditional distribution $F_{V_i}(\cdot\mid z)$ is
-identified.
+identified. In the asymmetric case we assume in addition that, for each $z$, the conditional value
+distributions $F_{V_i}(\cdot\mid z)$ are continuous and share a common support.
 \item If $g_i(A_i,Z)=A_i+g_0(Z)$ for all $i$, and $A_1,\dots,A_n$ are mutually independent and independent of $Z$, then
 the distribution of $\bm A$ and the function $g_0$ are identified up to location.
 \item The symmetric models in (i) and (ii) are testable with more than one bid per auction, or with transaction
@@ -558,7 +559,8 @@ prices from auctions with exogenously varying numbers of bidders.
 
 \begin{proof}
 (i) Fix $Z=z$. Values are independent given $z$, so \cref{thm:15-ah1} (symmetric case) or \cref{thm:15-ah2}
-(asymmetric case) applies conditional on $z$.
+(asymmetric case) applies conditional on $z$. \Cref{thm:15-ah2} needs a common support of the value distributions,
+which is why (i) imposes it on the $F_{V_i}(\cdot\mid z)$ directly.
 
 (ii) Consider the symmetric case. Given $Z=z$ the price is $A^{(n-1:n)}+g_0(z)$, so its conditional CDF is
 \[
@@ -577,6 +579,13 @@ point, fixes the constant. The price net of $g_0(Z)$ is then $A^{(n-1:n)}$, whos
 (ii), and these must coincide.
 \end{proof}
 
+\citet{AtheyHaile2002} state the support condition for the $A_i$. That suffices in (ii), where every value is
+$A_i+g_0(z)$ and the supports shift together. In the asymmetric case of (i) it does not suffice, because
+different functions $g_i$ need not preserve a common support. Let $A_1$ and $A_2$ be independent and uniform on
+$[0,1]$, with $g_1(a)=a$ and $g_2(a)=a+2$. In an ascending auction bidder 2 always wins, at the price $A_1$.
+Replacing $g_2(a)$ by $a+3$ leaves the joint distribution of the price and the winner unchanged, yet it changes
+$F_{V_2}$.
+
 Part (ii) is the basis of \emph{homogenization}. Write the price in auction $t$ as
 \[
 P_t=g_0(Z_t)+A_t^{(n_t-1:n_t)}=\kappa(n_t)+g_0(Z_t)+\varepsilon_t,
@@ -584,8 +593,14 @@ P_t=g_0(Z_t)+A_t^{(n_t-1:n_t)}=\kappa(n_t)+g_0(Z_t)+\varepsilon_t,
 \]
 A regression of prices on covariates and on indicators for $n$ estimates $g_0$, parametrically or flexibly. The
 homogenized prices $P_t-\hat g_0(Z_t)$ are then treated as prices of identical objects, and the inversion of
-\cref{sec:15-price-only} estimates $F_A$ \citep[equation~(6.6)]{AtheyHaile2007}. If $g_0$ is estimated at the
-parametric rate, the first step does not change the asymptotic distribution of the nonparametric second step.
+\cref{sec:15-price-only} estimates $F_A$ \citep[equation~(6.6)]{AtheyHaile2007}. The first step matters for
+inference. Suppose $\hat g_0$ converges at the parametric rate $T^{-\frac12}$. At a point $v$, the empirical CDF of
+the homogenized prices then differs from its infeasible counterpart by approximately $f_{A,(n-1:n)}(v)$, the
+density of $A^{(n-1:n)}$, times the average estimation error of $\hat g_0(Z_t)$. This term has the same order
+$T^{-\frac12}$ as the sampling error of the empirical CDF itself.
+Standard errors for $\hat F_A$ must therefore account for the first step, for example by bootstrapping both
+steps together. The first step is asymptotically negligible only for second-step estimators that converge more
+slowly, such as a kernel estimator of the density of $A$, under the usual smoothness conditions.
 The function $g_0$ is often of interest in its own right, since it measures how observables shift valuations. In
 first-price auctions the same idea requires that equilibrium bidding preserve the additive structure, which
 \cref{lem:15-separability} establishes (\cref{sec:15-uh-sep} applies it to bids). Here it is immediate because
@@ -612,7 +627,7 @@ Assume the following.
 \begin{enumerate}[label=(\roman*)]
 \item $V_i=g_i(W_i)+A_i$ for $i=1,\dots,n$.
 \item $F_{\bm A}$ has support $\R^n$ and a continuously differentiable density $f_{\bm A}$.
-\item $A_i$ and $W_j$ are independent for all $i,j$.
+\item The vector $(A_1,\dots,A_n)$ is independent of $(W_1,\dots,W_n)$.
 \item The support of $\big(g_1(W_1),\dots,g_n(W_n)\big)$ is $\R^n$.
 \item Each $g_i$ is continuously differentiable, with $g_i(w)\to\infty$ as $w\to\infty$ and $g_i(w)\to-\infty$ as
 $w\to-\infty$.
@@ -622,7 +637,10 @@ any single $j\in\{1,\dots,n\}$.
 \end{theorem}
 
 The theorem allows arbitrary dependence among the $A_i$ and arbitrary asymmetry. It is a slight modification of
-Theorem~5 of \citet{AtheyHaile2002} that corrects a minor error in its proof \citep[footnote~55]{AtheyHaile2007}. We
+Theorem~5 of \citet{AtheyHaile2002} that corrects a minor error in its proof \citep[footnote~55]{AtheyHaile2007}. The
+survey states condition (iii) pairwise, as independence of each $A_i$ and each $W_j$, while its text assumes that
+the vector of the $A_i$ is independent of all covariates. The proof needs the vector form. Under pairwise
+independence alone the correlation among the $A_i$ could vary with $\bm W$ while every marginal stays fixed. We
 give a direct proof for scalar covariates.
 
 \begin{proof}
@@ -635,7 +653,7 @@ so that $\bar F^{\emptyset}=F_{\bm A}$.
 
 \emph{Step 1.} The $j$-th lowest value is at most $u$ exactly when at least $j$ values are at most $u$. Equivalently,
 the set $\mathcal T$ of bidders with $V_i>u$ has at most $n-j$ members. Since $V_i>u$ if and only if
-$A_i>u-g_i(w_i)$,
+$A_i>u-g_i(w_i)$, and since by (iii) the distribution of $\bm A$ given $\bm W=\bm w$ is $F_{\bm A}$,
 \[
 \Pr\big(V^{(j:n)}\le u\mid\bm w\big)=\sum_{\mathcal T:\,|\mathcal T|\le n-j}\bar F^{\mathcal T}\big(\bm z(u,\bm w)\big).
 \]
@@ -921,20 +939,29 @@ second-highest of $n_t$ draws from $F(\cdot\mid r)$. With $n_t=1$ the price equa
 Consider the SIPV model of a first-price, second-price or ascending auction with reserve price $r$ and
 $F(r)\in(0,1)$.
 \begin{enumerate}[label=(\roman*)]
-\item If one bid from each auction and the number of participants are observed, $F(\cdot\mid r)$ is identified on
-$[r,\infty)$.
+\item Consider a second-price or ascending auction, or a first-price auction whose participants learn their number
+before they bid. If one bid from each auction and the number of participants are observed, $F(\cdot\mid r)$ is
+identified on $[r,\infty)$.
 \item The model is testable if two bids from each auction are observed, or if one bid is observed in auctions with
 different numbers of participants.
 \item If $N$ is fixed and the number of participants is observed, $N$ and $F(r)$ are identified. Combined with (i),
 $F(v)$ is then identified for every $v\ge r$.
+\item Consider a first-price auction whose bidders know $N$ but not the number of participants when they bid. If $N$
+is fixed and one bid from each auction and the number of participants are observed, then $N$, $F(r)$ and $F(v)$
+for every $v\ge r$ are identified.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
 Parts (i) and (ii) apply \cref{thm:15-ah1} to the truncated distribution \eqref{eq:15-truncated}, conditioning on
-the number of participants. For first-price auctions they apply the result of \cref{sec:15-gpv} instead. For part
-(iii), each potential bidder participates independently with probability $1-F(r)$, so the number of participants
-is binomial with parameters $N$ and $1-F(r)$. Its distribution determines both parameters. Exchangeability gives a
+the number of participants. In second-price and ascending auctions this is valid because bidding one's value is
+a dominant strategy. In a first-price auction whose participants know their number $n_t$, each participant faces
+$n_t-1$ rivals with values drawn from $F(\cdot\mid r)$, and the inversion of \cref{sec:15-gpv} applies to that
+distribution. In the setting of (iv), condition (C2) of \cref{thm:15-gpv-reserve} makes participants' bids
+i.i.d.\ given their number, with a distribution that does not depend on that number. Two bids per auction, or one
+bid at different numbers of participants, then give two versions of that distribution, and these must coincide.
+For part (iii), each potential bidder participates independently with probability $1-F(r)$, so the
+number of participants is binomial with parameters $N$ and $1-F(r)$. Its distribution determines both parameters. Exchangeability gives a
 convenient formula. The probability that a given bidder stays out is the same for every bidder. It therefore
 equals the expected fraction of bidders who stay out:
 \[
@@ -942,9 +969,22 @@ F(r)=\Pr(\text{bidder 1 does not bid})=\frac{\E[N-n_t]}{N}=\sum_{k=1}^{N}\frac{k
 \]
 which is equation (6.19) of \citet{AtheyHaile2007}. Finally, \eqref{eq:15-truncated} gives
 $F(v)=F(r)+\big(1-F(r)\big)F(v\mid r)$ for $v\ge r$.
+
+For part (iv), a participant who bids $b\ge r$ wins when each of her $N-1$ potential rivals either stays out or bids
+less. Her win probability therefore depends on $N$ and $F(r)$, and the inversion conditional on $n_t$ misstates her
+first-order condition. Take $N=2$, values uniform on $[0,1]$ and $r=\frac12$, for example. The equilibrium bid is
+$\beta(v)=\frac{v}{2}+\frac{1}{8v}$. Applied to two-participant auctions, the inversion of \cref{sec:15-gpv} maps
+the bid of a bidder with value $\frac34$ to about $0.611$. The correct inversion \eqref{eq:15-gpv-reserve} uses
+$N$ and $F(r)$, which part (iii) identifies. Given their number, participants' bids are i.i.d., so the observed
+bid and that number identify the distribution of a participant's bid. When the observed bid is the highest, this
+step is the root formula of \cref{prop:15-winbid}. \Cref{thm:15-gpv-reserve} then gives $F(v)$ for $v\ge r$.
 \end{proof}
 
-The sample analog of the last formula, $\hat F(v)=\hat F(r)+\big(1-\hat F(r)\big)\hat F(v\mid r)$, is consistent. Below
+\citet[Corollary~3]{AtheyHaile2002} state (i) for first-price auctions as well, without saying what bidders know
+about participation. The information structure matters. Part (iv) adopts that of \citet{GuerrePerrigneVuong2000},
+in which bidders do not see who participates, and \cref{sec:15-gpv-reserve} develops it.
+
+The sample analog of the formula that completes part (iii), $\hat F(v)=\hat F(r)+\big(1-\hat F(r)\big)\hat F(v\mid r)$, is consistent. Below
 the reserve the data are silent without parametric assumptions. Is the truncated distribution enough for the
 reserve-price question? The next result says that it usually is.
 

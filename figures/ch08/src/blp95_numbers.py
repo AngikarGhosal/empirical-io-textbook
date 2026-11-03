@@ -22,7 +22,7 @@ print("\n2. Lerner index, inverse elasticity, gap (multi-product term), implied 
 for c, f, pj, m, e, v in zip(CARS, PARENT, p, mk, eps, vp):
     L = m / pj
     print(f"   {c:18s} {f:7s} L={L:.3f} 1/eps={1/e:.3f} gap={L-1/e:+.3f} "
-          f"q={v/m:8.0f} thousand")
+          f"q={v/m:8.0f} cars")
 
 print("\n3. Logit inelasticity cutoffs p < 1/alpha (thousand 1983 $)")
 for a, se, lab in [(ALPHA_OLS, SE_OLS, "OLS"), (ALPHA_IV, SE_IV, "IV")]:
@@ -50,10 +50,10 @@ for c, pj, row in zip(CARS, p, T9):
     avc = mc / (1 + GAMMA_Q)
     print(f"   {c:18s} p={pj:6.3f} mc={mc:6.3f} AVC={avc:6.3f} p-AVC={pj-avc:+.3f}")
 
-print("\n7. Harmonic-mean residual income of buyers: alpha*100/|semi_jj| (thousand $)")
-for c, pj, sj in zip(CARS, p, np.diag(S)):
+print("\n7. Upper bound on the harmonic-mean residual income of buyers: alpha*100/|semi_jj| (thousand $)")
+for c, sj in zip(CARS, np.diag(S)):
     hm = ALPHA_CD * 100 / abs(sj)
-    print(f"   {c:18s} y-p <= {hm:7.1f}  y <= {hm+pj:7.1f}")
+    print(f"   {c:18s} y-p <= {hm:7.1f}")
 
 print("\n8. Logit benchmark semi-elasticities (IV logit): own -100*alpha(1-s) ~", -100 * ALPHA_IV)
 

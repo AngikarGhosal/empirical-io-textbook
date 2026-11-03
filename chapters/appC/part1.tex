@@ -29,13 +29,13 @@ $x \equiv \frac{a - c}{\sqrt{bF}}$, and the \emph{profit scale} is $k \equiv \fr
   splitting output equally. Show that collusion is not a Nash equilibrium of the one-shot game. Find the
   discount factor above which grim-trigger strategies sustain collusion in the infinitely repeated game.
 \item Describe the relation between $\HHI$ and $L$ in the four cases.
-\item An economist posits $\E[L] = \beta_0 + \beta_1\HHI$ and estimates it on a cross-section of industries.
+\item An economist posits $\E[L \mid \HHI] = \beta_0 + \beta_1\HHI$ and estimates it on a cross-section of industries.
   Does the specification make sense under each model? Are the estimates consistent, and for what? Are they
   useful for predicting the effect of a merger?
 \item Let firm $i$ have its own constant marginal cost $c_i$, with every firm active. Show that
-  $L_i = \frac{s_i}{\varepsilon}$ and $\sum_i s_iL_i = \frac{\HHI}{\varepsilon}$. Show that a mean-preserving spread
-  of costs that keeps every firm active raises $\HHI$ and the share-weighted Lerner index, leaves the price
-  unchanged and raises welfare.
+  $L_i = \frac{s_i}{\varepsilon}$ and $\sum_i s_iL_i = \frac{\HHI}{\varepsilon}$. Consider a change in costs that
+  keeps their mean fixed, raises their variance and keeps every firm active. Show that it raises $\HHI$ and the
+  share-weighted Lerner index, leaves the price unchanged and raises welfare.
 \item Evaluate every object of parts (a) to (c) for $a = 10$, $c = 2$, $b = 1$ and $F = 1$, including consumer
   surplus, total welfare and the welfare-maximizing number of firms.
 \item In the symmetric Cournot model, study the profitability of a merger of two firms and of $k_M$ firms.
@@ -324,7 +324,8 @@ pairs high margins with low concentration. This pulls the slope of $L$ on $\HHI$
 can make it negative. \Cref{fig:02-LH} draws the four cases for $a = 10$ and $c = 2$.
 
 \casehead{Part (e)}
-The specification $\E[L] = \beta_0 + \beta_1\HHI$ fits the four models to different degrees.
+The specification $\E[L \mid \HHI] = \beta_0 + \beta_1\HHI$ states that the mean margin across industries is linear in
+concentration. It fits the four models to different degrees.
 \begin{itemize}
 \item Cournot, fixed $N$. The model implies $L = \frac{\HHI}{\varepsilon}$, so $\beta_0 = 0$ and margins rise
   with $\HHI$. The relation is linear with $\beta_1 = \frac{1}{\varepsilon}$ only if $\varepsilon$ is the same in
@@ -338,7 +339,8 @@ The specification $\E[L] = \beta_0 + \beta_1\HHI$ fits the four models to differ
   causal meaning.
 \end{itemize}
 
-Cross-industry OLS converges to $\frac{\Cov(L, \HHI)}{\Var(\HHI)}$ (\cref{prop:01-scp-plim}). This limit
+Whether or not the conditional mean is linear, cross-industry OLS converges to the slope of the linear projection of
+$L$ on $\HHI$, $\frac{\Cov(L, \HHI)}{\Var(\HHI)}$ (\cref{prop:01-scp-plim}). This limit
 summarizes the joint distribution of outcomes. It equals a structural parameter such as $\frac{1}{\varepsilon}$
 only under special conditions, and four problems separate the two. First, concentration is endogenous, because the same primitives determine
 $\HHI$ and $L$, and part (d) shows that even the sign of the association depends on which primitive varies.
@@ -385,12 +387,18 @@ the same object,
 \end{equation*}
 which is Exercise~5.6 of \citet[Section~5.5]{Tirole1988}.
 
-A \emph{mean-preserving spread} of costs is a change from $(c_i)$ to $(c_i')$ with
+An \emph{equal-mean increase in cost variance} is a change from $(c_i)$ to $(c_i')$ with
 $\sum_i c_i' = \sum_i c_i$ and $\sum_i(c_i' - \bar c)^2 > \sum_i(c_i - \bar c)^2$, where $\bar c$ is the mean cost.
-We write $\Var(c) = \frac{1}{N}\sum_i(c_i - \bar c)^2$ for the cross-firm variance.
+We write $\Var(c) = \frac{1}{N}\sum_i(c_i - \bar c)^2$ for the cross-firm variance. This condition is weaker than a
+\emph{mean-preserving spread}, under which $\frac{1}{N}\sum_i\phi(c_i') \ge \frac{1}{N}\sum_i\phi(c_i)$ for every convex
+function $\phi$ (the convex order). Taking $\phi(c) = c^2$ shows that a mean-preserving spread never lowers the variance.
+The converse fails. The cost vectors $(0, 3, 3)$ and $(0.8, 0.8, 4.4)$ both have mean 2, with variances 2 and 2.88. Yet
+the convex function $\phi(c) = \max\{0.5 - c, 0\}$ has mean $\frac{1}{6}$ under the first vector and 0 under the second.
+The proposition below needs only the variance condition, so it covers every mean-preserving spread that raises the
+variance.
 
 \begin{proposition}[Cost dispersion, concentration and welfare]\label{prop:C-demsetz}
-In the linear Cournot model with all firms active, a mean-preserving spread of marginal costs that keeps
+In the linear Cournot model with all firms active, an equal-mean increase in the variance of marginal costs that keeps
 every firm active leaves $Q$, $P$, $\varepsilon$ and consumer surplus unchanged. It raises $\HHI$ and the
 share-weighted Lerner index, and it raises total welfare by $\frac{N\Delta\Var(c)}{b}$, where $\Delta\Var(c)$
 is the increase in the cost variance.
@@ -398,7 +406,7 @@ is the increase in the cost variance.
 
 \begin{proof}
 We use four steps. First, by \eqref{eq:C-asym} total output and the price depend on costs only through
-$\sum_j c_j$, which the spread holds fixed. Hence $Q$, $P$, the elasticity $\varepsilon = \frac{P}{bQ}$ and
+$\sum_j c_j$, which the change holds fixed. Hence $Q$, $P$, the elasticity $\varepsilon = \frac{P}{bQ}$ and
 consumer surplus $\frac{bQ^2}{2}$ are unchanged. Second, by \eqref{eq:C-asym-foc} outputs are
 $q_i = \frac{P - c_i}{b}$, and their mean is $\bar q = \frac{Q}{N}$, so
 \begin{equation*}
@@ -423,8 +431,8 @@ The proposition gives the Demsetz critique a precise form. Across otherwise iden
 more dispersed costs are more concentrated and have higher average margins. They also produce the same output
 at lower cost. A regression of margins on concentration across such industries finds a positive slope, and
 a policy of deconcentration would lower welfare. \citet[Section~5.5, Exercise~5.7]{Tirole1988} poses the two-firm
-case. With demand $Q = 1 - P$ and costs satisfying $c_1 + c_2 = 2c$, a spread of costs raises both concentration and
-industry profit.
+case. With demand $Q = 1 - P$ and costs satisfying $c_1 + c_2 = 2c$, moving the two costs apart raises both
+concentration and industry profit.
 
 The fourth step has a general version that needs neither linear demand nor fixed total output. Total surplus is
 $W = \int_0^QP(z)\,\dd z - \sum_ic_iq_i - NF$. Holding the cost functions fixed, a small change $\dd q$ in outputs

@@ -339,17 +339,25 @@ Multiplying by $\Lambda^{-1}$ gives \eqref{eq:08-zeta}. Each step is reversible,
 
 The decomposition has a clear economic reading. The ratio $\frac{\Lambda_{jj}}{s_j} = \int \alpha_i
 \frac{s_{ij}}{s_j}\,\dd F$ is the average price sensitivity of product $j$'s buyers, each consumer weighted by her
-probability of buying $j$. Write it as $\bar\alpha_j$. When shares are small, $\Gamma$ is of second order in the shares
-and \eqref{eq:08-zeta} gives
+probability of buying $j$. Write it as $\bar\alpha_j$. Because $\alpha_i > 0$, every entry satisfies $\Gamma_{jk}
+\le (\sup_i s_{ik})\Lambda_{jj}$. For a product $j$ of firm $f$, summing over the firm's products gives
+$\sum_{k\in\mathcal{J}_f}\Gamma_{jk} \le (\sup_i \sum_{k\in\mathcal{J}_f} s_{ik})\Lambda_{jj}$. When each consumer's
+combined probability of buying the products of firm $f$ is uniformly small, the $\Gamma$ term is therefore small
+relative to $\Lambda$, and \eqref{eq:08-zeta} gives
 \begin{equation}\label{eq:08-ms-approx}
   p_j - mc_j \approx \frac{s_j}{\Lambda_{jj}} = \frac{1}{\bar\alpha_j}.
 \end{equation}
 The markup is the inverse of the buyers' average price sensitivity, the discrete choice version of the inverse
-semi-elasticity rule. The $\Gamma$ term adds two corrections. Its off-diagonal own-firm entries capture cannibalization
+semi-elasticity rule. Small aggregate shares do not justify \eqref{eq:08-ms-approx}. Suppose a single-product firm
+faces consumers with $\alpha_i = 1$, of whom 1\% buy $j$ with probability 0.99 and 99\% with probability $10^{-6}$.
+Then $s_j \approx 0.0099$, yet $\Gamma_{jj} \approx 0.99\,\Lambda_{jj}$. The exact markup $\frac{s_j}{\Lambda_{jj} -
+\Gamma_{jj}}$ is about 99, while $\frac{1}{\bar\alpha_j} = 1$. The $\Gamma$ term adds two corrections. Its off-diagonal own-firm entries capture cannibalization
 among the firm's products. Its diagonal entry restores the factor $1 - s_{ij}$ in each consumer's own-price derivative
 $-\alpha_i s_{ij}(1 - s_{ij})$, which matters only when individual choice probabilities are large. In the logit, $\alpha_i = \alpha$ gives $\Lambda_{jj} = \alpha s_j$ and $\Gamma_{jk} = \alpha s_j s_k$,
 so \eqref{eq:08-zeta} becomes $m_j = \frac{1}{\alpha} + \sum_{k\in\mathcal{J}_f} s_k m_k$. This is the logit fixed
-point solved in \cref{prop:08-logit-markup}.
+point solved in \cref{prop:08-logit-markup}. It shows that small probabilities for each product are not enough. A firm
+with 20 products of share 0.02 has $m_j = \frac{1}{0.6\,\alpha}$, about $\frac{1.67}{\alpha}$, although every individual
+choice probability is 0.02 and \eqref{eq:08-ms-approx} gives $\frac{1}{\alpha}$.
 
 \Cref{prop:08-ms} suggests the iteration
 \begin{equation}\label{eq:08-zeta-iter}
@@ -371,8 +379,8 @@ application.
 The simulated market of \cref{sec:08-worked} shows the three methods at work. The iteration
 \eqref{eq:08-zeta-iter}, started at marginal cost, converges in 10 to 13 iterations in each of 100 markets. Started
 from 20 random price vectors per market, drawn uniformly on $[0, 4]$, it converges to the same prices in all 2,000
-runs. The markup iteration also converges in all 2,000 runs in this design, because shares are small and
-$\Gamma$ is nearly negligible. A Newton-type root finder applied to the share-unit conditions, started at the same
+runs. The markup iteration also converges in all 2,000 runs in this design, where the own-firm entries of $\Gamma$
+are small relative to $\Lambda$. A Newton-type root finder applied to the share-unit conditions, started at the same
 random points, reaches the equilibrium in only 13 of the 2,000 runs.
 
 Merger simulation applies the same machinery with a new ownership matrix $\Omega^{post}$. We keep the estimated
@@ -1174,9 +1182,11 @@ Suppose for now that we know $\Sigma$. We draw $n_s = 1{,}000$ vectors $\nu_i$ f
 for the rest of the estimation. Started from the logit inversion $\delta^{(0)}_{jt} = \ln s_{jt} - \ln s_{0t}$, the
 contraction of \cref{sec:08-inversion} reaches a tolerance of $10^{-12}$ in 13 to 21 iterations. \Cref{tab:C-delta0}
 reports the recovered mean utilities of market 0, and two facts stand out. First, every recovered $\delta_j$ lies below
-its logit start. When shares are small, the logit probability is convex in utility. By Jensen's inequality the random
-terms then raise the average choice probability for a given $\delta$, so matching the observed shares requires lower
-mean utilities. Second, the recovered values are close to the truth. Simulation error from the 1,000 draws is between
+its logit start. A logit choice probability below one half is convex in own utility, and individual probabilities in
+this design stay below one half. By a Jensen-type argument the random terms then tend to raise the average choice
+probability for a given $\delta$, so matching the observed shares requires lower mean utilities. The argument is
+heuristic. The random terms also shift the utilities of the other products, and the probability of $j$ is concave in
+the utility of any product $k$ whose probability is below one half. Second, the recovered values are close to the truth. Simulation error from the 1,000 draws is between
 0.005 and 0.037. The rest of the gap is sampling error in the shares, which is largest for products with few buyers.
 
 \subsection{Step 5: instrumental variables on the recovered mean utilities}\label{sec:08-worked-iv}
@@ -1192,8 +1202,9 @@ variable. The logit estimate of $\alpha$ therefore equals the random coefficient
 price in a regression of $r_{jt}$ on the same regressors. That coefficient is 0.284, the difference between the unrounded
 estimates 2.9255 and 2.6411.
 The gap term has correlation 0.888 with price. The random coefficient on price lets less price-sensitive consumers sort
-into expensive products. The logit can only absorb this sorting into $\xi_{jt}$, which then rises with price. Its price
-coefficient is therefore biased toward zero even with valid instruments (\cref{sec:08-substitution}).
+into expensive products. The logit can only absorb this sorting into $\xi_{jt}$, which is then larger for the more expensive
+products of a market. In this simulation the estimated bias of 0.284 is toward zero even with valid instruments
+(\cref{sec:08-substitution}). Its sign depends on the model, the design and the instruments (\cref{prop:C-gap-approx}).
 
 \subsection{Step 6: estimating \texorpdfstring{$\Sigma$}{Sigma} by the nested fixed point}\label{sec:08-worked-nfxp}
 
@@ -1318,10 +1329,23 @@ $2.2\times10^{-4}$ against largest eigenvalues between 13 and 19, tell the same 
 deviation of the price coefficient, with the other standard deviations held at their estimates and the linear
 parameters concentrated out. For the BLP instruments it also plots the profile in which the other three standard
 deviations are re-optimized at each value of $\sigma_p$. The two curves almost coincide. Each curve stays within 3.84
-of its minimum, the 0.95 quantile of the $\chi^2_1$ distribution, over a wide range of $\sigma_p$. The range runs from
-zero to about 1.37 for the BLP instruments, to 1.04 for the differentiation instruments, and to 1.02 for the
-approximate optimal instruments. Both the true value 0.5 and zero lie inside all three ranges. The data tell us that
-the standard deviation of the price coefficient is below about 1.4, and little more.
+of its minimum, the 0.95 quantile of the $\chi^2_1$ distribution, over a wide range of $\sigma_p$. On the solid curves
+the range runs from zero to about 1.37 for the BLP instruments, to 1.04 for the differentiation instruments, and to
+1.02 for the approximate optimal instruments. The re-optimized curve for the BLP instruments crosses the 3.84 cutoff
+between 1.3 and 1.4 on its coarser grid. Both the true value 0.5 and zero lie inside all of these ranges.
+
+These ranges describe the flatness of the objective. They are not confidence intervals, for two reasons. First, a
+curve that holds the other standard deviations $b$ at their estimates $\hat b$ lies weakly above the profile, because
+$Q(\sigma_p, \hat b) \ge \min_b Q(\sigma_p, b)$. Its cutoff can exclude values that the profile retains, and we have
+computed the profile only for the BLP instruments. Second, the $\chi^2_1$ calibration of a profile requires strong
+identification and nuisance parameters in the interior of the parameter space. Neither condition holds here. The
+Jacobian of the moments is nearly singular, and several standard deviations sit at zero. At $\sigma_p = 0$ the
+population moments are flat in $\sigma_p$ (\cref{prop:08-signsigma}), so first-order identification fails at that
+boundary value. The plotted curves still have nonzero slopes at zero, because the 1,000 simulation draws per market
+are not exactly sign-symmetric. An interval for
+$\sigma_p$ would need all nuisance parameters re-optimized at each value and a procedure that is robust to weak
+identification and to the boundary. What the curves do show is that a wide range of values, zero included, fits the
+moments about equally well.
 
 \begin{figure}[htbp]
 \centering

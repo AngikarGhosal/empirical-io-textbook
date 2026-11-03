@@ -119,8 +119,13 @@ the bound equals $\phi^2$ and the variance in (ii) is zero.
 \end{proof}
 
 The optimal density $g^*$ is infeasible because its normalizing constant is $\phi$ itself. The lemma still guides
-practice. A good importance density is close to proportional to $|q|f$, and its tails must not be thinner than
-those of $|q|f$. If they are, the integral in (ii) diverges and a few draws with huge weights dominate the average.
+practice. A good importance density is close to proportional to $|q|f$. The variance in (ii) is finite exactly when
+$\int\frac{q^2f^2}{g}\,\dd\nu < \infty$. This holds whenever the ratio $\frac{|q|f}{g}$ is bounded, since the integral
+is then at most $\sup_\nu\frac{|q(\nu)|f(\nu)}{g(\nu)}\int|q|f\,\dd\nu$. A density $g$ with tails at least as heavy as
+those of $|q|f$ is therefore the safe choice. Thinner tails can make the integral diverge, and then a few draws with
+huge weights dominate the average. They need not do so. With $q = 1$, $f$ standard normal and $g$ normal with
+variance $s^2$, the integral equals $\frac{s^2}{\sqrt{2s^2 - 1}}$, which is finite for every $s^2 > \frac{1}{2}$.
+For $\frac{1}{2} < s^2 < 1$ the density $g$ has thinner tails than $f$, and the variance is still finite.
 Importance sampling has a second advantage in estimation. If $\theta$ enters only through the weight
 $\frac{f(\nu;\theta)}{g(\nu)}$ and the draws come from a fixed $g$, then the simulator is as smooth in $\theta$ as $f$.
 
@@ -145,7 +150,7 @@ two sources in the asymptotic variance.
 
 The \emph{method of simulated moments} (MSM) of \citet{McFadden1989} and \citet{PakesPollard1989} replaces an
 intractable conditional mean in a moment condition by an unbiased simulator. We state the leading case, a
-conditional mean restriction. The data $w_i = (y_i, x_i)$ are independent across $i$, and
+conditional mean restriction. The data $w_i = (y_i, x_i)$ are i.i.d.\ across $i$, and
 \begin{equation}\label{eq:A-msm-model}
   \E[y_i \mid x_i] = m(x_i;\theta_0), \qquad m(x;\theta) = \int q(x, \nu;\theta)\,\dd F(\nu).
 \end{equation}
@@ -164,12 +169,22 @@ for the structural error and $\eta_i = \tilde m_i(\theta_0) - m(x_i;\theta_0)$ f
 \end{equation*}
 
 \begin{proposition}[Method of simulated moments]\label{prop:A-msm}
-Assume the conditions of \cref{thm:A-gmm-normal} for the GMM estimator with exact moments, with $q$ continuously
-differentiable in $\theta$ and dominated by an integrable function. Let $n_s$ be fixed and $W_n \xrightarrow{p} W$.
+Assume the conditions of \cref{thm:A-gmm-normal} for the GMM estimator with exact moments. Let $\nu$ be one draw from
+$F$, independent of $(x_i, y_i)$, and let $\mathcal{N}$ be a closed neighborhood of $\theta_0$. Assume also that the
+simulated moments satisfy the following conditions.
+\begin{enumerate}[label=(\alph*)]
+  \item $q(x, \nu;\theta)$ is continuous in $\theta$ on $\Theta$, and
+  $\E\bigl[\sup_{\theta \in \Theta}\lVert z_i\,q(x_i, \nu;\theta)\rVert\bigr] < \infty$.
+  \item $S_{\text{sim}} = \E[z_iV(x_i)z_i^\top]$ is finite.
+  \item $q(x, \nu;\theta)$ is continuously differentiable in $\theta$ on $\mathcal{N}$, and
+  $\E\bigl[\sup_{\theta \in \mathcal{N}}\bigl\lVert z_i\frac{\partial q(x_i, \nu;\theta)}{\partial\theta^\top}\bigr\rVert\bigr]
+  < \infty$.
+\end{enumerate}
+Let $n_s$ be fixed and $W_n \xrightarrow{p} W$.
 \begin{enumerate}[label=(\roman*)]
   \item The MSM estimator is consistent as $n \to \infty$.
   \item $\sqrt n(\hat\theta - \theta_0) \xrightarrow{d} N\bigl(0, (G^\top WG)^{-1}G^\top W\bigl[S + \tfrac{1}{n_s}S_{\text{sim}}\bigr]WG(G^\top WG)^{-1}\bigr)$,
-  where $S = \E[z_i\Sigma_y(x_i)z_i^\top]$ and $S_{\text{sim}} = \E[z_iV(x_i)z_i^\top]$.
+  where $S = \E[z_i\Sigma_y(x_i)z_i^\top]$.
   \item If $V(x) \le \Sigma_y(x)$ for all $x$ in the positive semidefinite order, the asymptotic variance is at most
   $(1 + \frac{1}{n_s})$ times that of GMM with exact moments and the same $W$. The bound holds with equality for a
   frequency simulator of choice indicators.
@@ -177,23 +192,24 @@ differentiable in $\theta$ and dominated by an integrable function. Let $n_s$ be
 \end{proposition}
 
 \begin{proof}
-For (i), the summands of $\tilde g_n(\theta)$ are independent across $i$ because the draws are. The simulator is
+For (i), the summands of $\tilde g_n(\theta)$ are i.i.d.\ across $i$ because the data and the draws are. The simulator is
 unbiased and the draws are independent of $y_i$, so $\E[\tilde m_i(\theta) \mid x_i, y_i] = m(x_i;\theta)$. Hence
 \begin{equation*}
   \E\bigl[z_i(y_i - \tilde m_i(\theta))\bigr] = \E\bigl[z_i(y_i - m(x_i;\theta))\bigr]
   = \E\bigl[z_i\bigl(m(x_i;\theta_0) - m(x_i;\theta)\bigr)\bigr].
 \end{equation*}
 The population moment of the simulated estimator is the population moment of exact GMM. It is zero only at
-$\theta_0$ by the identification condition. A uniform law of large numbers applies under the dominance condition,
-and \cref{thm:A-consistency} gives consistency.
+$\theta_0$ by the identification condition. The uniform law of large numbers of \cref{lem:A-ulln} applies under
+condition (a), and \cref{thm:A-consistency} gives consistency.
 
 For (ii), evaluate the simulated moment at $\theta_0$:
 \begin{equation*}
   \tilde g_n(\theta_0) = \frac{1}{n}\sum_{i=1}^{n} z_i\bigl[(y_i - m(x_i;\theta_0)) - (\tilde m_i(\theta_0) - m(x_i;\theta_0))\bigr]
   = \frac{1}{n}\sum_{i=1}^{n} z_i(e_i - \eta_i).
 \end{equation*}
-The summands are independent with mean zero. Conditional on $(x_i, y_i)$, $\eta_i$ has mean zero and variance
-$\frac{1}{n_s}V(x_i)$ by \cref{prop:A-mc}. The cross term vanishes:
+The summands are i.i.d.\ with mean zero. Conditional on $(x_i, y_i)$, $\eta_i$ has mean zero and variance
+$\frac{1}{n_s}V(x_i)$ by \cref{prop:A-mc}, so $\E[z_i\eta_i\eta_i^\top z_i^\top] = \frac{1}{n_s}S_{\text{sim}}$, which is
+finite by condition (b). The cross term vanishes:
 \begin{equation*}
   \E\bigl[z_ie_i\eta_i^\top z_i^\top\bigr] = \E\bigl[z_ie_i\,\E[\eta_i \mid x_i, y_i]^\top z_i^\top\bigr] = 0.
 \end{equation*}
@@ -202,10 +218,12 @@ Hence
   \Var\bigl(z_i(e_i - \eta_i)\bigr) = \E[z_ie_ie_i^\top z_i^\top] + \E[z_i\eta_i\eta_i^\top z_i^\top]
   = S + \frac{1}{n_s}S_{\text{sim}},
 \end{equation*}
-and the central limit theorem gives $\sqrt n\,\tilde g_n(\theta_0) \xrightarrow{d} N(0, S + \frac{1}{n_s}S_{\text{sim}})$.
-The simulated Jacobian $\frac{\partial\tilde g_n}{\partial\theta^\top}$ converges uniformly to $G$ by the same
-unbiasedness argument applied to $\frac{\partial q}{\partial\theta}$. The mean value expansion in the proof of
-\cref{thm:A-gmm-normal} then applies unchanged.
+and the Lindeberg-L\'evy central limit theorem gives $\sqrt n\,\tilde g_n(\theta_0) \xrightarrow{d} N(0, S +
+\frac{1}{n_s}S_{\text{sim}})$. Condition (c) allows differentiation under the integral, so
+$\E_\nu\bigl[\frac{\partial q}{\partial\theta^\top}\bigr] = \frac{\partial m}{\partial\theta^\top}$. The same
+unbiasedness argument and \cref{lem:A-ulln}, applied on $\mathcal{N}$ to $z_i\frac{\partial q}{\partial\theta^\top}$,
+show that the simulated Jacobian $\frac{\partial\tilde g_n}{\partial\theta^\top}$ converges uniformly to the exact one.
+The mean value expansion in the proof of \cref{thm:A-gmm-normal} then applies unchanged.
 
 For (iii), write
 \begin{equation*}
@@ -215,6 +233,20 @@ The last expectation is positive semidefinite when $\Sigma_y \ge V$. Pre- and po
 $(G^\top WG)^{-1}G^\top W$ and its transpose preserves the order. For a frequency simulator of a choice indicator,
 $q$ is itself an indicator with $\Var_\nu(q \mid x) = \Sigma_y(x)$, so $V = \Sigma_y$.
 \end{proof}
+
+Condition (b) does not follow from the conditions for exact moments. Let $z_i = 1$, $y_i = \theta_0 + e_i$ with
+$e_i$ standard normal, and $q(\nu;\theta) = \theta + \nu$ with $\nu$ a centered Student $t$ variable with 1.5 degrees
+of freedom. Then $m(\theta) = \theta$, exact GMM satisfies \cref{thm:A-gmm-normal}, and conditions (a) and (c)
+hold on a compact $\Theta$. The MSM estimator is
+$\hat\theta = \bar y - \bar\nu$, with $\bar\nu$ the average of all $nn_s$ draws, and it is consistent. Since $\nu$ has
+infinite variance, $\sqrt n(\hat\theta - \theta_0)$ has no normal limit. For simulated choice probabilities, $q$ lies in
+$[0, 1]$, so the moment bounds in (a) and (b) hold whenever $\E\lVert z_i\rVert^2 < \infty$.
+
+A frequency simulator is a step function of $\theta$, so it violates conditions (a) and (c). For such simulators,
+\citet{PakesPollard1989} prove (i) and (ii) under \emph{stochastic equicontinuity}. This condition requires the
+centered simulated moment $\tilde g_n(\theta) - \E[\tilde g_n(\theta)]$ to change by $o_p(n^{-\frac{1}{2}})$ over
+shrinking neighborhoods of $\theta_0$. Smoothness is then needed only for the exact moment $m$, and the comparison in
+(iii) applies unchanged.
 
 The condition $V \le \Sigma_y$ holds for the smooth logit simulator. The smooth simulator is the conditional
 expectation of the frequency simulator given the taste draw, so its variance is smaller by the law of total
@@ -239,7 +271,8 @@ led \citet[p.~732]{Gentzkow2007} to prefer simulated maximum likelihood.
 
 \subsection{Simulated maximum likelihood}\label{sec:A-sml}
 
-Let the density of $y_i$ given $x_i$ be a mixture over unobserved heterogeneity,
+Let $(y_i, x_i)$ be i.i.d.\ across $i$, and let the density of $y_i$ given $x_i$ be a mixture over unobserved
+heterogeneity,
 \begin{equation*}
   f(y_i \mid x_i;\theta) = \int f(y_i \mid x_i, \nu;\theta)\,\dd F(\nu).
 \end{equation*}
@@ -249,20 +282,33 @@ $\sum_i\ln\tilde f_i(\theta)$ with
   \tilde f_i(\theta) = \frac{1}{n_s}\sum_{r=1}^{n_s} f_{ir}(\theta), \qquad
   f_{ir}(\theta) = f(y_i \mid x_i, \nu_{ir};\theta).
 \end{equation}
-The simulator $\tilde f_i$ is unbiased for $f_i = f(y_i \mid x_i;\theta)$, but it enters through the logarithm.
+The draws $\nu_{ir}$ come from $F$, independently across $i$ and $r$ and of the data. The simulator $\tilde f_i$ is
+therefore unbiased for $f_i = f(y_i \mid x_i;\theta)$, but it enters through the logarithm.
 
 \begin{proposition}[Bias of simulated maximum likelihood]\label{prop:A-sml-bias}
 Let $v_i(\theta) = \Var_\nu(f(y_i \mid x_i, \nu;\theta))$, so that $\Var(\tilde f_i \mid x_i, y_i) =
-\frac{v_i}{n_s}$. Suppose $f(y_i \mid x_i, \nu;\theta)$ is bounded below by a positive constant.
+\frac{v_i}{n_s}$. Assume the following.
+\begin{enumerate}[label=(\alph*)]
+  \item There are constants $0 < \underline{c} \le \bar c < \infty$ with $\underline{c} \le f(y \mid x, \nu;\theta) \le
+  \bar c$ for all $(y, x, \nu, \theta)$. Choice probabilities satisfy the upper bound with $\bar c = 1$.
+  \item $f(y \mid x, \nu;\theta)$ is twice continuously differentiable in $\theta$, with first and second derivatives
+  bounded uniformly in $(y, x, \nu, \theta)$.
+  \item $\Theta$ is compact, $\theta_0$ is interior and is the unique maximizer of $Q(\theta) = \E[\ln f_i(\theta)]$,
+  and the Hessian $H$ of $Q$ at $\theta_0$ is nonsingular. For each $n_s$ the function $\E[\ln\tilde f_i(\theta)]$ has
+  a unique maximizer $\theta_{n_s}$.
+  \item The conditions of \cref{thm:A-mle-normal} hold for exact maximum likelihood.
+\end{enumerate}
+Then the following hold.
 \begin{enumerate}[label=(\roman*)]
-  \item $\E\bigl[\ln\tilde f_i \mid x_i, y_i\bigr] = \ln f_i - \frac{1}{2}\,\frac{v_i}{n_sf_i^2} + O(n_s^{-\frac{3}{2}})$.
-  \item For fixed $n_s$, the SML estimator converges in probability to the maximizer $\theta_{n_s}$ of
-  $\E[\ln\tilde f_i(\theta)]$. With $D(\theta) = \E\bigl[\frac{v_i(\theta)}{2f_i(\theta)^2}\bigr]$ and $H$ the expected
-  Hessian of the log-likelihood at $\theta_0$,
-  $\theta_{n_s} - \theta_0 = \frac{1}{n_s}H^{-1}\nabla D(\theta_0) + o(\frac{1}{n_s})$. SML is inconsistent for fixed
-  $n_s$.
-  \item If $n_s \to \infty$ and $\frac{\sqrt n}{n_s} \to 0$, then $\sqrt n(\hat\theta - \theta_0) \xrightarrow{d}
-  N(0, \mathcal{I}^{-1})$, the limit of exact maximum likelihood.
+  \item Under (a), $\E\bigl[\ln\tilde f_i \mid x_i, y_i\bigr] = \ln f_i - \frac{1}{2}\,\frac{v_i}{n_sf_i^2} +
+  O(n_s^{-\frac{3}{2}})$.
+  \item Under (a) to (c), for fixed $n_s$ the SML estimator converges in probability to $\theta_{n_s}$. With
+  $D(\theta) = \E\bigl[\frac{v_i(\theta)}{2f_i(\theta)^2}\bigr]$,
+  $\theta_{n_s} - \theta_0 = \frac{1}{n_s}H^{-1}\nabla D(\theta_0) + o(\frac{1}{n_s})$ as $n_s \to \infty$. If
+  $\nabla D(\theta_0) \ne 0$, then $\theta_{n_s} \ne \theta_0$ for all large $n_s$, and SML with any such fixed $n_s$
+  is inconsistent.
+  \item Under (a) to (d), if $n_s \to \infty$ and $\frac{\sqrt n}{n_s} \to 0$, then $\sqrt n(\hat\theta - \theta_0)
+  \xrightarrow{d} N(0, \mathcal{I}^{-1})$, the limit of exact maximum likelihood.
 \end{enumerate}
 \end{proposition}
 
@@ -272,22 +318,34 @@ For (i), expand $\ln\tilde f_i$ around $f_i$ to third order with the Lagrange re
   \ln\tilde f_i = \ln f_i + \frac{\tilde f_i - f_i}{f_i} - \frac{(\tilde f_i - f_i)^2}{2f_i^2}
   + \frac{(\tilde f_i - f_i)^3}{3\bar f_i^3},
 \end{equation*}
-where $\bar f_i$ lies between $\tilde f_i$ and $f_i$ and is bounded below by assumption. The linear term has
-conditional mean zero. The quadratic term has conditional mean $-\frac{v_i}{2n_sf_i^2}$. The expected absolute cube of the
-deviation of an average of $n_s$ bounded independent terms from its mean is $O(n_s^{-\frac{3}{2}})$, which bounds
-the remainder. The
-argument is the one in the proof of \cref{prop:08-simbias}.
+where $\bar f_i$ lies between $\tilde f_i$ and $f_i$, so $\bar f_i \ge \underline{c}$ by (a). The linear term has
+conditional mean zero. The quadratic term has conditional mean $-\frac{v_i}{2n_sf_i^2}$. For the remainder, write
+$\tilde f_i - f_i = \frac{1}{n_s}\sum_r d_r$ with $d_r = f_{ir} - f_i$. The $d_r$ are independent with mean zero and
+$\lvert d_r\rvert \le \bar c$ by (a), so expanding the fourth power gives
+\begin{equation*}
+  \E\bigl[(\tilde f_i - f_i)^4 \mid x_i, y_i\bigr] = \frac{n_s\E[d_r^4] + 3n_s(n_s - 1)v_i^2}{n_s^4} \le
+  \frac{3\bar c^4}{n_s^2}.
+\end{equation*}
+By Lyapunov's inequality the expected absolute cube is at most $(\frac{3\bar c^4}{n_s^2})^{\frac{3}{4}} =
+O(n_s^{-\frac{3}{2}})$, so the expected absolute value of the remainder is at most this bound divided by $3\underline{c}^3$. The bound
+holds uniformly in $i$ and $\theta$. The argument is the one in the proof of \cref{prop:08-simbias}.
 
-For (ii), the simulated log-likelihood is an average of independent terms whose expectation is, by (i),
-$\E[\ln f_i(\theta)] - \frac{1}{n_s}D(\theta) + O(n_s^{-\frac{3}{2}})$. The extremum estimator converges to the
-maximizer of this limit (\cref{thm:A-consistency}). The first-order condition at $\theta_{n_s}$ reads
-$\nabla Q(\theta_{n_s}) - \frac{1}{n_s}\nabla D(\theta_{n_s}) = 0$, with $Q(\theta) = \E[\ln f_i(\theta)]$. A
+For (ii), the simulated log-likelihood is an average of i.i.d.\ terms, each between $\ln\underline{c}$ and
+$\ln\bar c$ and continuous in $\theta$. Their expectation is, by (i), $\E[\ln f_i(\theta)] - \frac{1}{n_s}D(\theta) +
+O(n_s^{-\frac{3}{2}})$. By \cref{lem:A-ulln} and \cref{thm:A-consistency}, the extremum estimator converges to the
+maximizer $\theta_{n_s}$ of this limit. As $n_s \to \infty$ the limit converges to $Q$ uniformly, so the argument of
+\cref{thm:A-consistency} gives $\theta_{n_s} \to \theta_0$. Under (b), the same expansion applied to
+$\nabla\ln\tilde f_i = \frac{\nabla\tilde f_i}{\tilde f_i}$ shows that the gradient of the remainder is also
+$O(n_s^{-\frac{3}{2}})$, uniformly in $\theta$. The first-order condition at $\theta_{n_s}$ then reads
+$\nabla Q(\theta_{n_s}) - \frac{1}{n_s}\nabla D(\theta_{n_s}) + O(n_s^{-\frac{3}{2}}) = 0$. A
 first-order expansion of $\nabla Q$ around $\theta_0$, where $\nabla Q(\theta_0) = 0$, gives
 \begin{equation*}
   H(\theta_{n_s} - \theta_0) = \frac{1}{n_s}\nabla D(\theta_0) + o\Bigl(\frac{1}{n_s}\Bigr), \qquad
   \theta_{n_s} - \theta_0 = \frac{1}{n_s}H^{-1}\nabla D(\theta_0) + o\Bigl(\frac{1}{n_s}\Bigr).
 \end{equation*}
-The gradient $\nabla D(\theta_0)$ is not zero in general, so $\theta_{n_s} \ne \theta_0$.
+If $\nabla D(\theta_0) \ne 0$, the right side is nonzero for large $n_s$, so $\theta_{n_s} \ne \theta_0$. This is the
+generic case, though not a universal one. If $f(y \mid x, \nu;\theta)$ does not depend on $\nu$, then $v_i = 0$, the
+simulator is exact, and SML is maximum likelihood for every $n_s$.
 
 For (iii) we sketch the argument of \citet{Lee1992} and \citet{GourierouxMonfort1996}. Decompose
 \begin{equation*}
@@ -297,9 +355,9 @@ By (ii) the second term is of order $\frac{\sqrt n}{n_s}$, which vanishes by ass
 the maximum likelihood estimator, plus a simulation variance of order $\frac{1}{n_s}$ that also vanishes.
 \end{proof}
 
-The proposition contrasts with \cref{prop:A-msm}. MSM is consistent with a single draw per observation. SML is
-inconsistent for fixed $n_s$ by (ii), and under standard uniform regularity it is consistent when $n_s \to \infty$ with
-$n$. Growth faster than $\sqrt n$ is the stronger condition of (iii). It removes the simulation bias at the $\sqrt n$
+The proposition contrasts with \cref{prop:A-msm}. MSM is consistent with a single draw per observation. SML is in
+general inconsistent for fixed $n_s$ by (ii), and under standard uniform regularity it is consistent when $n_s \to
+\infty$ with $n$. Growth faster than $\sqrt n$ is the stronger condition of (iii). It removes the simulation bias at the $\sqrt n$
 scale, so that SML attains the exact maximum likelihood limit. SML is nonetheless popular because it requires no
 instruments, is efficient in the limit, and needs only the probability of the observed outcome.
 
@@ -397,7 +455,8 @@ each other, and the second is fixed. All cross products therefore have condition
 where $\sigma_0^2(x_l) = \Var(b^w_l \mid x_l)$ and $\omega_l(\theta) = \Var(X_{sl}(\theta) \mid x_l)$. The first term
 does not depend on $\theta$, and the second is minimized at $\theta_0$. The third term is the average simulator
 variance, $A_L(\theta)$ in their eq.~(9). It depends on $\theta$, so the naive estimator converges to a value that
-trades fit for a smaller simulator variance. It is inconsistent for any fixed $n_s$.
+trades fit for a smaller simulator variance. It is inconsistent for fixed $n_s$ whenever the gradient of the
+average simulator variance is nonzero at $\theta_0$, which is the generic case.
 
 \casehead{The corrected estimator}
 The sample variance of the draws, divided by $n_s$, is unbiased for $\frac{1}{n_s}\omega_l(\theta)$. Subtracting it
@@ -638,18 +697,35 @@ To test $H_0: \beta_k = \beta_k^0$ with CR1 standard errors:
   $\frac{1}{2}$ (Rademacher weights), and form $y^{(b)}_{ic} = x_{ic}^\top\tilde\beta + w_c^{(b)}\tilde e_{ic}$.
   \item Regress $y^{(b)}$ on $X$, and compute $t^{(b)} = \frac{\hat\beta^{(b)}_k -
   \beta_k^0}{\widehat{\mathrm{se}}_{\text{CR1}}(\hat\beta^{(b)}_k)}$ with the same formula as in step (1).
-  \item Report the $p$-value $\frac{1}{B}\sum_{b=1}^{B}\indic\{|t^{(b)}| \ge |t|\}$.
+  \item Report the $p$-value $\frac{1}{B}\sum_{b=1}^{B}\indic\{|t^{(b)}| \ge |t|\}$. Count as ties the values of
+  $|t^{(b)}|$ that differ from $|t|$ only by rounding error. If $2^C \le B$, use all $2^C$ weight vectors in place
+  of random draws, and set $B = 2^C$.
 \end{enumerate}
 \end{remark}
 
 Three features make the procedure work. Multiplying a whole cluster's residuals by one weight preserves any
 correlation pattern within the cluster. Imposing the null makes the bootstrap data satisfy the hypothesis being
 tested, which improves size. The statistic is studentized, which yields the asymptotic refinement of
-\cref{sec:A-boot}. With Rademacher weights there are only $2^C$ distinct weight vectors, and with $C = 5$ the
-bootstrap $p$-value can take only a few values. Weight distributions with more support points enlarge this set. When
-very few clusters are treated, the residuals of treated clusters carry the treatment effect estimate and the wild
+\cref{sec:A-boot}.
+
+When very few clusters are treated, the residuals of treated clusters carry the treatment effect estimate and the wild
 bootstrap fails \citep{MacKinnonWebb2017}. Methods that use the control clusters to estimate the error
 distribution are then needed \citep{ConleyTaber2011}.
+
+\casehead{Discreteness with Rademacher weights}
+With Rademacher weights there are only $2^C$ weight vectors, each with probability $2^{-C}$. The vectors $w$ and
+$-w$ give bootstrap estimates $\hat\beta^{(b)}_k - \beta^0_k$ of opposite sign and residuals of opposite sign, so
+they give the same $|t^{(b)}|$. Hence $|t^{(b)}|$ takes at most $2^{C-1}$ distinct values \citep{CameronMiller2015}.
+The vector of ones reproduces the data, so it and its negative give $|t^{(b)}| = |t|$ exactly. The \emph{exact
+conditional bootstrap $p$-value} is the probability of $|t^{(b)}| \ge |t|$ over all $2^C$ vectors, given the data.
+It is at least $\frac{2}{2^C}$, which equals $\frac{1}{16} = 0.0625$ when $C = 5$. A 5 percent test with five clusters
+therefore never rejects. The $p$-value of step (5) with random draws is a simulation estimate of the exact
+$p$-value. It can fall below $\frac{2}{2^C}$ when few draws hit the two tying vectors, and enumeration removes this
+noise. Rounding error can also make a computed $|t^{(b)}|$ fall just below $|t|$ for a tying vector, which is why
+step (5) counts ties explicitly. Weight distributions with more support points make the $p$-value finer.
+With fewer than ten clusters, \citet{CameronMiller2015} recommend the six-point weights of \citet{Webb2013}. These put probability
+$\frac{1}{6}$ on each of $\pm\sqrt{\frac{1}{2}}$, $\pm 1$ and $\pm\sqrt{\frac{3}{2}}$, which have mean zero and
+variance one.
 
 \begin{figure}[htbp]
 \centering
@@ -657,8 +733,9 @@ distribution are then needed \citep{ConleyTaber2011}.
 \caption{Rejection rates of nominal 5 percent tests of a true null when errors and the regressor are both
 correlated within clusters. In the design, $y_{ic} = e_{ic}$ is regressed on a constant and $x_{ic}$. Both $x_{ic}$
 and $e_{ic}$ are sums of independent normal cluster and idiosyncratic components, with intra-cluster correlations
-$\rho_x = \rho_e = 0.5$. There are 20 observations per cluster, 1,000 replications per $C$ and 399 bootstrap draws,
-with seed 20261022. The gray band is the 95 percent Monte Carlo range around 0.05.}
+$\rho_x = \rho_e = 0.5$. There are 20 observations per cluster and 1,000 replications per $C$, with seed 20261022.
+With $C = 5$ the Rademacher bootstrap enumerates all 32 weight vectors. The six-point bootstrap uses 399 random
+weight vectors for every $C$, and the Rademacher bootstrap does so for $C \ge 10$. The gray band is the 95 percent Monte Carlo range around 0.05.}
 \label{fig:A-cluster-mc}
 \end{figure}
 
@@ -667,8 +744,12 @@ rejects the true null in 38 to 44 percent of replications for every number of cl
 predicted above. HC1 standard errors do no better, because the problem is correlation, which HC1 ignores.
 CR1 standard errors with normal quantiles reject 19 percent of the time with 5 clusters, 14 percent with 10 and 6
 percent with 100. Using $t_{C-1}$ quantiles lowers the rejection rate to 10 percent with 5 clusters and 8 to 10
-percent with 10 to 20 clusters. The wild cluster bootstrap rejects between 4.3 and 6.9 percent of the time for every
-$C$. Each rate has a Monte Carlo standard error of about 0.007.
+percent with 10 to 20 clusters. With Rademacher weights and at least 10 clusters, the wild cluster bootstrap rejects
+between 4.8 and 6.9 percent of the time. With 5 clusters it never rejects, because its exact $p$-value is at least
+0.0625 in every replication. A $p$-value simulated from 399 random draws would reject in 1.0 percent of the
+replications with ties counted, and in 4.3 percent if rounding error drops the ties. The near-nominal second
+figure is an artifact of the tie comparison. The six-point weights reject between 4.8 and 7.5 percent of the time
+for every $C$, and 5.6 percent with 5 clusters. Each rate has a Monte Carlo standard error of about 0.007.
 
 \subsection{Serial correlation and HAC estimators}\label{sec:A-hac}
 
@@ -680,8 +761,14 @@ covariance stationarity,
   = \sum_{j=-(T-1)}^{T-1}\Bigl(1 - \frac{|j|}{T}\Bigr)\Gamma_j \longrightarrow S = \sum_{j=-\infty}^{\infty}\Gamma_j,
 \end{equation*}
 where the middle step counts the $T - |j|$ pairs with $t - s = j$ and the limit holds when the autocovariances are
-absolutely summable. The matrix $S$ is the \emph{long-run variance}, and it replaces $\Omega_n$ in
-\eqref{eq:A-sandwich-general} and $S$ in the GMM formulas.
+absolutely summable. The matrix $S$ is the \emph{long-run variance}. With $g_t = x_te_t$ and $n = T$, the meat
+$\Omega_n$ of \eqref{eq:A-sandwich-general} is the variance of $\sum_tg_t$, which is approximately $TS$. An estimate
+$\hat S$ therefore enters the OLS sandwich as $\hat\Omega_n = T\hat S$:
+\begin{equation*}
+  \widehat\Var(\hat\beta) = (X^\top X)^{-1}\,T\hat S\,(X^\top X)^{-1} = \frac{1}{T}\,\hat Q^{-1}\hat S\hat Q^{-1},
+  \qquad \hat Q = \frac{X^\top X}{T}.
+\end{equation*}
+In the GMM formulas, $\hat S$ replaces $S$ directly.
 
 \begin{example}[AR(1) regressor and error]\label{ex:A-ar1-factor}
 Let $x_t$ and $e_t$ be independent stationary AR(1) processes with autocorrelations $\rho_x$ and $\rho_e$. Then
@@ -1065,9 +1152,10 @@ coverage $1 - \alpha$ are standard.
   \hat\theta}{\mathrm{se}^*_b}$, with $\mathrm{se}^*_b$ computed on bootstrap sample $b$ by the same formula as on the
   data. With $t^*_\alpha$ its quantiles, the interval is $[\hat\theta - t^*_{1-\frac{\alpha}{2}}\mathrm{se},\
   \hat\theta - t^*_{\frac{\alpha}{2}}\mathrm{se}]$.
-  \item The \emph{bias-corrected and accelerated} (BCa) interval uses the percentile interval at adjusted levels
-  $\alpha_j = \Phi\bigl(z_0 + \frac{z_0 + z_{\alpha_j}}{1 - \hat a(z_0 + z_{\alpha_j})}\bigr)$ for the two nominal
-  levels. The bias correction is $z_0 = \Phi^{-1}(\frac{1}{B}\sum_b\indic\{\hat\theta^*_b < \hat\theta\})$, and the
+  \item The \emph{bias-corrected and accelerated} (BCa) interval is $[q^*_{\tilde\alpha_1}, q^*_{\tilde\alpha_2}]$. Its
+  adjusted levels are $\tilde\alpha_j = \Phi\bigl(z_0 + \frac{z_0 + z_{\alpha_j}}{1 - \hat a(z_0 + z_{\alpha_j})}\bigr)$
+  for the nominal levels $\alpha_1 = \frac{\alpha}{2}$ and $\alpha_2 = 1 - \frac{\alpha}{2}$, with $z_{\alpha_j} =
+  \Phi^{-1}(\alpha_j)$. The bias correction is $z_0 = \Phi^{-1}(\frac{1}{B}\sum_b\indic\{\hat\theta^*_b < \hat\theta\})$, and the
   acceleration $\hat a = \frac{\sum_i(\bar\theta_{(\cdot)} - \hat\theta_{(i)})^3}{6[\sum_i(\bar\theta_{(\cdot)} -
   \hat\theta_{(i)})^2]^{\frac{3}{2}}}$ comes from the leave-one-out estimates $\hat\theta_{(i)}$ and their mean
   $\bar\theta_{(\cdot)}$.

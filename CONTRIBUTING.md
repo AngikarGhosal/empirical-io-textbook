@@ -17,9 +17,16 @@ Thank you for helping improve the book. Typo fixes, corrected numbers, clearer d
 
 - Do not add packages in chapter files. If you need one, add it to `preamble.tex` and say why in the pull request.
 - Labels carry the chapter number: `sec:NN-...`, `eq:NN-...`, `fig:NN-...`, `tab:NN-...`, `prop:NN-...`. Cross-reference with `\cref`.
-- Put figure files (PDF or PNG) in `figures/chNN/`.
+- Put figure files (PDF or PNG) in `figures/chNN/` (or `figures/appX/` for an appendix).
 - Add or correct references in `references.bib`. Citation keys are the authors' surnames (up to three) plus the year, e.g. `BerryLevinsohnPakes1995`; use `FirstEtAlYear` for four or more authors. Reuse an existing key if the work is already there.
 - Keep the sources free of LaTeX comments.
+
+## Code conventions
+
+- Put the Python script (and any data) that produces a figure, table or number in `figures/chNN/src/` (or `figures/appX/src/` for an appendix).
+- Use paths relative to the script, so that it runs from any directory.
+- Import only the standard library and the packages in `requirements.txt`. An optional cross-check may use another package if the script still runs without it.
+- List any new required package in `requirements.txt` and in the README.
 
 ## Before opening a pull request
 

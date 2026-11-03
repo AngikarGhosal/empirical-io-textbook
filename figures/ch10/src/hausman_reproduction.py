@@ -147,12 +147,17 @@ def main():
         l2 = margins(e, [0, 1], W)
         out.append(f"\n3. {label}:\n   with ACC  C {l3[0]:.4f}  HN {l3[1]:.4f}  ACC {l3[2]:.4f}"
                    f"\n   without   C {l2[0]:.4f}  HN {l2[1]:.4f}")
-        dp_c = (1 - l2[0]) / (1 - l3[0]) - 1
-        dp_h = (1 - l2[1]) / (1 - l3[1]) - 1
-        loss = dp_c * PRICE["C"] * POUNDS["C"] + dp_h * PRICE["HN"] * POUNDS["HN"]
-        out.append(f"   price change C {100 * dp_c:.2f}% (${dp_c * PRICE['C']:.4f}),"
-                   f" HN {100 * dp_h:.2f}% (${dp_h * PRICE['HN']:.4f}); first-order CS loss ${loss:,.0f};"
-                   f" net share of $32,000: {100 * (32000 - loss) / 32000:.1f}%")
+        # r = p_with / p_without; the 1992 prices are observed with ACC on the market,
+        # so the dollar increase is p_with * (1 - 1/r), and r - 1 is the percent increase
+        # relative to the price without ACC.
+        r_c = (1 - l2[0]) / (1 - l3[0])
+        r_h = (1 - l2[1]) / (1 - l3[1])
+        dd_c = PRICE["C"] * (1 - 1 / r_c)
+        dd_h = PRICE["HN"] * (1 - 1 / r_h)
+        loss = dd_c * POUNDS["C"] + dd_h * POUNDS["HN"]
+        out.append(f"   price change C {100 * (r_c - 1):.2f}% (${dd_c:.8f}),"
+                   f" HN {100 * (r_h - 1):.2f}% (${dd_h:.8f}); first-order CS loss ${loss:,.4f};"
+                   f" net share of $32,000: {100 * (32000 - loss) / 32000:.2f}%")
     out.append(f"   Printed Table 5.7: {T57}")
     out.append(f"   Independent margins 1/|e_ii| (Table 5.6): C {1 / 1.92572:.4f}, HN {1 / 1.98037:.4f},"
                f" ACC {1 / 2.17304:.4f}")
@@ -160,10 +165,11 @@ def main():
     # 4. Text arithmetic
     lw, lwo = T57["with"], T57["without"]
     for k, name in enumerate(["C", "HN"]):
-        r = (1 - lwo[k]) / (1 - lw[k]) - 1
-        out.append(f"\n4. {name}: price ratio - 1 = {100 * r:.3f}%, dp = ${r * PRICE[name]:.4f},"
-                   f" dCS = ${r * PRICE[name] * POUNDS[name]:,.0f}; margin ratio - 1 = {100 * (lw[k] / lwo[k] - 1):.2f}%")
-    out.append(f"   0.0787/0.02231 implied HN price = {0.0787 / ((1 - lwo[1]) / (1 - lw[1]) - 1):.3f}")
+        r = (1 - lwo[k]) / (1 - lw[k])
+        dp = PRICE[name] * (1 - 1 / r)
+        out.append(f"\n4. {name}: price ratio r = {r:.4f}, r - 1 = {100 * (r - 1):.3f}%,"
+                   f" p_without = p_with/r = ${PRICE[name] / r:.4f}, dp = p_with(1 - 1/r) = ${dp:.6f},"
+                   f" dCS = ${dp * POUNDS[name]:,.0f}; margin ratio - 1 = {100 * (lw[k] / lwo[k] - 1):.2f}%")
     out.append(f"   Reported products: 0.0095*93738 = {0.0095 * 93738:.1f}; 0.0787*47215 = {0.0787 * 47215:.1f}")
     out.append(f"   27,395/32,000 = {27395 / 32000:.4f}; 78.1*0.856 = {78.1 * 0.856:.2f}; 0.3136*0.856 = {0.3136 * 0.856:.4f};"
                f" 78.1e6/0.3136 = {78.1e6 / 0.3136 / 1e6:.1f} million persons")

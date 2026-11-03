@@ -466,8 +466,11 @@ CS(J) - CS(1) = \frac{t}{12}\left(1 - \frac{1}{J^2}\right) \le \frac{t}{12}.
 \end{equation}
 The gain is bounded, and the increment from one more product, $\frac{t}{12}\left(\frac{1}{J^2} -
 \frac{1}{(J+1)^2}\right)$, falls to zero like $\frac{t}{6J^3}$. Adding logit errors with scale $\mu$ to the same
-line gives $CS(x) = \mu\ln\sum_k e^{-\frac{t(x - \ell_k)^2}{\mu}}$ for a consumer at $x$, up to a constant. For
-large $J$ the sum is close to $J\sqrt{\frac{\pi\mu}{t}}$ for interior $x$, so the gain grows like $\mu\ln J$.
+line gives $CS(x) = \mu\ln\sum_k e^{-\frac{t(x - \ell_k)^2}{\mu}}$ for a consumer at $x$, up to a constant. The
+sum divided by $J$ is a Riemann sum, so for large $J$ the sum is close to
+$J\,I(x)$ with $I(x) = \int_0^1 e^{-\frac{t(x - \ell)^2}{\mu}}\,d\ell > 0$. Hence $CS(x) \approx \mu\ln J + \mu\ln I(x)$,
+and the gain grows like $\mu\ln J$. The integral $I(x)$ is close to the whole-line value $\sqrt{\frac{\pi\mu}{t}}$
+only when both $x$ and $1 - x$ are large relative to $\sqrt{\frac{\mu}{t}}$.
 
 \begin{figure}[htbp]
 \centering
@@ -600,7 +603,8 @@ $(c_{j+1,j+2},\,c_{j-1,j})$.
 \end{equation*}
 \item The money-metric gain of consumer $\nu$ is $g(\nu) = \frac{1}{\nu}\left[U_n(\nu) - \max\{U_j(\nu),
 U_{j+1}(\nu)\}\right]^+$. It is positive on $(\nu_L,\nu_H)$ and equals $\frac{d}{c^*}$ at $\nu = c^*$.
-\item The total gain $\mathcal{G} = \int g(\nu)f(\nu)\,d\nu$ and the share $s_n$ satisfy
+\item The total gain $\mathcal{G} = \int g(\nu)f(\nu)\,d\nu$ satisfies the first expansion below. If in addition
+$f(c^*) > 0$, the share $s_n$ is first order in $d$ and the gain per buyer satisfies the second,
 \begin{equation}\label{eq:10-vertical-gain}
 \mathcal{G} = \frac{f(c^*)}{2c^*}\,\frac{p_{j+1} - p_j}{(p_n - p_j)(p_{j+1} - p_n)}\,d^2 + o(d^2),
 \qquad
@@ -637,13 +641,21 @@ shrinks to $c^*$, $\frac{f(\nu)}{\nu} = \frac{f(c^*)}{c^*} + o(1)$ uniformly on 
 \mathcal{G} = \int_{\nu_L}^{\nu_H}h(\nu)\frac{f(\nu)}{\nu}\,d\nu
 = \left(\frac{f(c^*)}{c^*} + o(1)\right)\frac{d}{2}(\nu_H - \nu_L),
 \end{equation*}
-which is the first part of \eqref{eq:10-vertical-gain}. The share is $s_n = F(\nu_H) - F(\nu_L) = (f(c^*) +
-o(1))(\nu_H - \nu_L)$. Dividing the two expressions gives $\frac{\mathcal{G}}{s_n} = \frac{d}{2c^*} + o(d)$.
+which is the first part of \eqref{eq:10-vertical-gain}. This step holds also when $f(c^*) = 0$, and the
+coefficient on $d^2$ is then zero. The share is $s_n = F(\nu_H) - F(\nu_L) = (f(c^*) + o(1))(\nu_H - \nu_L)$.
+When $f(c^*) > 0$, the factor $f(c^*) + o(1)$ is bounded away from zero for small $d$. Dividing the two
+expressions then gives $\frac{\mathcal{G}}{s_n} = \frac{d}{2c^*} + o(d)$.
 \end{proof}
 
-\Cref{fig:10-vertical-gain} draws the construction. The gain is second order in the distance $d$. The share of the
-new product is first order in $d$, and the gain per buyer, $\frac{d}{2c^*}$, vanishes as the new product approaches
-the chord. The quantity $\frac{d}{c^*}$ is the dollar value of the new product's quality premium at the margin
+The condition $f(c^*) > 0$ matters for the per-buyer formula. Take the density $f(\nu) = (\nu - 1)^2e^{-\nu}$,
+old products $(p,\delta) = (1,2)$ and $(3,4)$, an outside utility of zero and the new product $(2,3+d)$. Then
+$c^* = 1$ and $f(c^*) = 0$. Our computation gives $s_n = \frac{2e^{-1}d^3}{3} + o(d^3)$ and
+$\mathcal{G} = \frac{e^{-1}d^4}{6} + o(d^4)$, so that $\frac{\mathcal{G}}{s_n} = \frac{d}{4} + o(d)$. This is half
+the value $\frac{d}{2c^*} = \frac{d}{2}$ of \eqref{eq:10-vertical-gain}.
+
+\Cref{fig:10-vertical-gain} draws the construction. When $f(c^*) > 0$, the gain is second order in the
+distance $d$. The share of the new product is then first order in $d$, and the gain per buyer, $\frac{d}{2c^*}$,
+vanishes as the new product approaches the chord. The quantity $\frac{d}{c^*}$ is the dollar value of the new product's quality premium at the margin
 between its neighbors, and the average switcher gets half of it, as in any triangle. Compare
 \eqref{eq:10-logit-perbuyer}. In the logit the gain per buyer is at least $\frac{1}{\alpha}$ for any product,
 including a product on or below the chord. A numerical check with $f(\nu) = e^{-\nu}$ and the prices of

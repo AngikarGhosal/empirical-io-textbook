@@ -713,9 +713,22 @@ noted that demand systems with higher pass-through of efficiencies predict large
 same sensitivity across standard functional forms.
 
 \Cref{fig:11-curvature} isolates the role of curvature. Two symmetric firms merge, and each demand system is calibrated
-to the same price, marginal cost, own-price elasticity and diversion ratio at the pre-merger equilibrium. Constant
-elasticity demand predicts far larger effects than linear demand, with ratios of 3.5 to 5.2 over the plotted range.
-Logit lies between the two. The figure also plots the prediction obtained by freezing shares and slopes at their
+to the same price, marginal cost, own-price elasticity and diversion ratio at the pre-merger equilibrium. The
+\emph{constant-expenditure logit} applies the logit formula, with log price in utility, to expenditure shares
+(\cref{sec:11-bv}). Under linear, logit and constant-expenditure logit demand the merged firm's joint profit is
+bounded. A grid search over both prices puts its global maximum at the symmetric solution of the first-order
+conditions. The constant-expenditure logit, whose elasticities change little with price, predicts 2.4 to 3.3 times
+the linear effect over the plotted range. Logit lies between linear and the constant-expenditure logit.
+
+Constant-elasticity demand needs care. Hold $p_1 > c$ fixed and raise $p_2$. Then $q_1$ grows without bound, while
+product 2 earns a nonnegative profit, so joint profit has no maximum for any $D > 0$. The figure therefore shows the
+merged firm's optimum when it must charge one common price for both products. That price also solves the symmetric
+first-order conditions that a merger simulation would solve. The implied price increase is 3.3 to 5.2 times the
+linear effect. Without the restriction the symmetric solution is a strict local maximum of joint profit only for $D$
+below about 0.25 and a saddle point above. Constant-elasticity demand is thus a local approximation, and its merger
+predictions rely on that approximation far from observed prices.
+
+The figure also plots the prediction obtained by freezing shares and slopes at their
 pre-merger values, which we show in \cref{sec:11-simframework} equals the compensating cost reduction. Linear demand
 predicts exactly half of it, because the symmetric linear pass-through of a cost shock to both products is one half.
 \Cref{sec:11-bv} shows that the same issue separated the predictions of unit-demand and constant-expenditure
@@ -724,12 +737,14 @@ specifications in a merger of analgesics producers.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.86\textwidth]{figures/ch11/curvature_sim.pdf}
-\caption{Predicted price increase from a merger of two symmetric single-product firms under three demand systems with
+\caption{Predicted price increase from a merger of two symmetric single-product firms under four demand systems with
 identical first derivatives at the pre-merger point. Calibration: $p = 1$, $c = 0.6$ ($L = 0.4$), own-price elasticity
 $2.5$, diversion $D$ between the merging products on the horizontal axis, no efficiencies. Linear:
 $q_j = a - b p_j + d p_k$ with $b = 2.5$ and $d = 2.5D$. Logit: one outside good, inside shares $\frac{D}{1+D}$.
-Constant elasticity: $q_j = k p_j^{-2.5} p_k^{2.5 D}$. The dotted line freezes shares and slopes at pre-merger values,
-which gives $\frac{D L}{1 - D}$. Source: our calculations.}
+Constant-expenditure logit: one outside good, value shares $w_j$ proportional to $p_j^{-\alpha}$ with
+$\alpha = 1.5 + 2.5D$, and $q_j = \frac{B w_j}{p_j}$. Constant elasticity: $q_j = k p_j^{-2.5} p_k^{2.5 D}$, with the
+merged firm restricted to one common price because its unrestricted joint profit is unbounded. The dotted line
+freezes shares and slopes at pre-merger values, which gives $\frac{D L}{1 - D}$. Source: our calculations.}
 \label{fig:11-curvature}
 \end{figure}
 
@@ -861,7 +876,7 @@ The first iteration is therefore UPP with feedback between the merging products 
 one. The compensating cost reduction is the cost cut that would offset the merger. The first iteration is the price
 increase that the merger would cause if every unit of pricing pressure passed into price. The approximation overstates
 the equilibrium effect when pass-through is below one, as with logit demand and small shares. It understates the effect
-when pass-through exceeds one, as with constant-elasticity demand (\cref{fig:11-curvature}).
+when pass-through exceeds one, as with the constant-expenditure logit of \cref{fig:11-curvature}.
 
 \casehead{Computation} Solving \eqref{eq:11-foc-matrix} means solving $J$ nonlinear equations. The usual choice is a
 Newton or quasi-Newton method applied to the first-order conditions, started from the pre-merger prices.
@@ -876,9 +891,13 @@ of \cref{sec:11-dd}. Substituting into \eqref{eq:11-foc-matrix} and using $\Omeg
   p = mc + \zeta(p) , \qquad \zeta(p) = \Lambda(p)^{-1}\big[\big(\Omega \odot \Gamma(p)^\top\big)(p - mc) - s(p)\big] .
 \end{equation}
 They report that iterating on this map is fast and reliable in large problems, and \texttt{pyblp} uses it
-(\cref{ch:blp}). Existence and uniqueness of the post-merger equilibrium are not automatic. Log-concavity conditions of
-\citet{CaplinNalebuff1991} guarantee them for broad classes of discrete choice demand (\cref{ch:diffprod}). In practice
-one checks that the solver reaches the same prices from several starting points.
+(\cref{ch:blp}). Existence and uniqueness of the post-merger equilibrium are not automatic. The log-concavity
+conditions of \citet{CaplinNalebuff1991} give existence for broad classes of discrete choice demand when each firm
+sells one product (\cref{thm:04-cn-existence}). Their uniqueness results cover only restricted cases, such as the
+logit and duopoly (\cref{sec:04-uniqueness}). A merger creates a multiproduct firm, which their theorems do not cover.
+With logit demand, uniqueness holds for every ownership structure (\cref{thm:04-logit-unique}). Random coefficients
+demand with multiproduct firms has no such theorem. In practice one checks that the solver reaches the same prices
+from several starting points.
 
 \casehead{Calibration} The simulated pre-merger prices must equal observed prices, so that the simulation compares the
 merger with the status quo. In a logit model one can add a residual to predicted shares. \citet[p.~31]{Nevo2000b}
@@ -1512,10 +1531,13 @@ Total welfare     & 29.24    & 78.23    & $-26.22$  & $-147.97$ \\
 \smallskip
 \begin{minipage}{0.92\linewidth}
 \footnotesize
-Notes: The working paper does not state the units. Total welfare equals consumer surplus plus profits in every
-column, up to rounding (0.05 in the first column with the cost reduction). The paper also reports profit changes by
-firm. Those rows are not internally consistent. Rivals' profit changes are identical with and without the cost
-reduction. In the two Quaker columns, the cost reduction changes the row of the non-merging firm. We therefore omit
+Notes: The working paper does not state the units. Entries are as printed. Total welfare equals consumer surplus
+plus profits in every column of both panels except the first column of the lower panel. There
+$8.64 + 20.55 = 29.19$, against a printed 29.24. Rounding each entry to two decimals allows a gap of at most 0.015,
+so the source contains an error. The paper also reports profit changes by firm, which sum to 20.56 in that column and
+so support the profit entry. The paper does not reveal whether the consumer surplus entry or the total is wrong.
+The firm rows are not internally consistent in other respects. Rivals' profit changes are identical with and without
+the cost reduction. In the two Quaker columns, the cost reduction changes the row of the non-merging firm. We therefore omit
 them. Source: \citet{Nevo2000b}, working paper Table 12.
 \end{minipage}
 \end{table}
@@ -1536,7 +1558,11 @@ decision maker's objective, which Nevo leaves open.
 merging firms' other brands are ignored. Private labels are outside the model. This matters for General Mills and Chex:
 Ralston sold Chex to concentrate on private-label cereals, the main competitive check on branded prices. The model is
 static, with no response of advertising, product introductions or entry, and Nevo flags the need for dynamic models of
-brand introduction. The instruments fail the overidentification tests. The conduct assumption, Bertrand-Nash before and
+brand introduction. The overidentification tests reject in all five IV logit columns of \cref{tab:11-nevo-logit}.
+The random coefficients model reports a GMM objective of 1.74 with 8 degrees of freedom. Read as an
+overidentification statistic, it lies far below 15.51, the 5 percent critical value of a $\chi^2(8)$ distribution,
+so that test does not reject. Nonrejection does not establish validity, and the concern about demand shocks
+correlated across cities remains. The conduct assumption, Bertrand-Nash before and
 after the merger, is maintained, although \citet{Nevo2001} tests it on the same data (\cref{ch:blp}). Prices are retail
 transaction prices, while the model treats manufacturers as setting them, so retail margins and pass-through from
 wholesale to retail are absorbed into the estimated markups.

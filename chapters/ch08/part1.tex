@@ -222,9 +222,15 @@ a consumer whose income does not exceed its price.
 
 \subsection{The outside good and normalizations}\label{sec:08-normalization}
 
-The outside good lets total inside demand respond to prices. Without it, a uniform rise in the prices of all
-inside products, relative to other sectors, would leave every quantity unchanged
-\citep[p.~520]{Nevo2000a}. \citet[p.~520]{Nevo2000a} writes the utility of the outside option as
+The outside good lets total inside demand respond to prices. Without it, every consumer buys one inside
+product, so a uniform rise $\Delta$ in all inside prices, relative to other sectors, leaves total inside
+quantity unchanged. When price enters utility linearly, as in \eqref{eq:08-nevo-utility}, the rise lowers
+every inside utility of consumer $i$ by the same amount $\alpha_i\Delta$. Her choice probabilities, and hence
+the quantity of every product, are then unchanged as well \citep[p.~520]{Nevo2000a}. This second implication
+needs price to enter linearly. Under \eqref{eq:08-blp-inside} the utility change $\alpha\ln(y_i - p_j -
+\Delta) - \alpha\ln(y_i - p_j)$ is larger in absolute value for more expensive products. Individual shares then
+move toward cheaper products while their sum stays at one. \citet[p.~520]{Nevo2000a} writes the utility of the
+outside option as
 \begin{equation}\label{eq:08-outside-utility}
   u_{i0t} = \alpha_i y_i + \xi_{0t} + \pi_0 D_i + \sigma_0 \nu_{i0} + \epsilon_{i0t}.
 \end{equation}
@@ -1127,8 +1133,8 @@ characteristics make them likely to buy product $j$.
 
 The optimal density cannot be used directly, for three reasons \citep[pp.~866--867]{BerryLevinsohnPakes1995}. It
 requires $s_j(\theta)$, the integral we want to compute. It depends on $\theta$, while the draws must stay fixed as
-the optimizer varies $\theta$. It differs across products, so the simulated shares would come from different draws
-and would not add up to one, which the contraction of \cref{sec:08-inversion} requires.
+the optimizer varies $\theta$. It differs across products, so each simulated share would come from its own draws.
+The inversion of \cref{sec:08-inversion} instead computes all shares from one distribution of consumers.
 
 \citeauthor{BerryLevinsohnPakes1995} build a feasible version from a preliminary estimate $\theta'$, obtained with the
 smooth simulator. They target the probability of buying some car, $\bar f(\nu, \theta') = \sum_{j=1}^{J} f_j(\nu,
@@ -1157,6 +1163,17 @@ $\frac{f_j(\nu, \theta')}{\bar f(\nu, \theta')}$, the probability of choosing $j
 car. That ratio lies between zero and one. Summed over $j$ it equals $\bar s(\theta')$ for every draw, so the
 simulated total inside share has no simulation error at all. The variation that remains comes only from which car
 a buyer chooses.
+
+Common draws do not make the simulated shares add up to one, although \citet[p.~867]{BerryLevinsohnPakes1995} use
+them for that purpose. Write $w_i = \frac{\bar s(\theta')}{\bar f(\nu_i, \theta')}$ for the weight of draw $i$ and
+$\bar w = \frac{1}{n_s}\sum_{i} w_i$ for the mean weight. Applying \eqref{eq:08-blp-importance} to all $J + 1$
+options and using $\sum_{j=0}^{J} f_j = 1$ gives $\sum_{j=0}^{J} s_j = \bar w$. Each weight has expectation one under
+$h$, so $\bar w$ equals one only on average. The contraction uses only the inside shares, and this random total does
+not break it. The simulated inside shares equal $\bar w$ times the shares computed under the probability weights
+$\frac{w_i}{n_s\bar w}$. \Cref{thm:08-berry94}, applied to this distribution of draws, gives a unique solution
+whenever the observed inside shares sum to less than $\bar w$. With a small inside share and many draws, $\bar w$ is
+close to one and the condition is mild. Self-normalizing the weights would make the shares sum to one exactly, at
+the cost of a finite-sample bias that vanishes as $n_s$ grows.
 
 \Cref{tab:08-importance} compares the two simulators in the market of \cref{fig:08-simerror}, whose total inside share
 is 0.20. With 100 draws, importance sampling cuts the relative root mean squared error of the largest product's share

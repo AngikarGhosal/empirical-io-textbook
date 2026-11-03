@@ -16,7 +16,10 @@ It computes
   4. a product-withdrawal counterfactual: good 3 leaves, the single-product
      firms selling goods 1 and 2 re-optimize (marginal costs recovered from
      their pre-withdrawal first-order conditions), and the CV is decomposed
-     into a pure variety effect and a price-adjustment effect;
+     into a pure variety effect and a price-adjustment effect. The equilibrium
+     uses the Marshallian choke price of good 3 (the demand firms face), while
+     the exact CV uses the Hicksian virtual price at u0; the CV evaluated at the
+     Marshallian choke price is reported for comparison;
   5. the figure figures/ch05/virtual_price.pdf (Hicksian demand for good 3
      under AIDS and under the calibrated CES).
 Numbers are written to figures/ch05/src/virtual_price_numbers.txt.
@@ -219,6 +222,12 @@ CV_price = CV_tot - CV_var
 out(f"  Hicksian virtual price of good 3 at new prices = {np.exp(xv1):.4f}")
 out(f"  CV total = {CV_tot:.4f} ({100 * CV_tot / I:.2f} percent of I)")
 out(f"    variety effect = {CV_var:.4f} ({100 * CV_var / I:.2f} percent), price-adjustment effect = {CV_price:.4f} ({100 * CV_price / I:.2f} percent)")
+# approximation that prices good 3 at its Marshallian choke price (zero Marshallian demand at the
+# counterfactual expenditure) and evaluates the expenditure function at u0
+e_total_M = np.exp(ln_e(np.array([lp_new[0], lp_new[1], x_new]), u0))
+CV_tot_M = e_total_M - I
+out(f"  CV total at the Marshallian choke price = {CV_tot_M:.4f} ({100 * CV_tot_M / I:.2f} percent of I; understates)")
+out(f"  utility at the counterfactual equilibrium = {indirect_u(np.array([lp_new[0], lp_new[1], x_new])):.4f}")
 pi_old = (np.exp(lnp0) - c) * quantities(lnp0)
 pi_new = (p_new - c[:2]) * q_new
 out(f"  profits before = {np.round(pi_old, 4)}, after (goods 1, 2) = {np.round(pi_new, 4)}")

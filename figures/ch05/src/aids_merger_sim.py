@@ -21,6 +21,12 @@ holds elasticities and rival prices at their pre-merger values.
 
 For treatment (A) it computes the exact compensating variation of the merger
 from the AIDS expenditure function (segment level).
+
+Checks: the post-merger first-order conditions are solved from four starting
+values, each firm's profit Hessian in its own log prices is computed at the
+solution, and a grid search over each firm's own prices (rivals held at the
+equilibrium, all shares positive) looks for a more profitable deviation.  These
+checks do not prove that the equilibrium is unique.
 Output: figures/ch05/src/aids_merger_sim_numbers.txt
 """
 import os
@@ -167,13 +173,30 @@ for label, epsB in [("A: segment expenditure fixed", None), ("B: upper level, ep
             pi1 = (p - cc) * q(lp)
             out(f"    profits pre = {np.round(pi0, 4)}, post = {np.round(pi1, 4)}; merged firm gain = {pi1[:2].sum() - pi0[:2].sum():.4f}, firm 3 gain = {pi1[2] - pi0[2]:.4f}")
         start = lp
-    # robustness of the solution: several starting values
+    # robustness of the solution: several starting values (this does not prove uniqueness)
     sols = []
     for s0 in [np.zeros(J), np.array([0.5, 0.5, 0.1]), np.array([1.0, 1.0, 0.3]), np.array([0.2, 0.8, 0.0])]:
         s = solve_eq(c, Om_post, q, E, s0)
         if s.success:
-            sols.append(np.round(np.exp(s.x), 4))
-    out(f"  equilibria found from four starting values (0% efficiency): {[list(x) for x in sols]}")
+            sols.append([float(v) for v in np.round(np.exp(s.x), 4)])
+    out(f"  solutions found from four starting values (0% efficiency): {sols}")
+    # global best-response check on a grid: hold rivals at the equilibrium and search each
+    # firm's own log prices over [ln c_k, ln c_k + 3], keeping only points where all shares are positive
+    lp_eq = solve_eq(c, Om_post, q, E, l0).x
+    lnX_eq = (lambda l: lnX0 if epsB is None else lnX0 + (1 + epsB) * lnP(l))
+    gaps = []
+    for goods in [[0, 1], [2]]:
+        pi_eq = profit(goods, lp_eq, c, q)
+        axes = [np.linspace(np.log(c[k]), np.log(c[k]) + 3.0, 301) for k in goods]
+        best = -np.inf
+        for pt in np.array(np.meshgrid(*axes, indexing="ij")).reshape(len(goods), -1).T:
+            l = lp_eq.copy()
+            l[goods] = pt
+            if np.any(shares(l, lnX_eq(l)) <= 0):
+                continue
+            best = max(best, profit(goods, l, c, q))
+        gaps.append(best - pi_eq)
+    out(f"  grid best response minus equilibrium profit (merged firm, firm 3) = {np.round(gaps, 6)}")
     out()
 
 text = "\n".join(lines)

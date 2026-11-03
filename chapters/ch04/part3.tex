@@ -232,7 +232,7 @@ indexed by profit weights. This makes conduct comparable with the conduct parame
 \cref{ch:conduct}.
 
 \begin{definition}[Profit weights and the generalized ownership matrix]\label{def:04-profit-weights}
-Let $\kappa_{fg} \in [0, 1]$ be the weight that firm $f$ places on the profit of firm $g$, with $\kappa_{ff} = 1$.
+Let $\kappa_{fg} \ge 0$ be the weight that firm $f$ places on the profit of firm $g$, with $\kappa_{ff} = 1$.
 Firm $f$ chooses the prices of its products to maximize
 \begin{equation}\label{eq:04-kappa-objective}
 \pi_f + \sum_{g \neq f}\kappa_{fg}\,\pi_g ,
@@ -276,9 +276,12 @@ standard.
   \cref{ch:collusion-theory}.
   \item A \emph{merger} of firms $f$ and $g$ sets $\kappa_{fg} = \kappa_{gf} = 1$ and leaves the other weights at
   zero.
-  \item \emph{Partial internalization} has weights strictly between zero and one. Common ownership and joint
-  ventures produce such weights.
+  \item \emph{Partial internalization} has weights strictly between zero and one. Joint ventures and moderate
+  common ownership produce such weights.
 \end{enumerate}
+These cases span the range $\kappa_{fg} \in [0, 1]$, from Nash pricing to joint profit maximization. Many conduct
+models restrict the weights to this range. The restriction is an additional assumption, and the common-ownership
+weights below need not satisfy it.
 
 \casehead{Common ownership}
 \citet{OBrienSalop2000} derive profit weights from ownership stakes. Let investors $h = 1, \dots, H$ hold
@@ -292,9 +295,13 @@ maximizes the control-weighted sum of its investors' portfolio profits:
 Dividing by the coefficient on $\pi_f$ leaves the maximizer unchanged and gives the form
 \eqref{eq:04-kappa-objective} with
 \begin{equation}\label{eq:04-obrien-salop}
-\kappa_{fg} = \frac{\sum_{h}\eta_{fh}\lambda_{gh}}{\sum_{h}\eta_{fh}\lambda_{fh}} .
+\kappa_{fg} = \frac{\sum_{h}\eta_{fh}\lambda_{gh}}{\sum_{h}\eta_{fh}\lambda_{fh}} ,
 \end{equation}
-The weight is large when the investors who control $f$ own large cash-flow stakes in $g$.
+provided that the investors who control $f$ hold some cash-flow stake in $f$, so that the denominator is positive.
+The weight is large when the investors who control $f$ own large cash-flow stakes in $g$. Nothing bounds it by
+one. If the sole controlling investor of $f$ holds 10 percent of $f$ and 90 percent of $g$, then
+$\kappa_{fg} = \frac{0.9}{0.1} = 9$. The manager of $f$ then values a dollar of $g$'s profit at nine dollars of
+its own.
 \citet{BackusConlonSinkinson2021} compute such weights for the ready-to-eat cereal industry and ask whether
 pricing reflects them.
 
@@ -858,7 +865,7 @@ logit, with $\Phi = 1 + \sum_{k=1}^{J}e^{\delta_k}$. \Cref{prop:06-logit-exhaust
   surplus is $\frac{1}{\alpha}\ln(1 + Je^{\delta})$, which grows like $\frac{1}{\alpha}\ln J$ without bound.
 \end{enumerate}
 The \emph{pure characteristics model} of \citet{BerryPakes2007} removes the product-specific shock, so the space
-has a fixed dimension. As products fill the space, neighbors become close substitutes, markups are driven toward
+has a fixed dimension. As products fill the space, neighbors become close substitutes, prices are driven toward
 marginal cost, and the gain from one more product declines to zero (pp.~6--7). \Cref{sec:06-epsilon} develops the
 comparison, and \cref{ch:newgoods} shows how much it matters for the value of new goods.
 
@@ -884,8 +891,8 @@ study.
 
 \subsection{The dimension of characteristics space shapes competition}\label{sec:04-spaces-dimension}
 
-The dimension of characteristics space is a modeling choice with first-order consequences. In a low-dimensional
-space each product competes with a few neighbors. In a logit-type model every product competes with every other.
+The dimension of characteristics space is a modeling choice with first-order consequences. In a space of one or
+two dimensions each product competes, on average, with a few neighbors. In a logit-type model every product competes with every other.
 \citet[Section~7]{CaplinNalebuff1991} make the role of dimension precise. They measure dimension by the number of
 taste parameters. Consumers may evaluate many product attributes through a few indices, so the count of attributes
 can overstate the dimension that matters.
@@ -898,9 +905,16 @@ U_j(\nu) = \sum_{l = 1}^{L}\nu_l\,t_l(x_j) + g(y - p_j)\,t_{L+1}(x_j) + t_{L+2}(
 \end{equation}
 where $\bm{t}_j = (t_1(x_j), \dots, t_L(x_j))$ and $a_j = g(y - p_j)t_{L+1}(x_j) + t_{L+2}(x_j)$. At fixed prices,
 utility is affine in the type. Type $\nu$ prefers $j$ to $k$ when $\nu \cdot (\bm{t}_j - \bm{t}_k) > a_k - a_j$, which
-defines a half-space of types. Following Caplin and Nalebuff, product $k$ is a \emph{competitor} of product $j$ if a
-small cut in $p_j$ reduces the demand for $k$. As in \cref{sec:04-existence}, each of the $J$ products is sold by a
-separate firm.
+defines a half-space of types. The \emph{market area} of product $j$ is the set of types in $B$ who prefer $j$ to
+every other product. \citet[p.~18]{CaplinNalebuff1991} call product $k$ a competitor of product $j$ if a marginal
+cut in $p_j$ reduces the demand for $k$. We use a sharper version. Product $k$ is a \emph{competitor} of product
+$j$ if their market areas share a boundary piece of positive $(L-1)$-dimensional volume. This piece is a segment of
+positive length when $L = 2$ and a face of positive area when $L = 3$. If the type density is positive on the
+interior of $B$, a cut in $p_j$ moves this piece into the area of $k$. The demand for $k$ then falls at a rate
+proportional to the size of the cut, so the cross-price effect is nonzero at first order. The two definitions
+can differ only when the set where two market areas touch has dimension below $L - 1$, such as a point at which
+four or more areas meet in the plane (\cref{rem:04-competitor-def}). As in
+\cref{sec:04-existence}, each of the $J$ products is sold by a separate firm.
 
 \begin{proposition}[Dimension restricts preferences, after \citealp{CaplinNalebuff1991}, Proposition 8]\label{prop:04-cn-orderings}
 Let utility satisfy \eqref{eq:04-cn-utility} with $L$-dimensional types, and fix the prices of $J$ products.
@@ -959,9 +973,9 @@ number of firms with positive demand and $C_j$ the number of competitors of firm
 \emph{Market areas.} The types who buy $j$ form the intersection of $B$ with the half-planes in which $j$ beats
 each rival. The intersection of convex sets is convex, so every market area is convex. The areas partition $B$,
 up to indifferent types, who have measure zero. Two convex areas meet along at most one segment, because their
-common boundary lies on the line of types indifferent between the two products. Product $k$ is a competitor of $j$
-exactly when the areas share a segment of positive length. A cut in $p_j$ then shifts that segment into $k$'s
-area, and the consumers it passes over switch from $k$ to $j$.
+common boundary lies on the line of types indifferent between the two products. By definition, product $k$ is a
+competitor of $j$ exactly when the areas share a segment of positive length. A cut in $p_j$ then shifts that
+segment into $k$'s area, and the consumers it passes over switch from $k$ to $j$.
 
 \emph{Polygons.} Following Caplin and Nalebuff, replace $B$ by the convex hull of the points on its boundary at
 which some consumer is indifferent between two products. This changes no neighbor relation, because each cut-off
@@ -992,8 +1006,9 @@ Since $C_j \leq n_j$, the average number of competitors is at most six.
 The bound is attained in the limit by a regular hexagonal tiling of the plane, as in the location theory of
 \citet{Losch1954}. \citet{CaplinNalebuff1991} add that, for generic product locations and prices, the average
 converges to six as the number of firms grows. They also note that no regular polygon with more than six sides
-tiles the plane. In three dimensions space can be tiled with 14-faced solids (truncated octahedra), and in higher
-dimensions the general bound is not known. \citet{Stiglitz1986} studied a model in which market areas are
+tiles the plane. In three dimensions space can be tiled with 14-faced solids (truncated octahedra), so each firm
+can have 14 competitors. This tiling is an example and gives no upper bound. The planar bound has no analogue in
+three dimensions, as \cref{ex:04-no-bound-3d} shows. \citet{Stiglitz1986} studied a model in which market areas are
 $L$-dimensional cubes. In the summary of \citet{CaplinNalebuff1991}, the markup there is inversely proportional to
 the ratio of a market area's surface to its volume. Markets therefore become more competitive as the dimension
 rises.
@@ -1001,14 +1016,15 @@ rises.
 \citet[n.~17]{CaplinNalebuff1991} compare the bound with a result of \citet{ArchibaldRosenbluth1975} for the
 Lancaster model, in which goods are freely divisible and can be combined. When goods are represented in a
 three-dimensional space of characteristics, the average number of competitors per firm there is at most six as well.
-The parallel breaks down in higher dimensions. With four characteristics Archibald and Rosenbluth find no bound on
-the number of neighbors, while the three-dimensional version of the Caplin-Nalebuff model has one.
-\citet[Section 7.1.2, n.~6]{Tirole1988} reports that with four characteristics an average brand may have
-$\frac{J}{2}$ direct competitors. Caplin and Nalebuff give a geometric reason. In the Lancaster model with $L$
-characteristics, the count is the average number of sides in a partition of an $(L-1)$-dimensional surface into
-polygons, which need not be convex. That count is at least as large as the Caplin-Nalebuff bound in $L - 1$
-dimensions, whose market areas are convex. The two numbers agree for partitions of the plane only because
-convexity makes no difference there.
+With four characteristics Archibald and Rosenbluth find no bound on the number of neighbors.
+\citet[Section 7.1.2, n.~6]{Tirole1988} reports that an average brand may then have $\frac{J}{2}$ direct
+competitors. Caplin and Nalebuff state that this unboundedness does not carry over to the three-dimensional version
+of their model. That statement is incorrect. \Cref{ex:04-no-bound-3d} gives three-dimensional configurations that
+satisfy A1 and A2 in which the average firm has at least $\frac{J}{2}$ competitors. Caplin and Nalebuff also give
+a geometric comparison. In the Lancaster model with $L$ characteristics, the count is the average number of sides
+in a partition of an $(L-1)$-dimensional surface into polygons, which need not be convex. That count is at least
+as large as the Caplin-Nalebuff count in $L - 1$ dimensions, whose market areas are convex. The two counts agree
+for partitions of the plane because convexity makes no difference there.
 
 \Cref{fig:04-voronoi} illustrates the proposition. Consumers' ideal points $\nu$ are uniform on the unit square,
 and a consumer buys from the product $j$ that minimizes $p_j + \tau\|\nu - x_j\|^2$, with $x_j$ the product's
@@ -1040,8 +1056,43 @@ the average approaches six from below. Over random draws of uniform locations wi
 of competitors is 3.72 with 10 firms, 4.87 with 40, 5.43 with 160, 5.72 with 640 and 5.80 with 1,280. For firms
 away from the boundary the averages are 5.16, 5.71, 5.87, 5.94 and 5.96.
 
-The result matters for empirical work in two ways. A low-dimensional pure characteristics model implies a sparse
-matrix of cross-price effects, in which each product's diversion goes to a handful of neighbors. A logit-type model
+\begin{remark}[Why competitors are defined by shared boundaries]\label{rem:04-competitor-def}
+The definition of \citet{CaplinNalebuff1991} counts $k$ as a competitor of $j$ if a marginal cut in $p_j$
+reduces $q_k$. Read as a nonzero derivative, it agrees with the shared-boundary definition when the type density
+is positive on the interior of $B$. Read literally, as any loss of demand after a small cut, it counts
+second-order losses too. Under the literal reading the bound in \cref{prop:04-cn-six} fails in degenerate
+configurations. Place
+$J \geq 8$ products at equal prices, equally spaced on a circle, with the quadratic mismatch costs of
+\cref{fig:04-voronoi}. Let types be uniform on a disk with the same center. The Voronoi cells are wedges that
+all meet at the center, and each shares edges only with its two neighbors. After a cut of size $\eta > 0$ in $p_j$, product $j$ is the strict favorite of every type near the
+center, so it takes buyers from every other wedge. For a wedge that touches $j$'s area only at the center, the
+lost area is of order $\eta^2$, and its first-order cross-price effect is zero. Under the literal reading every
+firm has $J - 1 > 6$ competitors. Under the shared-boundary definition every firm has two, as the proposition
+allows.
+\end{remark}
+
+\begin{example}[No bound in three dimensions]\label{ex:04-no-bound-3d}
+Let $L = 3$ and let a consumer buy the product that minimizes $p_j + \tau\|\nu - x_j\|^2$, as in
+\cref{fig:04-voronoi}. At equal prices the market areas are Voronoi cells. Types are uniform on the ball of
+radius 2 around the origin, which satisfies A2.
+Place $n$ products at $A_i = (a_i, 0, 0)$ and $n$ products at $B_l = (1, b_l, 1)$, with distinct $a_i \in [0, 1]$
+and distinct $b_l \in [0, 1]$. The two groups lie on two skew lines. For each pair $(i, l)$ let
+\begin{equation*}
+z_{il} = \frac{(1 - a_i)^2 + 1 - b_l^2}{2}, \qquad c_{il} = (a_i, b_l, z_{il}).
+\end{equation*}
+The squared distances from $c_{il}$ to $A_i$ and to $B_l$ both equal $b_l^2 + z_{il}^2$. The squared distance to
+any other $A_k$ is larger by $(a_k - a_i)^2 > 0$, and the squared distance to any other $B_k$ is larger by
+$(b_k - b_l)^2 > 0$. By continuity, the types near $c_{il}$ on the plane of indifference between $A_i$ and $B_l$
+are strictly closer to these two locations than to any other. Since $0 \leq z_{il} \leq 1$, the point $c_{il}$
+lies inside the ball. The market areas of the two products therefore share a face of positive area within the
+support. All $n^2$ such pairs are competitors under the sharper definition, and every product has positive
+demand. With $J = 2n$ firms the average number of competitors is at least $\frac{2n^2}{2n} = n = \frac{J}{2}$,
+which grows without bound.
+\end{example}
+
+The result matters for empirical work in two ways. A pure characteristics model in one or two dimensions implies a
+sparse matrix of cross-price effects, in which a product's diversion goes on average to at most six neighbors. In
+three or more dimensions the sparsity depends on the configuration of products (\cref{ex:04-no-bound-3d}). A logit-type model
 spreads every product's diversion over all products. These are very different predictions for a merger between
 two products, and the choice between them is made when the researcher picks the dimension of the model. The result
 also shows that the location models of \cref{sec:04-location}, with one dimension, impose strong restrictions on

@@ -258,8 +258,12 @@ The formula has a useful implication for households that did not buy a minivan. 
   p^{cf}_j - y_i + \exp\Bigl(\frac{\alpha_i\ln(y_i - p^0_j)}{\alpha_i}\Bigr) = p^{cf}_j - y_i + (y_i - p^0_j)
   = p^{cf}_j - p^0_j .
 \end{equation*}
-A non-buyer's compensation is therefore at most the price change of the vehicle she chose. It equals that change when
-her vehicle remains her best choice at $p^{cf}$. For these households, as Petrin notes (p.~720), compensation is
+A non-buyer's compensation is therefore at most the price change of the vehicle she chose. It equals that change if
+and only if her vehicle remains a best choice at prices $p^{cf}$ and the compensated income $y_i + p^{cf}_j - p^0_j$.
+At that income vehicle $j$ yields exactly $U_i^1$, so the condition says that no alternative reaches $U_i^1$ with
+less compensation. Remaining best at the original income $y_i$ does not suffice, because income enters utility
+through $\ln(y_i - p_k)$. Extra income then raises the utility of expensive vehicles more than that of cheap ones.
+For these households, as Petrin notes (p.~720), compensation is
 determined entirely by the price changes that the minivan caused. Averaging $CV_i$ over simulated households and
 multiplying by $M$ gives the aggregate measure.
 
@@ -384,16 +388,22 @@ variance, computed at a preliminary estimate $\tilde\theta$. Following \citet{Ha
   \hat\theta = \argmin_{\theta\in\Theta}\; \tilde G(\theta)^\top\tilde G(\theta), \qquad
   \tilde G(\theta) = a(\tilde\theta)\,\hat G(\theta) .
 \end{equation}
-The two sets of moments come from independent samples, the vehicle market and the CEX. The variance matrix $V =
-\E[\tilde G(\theta_0)\tilde G(\theta_0)^\top]$ is therefore block diagonal. With $\Gamma = \E\bigl[\frac{\partial
-\tilde G(\theta_0)}{\partial\theta}\bigr]$, the asymptotic variance of $\sqrt{n}(\hat\theta - \theta_0)$ is
+The two sets of moments come from independent samples, the vehicle market and the CEX. Let $n$ be the size of the
+market sample, and suppose the CEX sample size $n_2$ satisfies $\frac{n_2}{n} \to \lambda \in (0,\infty)$. Write
+$V_G$ for the asymptotic variance of $\sqrt{n}\,\hat G(\theta_0)$. Independence makes $V_G$ block diagonal. Since
+$\sqrt{n}\,\hat G_2 = \sqrt{\frac{n}{n_2}}\,\sqrt{n_2}\,\hat G_2$, the micro block is $\frac{1}{\lambda}$ times the
+asymptotic variance of $\sqrt{n_2}\,\hat G_2(\theta_0)$. Let $a$ and $\Gamma$ be the probability limits of $a(\tilde\theta)$ and
+$\frac{\partial\tilde G(\theta_0)}{\partial\theta}$. The scaled moments $\sqrt{n}\,\tilde G(\theta_0)$ then have
+asymptotic variance $V = aV_Ga^\top$, and the asymptotic variance of $\sqrt{n}(\hat\theta - \theta_0)$ is
 \begin{equation}\label{eq:10-petrin-avar}
   (\Gamma^\top\Gamma)^{-1}\,\Gamma^\top V\Gamma\,(\Gamma^\top\Gamma)^{-1} .
 \end{equation}
 This is the usual sandwich for a GMM estimator with identity weight on the normalized moments
-(\cref{app:econometrics}). If $a(\tilde\theta)$ converges to $V_G^{-\frac{1}{2}}$, where $V_G$ is the variance of the
-raw moments, then $V$ converges to the identity and \eqref{eq:10-petrin-avar} reduces to the efficient GMM variance
-$(\Gamma^\top\Gamma)^{-1}$. The micro block of $V$ reflects CEX sampling error, which is large when a buyer group is small.
+(\cref{app:econometrics}). Petrin writes $V = \E[\tilde G(\theta_0)\tilde G(\theta_0)^\top]$ (p.~715). Read literally,
+that is the variance of a sample average, which is of order $\frac{1}{n}$, so the sandwich needs the factor $n$ of
+our definition. If $a = V_G^{-\frac{1}{2}}$, then $V = I$ and \eqref{eq:10-petrin-avar} reduces to the efficient
+GMM variance $(\Gamma^\top\Gamma)^{-1}$. The micro block of $V_G$ reflects CEX sampling error, which is large when a
+buyer group is small or the CEX sample is small relative to the market sample.
 
 \casehead{Computation} One evaluation of the objective proceeds as follows.
 \begin{enumerate}[label=(\roman*)]
@@ -864,8 +874,10 @@ temporary market power through new goods (p.~728).
 
 \section{Case study: complementarity and online news (Gentzkow 2007)}\label{sec:10-gentzkow}
 
-Every model of this chapter so far assumes that a consumer chooses one product. The new good can then only draw
-consumers away from existing goods. \citet{Gentzkow2007} builds a discrete choice model in which consumers may choose
+Every discrete choice model of this chapter so far assumes that a consumer chooses one product. In those models the
+new good can only draw consumers away from existing goods. The continuous demand systems of the chapter, such as the
+AIDS system of \cref{sec:10-hausman}, are different, since they let spending spread over many brands.
+\citet{Gentzkow2007} builds a discrete choice model in which consumers may choose
 several goods at once, and in which the data decide whether goods are substitutes or complements. He applies it to the
 \textit{Washington Post}, its online edition (the post.com) and the competing daily \textit{Washington Times}. We follow
 the paper from its question to its contribution.\footnote{Gentzkow writes $\sigma$ for the correlation of the
@@ -1224,7 +1236,10 @@ post.com to the \textit{Post}, averaged over the respondents whom the instrument
 
 \Cref{tab:10-gentzkow-lpm} reproduces Table~4. OLS gives a positive coefficient, 0.0464 (0.0090), which mirrors the
 raw correlation. 2SLS gives $-0.4132$ (0.107). Taken literally, a respondent assigned to read the online paper at zero
-time cost would be about 40 percent less likely to read the print paper (p.~726). Gentzkow warns that the linear
+time cost would be about 41 percentage points less likely to read the print paper. Gentzkow describes this as
+``40 percent less likely'' (p.~726). The coefficient on a binary regressor in a linear probability model is a change
+in the probability itself. A relative decline would require dividing by a baseline probability of reading the
+print paper. Gentzkow warns that the linear
 probability model limits how far this magnitude can be trusted. The first-stage $F$-statistic on the instruments is
 33.05, so weak instruments are not a concern. The overidentification statistic is $\chi^2 = 3.65$ with a $p$-value of
 0.302, so the test does not reject the validity of the instruments.
@@ -1303,6 +1318,17 @@ are three pairwise interactions and one triple interaction, which is estimated b
 major news day the bundle $r$ gains $|r|\hat\tau$, where $|r|$ is its number of goods. The interaction terms and the
 price coefficient are common to all consumers. Gentzkow reports that letting $\Gamma_r$ vary with observables did not
 change the results substantially (p.~729).
+
+\Cref{prop:10-gentzkow-subst} does not apply unchanged to this model. Label the goods $A$, $B$ and $C$. With three
+goods, a change in $p_B$ also moves consumers into and out of the bundles that contain $C$. The triple interaction
+and the bundle-specific logit errors then enter the cross-price effect, and a negative $\Gamma_{AB}$ no longer
+signs it. Our computation gives an example with $\nu_i$ and $\tau_{it}$ set to zero. Let every
+$\bar\delta_j + x_i\beta_j$ be zero, $\alpha = 1$, $\Gamma_{AB} = -1$, $\Gamma_{AC} = \Gamma_{BC} = 0$, and
+$\Gamma_r = 10$ for the bundle $r$ of all three goods. With $r_i$ the bundle that consumer $i$ chooses, the logit form
+gives $\frac{\partial Q_A}{\partial p_B} = -\alpha\Cov\bigl(\indic\{A\in r_i\},\indic\{B\in r_i\}\bigr) \approx -0.00009$.
+So $A$ and $B$ are complements although $\Gamma_{AB} < 0$, because almost every consumer buys all three goods. A
+small positive variance of $\nu_i$ preserves the sign. In the empirical model the two-good result is therefore an
+intuition, and the substitution patterns must be read from the cross-price derivatives of the full model.
 
 Two dummies define choice sets. About 10 percent of respondents say they look at no newspaper sections, and print
 papers are removed from their choice set. Respondents who did not use the Internet in the last 30 days have no online
@@ -1474,8 +1500,11 @@ N_p}{\partial p}\frac{p}{N_p}$. Rearranging \eqref{eq:10-gentzkow-foc} gives
   \varepsilon_p = \frac{\frac{p}{\kappa}}{m_p - a_w D} .
 \end{equation}
 The price paid per reader, $\frac{p}{\kappa} = \$0.125$, is far below the profit per reader, \$0.75, because each reader
-brings advertising revenue. The \textit{Post} therefore prices where its demand is inelastic, and a low elasticity
-requires a large $\alpha$ relative to the estimated utility scale. The paper reports an implied own-price elasticity of
+brings advertising revenue. The \textit{Post} therefore prices where its demand is inelastic. By the chain rule,
+$\varepsilon_p = \alpha\,p\,\frac{\partial N_p}{\partial\bar\delta_{\mathrm{post}}}\frac{1}{N_p}$, and the estimated
+demand parameters fix the readership response $\frac{\partial N_p}{\partial\bar\delta_{\mathrm{post}}}$ and $N_p$. With
+these and $p$ held fixed, the elasticity is proportional to $\alpha$, so a low elasticity requires a small $\alpha$.
+A price change then moves utility little relative to the spread of the taste shocks. The paper reports an implied own-price elasticity of
 0.37 and finds that it tracks the \textit{Post}'s readership response to its price increases over 1994--2003 (p.~738,
 n.~38).\footnote{Inserting the reported inputs into \eqref{eq:10-gentzkow-lerner} gives an elasticity between 0.17 (at
 $D = 0$) and 0.21 (at $D = 1$). The paper does not show how its elasticity of 0.37 is computed, so we cannot locate the
@@ -1536,9 +1565,12 @@ papers in the choice set, not reported.
 
 \casehead{Interactions and shocks} \Cref{tab:10-gentzkow-params} reproduces Table~6. Both print-online interactions are
 significantly negative: $-1.285$ (0.2307) for the \textit{Post} and the post.com and $-1.231$ (0.4832) for the post.com
-and the \textit{Times}. The \textit{Post}-\textit{Times} interaction is small, positive and insignificant. By
-\cref{prop:10-gentzkow-subst}, the post.com substitutes for both print papers, in line with the 2SLS regressions. The
-day shock is large and rare. On 4.5 percent of days the utility of every paper rises by about seven units, which
+and the \textit{Times}. The \textit{Post}-\textit{Times} interaction is small, positive and insignificant. Gentzkow
+reads these signs as making the post.com a substitute for both print papers (p.~734). In the two-good model this
+reading would follow from \cref{prop:10-gentzkow-subst}. In the three-good model the signs only suggest it, as
+\cref{sec:10-gentzkow-structural} explains. The support comes from the full model's cross-price derivatives below. A
+\$0.10 rise in the price of the \textit{Post} adds 8,358 post.com readers (p.~737), and the same rise for the
+\textit{Times} adds 2,781 (p.~738). The first agrees with the 2SLS regressions. The day shock is large and rare. On 4.5 percent of days the utility of every paper rises by about seven units, which
 suggests major news stories that raise the demand for news overall (p.~734). The four excluded variables all raise the
 utility of the post.com, and two of them significantly.
 
@@ -1765,11 +1797,20 @@ for the \textit{Wall Street Journal} and \$3.75 for the \textit{Tulsa World}.
 A second approach asks what transaction cost would make the zero price optimal. Suppose the post.com's constant is
 \begin{equation*}
   \bar\delta_{\mathrm{post.com}} = \delta_{\mathrm{post.com}} - \alpha p_{\mathrm{post.com}}
-  - \chi\,\indic\{p_{\mathrm{post.com}} > 0\},
+  - \alpha\chi\,\indic\{p_{\mathrm{post.com}} > 0\},
 \end{equation*}
-where $\chi$ is a real or perceived cost of paying online. Examples are the hassle of entering a card number and a
-sense that charging is unfair. With $\hat\alpha$ fixed, a zero price maximizes total profits whenever $\chi \ge \$0.13$ per
-day (p.~741). With the 2004 advertising market the optimal price falls to \$0.09, the loss from a zero price to \$1.7
+where $\chi$ is the dollar value of a real or perceived cost of paying online. Examples are the hassle of entering a
+card number and a sense that charging is unfair. With $\hat\alpha$ fixed, a zero price maximizes total profits whenever
+$\chi \ge \$0.13$ per day (p.~741).\footnote{Gentzkow's equation subtracts the cost from utility without the factor
+$\alpha$, while his thresholds are in dollars. We include the factor so that $\chi$ is in dollars throughout. The
+dollar reading is the consistent one. A price of $\$0.20 - \chi$ leaves every reader's utility as at a price of
+\$0.20 without the cost. Its profit is therefore the profit at \$0.20 without the cost, less $\chi$ a day per post.com
+reader. The post.com has fewer readers at \$0.20 than at a zero price. So a zero price can be optimal only if $\chi$ is
+at least the daily loss from a zero price divided by the readership at a zero price. Gentzkow scales the 406,000 area
+readers up to total readership, using an estimate that about 25 percent of readers are outside the area (p.~731,
+n.~30). This gives about $\frac{406{,}000}{0.75} \approx 541{,}000$ readers and a bound of
+$\frac{9{,}000{,}000}{365 \times 541{,}000} = \$0.046$ a day (our computation). A
+utility penalty of 0.13 is worth only $\frac{0.13}{9.72} = \$0.013$.} With the 2004 advertising market the optimal price falls to \$0.09, the loss from a zero price to \$1.7
 million, and the threshold to \$0.02. The zero price may have been part of a rational forward-looking strategy.
 
 \subsection{Robustness}\label{sec:10-gentzkow-robust}
@@ -1940,8 +1981,9 @@ and the innovator raises the prices of its own substitutes through the diversion
 fixed. Gentzkow's welfare calculation holds all other prices fixed. Both therefore omit most of this term.
 
 \casehead{New goods may complement old ones} Single-unit models force every new good to substitute for existing goods.
-Gentzkow's bundle model lets the interaction terms decide (\cref{prop:10-gentzkow-subst}). It also shows that correlated
-tastes can masquerade as complementarity. The sign of the post.com's effect on print profits reverses once unobserved
+Gentzkow's bundle model lets the data decide. With two goods the interaction term alone signs the cross-price
+effect (\cref{prop:10-gentzkow-subst}). With more goods the full model's cross-price derivatives must be computed.
+The model also shows that correlated tastes can masquerade as complementarity. The sign of the post.com's effect on print profits reverses once unobserved
 heterogeneity is allowed (\cref{tab:10-gentzkow-subst}). Any valuation of a good that is consumed alongside existing
 goods must decide this question before it can measure the variety effect.
 

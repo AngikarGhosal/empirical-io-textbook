@@ -555,8 +555,14 @@ where $V_0$ is a shock common to all bidders and $\epsilon_i$ is idiosyncratic. 
 model, because each bidder knows its own value with certainty \citep[Section~7]{AtheyHaile2007}. The common
 factor $V_0$ makes values and signals correlated across bidders. It even makes one bidder's signal
 correlated with another bidder's value. Still, once bidder $i$ has seen $s_i$, no rival has information
-relevant to $i$'s value. The same is true if $V_i=S_i+\eta_i$ with $\eta_i$ independent of every $S_j$,
-$j\neq i$ \citep[footnote~78]{AtheyHaile2007}. The distinction between private and common values concerns
+relevant to $i$'s value. Private values also allow noise in a bidder's own value. Let $V_i=S_i+\eta_i$, where
+the noise $\eta_i$ is independent of the whole signal vector $\bm S$. Then $\E[V_i\mid\bm S]=S_i+\E[\eta_i]$,
+which depends on $S_i$ alone. \citet[footnote~78]{AtheyHaile2007} ask only that $\eta_i$ be independent of
+each rival signal $S_j$, $j\neq i$. That weaker condition is not enough, because $S_i$ itself can depend on
+$\eta_i$. Let $\eta_1$ and $S_2$ be independent and uniform on $[0,1]$, and let $S_1=\eta_1+S_2$. Then
+$\E[V_1\mid S_1,S_2]=2S_1-S_2$. By symmetry $\E[\eta_1\mid S_1]=\frac{1}{2}S_1$, so
+$\E[V_1\mid S_1]=\frac{3}{2}S_1$ and the rival's signal is informative. The distinction between private
+and common values concerns
 what rivals know about one's own value. Correlation of values is a separate matter.
 \end{remark}
 
@@ -1323,12 +1329,17 @@ any bids of its rivals. Let
 \[
 \tilde m=\max\Bigl\{r,\ \max_{j\neq i}b_j\Bigr\}
 \]
-be the \emph{price to beat}, the lowest price at which bidder $i$ can win. By \eqref{eq:14-payoff-spa},
-bidder $i$'s payoff from a bid $b\ge r$ is
+be the \emph{price to beat}, the lowest price at which bidder $i$ can win. By \eqref{eq:14-payoff-spa}, a
+bid $b\ge r$ wins when it exceeds every rival bid, and the winner pays $\tilde m$. Bidder $i$'s payoff from
+such a bid is
 \begin{equation}\label{eq:14-spa-payoff}
-u_i(b;\tilde m)=(v_i-\tilde m)\,\indic\{b>\tilde m\},
+u_i(b;\bm b_{-i})=(v_i-\tilde m)\,\indic\Bigl\{b>\max_{j\neq i}b_j\Bigr\},
 \end{equation}
-and its payoff from a bid below $r$ is zero. The payment does not depend on bidder $i$'s own bid, which
+and its payoff from a bid below $r$ is zero. A bid above $\tilde m$ therefore wins, and a bid below
+$\tilde m$ loses. A bid $b=\tilde m$ wins at price $r$ when every rival bid is below $r$. Otherwise it ties
+with the highest rival bid, and \eqref{eq:14-payoff-spa} counts the tie as a loss. Any other tie-breaking
+rule leaves the argument below unchanged, because a tied bid still earns either $v_i-\tilde m$ or zero.
+The payment does not depend on bidder $i$'s own bid, which
 only determines whether $i$ wins. A strategy is \emph{weakly dominant} if it does at least as well as any other
 strategy against every profile of rivals' bids. It must also do strictly better than each alternative
 against some profile. Bids below $r$ are all rejected, so we treat them as one action, not bidding.
@@ -1340,16 +1351,18 @@ the joint distribution of values or on the bidder's knowledge of that distributi
 \end{proposition}
 
 \begin{proof}
-Fix $\tilde m$. Every bid leads to one of two outcomes. Bidder $i$ either wins and receives $v_i-\tilde m$,
-or loses and receives zero. The bid $b=v_i$ wins exactly when $v_i>\tilde m$, so it yields
+Fix the rivals' bids, and hence $\tilde m$. Every bid leads to one of two outcomes. Bidder $i$ either wins
+and receives $v_i-\tilde m$, or loses and receives zero. The bid $b=v_i$ wins when $v_i>\tilde m$ and loses
+when $v_i<\tilde m$. When $v_i=\tilde m$, both outcomes give zero. Hence the bid $v_i$ yields
 \[
-u_i(v_i;\tilde m)=\max\{v_i-\tilde m,\ 0\},
+u_i(v_i;\bm b_{-i})=\max\{v_i-\tilde m,\ 0\},
 \]
 the larger of the two possible payoffs. No bid does better against any $\tilde m$. If $v_i<r$, the bid
 $v_i$ is rejected and earns zero, which is optimal because any winning bid pays at least $r>v_i$.
 
-Every other bid does strictly worse against some $\tilde m$ (for $v_i<r$, every bid below $r$ is the
-same action as bidding $v_i$). A bid $b>v_i$ wins when
+Every other bid does strictly worse against some $\tilde m$, with two exceptions. For $v_i<r$, every bid
+below $r$ is the same action as bidding $v_i$. For $v_i=r$, not bidding earns the same as bidding $v_i$
+against every profile, so we treat the two as one action. A bid $b>v_i$ wins when
 $v_i<\tilde m<b$ and then earns $v_i-\tilde m<0$, where bidding $v_i$ would have earned zero. A bid $b<v_i$
 loses when $b<\tilde m<v_i$ and earns zero, where bidding $v_i$ would have earned $v_i-\tilde m>0$. Hence
 $b_i=v_i$ is weakly dominant \citep{Vickrey1961}.
@@ -1452,7 +1465,8 @@ rival exits it observes. Bidder $i$ wins if $d>\tilde m$ and then pays $\tilde m
 \[
 (v_i-\tilde m)\,\indic\{d>\tilde m\}.
 \]
-This has the form \eqref{eq:14-spa-payoff}. By the argument in the proof of \cref{prop:14-spa-dominant},
+As in \eqref{eq:14-spa-payoff}, bidder $i$ either wins and receives $v_i-\tilde m$ or loses and receives
+zero. By the argument in the proof of \cref{prop:14-spa-dominant},
 quitting at $d=v_i$ yields $\max\{v_i-\tilde m,0\}$, the largest payoff available against any $\tilde m$.
 This holds for every profile of rival strategies and every realization of rival values, so the strategy is
 weakly dominant.

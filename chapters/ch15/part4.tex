@@ -312,15 +312,20 @@ measurements.
 \subsubsection{Identification}
 
 \begin{theorem}[\citealp{Krasnokutskaya2011}, Theorem 1]\label{thm:15-krasno}
-Let (D1)--(D4) hold, and suppose the characteristic functions of $\ln\omega$ and of $\ln B^0$ for
-each type never vanish. Then $F_\omega$ is identified from the joint distribution of any two bids
-$(B_{i_1t},B_{i_2t})$ submitted in the same auction. The distribution $F_k$ is identified from the same
-joint distribution if at least one of the two bidders has type $k$. In particular, a pair formed by a
-type-1 and a type-2 bidder identifies $F_\omega$, $F_1$ and $F_2$ (p.~299).
+Let (D1)--(D4) hold with $n_1\ge1$ and $n_2\ge1$, and suppose the characteristic functions of $\ln\omega$ and
+of $\ln B^0$ for each type never vanish.
+\begin{enumerate}[label=(\roman*)]
+\item The joint distribution of the bids $(B_{i_1t},B_{i_2t})$ of a type-1 and a type-2 bidder in the same
+auction identifies $F_\omega$, $F_1$ and $F_2$.
+\item The joint distribution of two bids of type-$k$ bidders in the same auction identifies $F_\omega$ and
+$G^0_k$ up to a common scale. Together with the marginal distribution of one bid of the other type, it
+identifies $F_\omega$, $F_1$ and $F_2$.
+\end{enumerate}
 \end{theorem}
 
 \begin{proof}
-\emph{Step 1 (separate the common component).} By \cref{lem:15-separability}(b),
+\emph{Step 1 (separate the common component).} Let bidder $i_1$ have type 1 and bidder $i_2$ type 2. By
+\cref{lem:15-separability}(b),
 \[
 \ln B_{i_1t}=\ln\omega_t+\ln B^0_{i_1t},\qquad \ln B_{i_2t}=\ln\omega_t+\ln B^0_{i_2t},
 \]
@@ -337,7 +342,16 @@ IPV.
 
 \emph{Step 3 (impose the scale).} The location normalization in logs is a scale normalization in
 levels. Rescaling all homogenized bids by $c$ rescales $\xi_k$, and hence $A$, by $c$, and rescales
-$\omega$ by $\frac{1}{c}$. The unique $c$ with $\E[A]=1$ for type 1 implements (D3).
+$\omega$ by $\frac{1}{c}$. The unique $c$ with $\E[A]=1$ for type 1 implements (D3). This proves (i).
+
+\emph{Step 4 (a same-type pair).} For (ii), apply \cref{lem:15-kotlarski} to the two type-$k$ log bids under the
+normalization $\E[\ln B^0_k]=0$. This identifies the distributions of $\ln\omega$ and $\ln B^0_k$ up to a common
+location in logs, which is a common scale in levels. The pair carries no information about the other type, and
+\eqref{eq:15-krasno-inverse} for either type involves both $G^0_1$ and $G^0_2$, since $n_1\ge1$ and $n_2\ge1$.
+A bid of the other type satisfies $\ln B_{-k}=\ln\omega+\ln B^0_{-k}$ with independent terms, so
+$\varphi_{\ln B^0_{-k}}=\frac{\varphi_{\ln B_{-k}}}{\varphi_{\ln\omega}}$, which is well defined because
+$\varphi_{\ln\omega}$ never vanishes. Its marginal distribution therefore identifies $G^0_{-k}$ on the same scale.
+Steps 2 and 3 then apply unchanged.
 \end{proof}
 
 Several remarks qualify the result. First, realizations are not identified. The $n$ bids of an
@@ -346,8 +360,14 @@ are identified, but no individual cost is. Second, a single bid per auction woul
 distribution of $\ln B=\ln\omega+\ln B^0$ alone has many decompositions into independent parts. Third,
 the nonvanishing condition is taken from \citet[Lemma 6.1]{AtheyHaile2007}. Krasnokutskaya's appendix
 argues instead that bounded supports make the characteristic functions entire, so that their zeros
-form a countable set (p.~320, Lemma A1). Fourth, when both bidders in the pair have the same type, the
-pair identifies $F_\omega$ and that type's $F_k$.
+form a countable set (p.~320, Lemma A1). Fourth, the theorem makes the data requirement more explicit than the
+source does. Krasnokutskaya writes that any pair of bids identifies $F_\omega$, and that $F_k$ is identified from any
+pair that contains a type-$k$ bidder (p.~299). For a same-type pair this needs part (ii). The inverse
+\eqref{eq:15-krasno-inverse} depends on the other type's bid distribution, and (D3) fixes the scale through
+type 1, which a pair of type-2 bids does not reveal. Her data contain every bid of each auction, so the
+marginal of the other type is available and the qualification does not affect the application. In auctions
+whose bidders all have one type, the inverse involves that type alone. A same-type pair then identifies $F_\omega$
+and $F_k$ once the scale is normalized on that type.
 
 \subsubsection{Testable restrictions and extensions}
 
@@ -432,7 +452,8 @@ and Markatou improves small-sample performance (p.~304, footnote 15, and p.~325)
 estimation (WP, pp.~16--17).
 
 \casehead{Step 2: inversion}
-With $\hat g^0_k$ and $\hat G^0_k(a)=\int_{\hat{\underline a}}^{a}\hat g^0_k$ in hand, evaluate
+Let $\hat{\underline b}^0_k$ be the estimated lower end of the support of type-$k$ homogenized bids. With
+$\hat g^0_k$ and $\hat G^0_k(b^0)=\int_{\hat{\underline b}^0_k}^{b^0}\hat g^0_k$ in hand, evaluate
 \eqref{eq:15-krasno-inverse} on a grid of homogenized bids to obtain $\hat\xi_k$ (p.~304, Step 6).
 Invert it to get the normalized bid function $\hat\alpha_k=\hat\xi_k^{-1}$. The distribution of the
 private component is then
@@ -448,14 +469,21 @@ $\ln(1+\text{bids})$ (WP, p.~17).
 
 Two derived objects summarize the results (p.~305, Steps 10--11). The density of total cost is
 $f_{C_k}(c)=\int f_k\big(\frac{c}{u}\big)\frac{1}{u}f_\omega(u)\,du$. The \emph{expected inverse bid
-function} averages, over the values of $\omega$ consistent with the bid $b$, the cost of a type-$k$
-bidder who bids $b$,
+function} is the expected cost of a type-$k$ bidder who submits the bid $b$,
+$\bar\xi_k(b)=\E[C_k\mid B_k=b]$. Since $C_k=\omega\,\xi_k(B^0_k)$ and $B_k=\omega B^0_k$,
 \[
 \bar\xi_k(b)=\int u\,\xi_k\Big(\frac{b}{u}\Big)f_\omega(u\mid b)\,du,\qquad
-f_\omega(u\mid b)=\frac{f_\omega(u)\,\indic\big(\frac{b}{\bar a}\le u\le\frac{b}{\underline a}\big)}{\int_{\frac{b}{\bar a}}^{\frac{b}{\underline a}}f_\omega(y)\,dy}.
+f_\omega(u\mid b)=\frac{f_\omega(u)\,g^0_k\big(\frac{b}{u}\big)\frac{1}{u}}{\int f_\omega(y)\,g^0_k\big(\frac{b}{y}\big)\frac{1}{y}\,dy}.
 \]
-Here $[\underline a,\bar a]$ is the support of the homogenized bids. The truncation removes values of
-$\omega$ that cannot produce the bid $b$ given the bounded supports.
+The weight is the posterior density of $\omega$ given $B_k=b$. By Bayes' rule it multiplies the prior
+$f_\omega(u)$ by the density $\frac{1}{u}g^0_k(\frac{b}{u})$ of the bid given $\omega=u$. This likelihood
+vanishes outside $\frac{b}{\bar b^0_k}\le u\le\frac{b}{\underline b^0_k}$, where $[\underline b^0_k,\bar b^0_k]$
+is the support of the homogenized bids of type $k$. Krasnokutskaya's Step 11 instead weights by the prior
+truncated to this interval (p.~305, footnote 16). That weight omits the likelihood inside the interval, so it
+does not deliver $\E[C_k\mid B_k=b]$ in general. Take two symmetric bidders with $A$ uniform on
+$[\frac12,\frac32]$ and $\omega$ uniform on $[1,2]$, for example. The bid function is $\frac{a}{2}+\frac34$, so
+homogenized bids are uniform on $[1,\frac32]$. At $b=\frac32$ the posterior mean of $\omega$ is
+$\frac{1}{2\ln1.5}\approx1.233$ and $\E[C\mid B=b]\approx1.150$. The truncated prior gives $1.25$ and $1.125$.
 
 \casehead{Properties}
 Her Proposition 4 shows that $\hat F_\omega$ and $\hat F_k$ are uniformly consistent under (D1)--(D4) and
@@ -1019,14 +1047,16 @@ $r_t$.
 For every $z$, $m(z,\omega)$ is strictly increasing in $\omega$.
 \end{assumption}
 
-Reserves need not be optimal. Monotonicity is nevertheless what optimal reserves deliver under weak
-conditions. Recall the virtual valuation \eqref{eq:14-psi} and write it conditionally on $\omega$ as
+Reserves need not be optimal. Monotonicity is nevertheless what optimal reserves deliver when higher
+$\omega$ makes higher values strictly more likely. Recall the virtual valuation \eqref{eq:14-psi} and write it conditionally on $\omega$ as
 $\psi(t\mid\omega)=t-\frac{1-F_V(t\mid\omega)}{f_V(t\mid\omega)}$. The optimal reserve solves
 $\psi(r^*\mid\omega)=v_0$, where $v_0$ is the seller's value (\cref{cor:14-optimal-reserve}).
 
 \begin{proposition}[\citealp{Roberts2013}, Proposition 1]\label{prop:15-roberts1}
-If $V$ and $\omega$ are affiliated and $\psi(t\mid\omega)$ is increasing in $t$ for every $\omega$, the
-optimal reserve price is increasing in $\omega$.
+Suppose $\psi(t\mid\omega)$ is strictly increasing in $t$ for every $\omega$. If $V$ and $\omega$ are
+affiliated, the optimal reserve price is nondecreasing in $\omega$. If they are strictly affiliated, so that the
+likelihood ratio inequality below is strict for all $v_1<v_2$ and $\omega_1<\omega_2$, the optimal reserve price
+is strictly increasing in $\omega$.
 \end{proposition}
 
 \begin{proof}
@@ -1034,21 +1064,28 @@ Take $\omega_1<\omega_2$. By \cref{prop:14-affil-mlrp}, affiliation gives the mo
 property. For $v_1<v_2$,
 $\frac{f_V(v_2\mid\omega_1)}{f_V(v_1\mid\omega_1)}\le\frac{f_V(v_2\mid\omega_2)}{f_V(v_1\mid\omega_2)}$,
 strictly under strict affiliation. Integrating over $v_2>v_1$ gives
-$\frac{1-F_V(v_1\mid\omega_1)}{f_V(v_1\mid\omega_1)}<\frac{1-F_V(v_1\mid\omega_2)}{f_V(v_1\mid\omega_2)}$,
-so the inverse hazard rises with $\omega$ and $\psi(t\mid\omega_2)<\psi(t\mid\omega_1)$ for every $t$.
-Let $r_1$ solve $\psi(r_1\mid\omega_1)=v_0$. Then $\psi(r_1\mid\omega_2)<v_0$. Since
-$\psi(\cdot\mid\omega_2)$ is increasing, the solution $r_2$ of $\psi(r_2\mid\omega_2)=v_0$ satisfies
-$r_2>r_1$.
+$\frac{1-F_V(v_1\mid\omega_1)}{f_V(v_1\mid\omega_1)}\le\frac{1-F_V(v_1\mid\omega_2)}{f_V(v_1\mid\omega_2)}$,
+so the inverse hazard is nondecreasing in $\omega$ and $\psi(t\mid\omega_2)\le\psi(t\mid\omega_1)$ for every $t$.
+Integration preserves strict inequality, so both inequalities are strict under strict affiliation. Let $r_1$
+solve $\psi(r_1\mid\omega_1)=v_0$. Then $\psi(r_1\mid\omega_2)\le v_0$. Since $\psi(\cdot\mid\omega_2)$ is
+strictly increasing, the solution $r_2$ of $\psi(r_2\mid\omega_2)=v_0$ satisfies $r_2\ge r_1$. Under strict
+affiliation $\psi(r_1\mid\omega_2)<v_0$, and therefore $r_2>r_1$.
 \end{proof}
+
+Affiliation alone does not deliver \cref{ass:15-roberts}. Independent $V$ and $\omega$ are affiliated, yet the
+optimal reserve then does not move with $\omega$. With $V$ uniform on $[0,1]$ and $v_0=0$, for example,
+$r^*=\frac12$ for every $\omega$. The proof in \citet[Appendix~B]{Roberts2013} writes the affiliation inequality
+as strict, which is the strict case of the proposition.
 
 The second result is the identification theorem. Partition $Z=(Z_0,Z_1)$.
 
 \begin{proposition}[\citealp{Roberts2013}, Proposition 2]\label{prop:15-roberts2}
 Let \cref{ass:15-roberts} hold. Suppose (i) there is a value $z_1^*$ such that $m(z_0,z_1^*,\omega)=\omega$
-for all $z_0$ and $\omega$, and (ii) $\omega$ is independent of $Z_1$ conditional on $Z_0$. Then
-$F_V(v\mid Z,\omega)$ is identified for $v\ge m(Z,\omega)$ from transaction prices and reserve prices
-in first-price and second-price (or ascending) auctions. With $N$ known and unsold auctions recorded,
-the probability of no sale also identifies the mass $F_V\big(m(Z,\omega)\mid Z,\omega\big)$.
+for all $z_0$ and $\omega$, and (ii) $\omega$ is independent of $Z_1$ conditional on $Z_0$. Then reserve prices
+identify $F_{\omega\mid Z_0}$, the function $m$ and each realization $\omega_t$. Suppose in addition that the
+number $N$ of potential bidders is known and that unsold auctions are recorded. Then transaction prices identify
+$F_V(v\mid Z,\omega)$ for every $v\ge m(Z,\omega)$, including the mass $F_V\big(m(Z,\omega)\mid Z,\omega\big)$, in
+first-price and second-price (or ascending) auctions.
 \end{proposition}
 
 \begin{proof}
@@ -1064,24 +1101,35 @@ so $m(z_0,z_1,u)=F_{r\mid Z}^{-1}\big(F_{r\mid Z}(u\mid z_0,z_1^*)\mid z_0,z_1\b
 \emph{Step 3 (realizations).} Since $m$ is strictly increasing in $\omega$, each observed $(r_t,Z_t)$
 reveals $\omega_t=m^{-1}(Z_t,r_t)$.
 \emph{Step 4 (values).} Treat $(Z_t,\omega_t)$ as observed covariates. For fixed $(Z,\omega)$ the
-reserve $m(Z,\omega)$ is fixed, so transaction prices are censored at it. Apply the truncated
-inversions of \cref{prop:15-reserve-ident} in second-price and ascending auctions and of
-\cref{thm:15-gpv-reserve} in first-price auctions. They identify $F_V(\cdot\mid Z,\omega)$ on
-$[m(Z,\omega),\infty)$. Take an ascending auction with $N$ known, for instance. The second-highest
-value is at most $v\ge m(Z,\omega)$ exactly when the car goes unsold or sells at a price of at most $v$.
-The probability of this event is $\Lambda_{N-1:N}\big(F_V(v\mid Z,\omega)\big)$, which is
-then inverted.
+reserve $m=m(Z,\omega)$ is fixed, so transaction prices are censored at it. For $v\ge m$ let $W(v)$ be the
+probability that the object goes unsold or sells at a price of at most $v$. Unsold auctions enter $W$, which
+is why they must be recorded. In a second-price or ascending auction, the second-highest of the $N$ values is
+at most $v$ exactly when this event occurs, so $W(v)=\Lambda_{N-1:N}\big(F_V(v\mid Z,\omega)\big)$. Inverting
+$\Lambda_{N-1:N}$, which requires $N$, gives $F_V(v\mid Z,\omega)$. In a first-price auction whose bidders know $N$
+but not who participates, as in \cref{sec:15-gpv-reserve}, let $\xi$ be the inverse bid function above the
+reserve. The event occurs at a bid level $b\ge m$ when every potential bidder
+stays out or bids at most $b$, so $W(b)=F_V\big(\xi(b)\mid Z,\omega\big)^N$. A bidder's win probability is
+$W(b)^{\frac{N-1}{N}}$, and the first-order condition gives $\xi(b)=b+\frac{N}{N-1}\frac{W(b)}{W'(b)}$, as in
+\eqref{eq:15-winbid-xi}. Then $F_V\big(\xi(b)\mid Z,\omega\big)=W(b)^{\frac1N}$. In both formats $W(m)$, the
+probability of no sale or a sale at the reserve, gives the mass at $m$.
 \end{proof}
 
-\Citet[Proposition 2]{Roberts2013} states the result without the restriction $v\ge m(Z,\omega)$, and
-his proof cites \citet[Theorems 1 and 6]{AtheyHaile2002}, which assume no binding reserve. Below the
+With less data the conclusion narrows. Without $N$ the transformation from $W$ to $F_V$ is unknown, and without
+the unsold auctions the prices of sold objects do not determine $W$. In second-price and ascending auctions that
+record the number of actual bidders, transaction prices still identify the value distribution truncated at the
+reserve, by \cref{prop:15-reserve-ident}(i).
+
+\Citet[Proposition 2]{Roberts2013} states the result without the restriction $v\ge m(Z,\omega)$ and
+without the requirements on $N$ and on unsold auctions. His proof cites \citet[Theorems 1 and 6]{AtheyHaile2002},
+which assume no binding reserve. Below the
 reserve, no bid is recorded and the data carry no information about $F_V(\cdot\mid Z,\omega)$, as in
 \cref{thm:15-gpv-reserve}. The reserve does bind in his data, since 107 of 1,117 cars in one subsample
 go unsold.
 
 The normalization (i) holds in many functional forms, for example $r=z\,\omega$ or $r=z+\omega$ at a
 suitable $z$ (\citealp{Roberts2013}, footnote 6). Unlike \cref{thm:15-krasno}, the result allows values
-to depend on $\omega$ in any way and needs only the transaction price. It requires instead that the
+to depend on $\omega$ in any way. Among bids it needs only the transaction price, together with $N$ and the
+record of unsold auctions. It requires instead that the
 reserve depend on nothing that the bids do not reflect.
 
 \casehead{Setting and data}
@@ -1256,8 +1304,8 @@ Bootstrap standard errors (100 repetitions) in parentheses, in percentage points
 
 \casehead{Assessment}
 Roberts showed that seller behavior can carry information about what the econometrician misses. The
-method needs only transaction and reserve prices, and it lets values depend on $\omega$ without
-separability. Its requirements are strong in other directions. Heterogeneity must be scalar and enter
+method needs only transaction and reserve prices and a record of unsold auctions. It lets values depend
+on $\omega$ without separability. Its requirements are strong in other directions. Heterogeneity must be scalar and enter
 both the reserve and the bids. The seller may have no private information that bidders value, and the
 reserve may respond to nothing that bidders ignore. All sellers must use one reserve rule, which the
 auction house's guidance makes plausible. Bidders must be symmetric, and the number of potential
@@ -1285,7 +1333,7 @@ Approach & Data required & Restrictions & What is identified & Practical cost\\
 Homogenization (\cref{sec:15-uh-sep}) & Bids and observed covariates & All heterogeneity observed. Separable covariate effect & $F_V(\cdot\mid z)$ and the covariate effect $g_0$ & Low\\
 Deconvolution \citep{Krasnokutskaya2011} & At least two bids per auction, bidder types & Scalar $\omega$, separable. Components $\omega$ and $A_i$ mutually independent & $F_\omega$ and each $F_k$, not realizations & High: cell by cell, slow rates\\
 Parametric mixture \citep{AtheyLevinSeira2011} & All bids & Parametric bid laws. Heterogeneity $\omega$ independent of covariates & Parameters, then $F_k(\cdot\mid\omega)$ for any $\omega$ & Moderate\\
-Reserve-price control \citep{Roberts2013} & Transaction and reserve prices & Reserve strictly increasing in scalar $\omega$. No seller private information & $m$, $F_\omega$, realizations of $\omega$, $F_V(\cdot\mid z,\omega)$ above the reserve & Moderate. $N$ assumed\\
+Reserve-price control \citep{Roberts2013} & Transaction and reserve prices, record of unsold auctions & Reserve strictly increasing in scalar $\omega$. No seller private information & $m$, $F_\omega$, realizations of $\omega$, $F_V(\cdot\mid z,\omega)$ above the reserve & Moderate. $N$ assumed\\
 $n$ as control or instrument \citep{CampoPerrigneVuong2003,HaileHongShum2003} & Bids, $n$, excluded shifters of participation & $n$ sufficient for $\omega$, or monotone in it & Value distributions given the control & Moderate\\
 Three bids \citep{HuMcAdamsShum2013} & At least three bids per auction & Heterogeneity may enter values nonseparably & Model primitives with nonseparable heterogeneity & High\\
 \bottomrule

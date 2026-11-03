@@ -3,7 +3,8 @@
 A market with 25 products and five owners. Demand: logit with
 delta_j = X_j beta - alpha p_j + xi_j, beta = (0.1, 0.25, 0.1), alpha = 2.
 Marginal cost: mc_j = X_j gamma + omega_j, gamma = (0.2, 0.25, 0.3).
-Product data (X, xi, omega, owner) are read from a CSV file with columns
+Product data (X, xi, omega, owner) are read from the committed file
+figures/appC/data/logit_market.csv, with columns
 prod_id, owner, X1, X2, X3, xi, omega.
 
 The equilibrium is computed by best-response iteration on firm-level common
@@ -20,7 +21,7 @@ import numpy as np
 from scipy.special import lambertw
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(HERE, "..", "..", "..", "..", "ProblemSet_1", "data_simulations.csv")
+DATA = os.path.join(HERE, "..", "..", "appC", "data", "logit_market.csv")
 
 BETA = np.array([0.1, 0.25, 0.1])
 ALPHA = 2.0

@@ -1,6 +1,6 @@
 """Bertrand-Nash equilibrium in a simulated 25-product logit market (ex:04-logit25).
 
-Primitives (data_simulations.csv in the course folder): 25 products with characteristics
+Primitives (figures/appC/data/logit_market.csv, committed in this repository): 25 products with characteristics
 x_j = (1, X2_j, X3_j), unobserved quality xi_j, cost shock omega_j and an owner id (five
 owners holding 3, 3, 6, 6 and 7 products). Parameters: beta = (0.1, 0.25, 0.1), alpha = 2,
 gamma = (0.2, 0.25, 0.3), mc_j = x_j gamma + omega_j, market size 1.
@@ -31,8 +31,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]                      # .../ECON_257
-DATA = ROOT / "ProblemSet_1" / "data_simulations.csv"
+DATA = HERE.parents[1] / "appC" / "data" / "logit_market.csv"   # figures/appC/data
 OUT_PDF = HERE.parent / "logit25_markups.pdf"
 OUT_TXT = HERE / "logit25_numbers.txt"
 

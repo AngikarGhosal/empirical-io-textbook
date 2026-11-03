@@ -59,7 +59,8 @@ $s_i = \frac{q_i}{Q}$. We write $s_{(1)} \ge s_{(2)} \ge \dots \ge s_{(N)}$ for 
 $m$-firm concentration ratio is $\mathit{CR}_m = \sum_{i=1}^{m} s_{(i)}$, and the Herfindahl-Hirschman index is
 $\HHI = \sum_{i=1}^N s_i^2$, quoted in HHI points as $10{,}000 \times \HHI$. Its numbers equivalent
 $\frac{1}{\HHI}$ is the number of equal-sized firms that would produce the same index. \Cref{ch:intro} writes it
-as $N^e$. In this chapter $N^e$ instead denotes the free-entry number of firms (\cref{sec:02-entry}).
+as $N^{\mathrm{eq}}$. In this chapter $N^e$ denotes a different object, the free-entry number of firms
+(\cref{sec:02-entry}).
 
 By \cref{prop:01-hhi-variance}, the index decomposes as
 \[
@@ -546,8 +547,8 @@ $\varepsilon(p^m) = \frac{6}{4} = \frac{3}{2}$.}
 \end{figure}
 
 \begin{example}[Constant-elasticity demand]\label{ex:02-ce}
-Let $Q(p) = Ap^{-\varepsilon}$ with $A > 0$ and a constant $\varepsilon > 0$. The elasticity is the same at every
-price:
+Let $Q(p) = Ap^{-\varepsilon}$ with $A > 0$ and a constant $\varepsilon > 0$, and let marginal cost be strictly
+positive, $c > 0$. The elasticity is the same at every price:
 \[
   -Q'(p)\,\frac{p}{Q(p)} = \varepsilon A p^{-\varepsilon - 1}\cdot\frac{p}{Ap^{-\varepsilon}} = \varepsilon .
 \]
@@ -558,9 +559,14 @@ $\frac{\varepsilon}{\varepsilon - 1} > 1$ dollars. This demand curve is log-conv
 directly. Here $\frac{QQ''}{(Q')^2} = \frac{\varepsilon + 1}{\varepsilon}$, which is below 2 exactly when
 $\varepsilon > 1$. The function $h(p) = p - c - \frac{p}{\varepsilon} = p\left(1 - \frac{1}{\varepsilon}\right) -
 c$ is then strictly increasing, so the argument of \cref{lem:02-soc}(iii) shows that $p^m$ is the unique optimum. If
-$\varepsilon \le 1$, revenue $Ap^{1 - \varepsilon}$ does not fall as price rises while cost falls, so profit rises
-at every price and no optimal price exists. \citet[Exercise~1.4]{Tirole1988} extends the result to any convex cost
-function. With constant-elasticity demand and $\varepsilon > 1$, profit is then quasi-concave in price.
+$\varepsilon \le 1$, revenue $Ap^{1 - \varepsilon}$ does not fall as price rises while cost $cAp^{-\varepsilon}$
+falls, so profit rises at every price and no optimal price exists. \citet[Exercise~1.4]{Tirole1988} extends the
+result to any convex cost function. With constant-elasticity demand and $\varepsilon > 1$, profit is then
+quasi-concave in price. The boundary case $c = 0$, which \cref{ass:02-monopoly} allows, behaves differently
+because profit equals revenue $Ap^{1 - \varepsilon}$. For $\varepsilon > 1$ profit rises without bound as price
+falls toward zero, and the formula's value $p^m = 0$ is not an admissible price, so no optimum exists. For
+$\varepsilon = 1$ profit equals $A$ at every price, so every positive price is optimal. For $\varepsilon < 1$
+profit rises without bound in price.
 \end{example}
 
 \begin{example}[Exponential demand]\label{ex:02-exponential}
@@ -603,7 +609,7 @@ the elasticity at the optimum, $\varepsilon(p^m) = \frac{\bar p + gc}{\bar p - c
   \item With $g = 1$, $\bar p = a$ and $B = \frac{1}{b}$, demand is linear and $p^m = \frac{a + c}{2}$.
   \item With $g = 2$, demand is quadratic and convex, and $p^m = \frac{\bar p + 2c}{3}$.
   \item With $\bar p = 0$ and $g < 0$, demand is $Q = Bp^{g}$, which has constant elasticity $\varepsilon = -g$.
-  Then $p^m = \frac{gc}{1 + g} = \frac{\varepsilon}{\varepsilon - 1}c$, which requires $g < -1$.
+  Then $p^m = \frac{gc}{1 + g} = \frac{\varepsilon}{\varepsilon - 1}c$, which requires $g < -1$ and $c > 0$.
   \item Let $\bar p \to \infty$ and $g \to \infty$ with $\lambda_s = \frac{g}{\bar p}$ held fixed, and set
   $B = A\bar p^{-g}$ for a constant $A > 0$. Then
   \[
@@ -616,7 +622,8 @@ the elasticity at the optimum, $\varepsilon(p^m) = \frac{\bar p + gc}{\bar p - c
   which matches \cref{ex:02-exponential} with $b = \frac{1}{\lambda_s}$.
 \end{itemize}
 In inverse form, the case $g > 0$ reads $P(Q) = a - bQ^{\gamma}$ with $a = \bar p$, $b = B^{-\gamma}$ and
-$\gamma = \frac{1}{g}$. The symbol $\gamma$ is local to this family. The second-order condition holds
+$\gamma = \frac{1}{g}$. The case $g < 0$ inverts to $P(Q) = \bar p + B^{-\gamma}Q^{\gamma}$, which is the same form
+with $b = -B^{-\gamma}$. The symbol $\gamma$ is local to this family. The second-order condition holds
 automatically when $g > 0$, because $\ln Q$ is then concave. When $g < 0$, $\frac{QQ''}{(Q')^2} = 1 - \frac{1}{g}$,
 which is below 2 exactly when $g < -1$, the condition found above. The family returns in
 \cref{sec:02-conduct,sec:02-passthrough} and in \cref{ch:conduct}.
@@ -677,8 +684,11 @@ equilibrium.
 The first statement is the special case of \citet{Debreu1952} given in \citet[sec.~11.6.1]{Tirole1988}. The
 standard argument applies Kakutani's fixed-point theorem (\cref{thm:B-kakutani}) to the joint best-response
 correspondence
-$a \mapsto BR_1(a_{-1}) \times \dots \times BR_N(a_{-N})$. By Berge's maximum theorem, continuity and compactness
-make this correspondence nonempty valued with a closed graph. Quasi-concavity makes its values convex.
+$a \mapsto BR_1(a_{-1}) \times \dots \times BR_N(a_{-N})$. Berge's maximum theorem concerns a continuous function of
+a choice variable and a parameter, maximized over a fixed compact set. It says that the maximizers, as a
+correspondence of the parameter, have nonempty compact values and a closed graph. Applied to each player, with
+rivals' actions as the parameter, it makes the joint correspondence nonempty valued with a closed graph.
+Quasi-concavity makes its values convex.
 A fixed point of the correspondence is a Nash equilibrium (see also \cref{cor:B-nash-existence}). For the second
 statement, a mixed strategy of player $i$
 is a point in the simplex of distributions over its finite action set, which is compact and convex. The expected
@@ -700,7 +710,12 @@ $a_1, a_2 \in \R$ and twice continuously differentiable profits, and suppose eac
 firm's own action. The first-order condition $\frac{\partial \pi_i}{\partial a_i}(a_i, a_j) = 0$ then defines firm
 $i$'s \emph{reaction function} $R_i(a_j)$, its unique best response to $a_j$ at an interior optimum. A Nash
 equilibrium is a pair with $a_1^* = R_1(a_2^*)$ and $a_2^* = R_2(a_1^*)$, an intersection of the two reaction curves.
-Differentiating the identity $\frac{\partial \pi_i}{\partial a_i}(R_i(a_j), a_j) = 0$ with respect to $a_j$ gives
+Suppose in addition that the strict second-order condition $\frac{\partial^2 \pi_i}{\partial a_i^2}(R_i(a_j), a_j) <
+0$ holds. Strict concavity alone does not deliver it. The payoff $\pi_i = -a_i^4 + a_i a_j$ is strictly concave in
+$a_i$, yet its second derivative vanishes at the best response $a_i = 0$ to $a_j = 0$. There its reaction function
+$R_i(a_j) = \left(\frac{a_j}{4}\right)^{\frac{1}{3}}$ has an infinite slope. Under the strict condition, the implicit
+function theorem makes $R_i$ continuously differentiable. Differentiating the identity
+$\frac{\partial \pi_i}{\partial a_i}(R_i(a_j), a_j) = 0$ with respect to $a_j$ gives
 \[
   \frac{\partial^2 \pi_i}{\partial a_i^2}\,R_i'(a_j) + \frac{\partial^2 \pi_i}{\partial a_i\,\partial a_j} = 0 ,
 \]
@@ -708,7 +723,8 @@ so the slope of the reaction function is
 \begin{equation}\label{eq:02-reaction-slope}
   R_i'(a_j) = -\frac{\frac{\partial^2 \pi_i}{\partial a_i\,\partial a_j}}{\frac{\partial^2 \pi_i}{\partial a_i^2}}
 \end{equation}
-\citep[introduction to Part~II, eq.~(5)]{Tirole1988}. The denominator is negative, so the slope of the reaction
+\citep[introduction to Part~II, eq.~(5)]{Tirole1988}. The denominator is negative by the strict second-order
+condition, so the slope of the reaction
 function has the sign of the cross-partial derivative. Following \citet{BulowGeanakoplosKlemperer1985}, actions are \emph{strategic
 substitutes} when the cross-partial is negative and \emph{strategic complements} when it is positive. Quantities are
 often substitutes and prices often complements (\cref{sec:02-cournot-br} and \cref{rem:02-strategic}).
@@ -1134,11 +1150,14 @@ Suppose consumers spend a fixed amount $E$ on the good, so that demand is $Q = \
 one and revenue equals $E$ at every price, so $\Pi = E\,\HHI$. In this case the Herfindahl index measures industry
 profit exactly, up to a constant (Tirole's eq.~(5.15)).
 
-Bertrand competition gives a sharp contrast \citep[sec.~5.5]{Tirole1988}. With symmetric firms, the Bertrand price
-and industry profit do not depend on the number of firms (\cref{prop:02-bertrand}), so profitability and
-concentration are unrelated. In Cournot competition, profitability falls with the number of firms. With asymmetric
-costs, the lowest-cost Bertrand firm prices at the second-lowest cost and takes the whole market
-(\cref{sec:02-bertrand-homog}). Concentration then takes its highest value under any index that satisfies the
+Bertrand competition gives a sharp contrast \citep[sec.~5.5]{Tirole1988}. With symmetric firms and a common
+constant marginal cost, the Bertrand price and industry profit do not depend on the number of firms
+(\cref{prop:02-bertrand}), so profitability and concentration are unrelated. In Cournot competition, profitability
+falls with the number of firms. With asymmetric costs $c_1 < c_2 \le c_j$ for $j \ge 3$, the lowest-cost Bertrand
+firm takes the whole market at the price $\min\{c_2, p^m(c_1)\}$, where $p^m(c_1)$ is its monopoly price
+(\cref{sec:02-bertrand-homog}). When $p^m(c_1) > c_2$, this outcome is an equilibrium if ties go to the low-cost
+firm or if prices lie on a fine grid that contains $c_2$. With continuous prices and an equal split of ties, no pure
+equilibrium exists in that case. In this outcome concentration takes its highest value under any index that satisfies the
 Encaoua-Jacquemin properties, and the efficient firm earns a positive profit. Under both models, intrinsic cost
 asymmetries raise concentration and profitability together, which is the argument of \citet{Demsetz1973}.
 

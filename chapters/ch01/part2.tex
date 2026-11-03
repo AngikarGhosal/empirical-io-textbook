@@ -383,8 +383,9 @@ costs, so this error is large, systematic and correlated with industry character
 treated as noise.
 
 Even classical noise has a known cost. Suppose the true relation is $L_k = \beta_0 + \beta_1 \HHI^*_k +
-e_k$, and we observe $\HHI_k = \HHI^*_k + u_k$. Assume $u_k$ has mean zero and variance $\sigma_u^2$ and
-is uncorrelated with $\HHI^*_k$ and $e_k$. The OLS slope of $L_k$ on $\HHI_k$ converges to
+e_k$, and we observe $\HHI_k = \HHI^*_k + u_k$. Assume that true concentration is exogenous, $\Cov(\HHI^*_k,
+e_k) = 0$, and that it varies, $\Var(\HHI^*_k) > 0$. Assume also that $u_k$ has mean zero and variance
+$\sigma_u^2$ and is uncorrelated with $\HHI^*_k$ and $e_k$. The OLS slope of $L_k$ on $\HHI_k$ converges to
 \begin{equation}\label{eq:01-attenuation}
 \frac{\Cov(\beta_0 + \beta_1 \HHI^*_k + e_k, \, \HHI^*_k + u_k)}{\Var(\HHI^*_k + u_k)}
  = \frac{\beta_1 \Var(\HHI^*_k)}{\Var(\HHI^*_k) + \sigma_u^2}
@@ -392,8 +393,14 @@ is uncorrelated with $\HHI^*_k$ and $e_k$. The OLS slope of $L_k$ on $\HHI_k$ co
 \end{equation}
 The numerator keeps only $\beta_1 \Var(\HHI^*_k)$ because the other covariances are zero. The
 \emph{reliability ratio} $\chi \in (0, 1]$ is the share of the variance of measured concentration that
-is signal. Measurement error biases the slope toward zero, and \cref{sec:01-salinger} shows that panel
-methods can make this bias much worse.
+is signal. Measurement error then biases the slope toward zero, and \cref{sec:01-salinger} shows that panel
+methods can make this bias much worse. The exogeneity assumption matters. Without it the numerator
+keeps the term $\Cov(\HHI^*_k, e_k)$, and the limit becomes
+\[
+\frac{\beta_1 \Var(\HHI^*_k) + \Cov(\HHI^*_k, e_k)}{\Var(\HHI^*_k) + \sigma_u^2} .
+\]
+This limit need not lie between zero and $\beta_1$, so with both noise and endogeneity the bias can
+have either sign. \Cref{sec:01-endogeneity} studies the endogeneity of concentration on its own.
 
 \subsection{Endogeneity of structure: theory}\label{sec:01-endogeneity}
 
@@ -913,7 +920,7 @@ L_i = \frac{P - c_i}{P} = \frac{b q_i}{P} = \frac{bQ}{P} \, s_i = \frac{s_i}{\va
 Multiplying by $s_i$ and summing gives $\sum_i s_i L_i = \frac{\HHI}{\varepsilon}$.
 \end{proof}
 
-\begin{corollary}[A mean-preserving spread of costs]\label{prop:01-demsetz-spread}
+\begin{corollary}[An equal-mean increase in cost variance]\label{prop:01-demsetz-spread}
 Change the costs $c_i$ so that $\sum_i c_i$ is unchanged, $\sigma_c^2$ rises and all firms remain
 active. Then price, output and consumer surplus $\frac{bQ^2}{2}$ are unchanged. The Herfindahl index,
 industry variable profit and the share-weighted Lerner index all rise, and so does total surplus.
@@ -931,7 +938,11 @@ dispersion of firm costs, concentration, margins and profits move together, and 
 well off in all of them. Design (5) of the Monte Carlo experiment is exactly this case.
 
 \citet[Section~5.5]{Tirole1988} presents Demsetz's argument with two further examples. In Bertrand competition
-with constant marginal costs, the lowest-cost firm charges the second-lowest cost and takes the whole market.
+with constant marginal costs, the lowest-cost firm takes the whole market at the price $\min\{c_{(2)}, p^m(c_{(1)})\}$,
+where $c_{(1)} < c_{(2)}$ are the two lowest costs and $p^m(c_{(1)})$ is the monopoly price at the lowest cost. When
+$p^m(c_{(1)}) > c_{(2)}$, this outcome is an equilibrium if ties go to the low-cost firm or if prices lie on a fine grid
+that contains $c_{(2)}$. With continuous prices and an equal split of ties, no pure equilibrium exists in that case
+(\cref{sec:02-bertrand-homog}).
 Concentration is then as high as any index that satisfies the axioms of \cref{rem:01-ej-axioms} allows, and the
 firm earns a positive profit. With symmetric costs, concentration is lower and profit is zero.
 \Cref{prop:01-more-draws} below studies this equilibrium when costs are random. Tirole's Exercise~5.7 is a
@@ -1111,8 +1122,10 @@ $c_{(k:N)}$ denote the $k$-th lowest of $N$ costs.
 
 \begin{proposition}[More firms, more draws]\label{prop:01-more-draws}
 Let the marginal costs of $N \ge 2$ firms be independent draws from a distribution $F_c$ on $[\underline
-c, \bar c]$, and let firms compete in prices with a homogeneous good. In the equilibrium in which the
-lowest-cost firm serves the market at the second-lowest cost, the price is $c_{(2:N)}$, and
+c, \bar c]$, and let firms compete in prices with a homogeneous good. Let ties go to a lowest-cost firm, and
+let the monopoly price at every cost in $[\underline c, \bar c]$ be at least $\bar c$, so that no cost advantage
+is drastic. In the equilibrium in which the lowest-cost firm serves the market at the second-lowest cost, the
+price is $c_{(2:N)}$, and
 \[
 \E[c_{(2:N)}] = \underline c + \int_{\underline c}^{\bar c} G_N(x) \, \dd x, \qquad
 G_N(x) \equiv \Pr(c_{(2:N)} > x) = (1 - F_c(x))^N + N F_c(x) (1 - F_c(x))^{N - 1}.

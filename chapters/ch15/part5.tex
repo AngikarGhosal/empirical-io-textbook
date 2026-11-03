@@ -246,8 +246,8 @@ The theory yields five predictions that organize the empirical work.
 \item \emph{Homogeneous benchmark.} If $F_L=F_M$, both formats have the same entry, allocation and
 expected revenue.
 \item \emph{Uniqueness.} If $\pi^{\mathrm s}_M(n_L,n_M+1)>\pi^{\mathrm s}_L(n_L,n_M)$ for all
-$(n_L,n_M)$, each format has a unique type-symmetric entry equilibrium, with $p_L=0$ or $p_M=1$
-(\cref{prop:14-als-unique}). The empirically relevant case is $p_M=1$ and $0<p_L<1$, since ALS observe
+$(n_L,n_M)$, every type-symmetric entry equilibrium has $p_L=0$ or $p_M=1$, and each format has a unique one when
+there are at least two potential loggers and two potential mills (\cref{prop:14-als-unique}). The empirically relevant case is $p_M=1$ and $0<p_L<1$, since ALS observe
 logger entry in more than 85 percent of sales and always more potential than actual logger entrants
 (p.~214). Their later count is less absolute, with more potential than actual entrants in 99 percent of
 Northern sales and 95 percent of California sales (p.~245, \cref{sec:15-als-structural}).
@@ -799,8 +799,9 @@ simulation \citep[pp.~243--245]{AtheyLevinSeira2011}.
 \item Repeat 5,000 times for each configuration with up to 8 mills and 25 loggers, and average.
 \end{enumerate}
 The inequality holds for all configurations and every tract in the sample (p.~245). By
-\cref{prop:14-als-unique}, the estimated model has a unique type-symmetric entry equilibrium for every
-tract, whatever the entry cost. In that equilibrium, if loggers enter with positive probability, every mill
+\cref{prop:14-als-unique}, the estimated model has a unique type-symmetric entry equilibrium, whatever the entry cost,
+for every tract with at least two potential loggers and two potential mills. When a type has a single potential bidder,
+uniqueness can fail only at knife-edge entry costs, one for each such type. In every type-symmetric entry equilibrium, if loggers enter with positive probability, every mill
 enters.
 
 \casehead{Entry costs}
@@ -1490,7 +1491,7 @@ Combined & 23\% & 13\% & 15\% & 22\% & 28\% & 115\\
 \smallskip
 \begin{minipage}{0.93\textwidth}
 \footnotesize \textit{Notes.} Subsample of 115 auctions with complete data, 2004--2007. Each row sums to 100
-percent. Their Table 12.1 gives the same data as shares of all 115 auctions.
+percent up to rounding. Their Table 12.1 gives the same data as shares of all 115 auctions.
 \end{minipage}
 \end{table}
 
@@ -1606,40 +1607,48 @@ v(q_k,s_i)=\E(P^{\mathrm c}\mid A_k)
 \end{proposition}
 
 \begin{proof}[Derivation]
-We give the argument for a step at which ties have probability zero, as they do when $b_k<v(q_k,s_i)$. Fix a realization of rivals' signals and of the supply. Let $P(q)$ be the
-inverse residual supply, the price at which $RS_i$ equals $q$. Three events involve step $k$.
+We give the argument for a step at which ties have probability zero, as they do when $b_k<v(q_k,s_i)$. Three
+events involve step $k$.
 \begin{enumerate}[label=(\roman*)]
-\item On $A_k$, $b_{k+1}<P(q_k)<b_k$. Bidder $i$ wins $q_k$ at the price $P(q_k)$, and its payoff is
-$V(q_k,s_i)-P(q_k)\,q_k$.
+\item On $A_k$, $b_{k+1}<P^{\mathrm c}<b_k$. Bidder $i$ wins $q_k$ at the price $P^{\mathrm c}$.
 \item On $B_k$, $q_{k-1}<RS_i(b_k)<q_k$. The price is $b_k$, and $i$ is rationed to $RS_i(b_k)$.
 \item On $B_{k+1}$, $q_k<RS_i(b_{k+1})<q_{k+1}$. The price is $b_{k+1}$, and $i$ is rationed to
 $RS_i(b_{k+1})$.
 \end{enumerate}
-Raise $q_k$ slightly and hold the other bidpoints fixed. On $B_k$ and $B_{k+1}$ the payoff does not depend
-on $q_k$, because $i$ receives the residual supply. Only the boundaries of the three events move. On the
-boundary between $A_k$ and $B_k$ we have $P(q_k)=b_k$ and $RS_i(b_k)=q_k$, so the payoffs in (i) and (ii)
-coincide. The same holds on the boundary between $A_k$ and $B_{k+1}$. Moving a boundary therefore has no
-first-order effect, and only the change inside $A_k$ remains. Differentiating the payoff in (i) gives
+Their union $U_k=\{b_k\ge P^{\mathrm c}\ge b_{k+1}\}$ does not move with $q_k$, since a change in $q_k$ only shifts
+states among the three events. Outside $U_k$ the payoff does not depend on $q_k$. Let $X$ be the quantity that $i$
+wins, so that its payoff is $V(X,s_i)-P^{\mathrm c}X$. Raise $q_k$ slightly and hold the other bidpoints fixed. We
+differentiate expectations directly and never differentiate a price path by path. We also assume that the
+distributions of $RS_i(b_k)$ and $RS_i(b_{k+1})$ have no atom at $q_k$, as holds when the supply has a continuous
+distribution given rivals' signals.
+
+\emph{Value.} The quantity $X$ equals $q_k$ on $A_k$ and does not depend on $q_k$ on $B_k$ and $B_{k+1}$. It is
+continuous across the boundaries of $A_k$, where $RS_i(b_k)=q_k$ or $RS_i(b_{k+1})=q_k$. Moving a boundary
+therefore has no first-order effect on the expected value, and
 \[
-\frac{\partial\,\E[\text{payoff}]}{\partial q_k}
-=\E\Bigl[\Bigl(v(q_k,s_i)-P(q_k)-q_k\,\frac{\partial P(q_k)}{\partial q_k}\Bigr)\indic\{A_k\}\Bigr].
+\frac{\partial\,\E\bigl[V(X,s_i)\indic\{U_k\}\bigr]}{\partial q_k}=v(q_k,s_i)\Pr(A_k).
 \]
-Set the derivative to zero and use $\E\bigl[P(q_k)\indic\{A_k\}\bigr]=\Pr(A_k)\,\E(P^{\mathrm c}\mid A_k)$:
+
+\emph{Payment.} On $U_k$ write $P^{\mathrm c}X=q_kP^{\mathrm c}-P^{\mathrm c}(q_k-X)$. The last term vanishes on
+$A_k$. It equals $b_k\big(q_k-RS_i(b_k)\big)$ on $B_k$ and $b_{k+1}\big(q_k-RS_i(b_{k+1})\big)$ on $B_{k+1}$, and both
+expressions vanish on the boundaries of $A_k$. Differentiating,
 \[
-\Pr(A_k)\bigl[v(q_k,s_i)-\E(P^{\mathrm c}\mid A_k)\bigr]
-=q_k\,\E\Bigl[\frac{\partial P(q_k)}{\partial q_k}\,\indic\{A_k\}\Bigr].
+\frac{\partial\,\E\bigl[P^{\mathrm c}(q_k-X)\indic\{U_k\}\bigr]}{\partial q_k}=b_k\Pr(B_k)+b_{k+1}\Pr(B_{k+1}).
 \]
-It remains to rewrite the right side. The event $b_k\ge P^{\mathrm c}\ge b_{k+1}$ is the union of $A_k$,
-$B_k$ and $B_{k+1}$. This union does not move with $q_k$, since a change in $q_k$ only shifts states among the
-three events. Inside the union, $P^{\mathrm c}$ equals $P(q_k)$ on $A_k$ and the constants $b_k$ and $b_{k+1}$
-on the other two events. It is continuous across their boundaries. Hence
+Since $\E\bigl[P^{\mathrm c}\indic\{U_k\}\bigr]=\Pr(A_k)\,\E(P^{\mathrm c}\mid A_k)+b_k\Pr(B_k)+b_{k+1}\Pr(B_{k+1})$,
 \[
-\frac{\partial\,\E\bigl[P^{\mathrm c}\,\indic\{b_k\ge P^{\mathrm c}\ge b_{k+1}\}\bigr]}{\partial q_k}
-=\E\Bigl[\frac{\partial P(q_k)}{\partial q_k}\,\indic\{A_k\}\Bigr] .
+\frac{\partial\,\E\bigl[P^{\mathrm c}X\indic\{U_k\}\bigr]}{\partial q_k}
+=\Pr(A_k)\,\E(P^{\mathrm c}\mid A_k)+q_k\,\frac{\partial\,\E\bigl[P^{\mathrm c}\,\indic\{U_k\}\bigr]}{\partial q_k}.
 \]
-Substituting gives \eqref{eq:15-kastl-foc}, and dividing by $\Pr(A_k)$ gives \eqref{eq:15-kastl-mcmr}. The
-regularity needed to differentiate under the expectation is established in Lemmas~A2 to A4 of the appendix
-of \citet{Kastl2011}.
+Setting the derivative of the expected value minus the expected payment to zero gives \eqref{eq:15-kastl-foc}, and
+dividing by $\Pr(A_k)$ gives \eqref{eq:15-kastl-mcmr}.
+
+The derivative on the right must be taken after the expectation. Against rivals' step bids, the price at which
+$RS_i$ reaches $q$ is a step function of $q$, so its derivative is zero almost everywhere. The expected clearing
+price still rises with $q_k$, because the quantities at which that price jumps are random. Replacing the
+derivative of $\E\bigl[P^{\mathrm c}\indic\{U_k\}\bigr]$ by a pathwise derivative would therefore drop the whole
+quantity-shading term. Kastl establishes the existence and continuity of these derivatives by a finite-difference
+argument (Appendix~A.1 and Lemmas~A2 to A4 of \citealp{Kastl2011}).
 \end{proof}
 
 At a step with $b_k\ge v(q_k,s_i)$ a tie can have positive probability, and the condition gains two terms that
@@ -1989,8 +1998,10 @@ for 7 of them and rose by over 18 basis points on average for the other 92 (Sect
 
 Values tell a more varied story. For the 482 banks that bid both before and after August 9, CHK regress each
 bank's quantity-weighted marginal value on a turmoil dummy. About two thirds of these banks show a significant
-increase in value. The other third show none, so the rise in their bids was purely a strategic response to
-their rivals. For almost 100 banks, values rose by more than 20 basis points (Section~6.2). The same
+increase in value. For the other third the regressions show no significant increase in value. Most of them
+still raised their bids significantly, which is consistent with a strategic response to their rivals. The
+absence of a significant increase does not show that values were unchanged, since a positive but imprecisely
+estimated increase also lands in this group. For almost 100 banks, values rose by more than 20 basis points (Section~6.2). The same
 regressions with bids in place of values find a significant increase for nearly every bank.
 \Cref{tab:15-chk-classify} cross-tabulates the two classifications. They disagree for 101 of the 482 banks, or
 21 percent. A placebo test splits the auctions before the turmoil into two halves. It finds disagreement for
@@ -2035,8 +2046,9 @@ unsecured borrowing costs. Several auctions late in 2007 cleared above EURIBOR, 
 rate, although ECB loans are collateralized (Section~6.3).
 
 \casehead{Lessons} Bids are not values, even in pay-as-bid auctions in which every interior bid lies below
-value. Read at face value, the bids would label almost every bank as hit by the crisis, while a third of them
-were only responding to their rivals. The logic of \cref{sec:15-gpv} carries over to demand schedules.
+value. Read at face value, the bids would label almost every bank as hit by the crisis. For about a third of
+the banks the values show no significant increase, and the higher bids of most of them are consistent with a
+response to their rivals. The logic of \cref{sec:15-gpv} carries over to demand schedules.
 Observed rival schedules give the distribution of the clearing price conditional on a bidder's own bid. The
 first-order condition of the format then turns each step into a marginal value. The format matters for that
 inversion. Under uniform pricing a step bid can exceed the marginal value, and under discriminatory pricing
@@ -2078,7 +2090,7 @@ Asymmetric APV & Not identified (\cref{thm:15-ah4}) & Identified with identities
 \addlinespace[1pt]
 Common values & Not identified. Pure common values not even up to normalization (\cref{prop:15-cv-nonid,prop:15-ah8}) & Signal law identified after normalization. Joint law of signals and values never (\cref{prop:15-cv-nonid}) & Pivotal expected value identified, joint law not. Observationally equivalent to APV for fixed $n$ (\cref{sec:15-cv}) & Not identified & Exogenous $n$ tests private against common values (\cref{thm:15-ah9}, \cref{prop:15-hhs}). Ex post values (\cref{sec:15-cv})\\
 \addlinespace[1pt]
-IPV with unobserved heterogeneity & Not identified from one price per auction, a single convolution such as $\omega+A^{(n-1:n)}$ with many decompositions (remarks after \cref{thm:15-krasno}) & Joint value law identified. With two or more bids and separable values, $F_\omega$ and $F_A$ follow by deconvolution (\cref{lem:15-kotlarski}) & Identified with two or more bids under separability (\cref{lem:15-separability}, \cref{thm:15-krasno}). Parametric mixture (\cref{prop:15-als-lik}) & $F_V$ identified above the reserve from transaction and reserve prices if the reserve rises with $\omega$ (\cref{prop:15-roberts2}) & Two bids per auction, reserve prices, or three bids without separability (\cref{sec:15-uh})\\
+IPV with unobserved heterogeneity & Not identified from one price per auction, a single convolution such as $\omega+A^{(n-1:n)}$ with many decompositions (remarks after \cref{thm:15-krasno}) & Joint value law identified. With two or more bids and separable values, $F_\omega$ and $F_A$ follow by deconvolution (\cref{lem:15-kotlarski}) & Identified with two or more bids under separability (\cref{lem:15-separability}, \cref{thm:15-krasno}). Parametric mixture (\cref{prop:15-als-lik}) & $F_V$ identified above the reserve from transaction and reserve prices if the reserve rises strictly with $\omega$, $N$ is known and unsold auctions are recorded (\cref{prop:15-roberts2}) & Two bids per auction, reserve prices, or three bids without separability (\cref{sec:15-uh})\\
 \addlinespace[1pt]
 Risk aversion & Bidding unaffected. Preferences not identified and not needed for these formats (\cref{sec:15-risk}) & Same as the price-only case & Not identified from one $n$. If a CRRA utility rationalizes the bids, so does any more risk-averse one (\cref{sec:15-risk}) & Not identified & Exogenous variation in $n$, a wealth or value shifter, a parametric restriction, or $F_V$ from other formats (\cref{sec:15-risk})\\
 \addlinespace[1pt]

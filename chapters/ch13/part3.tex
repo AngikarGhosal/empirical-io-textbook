@@ -202,9 +202,24 @@ M_t\approx\alpha_0+\alpha_2\,\E_t\big[\Delta\ln A_{t+1}\big]+\alpha_3\,\E_t\big[
 \end{equation}
 The coefficients $\alpha_2$ and $\alpha_3$ are local to this section and have nothing to do with the logit
 price coefficient. Under the static benchmark of \cref{prop:13-gas-cs}(c), $\alpha_2=\alpha_3=0$. This is
-the null hypothesis that \citet{BorensteinShepard1996} test. If punishments last longer than one period,
-the one-period expected change measures the relevant weighted change in \eqref{eq:13-gas-linear} with error.
-The estimates of $\alpha_2$ and $\alpha_3$ are then biased toward zero, so the test is conservative.
+the null hypothesis that \citet{BorensteinShepard1996} test.
+
+If punishments last longer than one period, the one-period expected change is only a proxy for the weighted
+change in \eqref{eq:13-gas-linear}. Under the static null the margin responds to neither, so the proxy
+coefficients are still zero and the test keeps its size. Under the alternative the direction of the bias is not
+determined. Take demand, and let $\Delta^{1}_t = \E_t[\Delta\ln A_{t+1}]$ and
+$\Delta^{T}_t = \sum_{s=1}^{T}\omega_s\E_t[\ln A_{t+s} - \ln A_t]$, both residualized on the other regressors.
+Since the weights sum to one, $\Delta^{T}_t = \Delta^{1}_t + R_t$, with $R_t$ the residual of
+$\sum_{s=2}^{T}\omega_s\E_t[\ln A_{t+s} - \ln A_{t+1}]$ on the other regressors. Ignoring the cross effect through the cost proxy, the
+coefficient on $\Delta^{1}_t$ converges to
+\begin{equation*}
+\alpha_2\,\frac{\Cov(\Delta^{1}_t, \Delta^{T}_t)}{\Var(\Delta^{1}_t)}
+= \alpha_2\left[1 + \frac{\Cov(\Delta^{1}_t, R_t)}{\Var(\Delta^{1}_t)}\right] .
+\end{equation*}
+The estimate is attenuated only if later expected changes are negatively correlated with the next one, and not so
+strongly that the sign reverses. On a smooth seasonal cycle with a horizon of a few months, expected changes in
+consecutive months tend to share a sign. The ratio then exceeds one, and the estimate overstates $\alpha_2$. The
+same argument applies to $\alpha_3$.
 
 \begin{remark}[Why level and change can be separated]\label{rem:13-gas-level-change}
 With independent draws, $\E_t[\ln A_{t+1}]$ is a constant, so $\E_t[\Delta\ln A_{t+1}]=\text{const}-\ln A_t$.
@@ -342,13 +357,19 @@ shifters are available. The authors resolve the problem with a constructed instr
 M=a\,Q+X^{\top}g+e,\qquad \ln Q=Z\beta+\eta\ln P+v.
 \end{equation}
 Here $M$ is the margin, $Q$ volume, $P$ the retail price and $X$ the exogenous variables in the margin
-equation. $Z$ collects demand shifters, $\eta<0$ is the industry demand elasticity, and $e$ and $v$ are
-uncorrelated errors. If $\eta$ were known, the variable
+equation. $Z$ collects demand shifters, $\eta<0$ is the industry demand elasticity, and $e$ and $v$ are errors.
+The working paper assumes only that $e$ and $v$ are uncorrelated. We assume instead that the margin error is mean
+independent of the exogenous variables and of the demand shock, $\E[e\mid X,Z,v]=0$. If $\eta$ were known, the
+variable
 \begin{equation}\label{eq:13-bs-qprime}
 \ln Q'=\ln Q+\ln k-\eta\ln P=Z\beta+\ln k+v
 \end{equation}
-would be volume purged of the direct price effect. It depends on $Z$ and $v$ only, so it is uncorrelated with
-$e$. It is correlated with $Q$, so it is a valid instrument. Some demand shifters may themselves respond to
+would be volume purged of the direct price effect. It is a function of $Z$ and $v$ only. Mean independence
+therefore makes it, and any function of it, uncorrelated with $e$. It is correlated with $Q$, so it is a valid
+instrument. The stronger condition matters because the instrument used below is the level $Q'$, which is
+proportional to $\exp(v)$ given $Z$. Uncorrelatedness does not carry over to the level. If $v$ is uniform on
+$\{-1,0,1\}$ and $e=v^2-\frac{2}{3}$, then $\E[e]=\E[ev]=0$ but
+$\E[e\exp(v)]=\frac{\exp(1)+\exp(-1)-2}{9}>0$. Some demand shifters may themselves respond to
 $P$, for example prices of other goods that rise with transport costs. Partition $Z=(Z_1,Z_2)$ with
 $Z_1=\theta_0+\theta_1\ln P$ and $Z_2$ independent of $P$. Then
 \begin{equation*}
@@ -358,7 +379,7 @@ and the variable
 \begin{equation}\label{eq:13-bs-qdoubleprime}
 \ln Q''=\ln Q+\ln k-\tilde\eta\ln P=\theta_0\beta_1+Z_2\beta_2+\ln k+v,\qquad \tilde\eta\equiv\eta+\theta_1\beta_1,
 \end{equation}
-is again a valid instrument. Published estimates of gasoline demand elasticities ignore such indirect effects,
+is again a valid instrument if $\E[e\mid X,Z_2,v]=0$. Published estimates of gasoline demand elasticities ignore such indirect effects,
 so they are best read as estimates of $\tilde\eta$.
 
 The implementation multiplies daily volume by $kP^{-\hat\eta}$ with $k=\frac{\bar P^{\hat\eta}}{\bar Q}$,
@@ -567,8 +588,9 @@ its price provokes nearby stations to retaliate, and the retaliation is costlier
 Five limitations deserve mention. First, expectations are the econometrician's forecasts. Their coefficients are
 estimated on the full sample, and the true information sets of station managers are unknown. Second, volume is
 measured at the state level, prices at the city level, and prices only on one day per month. Third, the
-one-month horizon is arbitrary. Longer punishments would make the measured expectation a noisy proxy and
-attenuate the estimates, which the authors acknowledge. Fourth, the test rejects static pricing, but other dynamic
+one-month horizon is arbitrary. The authors argue that longer punishments would bias the estimates downward
+(working paper, p.~17). That holds only under the covariance condition stated after \eqref{eq:13-gas-reg}, and on
+a seasonal cycle the bias can go either way. The test of the static null keeps its size in either case. Fourth, the test rejects static pricing, but other dynamic
 non-cooperative models could generate forward-looking prices. \Cref{sec:13-noel} shows that Edgeworth cycles are one
 such model, although its mechanism differs from the one tested here. Fifth, the margin mixes the decisions of
 refiners, jobbers and station operators, so the colluding agents are not identified.
@@ -771,7 +793,8 @@ Tables II and III.
 
 \begin{example}[Checking the cycle arithmetic]\label{ex:13-noel-cycle}
 From \eqref{eq:13-noel-amplitude}, the relenting duration is $\frac{1}{1-0.008}=1.008$. The undercutting duration of
-12.780 implies an unrounded $\lambda^{UU}=1-\frac{1}{12.780}=0.9218$, which the table rounds to 0.921. The period is
+12.780 implies an unrounded $\lambda^{UU}=1-\frac{1}{12.780}=0.9218$. This rounds to 0.922, one unit in the third
+decimal above the 0.921 that the table reports. The period is
 $1.008+12.780=13.788$ half-days and the asymmetry is $\frac{12.780}{1.008}=12.68$. The amplitude is
 $(1-0.00004)\times5.576\times1.008=5.62$ cpl, equal to the reported 5.619 up to rounding. The descent can be checked
 the same way. The expected change per half-day in the undercutting phase is $(1-0.429)\times(-0.751)=-0.43$ cpl, and
@@ -1324,15 +1347,17 @@ Most of its remaining stations jumped on Thursdays. Caltex, the next-largest cha
 and by mid-2010 it followed BP's Wednesday jump with a jump on Thursday. BP then reduced the share of its stations
 that jumped on Wednesday and raised the share that jumped on Thursday. It thus scaled back its price leadership, and
 with it the sales it lost by leading. In several periods BP stopped leading on Wednesday to test whether the market
-would coordinate on Thursday without it. By 2013 the market had settled on Thursday jumps of 2 cents per
-liter, better synchronized adjustments and higher margins (pp.~189--191, Figure~3).
+would coordinate on Thursday without it (pp.~189--191, Figure~3). Byrne and de Roos identify two focal points
+\citep[pp.~596--597 and 607--608]{ByrneDeRoos2019}. The first fixes the timing of the weekly price jump, which moved
+to Thursday. The second fixes the size of the daily price cuts between jumps, which converged to 2 cents per liter
+from March 2010. By 2013 adjustments were better synchronized and margins were higher.
 
 The episode is a third kind of conduct behind similar price cycles. In Toronto the cycles were consistent with
 competitive Edgeworth cycles. In Quebec an explicit cartel ran them by telephone. In Perth, price leadership under a
 transparency regime produced tacit coordination, with market interaction as the only communication. In terms of
 \cref{prop:13-transparency}, Fuelwatch raised the probability that a deviation would be seen. The transition
-took about four years, which shows how slow tacit coordination can be. A simple rule, such as a fixed day and a fixed
-jump, makes deviations easy to detect. It also leaves the firms less able to respond to fluctuations in demand
+took about four years, which shows how slow tacit coordination can be. A simple rule, such as a fixed day for
+jumps and a fixed size of cuts, makes deviations easy to detect. It also leaves the firms less able to respond to fluctuations in demand
 \citep[p.~194]{AskerNocke2021}. \Cref{sec:12-anatomy} discusses the case as evidence on how agreements start.
 
 \subsection{What the gasoline evidence shows}\label{sec:13-gas-synthesis}
@@ -1360,7 +1385,7 @@ Study & Market and data & Price pattern & Method & Conclusion about conduct\\
 \addlinespace
 \citet{ErutkuHildebrand2010} & Sherbrooke versus Montreal and Quebec City, weekly, 2005--2007 & Price drop after the announcement of the investigation & Difference in differences with wholesale-price controls and AR(1) errors & Overcharge of 1.75 cpl against Montreal, none against Quebec City (Table 6)\\
 \addlinespace
-\citet{ByrneDeRoos2019} & Perth, daily station prices posted a day ahead on Fuelwatch, 2001--2015 & Cycles whose jumps moved to Thursdays after 2009 & Event history of price leadership and experimentation by BP, as summarized by \citet{AskerNocke2021} & Tacit coordination learned through price leadership: Thursday jumps of 2 cpl and higher margins by 2013\\
+\citet{ByrneDeRoos2019} & Perth, daily station prices posted a day ahead on Fuelwatch, 2001--2015 & Cycles whose jumps moved to Thursdays after 2009 & Event history of price leadership and experimentation by BP & Tacit coordination learned through price leadership: weekly jumps on Thursdays, daily cuts of 2 cpl and higher margins by 2013\\
 \bottomrule
 \end{tabularx}
 \end{table}

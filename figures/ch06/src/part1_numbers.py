@@ -1,14 +1,21 @@
 """Numbers used in the text of Chapter 6, Part 1 (sections 6.1-6.3).
 
-1. Two-goods example with independent standard Gumbel shocks
-   (delta_1 = 0.5 -> 1.3, delta_2 = 1.0): shares, proportional losses,
-   change in expected maximum utility. Checked by Monte Carlo (fixed seed).
+1. Two-goods example (delta_1 = 0.5 -> 1.3, delta_2 = 1.0) in two versions.
+   (a) Logit version: the outside good has its own shock, u_0 = eps_0, and
+       eps_0, eps_1, eps_2 are independent standard Gumbel. Shares, proportional
+       losses, change in expected maximum utility, and the correlation (1/2) of
+       the differenced shocks eps_j - eps_0. Checked by Monte Carlo (fixed seed).
+   (b) Deterministic outside option, u_0 = 0, with independent standard Gumbel
+       shocks on the two inside goods only. Shares from the truncated-Gumbel
+       integrals s_0 = F(-d1) F(-d2) and
+       s_1 = int_{-d1}^inf f(e) F(e + d1 - d2) de. Checked by Monte Carlo.
 2. Sampling error of observed shares: relative standard deviation of an
    observed share computed from M independent consumers.
 3. Numerical check of the WDZ theorem (gradient of the social surplus function)
    for correlated normal shocks.
 """
 import numpy as np
+from scipy.integrate import quad
 
 rng = np.random.default_rng(20261022)
 
@@ -38,6 +45,44 @@ print("MC shares before:", np.round(np.bincount(ch, minlength=3) / n, 4),
 # conditional mean of max utility by chosen alternative
 print("MC E[max | choice j]:",
       np.round([u.max(axis=1)[ch == j].mean() for j in range(3)], 4))
+
+# differenced shocks eps_j - eps_0 in the logit version (separate generator so
+# that the random stream used by the other checks is unchanged)
+rng_b = np.random.default_rng(20261103)
+e3 = rng_b.gumbel(size=(n, 3))
+dif = e3[:, 1:] - e3[:, [0]]
+print("logit version: corr(eps_1 - eps_0, eps_2 - eps_0) = %.4f (theory 0.5);"
+      " var = %.4f, %.4f (theory pi^2/3 = %.4f)"
+      % (np.corrcoef(dif.T)[0, 1], dif[:, 0].var(), dif[:, 1].var(), np.pi ** 2 / 3))
+
+# (b) deterministic outside option u_0 = 0, Gumbel shocks on inside goods only
+def gF(x):
+    return np.exp(-np.exp(-x))
+
+
+def gf(x):
+    return np.exp(-x) * gF(x)
+
+
+def det_shares(d):
+    a1, a2 = d
+    s_0 = gF(-a1) * gF(-a2)
+    s_1 = quad(lambda e: gf(e) * gF(e + a1 - a2), -a1, np.inf)[0]
+    return np.array([s_0, s_1, 1.0 - s_0 - s_1])
+
+
+t0, t1 = det_shares(d0), det_shares(d1)
+print("deterministic outside: shares before:", np.round(t0, 4),
+      " s0 = exp(-e^d1 - e^d2) = %.5f" % np.exp(-np.exp(d0).sum()))
+print("deterministic outside: shares after :", np.round(t1, 4),
+      " s0 = %.5f" % np.exp(-np.exp(d1).sum()))
+print("deterministic outside: ratio after/before for goods 0 and 2:",
+      np.round(t1[0] / t0[0], 4), np.round(t1[2] / t0[2], 4))
+e2 = rng_b.gumbel(size=(n, 2))
+for dd in (d0, d1):
+    uu = np.column_stack([np.zeros(n), e2 + dd])
+    print("  MC shares (u_0 = 0) at delta =", dd, ":",
+          np.round(np.bincount(uu.argmax(axis=1), minlength=3) / n, 4))
 
 # 2. Sampling error ----------------------------------------------------------
 for M, s in [(1_000_000, 0.0001), (1_000_000, 0.01), (10_000, 0.01)]:

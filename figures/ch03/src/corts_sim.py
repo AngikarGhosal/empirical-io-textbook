@@ -12,7 +12,9 @@ spirit of Rotemberg and Saloner (1986) and Corts (1999):
   * Price p(a) = monopoly price (a + c)/2 if pi_m(a) = (a - c)^2/4 <= K, otherwise the
     LOWER root of (p - c)(a - p) = K.
   * K solves the fixed point K = s E[min(pi_m(a), K)], s = delta / ((1 - delta)(N - 1)).
-    We select the largest fixed point by iterating downward from a large starting value.
+    We select the largest fixed point. For s < 1 it is K = 0. At the cutoff s = 1
+    (delta = 1 - 1/N) every K in [0, min_a pi_m(a)] is a fixed point, and the largest is
+    min_a pi_m(a) = pi_m(A_LO). For s > 1 we iterate downward from a large starting value.
 
 Conduct in state a: theta(a) = (p - c) / Q (inverse demand slope is -1, so the markup term
 m = Q / |dQ/dP| equals Q).  theta(a) also equals the elasticity-adjusted Lerner index.
@@ -55,11 +57,18 @@ def pi_m(a):
     return (a - C) ** 2 / 4.0
 
 
-def largest_fixed_point(delta, n_firms, tol=1e-13, max_iter=200000):
-    """Largest K with K = s E[min(pi_m(a), K)].  Returns 0 if only K = 0 exists."""
-    if delta <= 1.0 - 1.0 / n_firms:
-        return 0.0
+def largest_fixed_point(delta, n_firms, tol=1e-13, max_iter=200000, s_tol=1e-9):
+    """Largest K with K = s E[min(pi_m(a), K)].
+
+    s < 1: only K = 0 solves the equation.
+    s = 1 (delta = 1 - 1/N): the solutions are [0, pi_m(A_LO)], and we return the upper endpoint.
+    s > 1: the unique positive solution, found by iterating downward.
+    """
     s = delta / ((1.0 - delta) * (n_firms - 1))
+    if s < 1.0 - s_tol:
+        return 0.0
+    if s <= 1.0 + s_tol:
+        return float(pi_m(A_LO))
     k = 10.0 * s * pi_m(A_HI) + 1.0          # start above the largest fixed point
     for _ in range(max_iter):
         k_new = s * expect(np.minimum(pi_m(A_GRID), k))
@@ -120,7 +129,8 @@ def main():
     results = {}
     for n_firms in (2, 3):
         d0 = 1.0 - 1.0 / n_firms
-        lines.append("N = %d (collusion above cost requires delta > %.4f)" % (n_firms, d0))
+        lines.append("N = %d (collusion above cost is sustainable iff delta >= %.4f; at equality the "
+                     "most collusive cap is K = pi_m(A_LO) = %.4f)" % (n_firms, d0, pi_m(A_LO)))
         # discount factor at which monopoly is sustainable in every state
         e_pim = expect(pi_m(A_GRID))
         s_full = pi_m(A_HI) / e_pim
@@ -129,7 +139,7 @@ def main():
                      % (e_pim, pi_m(A_HI), d_full))
         lines.append("  %6s %9s %9s %10s %11s %9s %9s" % ("delta", "K", "a_star", "constr.sh",
                                                           "mean theta", "theta_hat", "MC check"))
-        grid_report = [d0 + 0.0001, d0 + 0.005, d0 + 0.01, d0 + 0.02, d0 + 0.03, d0 + 0.05,
+        grid_report = [d0, d0 + 0.0001, d0 + 0.005, d0 + 0.01, d0 + 0.02, d0 + 0.03, d0 + 0.05,
                        d0 + 0.07, d_full, d_full + 0.05]
         for d in grid_report:
             r = outcomes(d, n_firms)
@@ -138,7 +148,7 @@ def main():
                          % (d, r["K"], r["a_star"], r["share_constrained"], r["mean_theta"],
                             r["theta_hat"], mc))
         lines.append("")
-        dgrid = np.concatenate([np.linspace(0.30, d0 - 1e-6, 40), np.linspace(d0 + 1e-4, 0.95, 400)])
+        dgrid = np.concatenate([np.linspace(0.30, d0 - 1e-6, 40), [d0], np.linspace(d0 + 1e-4, 0.95, 400)])
         res = [outcomes(d, n_firms) for d in dgrid]
         results[n_firms] = (dgrid, res)
 
@@ -154,7 +164,7 @@ def main():
                     r_loc["mean_markup"]))
     # first discount factor at which the IV estimate turns positive (N = 2)
     dgrid2, res2 = results[2]
-    pos = [r["delta"] for r in res2 if r["delta"] > 0.5 and r["theta_hat"] > 0]
+    pos = [r["delta"] for r in res2 if r["delta"] >= 0.5 and r["theta_hat"] > 0]
     lines.append("N = 2: theta_hat first positive at delta = %.4f" % min(pos))
     OUT_TXT.write_text("\n".join(lines) + "\n")
     print("\n".join(lines))

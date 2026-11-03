@@ -13,7 +13,7 @@ Global notation holds unless we say otherwise. In this chapter $\delta$ is alway
 indicator is $I_t \in \{0,1\}$, with $I_t = 1$ in a collusive period and $I_t = 0$ in a period of reversion, which we
 call a price war. When regimes are independent over time, $\lambda = \Pr(I_t = 1)$. The posterior probability that
 period $t$ is collusive, given the data, is $w_t$. Markov transition probabilities are
-$q_{ij,t} = \Pr(I_{t+1} = j \mid I_t = i, W_t)$, where $W_t$ is a vector of predetermined variables. Demand is
+$q_{ij,t} = \Pr(I_{t+1} = j \mid I_t = i, Z_t)$, where $Z_t$ is a vector of observed predetermined variables. Demand is
 log-linear in this section, and its price coefficient $\alpha_1 < 0$ is the log-log price coefficient. The price
 elasticity is therefore $\varepsilon = -\alpha_1$. This $\alpha_1$ has nothing to do with the logit price coefficient
 $\alpha$ of \cref{ch:logit} and \cref{ch:blp}.
@@ -526,12 +526,13 @@ so a war this week makes a war next week likely. \citet{CosslettLee1985} noted t
 JEC form continuous episodes. The natural model lets $I_t$ follow a Markov chain whose
 transition probabilities may depend on observed variables,
 \begin{equation}\label{eq:13-logit-transition}
-  q_{i1,t} = \Pr(I_{t+1} = 1 \mid I_t = i, W_t) = \Lambda(\gamma^\top W_t), \qquad
+  q_{i1,t} = \Pr(I_{t+1} = 1 \mid I_t = i, Z_t) = \Lambda\bigl(\gamma^\top W_t(i)\bigr), \qquad
   \Lambda(x) = \frac{e^{x}}{1 + e^{x}}, \qquad q_{i0,t} = 1 - q_{i1,t},
 \end{equation}
-where $W_t$ contains $I_t$ and other predetermined variables. This is the specification of
-\citet[eq.~(4)]{Ellison1994}. When $W_t$ contains only a constant, the regimes are independent as in Porter. When
-$W_t = (I_t, 1 - I_t)^\top$, the chain has constant transition probabilities.
+where $Z_t$ collects observed predetermined variables. The design vector $W_t(i)$ combines a candidate current
+regime $i \in \{0,1\}$ with $Z_t$. The regime $I_t$ itself is latent, so only $Z_t$ is part of the data. This is
+the specification of \citet[eq.~(4)]{Ellison1994}. When $W_t(i)$ contains only a constant, the regimes are
+independent as in Porter. When $W_t(i) = (i, 1 - i)^\top$, the chain has constant transition probabilities.
 
 \casehead{The filter}
 The likelihood of a Markov switching model is computed recursively, by the filter of \citet{Hamilton1989}. Let
@@ -549,10 +550,10 @@ Bayes' rule updates the regime probability once $y_t$ is seen:
 \begin{equation}\label{eq:13-filter-update}
   \xi_{t\mid t} = \frac{\xi_{t\mid t-1}\,h_1(y_t)}{\xi_{t\mid t-1}\,h_1(y_t) + \left(1 - \xi_{t\mid t-1}\right)h_0(y_t)} .
 \end{equation}
-The Markov property and the law of total probability give the forecast for the next period. Since $W_t$ is part of
+The Markov property and the law of total probability give the forecast for the next period. Since $Z_t$ is part of
 $\mathcal{Y}_t$,
 \begin{equation}\label{eq:13-filter-forecast}
-  \xi_{t+1\mid t} = \sum_{i\in\{0,1\}}\Pr(I_{t+1} = 1\mid I_t = i, W_t)\Pr(I_t = i \mid \mathcal{Y}_t)
+  \xi_{t+1\mid t} = \sum_{i\in\{0,1\}}\Pr(I_{t+1} = 1\mid I_t = i, Z_t)\Pr(I_t = i \mid \mathcal{Y}_t)
   = \xi_{t\mid t}\, q_{11,t} + \left(1 - \xi_{t\mid t}\right) q_{01,t} .
 \end{equation}
 We start from $\xi_{1\mid 0}$, for example the stationary probability of the chain. The recursion
@@ -602,7 +603,7 @@ war is geometric, as in \citet{AbreuPearceStacchetti1986}, where a war continues
 then depends on how long it has lasted, so the regime process is Markov of order $T-1$, the length of a war
 \citep[p.~306]{Porter1983}.
 
-Covariates in $W_t$ turn the transition probabilities into a test of what starts a war. A Green-Porter cartel enters
+Covariates in $Z_t$ turn the transition probabilities into a test of what starts a war. A Green-Porter cartel enters
 a war after a signal that cheating may have occurred, such as an unexpectedly low price or a suspiciously high share
 for one firm. Such signals should enter the probability of leaving the collusive state, with a negative coefficient
 in \eqref{eq:13-logit-transition}. This is the heart of Ellison's design. It differs from the approach of

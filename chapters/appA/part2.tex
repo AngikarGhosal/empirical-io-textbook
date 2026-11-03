@@ -1214,8 +1214,10 @@ because $x_i^\T c \ne 0$ for some $i$ when $\sum_ix_ix_i^\T$ is positive definit
 maximizer, and a stationary point of a concave function is a global maximizer.
 \end{proof}
 
-A maximizer can fail to exist. If some linear combination of the regressors separates the ones from the zeros perfectly,
-the likelihood rises without bound along that direction. The probit log-likelihood is also concave, because $\Phi$ and
+A maximizer can fail to exist. Suppose some linear combination $x_i^\T c$ is positive whenever $y_i = 1$ and negative
+whenever $y_i = 0$, which is called complete separation. Along the direction $c$ the log-likelihood then rises toward
+zero, its upper bound, which no finite $\beta$ attains. The coefficients diverge, while the likelihood stays below one.
+The probit log-likelihood is also concave, because $\Phi$ and
 $1 - \Phi$ are log-concave. \Cref{thm:A-concave} then gives consistency without compactness.
 
 \casehead{Multinomial and conditional logit}
@@ -1278,16 +1280,23 @@ the product over auctions. Standard multinomial logit software estimates it.
 
 \citet{PorterZona1993} apply the model to bids for highway paving contracts on Long Island, 1979--1985. They approximate the equilibrium bid
 function by $\log b_{it} = \alpha_t + X_{it}\beta + \epsilon_{it}$, with an auction effect $\alpha_t$ and an auction-specific
-error variance $\sigma_t^2$. They deflate the data by the estimated $\sigma_t$. The probability that firm $i$ submits the
-lowest bid is then a multinomial logit in the deflated cost shifters $Z_{it}$, in which the auction effect cancels:
+error variance $\sigma_t^2$. Suppose that $-\epsilon_{it}$ is type-I extreme value (WP pp.~24--25). Since a standard
+type-I extreme value variable has variance $\frac{\pi^2}{6}$, $-\epsilon_{it}$ is $\sigma_t\frac{\sqrt6}{\pi}$ times a
+centered standard one. The lowest bid has the largest $-\log b_{it}$, and dividing by $\sigma_t\frac{\sqrt6}{\pi}$
+preserves the order. The deflated index is $\alpha^*_t + Z_{it}\tilde\beta$ plus a standard type-I extreme value error, with
 \begin{equation*}
-  \Pr(b_{it} < b_{jt}\ \forall j \ne i) = \frac{e^{\beta Z_{it}}}{\sum_je^{\beta Z_{jt}}}.
+  Z_{it} = -\frac{X_{it}}{\sigma_t}, \qquad \tilde\beta = \frac{\pi}{\sqrt6}\,\beta ,
 \end{equation*}
-The low bid is the ``most preferred'' alternative, so with $r_m$ the firm whose bid is ranked $m$-th lowest among $n_t$ bids,
-\eqref{eq:A-exploded} gives the likelihood $L(\beta) = \prod_t\prod_{i=1}^{n_t}\frac{e^{\beta Z_{r_it}}}{\sum_{j=i}^{n_t}e^{\beta Z_{r_jt}}}$.
-The model follows from the bid equation if minus the bid error is type-I extreme value (WP pp.~24--25). The product splits
-into the factor for the lowest bid ($i = 1$) and the factors for the higher ranks ($i \ge 2$). Under the model both parts
-identify the same $\beta$. Phantom bids by cartel members, placed above the designated winner's bid, need not reflect costs.
+and an auction constant $\alpha^*_t$. When a cost shifter raises bids, the minus sign makes it lower the chance of the lowest bid. The
+probability that firm $i$ submits the lowest bid is then a multinomial logit in which the auction constant cancels:
+\begin{equation*}
+  \Pr(b_{it} < b_{jt}\ \forall j \ne i) = \frac{e^{Z_{it}\tilde\beta}}{\sum_je^{Z_{jt}\tilde\beta}}.
+\end{equation*}
+\citet{PorterZona1993} deflate the data by the estimated $\sigma_t$. The low bid is the ``most preferred'' alternative, so
+with $r_m$ the firm whose bid is ranked $m$-th lowest among $n_t$ bids, \eqref{eq:A-exploded} gives the likelihood
+$L(\tilde\beta) = \prod_t\prod_{i=1}^{n_t}\frac{e^{Z_{r_it}\tilde\beta}}{\sum_{j=i}^{n_t}e^{Z_{r_jt}\tilde\beta}}$
+(\cref{prop:13-exploded-logit}). The product splits into the factor for the lowest bid ($i = 1$) and the factors for the higher
+ranks ($i \ge 2$). Under the model both parts identify the same $\tilde\beta$. Phantom bids by cartel members, placed above the designated winner's bid, need not reflect costs.
 The likelihood ratio test of equal coefficients computed above therefore detects them, with the competitive firms as a
 check on the specification \citep{HausmanRuud1987}.
 

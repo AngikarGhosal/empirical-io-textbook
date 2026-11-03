@@ -248,7 +248,7 @@ table. Price minus markup, $y_j = w_j\gamma + \omega_j$, is then data, and $\gam
 p_j = w_j\gamma + \frac{1-\sigma}{\alpha\,[1 - \sigma s_{j\mid g} - (1-\sigma)s_j]} + \omega_j
 \end{equation}
 (equation (33)), the single-product case of \cref{prop:07-nl-markup}. At $\sigma = 0$ only $s_j$ affects the
-markup, and as $\sigma \to 1$ only $s_{j\mid g}$ does. So the joint behavior of prices, product shares and group
+markup, and as $\sigma \to 1$ with $s_{j\mid g} < 1$ held fixed only $s_{j\mid g}$ does. So the joint behavior of prices, product shares and group
 shares helps identify $\sigma$ (p.~256).
 
 \subsection{Why the obvious alternatives fail}\label{sec:07-berry-alternatives}
@@ -392,8 +392,11 @@ $\frac{s_{jt}}{1-s_{0t}}$, then gives the estimating equation
 (equation (5)). Movie effects capture cast, plot and prerelease advertising, which Einav treats as fixed effects
 because observables explain little of quality. The dependent variable is close to log revenue, so linear decay is
 proportional decay, reflecting saturation and a preference for seeing movies early. As $\sigma \to 0$ the model is
-a simple logit. As $\sigma \to 1$ movies stop drawing from the outside good, so a new movie only steals from other
-movies. Lower $\sigma$ attributes more seasonality to the number and quality of movies.
+a simple logit. Einav reads the limit $\sigma \to 1$ as removing substitution between movies and the outside good
+(p.~134). In that limit a new movie that does not beat the best movie showing only steals from other movies. A
+better movie still draws from the outside good, because $D_t^{1-\sigma}$ tends to $e^{\max_k \delta_{kt}}$ as
+$\sigma \to 1$. With one movie of mean utility zero the inside share is $\frac{1}{2}$ for every $\sigma$. Adding a
+movie of mean utility one raises it to $\frac{e}{1+e} \approx 0.731$ in the limit. Lower $\sigma$ attributes more seasonality to the number and quality of movies.
 
 The paper writes the decay as $-\lambda(t - r_j)$ but reports the estimated coefficient on $t - r_j$, which is
 $-\lambda$. Its benchmark estimate of $-0.220$ means $\lambda = 0.220$, the value its later calculations use.
@@ -437,9 +440,10 @@ threat is that studios know decay and release fast-decay movies late in the summ
 industry thinks in terms of expected total revenue and that decay is predictable ex post more than ex ante. The
 assumption is also more plausible for movies released close together (p.~136). \Cref{sec:07-einav-robust} tests it.
 
-Market expansion is identified from the long panel. If more or better movies open on Memorial Day 1999 than in
-1998, similar total revenues imply weak expansion ($\sigma$ near one) and higher revenues imply strong expansion
-(low $\sigma$). The within-industry share rises with $\xi_{jt}$, so it needs an instrument. The benchmark uses the
+Market expansion is identified from the long panel. If more movies of comparable quality open on Memorial Day 1999
+than in 1998, similar total revenues imply weak expansion ($\sigma$ near one) and higher revenues imply strong
+expansion (low $\sigma$). Einav's example also allows better movies, but a movie better than every rival raises
+total revenues even with $\sigma$ near one. The within-industry share rises with $\xi_{jt}$, so it needs an instrument. The benchmark uses the
 number of movies showing in the week, $n_t$, since more movies lower each movie's within-industry share. Week
 dummies absorb any tendency to release more movies in high-demand weeks, so the identifying variation is across
 years within a calendar week. Movie effects absorb the quality of a strong movie that deters rivals. The remaining
@@ -930,8 +934,12 @@ The working paper has normal random coefficients and no extreme value shock, so 
 article has no extreme value shock either. Its random coefficients on all brand dummies and on MHz are normal, and
 the number of potential tasks is Poisson \citep[p.~437]{Hendel1999}. A logit reading is still instructive. By WP equation (12), $\ln\pi^*_{ijk} = c_{ik} + \frac{a}{1-a}[m(D_i)\ln(A_{ik}\cdot C_j) - \ln
 P_j]$, where $c_{ik}$ does not depend on the brand. Suppose the brand-specific part of $m(D_i)\ln(A_{ik}\cdot C_j)$ had an
-additive i.i.d.\ type-I extreme value component. Ignoring integer constraints, each task's brand choice would then be
-a logit in $\ln W - \ln P$ with coefficient $\frac{a}{1-a}$. With the random MHz coefficient it would
+additive i.i.d.\ standard type-I extreme value component, so that $\ln W_{ijk} = w_{ijk} + \epsilon_{ijk}$, where $w_{ijk}$ is the part of $\ln W_{ijk}$ other than this shock. Ignoring
+integer constraints, each task would choose the brand that maximizes $w_{ijk} - \ln P_j + \epsilon_{ijk}$, because the
+positive factor $\frac{a}{1-a}$ does not change the ranking. The brand choice would then be a logit with index
+$w_{ijk} - \ln P_j$, so the coefficient on $-\ln P_j$ is one, the inverse of the shock's unit scale. A coefficient of
+$\frac{a}{1-a}$ requires a different assumption, in which the standard extreme value shock is added to
+$\ln\pi^*_{ijk}$ itself. With the random MHz coefficient either version would
 be a mixed logit, and establishment demand a Poisson mixture of such choices. This interpretation is ours. Hendel
 notes that his framework allows any distributional assumption, not just extreme value
 \citep[pp.~424--425]{Hendel1999}.
@@ -1006,8 +1014,9 @@ expected maximum utility grows like $\ln J$ without bound (\cref{sec:07-welfare-
 Logit valuations of new goods are therefore biased upward (\cref{ch:newgoods}). Markups never vanish: with $J$ symmetric
 single-product firms, each share $s = \frac{e^{\delta - \alpha p}}{1 + Je^{\delta - \alpha p}}$ goes to zero as $J
 \to \infty$, so the markup $\frac{1}{\alpha(1-s)}$ converges to $\frac{1}{\alpha} > 0$ however crowded the market.
-In the mirror image, every product has a positive predicted share, so products with zero sales cannot be used
-(\cref{sec:07-market-size}, \citealp{GandhiLuShi2023}).
+In the mirror image, every product has a positive predicted share, so products with zero sales cannot enter the
+direct inversion of observed shares (\cref{sec:07-market-size}). Estimators that model the sampling of shares can
+still use them \citep{GandhiLuShi2023}.
 
 There are four responses. \citet{AckerbergRysman2005} make the role of the logit shock depend on the number of
 products, which \citet{Einav2007} describes as adding the log number of products as a regressor. Nesting tempers

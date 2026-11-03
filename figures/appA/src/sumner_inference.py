@@ -2,7 +2,8 @@
 Inference for the cigarette tax pass-through regression under dependence: Appendix A, Part 3
 (Sections A.8.5 and A.9).
 
-Data: ProblemSet_1/data_sumner.csv, a reconstructed state-year panel (47 states plus DC,
+Data: figures/appC/data/cigarette_panel.csv, committed in this repository and shared with the
+Appendix C scripts, a reconstructed state-year panel (47 states plus DC,
 1954-1978, 1,200 observations): weighted-average retail price per pack (cents), combined state
 plus federal excise tax (cents per pack), national CPI-U. Prices and taxes come from The Tax
 Burden on Tobacco, historical compilation (1983), Table 13; CPI from BLS.
@@ -32,8 +33,7 @@ from scipy import stats
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 FIGDIR = os.path.dirname(HERE)
-ROOT = os.path.abspath(os.path.join(HERE, "..", "..", "..", ".."))       # ECON_257
-DATA = os.path.join(ROOT, "ProblemSet_1", "data_sumner.csv")
+DATA = os.path.join(FIGDIR, "..", "appC", "data", "cigarette_panel.csv")
 SEED = 20261022
 B_WILD = 9999
 B_PAIRS = 9999

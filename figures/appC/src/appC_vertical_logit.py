@@ -15,7 +15,8 @@ C.6 (logit):
   elasticities, cost recovery, market bootstrap (5,000 resamples, seed 2031),
   stacked-moment sandwich for the two-step estimator, joint GMM with a just- and an
   over-identified supply block, gap term r_jt from the random coefficients
-  inversion (1,000 draws per market, seed 2030) and its second-order approximation.
+  inversion (1,000 draws per market, seed 2030), its second-order approximation,
+  and the within-market and full derivatives of the approximation's price component.
 
 Writes ../ladder.pdf, ../gap.pdf, previews in this folder, and
 appC_vertical_logit_output.json. Prints every number used in the text.
@@ -700,6 +701,21 @@ def main():
     b_rp, _, _, _, _ = tsls(r_price, xp, zmat, groups)
     show("b_r_price_component", float(b_rp[3]))
     show("sigma_p2_times_mean_price", float(sig2[3] * p_all.mean()))
+    # share-weighted inside price pbar_t, the within-market slope of the price
+    # component, sigma_p^2 (p - pbar), and its full derivative in p_jt when pbar_t
+    # moves with p_jt through logit share derivatives at the RC price coefficient:
+    # sigma_p^2 [(p - pbar)(1 + alpha p s) - p s]
+    pbar_obs = np.empty(n)
+    for rows in idx:
+        pbar_obs[rows] = s_all[rows] @ p_all[rows]
+    gap_p = p_all - pbar_obs
+    a_rc = float(-b_rc[3])
+    full_der = gap_p * (1 + a_rc * p_all * s_all) - p_all * s_all
+    show("pbar_min_mean_max", [float(pbar_obs.min()), float(pbar_obs.mean()),
+                               float(pbar_obs.max())])
+    show("p_minus_pbar_min", float(gap_p.min()))
+    show("full_derivative_price_component_min_over_sigma_p2", float(full_der.min()))
+    show("sigma_p2_times_mean_p_minus_pbar", float(sig2[3] * gap_p.mean()))
     show("price_mean", float(p_all.mean()))
     show("price_min", float(p_all.min()))
     show("price_max", float(p_all.max()))

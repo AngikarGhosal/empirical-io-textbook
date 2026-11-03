@@ -11,7 +11,8 @@ Notation of the book (Chen-Rey notation in brackets):
 
 The script verifies symbolically:
   * the thresholds (1)-(3), the optimum (4)-(5), the N-firm extension;
-  * the first-informant remark and the "report once" result (Prop. 2);
+  * the first-informant remark and the "report once" result (Prop. 2),
+    including the stage-0 participation condition V_O >= 0;
   * the scrutiny formula for ell_hat(T) (Section 3.4, Prop. 3);
   * the open-investigation thresholds, eq. (9)-(14) and Prop. 6;
 and prints every number quoted in the text (figure values, the
@@ -78,6 +79,25 @@ say("both informants: B_R' =", sp.factor(sp.simplify(BRprime)),
 VO = B - (1 - ell / 2) * F + d * VN
 BO = sp.solve(sp.Eq(VO, 2 * B - (1 - ell / 2) * F), B)[0]
 say("report once: threshold =", sp.factor(sp.simplify(BO)))
+# participation at stage 0: refusing yields zero, so V_O >= 0 is needed
+BOpart = sp.solve(sp.Eq(VO, 0), B)[0]
+BOpart_text = ((1 - d) * (1 - ell / 2) + d * rho) * F
+say("report once: participation V_O >= 0 iff B >=", sp.factor(sp.simplify(BOpart)),
+    " check vs text:", sp.simplify(BOpart - BOpart_text))
+ellO = sp.solve(sp.Eq(BOpart, B_low), ell)[0]
+ellO_text = 2 * (1 - 2 * d * rho / (2 * d - 1))
+say("report once: ell_O =", sp.simplify(ellO), " check vs text:", sp.simplify(ellO - ellO_text))
+say("report once: ell_O - (1 - rho) =", sp.factor(sp.simplify(ellO - (1 - rho))),
+    "(nonpositive iff varrho >= (2delta-1)/(2delta+1))")
+for (dv, rv, lv, bv) in [(0.8, 0.3, 0.2, None), (0.9, 0.1, 1.2, 0.12)]:
+    vv = {d: dv, rho: rv, F: 1, ell: lv}
+    Blv = float(B_low.subs(vv))
+    Bv = Blv if bv is None else bv
+    say(f"  delta = {dv}, varrho = {rv}, ell = {lv}: B_low = {Blv:.4f}, ell_low = {1 - rv:.2f},"
+        f" ell_O = {float(ellO.subs(vv)):.4f}, (2delta-1)/(2delta+1) = {(2 * dv - 1) / (2 * dv + 1):.4f}")
+    say(f"    at B = {Bv:.4f}: V_N = {float(VN.subs(vv).subs(B, Bv)):.4f},"
+        f" V_O = {float(VO.subs(vv).subs(B, Bv)):.4f}, B_N^r = {float(BNr.subs(vv)):.4f},"
+        f" B_O = {float(BOpart.subs(vv)):.4f}")
 
 # ---------------------------------------------------------------- scrutiny
 beta, gam = sp.symbols("beta gamma", positive=True)

@@ -1031,10 +1031,16 @@ elasticity of every alternative with respect to an attribute of $k$ is the same 
 The classic illustration is the red bus and the blue bus. A commuter chooses between a car and a red bus
 with equal mean utilities, so each share is $\frac{1}{2}$. Add a blue bus identical to the red one. IIA keeps
 the ratio of car to red bus at one, so logit predicts shares of $\frac{1}{3}$ each. Common sense predicts
-$\frac{1}{2}$ for the car and $\frac{1}{4}$ for each bus. IIA is a property of independent shocks across
-alternatives. Independent normal shocks produce similar substitution patterns, because they too contain
-no notion of similarity between products. The remedy is correlation across alternatives, through nests (\cref{sec:B-gev}) or random coefficients
-(\cref{ch:blp}). IIA can be tested by comparing estimates from the full and a restricted choice set
+$\frac{1}{2}$ for the car and $\frac{1}{4}$ for each bus. IIA follows from the logit specification, in which
+the shocks are independent standard Gumbels. Independence alone does not deliver it, and probit choice
+probabilities do not satisfy IIA \citep[Section~5.4, p.~108]{Train2009}. Take three alternatives with
+independent standard normal shocks and $\delta = (1, 0, \delta_3)$. The ratio $\frac{s_1}{s_2}$ is $3.17$ at
+$\delta_3 = -5$ and $3.46$ at $\delta_3 = 0$. Under logit the ratio would equal $e \approx 2.72$ at every
+$\delta_3$, so the probit ratio depends on the third alternative. I.i.d.\ normal shocks still share the red bus
+failure. By symmetry they give the car and each bus a share of $\frac{1}{3}$, because they contain no notion of similarity
+between products. More generally, any shock that is i.i.d.\ across alternatives gives two products with equal
+shares the same cross elasticity with respect to the price of a third (\cref{rem:07-berry-iid}). The remedy is
+correlation across alternatives, through nests (\cref{sec:B-gev}) or random coefficients (\cref{ch:blp}). IIA can be tested by comparing estimates from the full and a restricted choice set
 \citep{HausmanMcFadden1984}.
 
 \subsection{Expected maximum utility and consumer surplus}\label{sec:B-logsum}
@@ -1140,8 +1146,11 @@ space. Every product arrives with its own independent taste draw, so every produ
 attracts consumers who value it highly and adds surplus. The same feature bounds logit markups below by
 $\frac{1}{\alpha}$ (\cref{prop:B-logit-markups}). It biases upward the estimated value of new goods and the
 markups in crowded markets (\cref{ch:discrete}, \cref{ch:newgoods}). The mirror image concerns data. The model
-predicts a positive share for every product, so the inversion $\ln s_j - \ln s_0$ is undefined for a product with
-zero observed sales, and such products carry no information in the logit. If the shocks represent mistakes or
+predicts a positive share for every product, so the direct inversion of observed shares, $\ln s_j^{obs} - \ln s_0^{obs}$, is
+undefined for a product with zero observed sales. The zero is still informative. If $M$ consumers choose
+independently, the probability of observing no sale of $j$ is $(1 - s_j)^M$, which falls as the model share
+$s_j$ rises. A likelihood for sales counts, or another estimator that models the sampling of shares, can
+therefore use zeros \citep{GandhiLuShi2023}. If the shocks represent mistakes or
 psychological biases rather than tastes, the log-sum counts them as welfare. The pure characteristics model
 removes the shock altogether, and the nested logit shrinks the value of a clone as within-nest correlation
 rises (\cref{rem:B-nl-clone}).

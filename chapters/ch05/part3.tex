@@ -636,7 +636,15 @@ The elasticity of demand for product $k$ with respect to $p_j$, once good $i$ ha
 \begin{equation}\label{eq:05-rationed-elast}
   \varepsilon_{kj}^{-i} = \varepsilon_{kj} - \varepsilon_{ki}\Bigl(\frac{\partial w_i}{\partial\ln p_i}\Bigr)^{-1}\frac{\partial w_i}{\partial\ln p_j},
 \end{equation}
-with all terms evaluated at $p_i^V$. This is the standard formula for demand under a ration of zero.
+with all terms evaluated at $p_i^V$. This is the standard formula for demand under a ration of zero. With several
+withdrawn products, let $D$ be the matrix of derivatives $\frac{\partial w_i}{\partial\ln p_l}$ for $i, l \in
+\mathcal{W}$. Differentiating the conditions (S1) jointly gives
+\begin{equation}\label{eq:05-rationed-elast-multi}
+  \varepsilon_{kj}^{-\mathcal{W}} = \varepsilon_{kj} - \sum_{i\in\mathcal{W}}\sum_{l\in\mathcal{W}}
+  \varepsilon_{ki}\,\bigl[D^{-1}\bigr]_{il}\,\frac{\partial w_l}{\partial\ln p_j} .
+\end{equation}
+In a two-level system every derivative here is unconditional, so it includes the response of $X_Q$. These rationed
+elasticities are the ones that enter (S2).
 
 \casehead{Solving the system}
 A simple algorithm iterates over the blocks. Start at the observed prices and expenditure. Given $p'_{\mathcal{R}}$
@@ -648,25 +656,48 @@ that the remaining shares stay positive and that the relevant own elasticities s
 
 \casehead{Welfare and its decomposition}
 Let $E(u,P)$ be the upper-level expenditure function, with $P$ the vector of segment indices. Let $P^0$ be the
-observed indices and $P'$ the counterfactual ones, with $P_Q'$ computed from the virtual and new prices. The
-compensating variation is \citep[eq.~3.16]{ChaudhuriGoldbergJia2006}
+observed indices and $P'$ the counterfactual ones, with $P_Q'$ computed from the virtual prices of (S1) and the
+new prices. \citet[eq.~3.16]{ChaudhuriGoldbergJia2006} measure the loss by
 \begin{equation}\label{eq:05-cv-cf}
-  CV = E(u^0,P') - E(u^0,P^0).
+  CV^M = E(u^0,P') - E(u^0,P^0).
 \end{equation}
-To see which mechanism drives it, define two intermediate price vectors. $P^1$ uses virtual prices computed with
-$X_Q$ and all remaining prices fixed at their observed values. $P^2$ recomputes the virtual prices letting $X_Q$
-respond to the new segment index, still holding the remaining prices fixed. Then
+The virtual prices of (S1) set Marshallian demand to zero at the counterfactual expenditure. By duality they
+make Hicksian demand zero at the counterfactual utility $u'$, and in general not at $u^0$. The superscript $M$
+marks this. Equation~\eqref{eq:05-cv-cf} is therefore an approximation to the compensating variation, for the
+reason that \cref{lem:05-choke-order} gives in the case of one good.
+
+The exact measure keeps the equilibrium prices $p'_{\mathcal{R}}$, which firms set against Marshallian demand. It
+reprices the withdrawn goods at their \emph{compensated virtual prices}, which set Hicksian demand to zero at
+$u^0$. Hicksian demand at $u^0$ equals Marshallian demand at the compensated expenditure. The compensated
+virtual prices therefore solve (S1) and (S3) with total expenditure $E(u^0,P^h)$ in place of the actual budget
+and with $p'_{\mathcal{R}}$ held fixed. Here $P^h$ is the vector of segment indices at these prices. The
+compensating variation is
+\begin{equation}\label{eq:05-cv-exact}
+  CV = E(u^0,P^h) - E(u^0,P^0).
+\end{equation}
+The conditions form a fixed point in the virtual prices and the compensated expenditure, and iterating between
+the two solves it. With a single level, in which the segment is the whole budget, they reduce to the Hicksian
+condition \eqref{eq:05-virtual-hicks} at $u^0$.
+
+To see which mechanism drives the loss, \citet{ChaudhuriGoldbergJia2006} define two intermediate price vectors.
+$P^1$ uses virtual prices computed with $X_Q$ and all remaining prices fixed at their observed values. $P^2$
+recomputes the virtual prices letting $X_Q$ respond to the new segment index, still holding the remaining prices
+fixed. Then
 \begin{equation}\label{eq:05-cv-decomp}
-  CV = \underbrace{E(u^0,P^1) - E(u^0,P^0)}_{\text{pure variety}}
+  CV^M = \underbrace{E(u^0,P^1) - E(u^0,P^0)}_{\text{pure variety}}
   + \underbrace{E(u^0,P^2) - E(u^0,P^1)}_{\text{expenditure switching}}
   + \underbrace{E(u^0,P') - E(u^0,P^2)}_{\text{price adjustment}}.
 \end{equation}
-This is the general form of the decomposition used by \citet{ChaudhuriGoldbergJia2006}. The first term values
-the lost products at fixed prices and fixed segment expenditure. The second term exists because the zero-share
-condition (S1) is Marshallian. Whenever $\beta_i \neq 0$, the virtual prices depend on segment expenditure, so
-they shift once $X_Q$ adjusts. The third term records the repricing of the remaining products. The first two
-terms together describe a regime in which price regulation freezes the remaining prices at their old levels.
-The decomposition is sequential, so its terms depend on the order in which the changes are introduced.
+This is the general form of their decomposition. The first term values the lost products at fixed prices and
+fixed segment expenditure. The second term exists because the zero-share condition (S1) is Marshallian. Whenever
+$\beta_i \neq 0$, the virtual prices depend on segment expenditure, so they shift once $X_Q$ adjusts. The third
+term records the repricing of the remaining products. The first two terms together describe a regime in which
+price regulation freezes the remaining prices at their old levels. The decomposition is sequential, so its terms
+depend on the order in which the changes are introduced. The intermediate terms inherit the approximation of
+\eqref{eq:05-cv-cf}, since $P^1$ and $P^2$ also use Marshallian virtual prices. The exact counterpart of
+\eqref{eq:05-cv-decomp} has two terms. The variety term evaluates \eqref{eq:05-cv-exact} with the remaining
+prices at their observed values, and the price-adjustment term is the rest of $CV$. Segment expenditure is set
+by compensation in both, so its response has no separate term.
 
 The welfare of a country adds producer surplus. With $\pi_k = (p_k - c_k)q_k$ computed at the counterfactual
 and the observed prices, the change in national welfare is $-CV$ plus the change in the profits of domestic
@@ -679,9 +710,13 @@ Equation~\eqref{eq:05-foc-single} recovers marginal costs $c = (0.273, 0.406, 0.
 elasticities. Suppose good 3 is withdrawn. Firms 1 and 2 reprice, facing the demand of consumers who can no
 longer buy good 3, with its elasticities given by \eqref{eq:05-rationed-elast}. The new equilibrium has
 $p_1' = 1.475$ and $p_2' = 1.365$, increases of 47.5 and 36.5 percent. The own elasticities fall in magnitude
-from $-1.375$ and $-1.682$ to $-1.227$ and $-1.423$, because the closest outside option has gone. The total
-compensating variation is 71.9 percent of segment expenditure. The pure variety effect, with other prices fixed,
-is 21.1 percent (\cref{ex:05-virtual-running}). The price adjustment adds 50.8 percent. Firms 1 and 2 gain
+from $-1.375$ and $-1.682$ to $-1.227$ and $-1.423$, because the closest outside option has gone. In the
+equilibrium, good 3 sits at its Marshallian choke price, 5.13 at the new prices, because that is the demand
+the firms face. Welfare uses the Hicksian virtual prices at $u^0$, 4.37 at the old prices and 6.16 at the new
+ones, as in \eqref{eq:05-cv-exact}. The total compensating variation is 71.9 percent of segment expenditure.
+The pure variety effect, with other prices fixed, is 21.1 percent (\cref{ex:05-virtual-running}). The price
+adjustment adds 50.8 percent. Evaluating the expenditure function at the Marshallian choke price instead, as
+\eqref{eq:05-cv-cf} does, gives 71.4 percent, a slight understatement. Firms 1 and 2 gain
 $0.734$ in profit, while firm 3 loses $0.407$. These effects are large because fixing segment expenditure makes
 the segment's aggregate demand unit elastic. An upper level with elastic segment demand would add the
 expenditure-switching channel and dampen the price response. The computation is in \texttt{virtual\_price.py}.
@@ -798,7 +833,9 @@ $\vartheta_{GH}$ are conditional elasticities. Slutsky restrictions are not impo
 Exact two-stage budgeting under Gorman's results, discussed in \citet{BlackorbyPrimontRussell1978}, requires
 additive separability at the level above. HLZ note
 that AIDS is a generalized Gorman polar form, so Gorman's theorem applies, and that a less restrictive middle
-level, not consistent with exact two-stage budgeting, gives similar results (fn.~2).
+level, not consistent with exact two-stage budgeting, gives similar results (fn.~2). The theorem needs the
+level above to be additive in the log subutilities $\ln u_G$ of the segments, as
+\cref{sec:05-first-stage} shows.
 
 \casehead{Top level: beer}
 Overall beer consumption $Q_{Bt}$ is
@@ -1073,8 +1110,17 @@ The overall price elasticity of beer is $-1.36$, with standard error 0.21 (p.~16
 reproduces the segment equations. Each column is a segment demand equation, and because the equations are
 log-log, the coefficients are conditional elasticities. Expenditure elasticities are close to one. The own
 price elasticities are about $-2.7$ for premium and popular-price beer and $-2.4$ for light beer. These are large
-for segment-level elasticities. They imply that a hypothetical attempt to raise all premium prices would not pay
-if light and popular prices stayed put (p.~166).
+for segment-level elasticities. HLZ conclude that a hypothetical attempt to raise all premium prices would not pay
+if light and popular prices stayed put (p.~166). The elasticity alone does not settle this, because profitability
+also depends on margins. Suppose all premium prices rise together and share a common Lerner index $L = \frac{p -
+c}{p}$. With segment elasticity $\varepsilon$, profit then changes at rate $\frac{\partial\pi}{\partial p} = q(1 +
+\varepsilon L)$. At $\varepsilon = -2.7$ a small rise pays whenever $L < \frac{1}{2.7} \approx 0.37$. This uses the
+conditional elasticity, which holds beer spending fixed. The unconditional elasticity adds the response of
+total beer spending. A 1 percent rise in premium prices changes beer spending by about $s(1 - 1.36)$ percent,
+where $s$ is the premium share of beer spending. The premium expenditure elasticity of 0.978 passes this on, so
+the unconditional elasticity is about $-2.67 - 0.35s$. It lies between $-2.67$ and $-3.02$, and the threshold
+falls to between 0.33 and 0.37. HLZ's conclusion therefore needs premium margins above roughly 0.33 to 0.37,
+which the demand estimates alone cannot show.
 
 \begin{table}[htbp]
 \centering
@@ -1404,8 +1450,12 @@ complements here. Fourth, cost savings of 5 and 10 percent shrink the price incr
 because pass-through is incomplete and markups are high. In treatment A the merger costs consumers 67.2 percent of
 segment expenditure without efficiencies. In treatment B a rise in $p_1$ lowers the quantity of brand 3 (its
 unconditional cross elasticity is $-0.029$), because the drain on segment expenditure outweighs within-segment
-substitution. The equilibria are unique from four starting values, and the second-order conditions hold
-(\texttt{aids\_merger\_sim.py}). Functional form also matters. \citet{CrookeEtAl1999} show that AIDS tends to
+substitution. In both treatments without efficiencies, four starting values all converge to the same solution
+of the first-order conditions. At all six solutions, each firm's profit Hessian in its own log prices is negative
+definite. At the two solutions without efficiencies, a grid search over each firm's own prices finds no more
+profitable deviation (\texttt{aids\_merger\_sim.py}). The grid runs from marginal cost to about 20 times marginal
+cost, with rivals held fixed and all shares positive. These checks do not prove that the equilibrium is unique.
+Functional form also matters. \citet{CrookeEtAl1999} show that AIDS tends to
 predict larger merger price effects than logit or linear demand calibrated to the same elasticities, because of
 its curvature.
 \end{example}

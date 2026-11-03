@@ -257,10 +257,16 @@ than its mean enter aggregate demand.
 Muellbauer shows that \eqref{eq:05-muellbauer} holds if and only if household shares have the
 \emph{generalized linear} form
 \begin{equation}\label{eq:05-gl}
-  w_{ih}(p, I_h) = v_h(p, I_h)\, A_i(p) + B_i(p) + C_{ih}(p),
+  w_{ih}(p, I_h) = v_h(p, I_h)\, A_i(p) + B_i(p) + \frac{C_{ih}(p)}{I_h},
 \end{equation}
 with $\sum_i A_i = \sum_i C_{ih} = \sum_h C_{ih} = 0$ and $\sum_i B_i = 1$
-\citep[eq.~A2]{DeatonMuellbauer1980a}. We drop the household-specific terms $C_{ih}$ from here on.
+\citep[eq.~A2]{DeatonMuellbauer1980a}. The household-specific term $C_{ih}$ is an amount of spending, so it
+enters the share divided by $I_h$. In the weighted mean \eqref{eq:05-wbar} it contributes $\frac{1}{H\bar
+I}\sum_h C_{ih} = 0$.\footnote{\citet[eq.~A2]{DeatonMuellbauer1980a} print the term as $C_{ih}(p)$ with
+$\sum_h C_{ih} = 0$. Read literally as a share term, it would leave $\sum_h \frac{I_h}{H\bar I}\,
+C_{ih}$ in \eqref{eq:05-wbar}, which vanishes only if $\sum_h I_h C_{ih} = 0$. We write the term over
+$I_h$, which is the reading under which it cancels.} We drop the household-specific terms $C_{ih}$ from
+here on.
 
 The preferences behind \eqref{eq:05-gl} have a simple structure \citep[\S 6.2, eqs.~2.3--2.6,
 pp.~154--155]{DeatonMuellbauer1980b}. Household expenditure functions take the form $e_h(p, u_h) =
@@ -758,9 +764,9 @@ Suppose preferences are weakly separable.
 \begin{enumerate}[label=(\roman*)]
   \item If every subutility $U_G$ is homothetic, group expenditures depend on prices only through the
   group price indices $P_G(p_G) = e_G(p_G, 1)$, the unit costs of the subutilities.
-  \item If preferences are additively separable across groups and every sub-indirect utility function
-  has the GGPF \eqref{eq:05-ggpf}, group expenditures depend on prices only through the indices
-  $\mathcal{P}_G(p_G)$.
+  \item If preferences are additively separable across groups, and every sub-indirect utility function
+  of the additive representation has the GGPF \eqref{eq:05-ggpf}, group expenditures depend on prices
+  only through the indices $\mathcal{P}_G(p_G)$.
 \end{enumerate}
 \citet{Gorman1959} showed that, except when there are only two groups, these two structures are also
 necessary for exact two-stage budgeting under weak separability \citep[\S 5.2,
@@ -778,8 +784,9 @@ $e_G(p_G, u_G) = P_G(p_G)\, u_G$, with $P_G(p_G) = e_G(p_G, 1)$ linearly homogen
 This is a standard consumer problem with ``quantities'' $u_G$ and ``prices'' $P_G$. Its solution $u_G^*$
 depends only on $(P_1, \dots, P_{\mathcal{G}}, I)$, and so does $X_G = P_G u_G^*$.
 
-(ii) Under additive separability the first stage maximizes $\sum_G V_G(p_G, X_G)$ subject to $\sum_G X_G
-= I$, after an increasing transformation of the objective. At an interior optimum the marginal utilities
+(ii) Let $\sum_G U_G$ be the additive representation, and let $V_G$ be the sub-indirect utility of
+$U_G$. The first stage maximizes $\sum_G V_G(p_G, X_G)$ subject to $\sum_G X_G = I$, after an increasing
+transformation of the objective. At an interior optimum the marginal utilities
 of group expenditure are equal:
 \begin{equation*}
   \frac{\partial V_G}{\partial X_G} = \frac{1}{\mathcal{P}_G(p_G)}\,
@@ -806,21 +813,33 @@ must abandon weak separability. The rest of this subsection takes the first path
 \cref{rem:05-implicit-sep} sketches the second.
 
 \casehead{The AIDS is a generalized Gorman polar form}
-\citet[fn.~17]{Hausman1997} notes that the AIDS is a GGPF, so Gorman's theorem applies to a top level
-that is additive across segments. The verification is short. Within group $G$ the AIDS indirect utility
-is
+\citet[fn.~17]{Hausman1997} notes that the AIDS is a GGPF, so Gorman's theorem on exact two-stage
+budgeting applies. The verification is short, and it shows which top level the theorem needs. Within group
+$G$ the AIDS indirect utility is
 \begin{equation*}
   u_G = \frac{\ln X_G - \ln a_G(p_G)}{B_G(p_G)}, \qquad B_G(p_G) = \beta_0\prod_{k\in G} p_k^{\beta_k}.
 \end{equation*}
 Here $\ln a_G = \ln\mathbf{P}_G$ is the translog index of the group. The function $B_G$ is homogeneous
 of degree zero because the $\beta_k$ of the group sum to zero. Where $X_G > a_G(p_G)$, that is $u_G > 0$, the
-increasing transformation $\ln u_G$ represents the same preferences and equals
+increasing transformation $\ln u_G$ represents the same within-group preferences and equals
 \begin{equation*}
   \ln u_G = \ln\ln\frac{X_G}{a_G(p_G)} - \ln B_G(p_G).
 \end{equation*}
 This is \eqref{eq:05-ggpf} with $F_G(z) = \ln\ln z$, $\mathcal{P}_G = a_G$ and $\mathcal{A}_G = -\ln B_G$.
-Under additive separability, the exact group price index of an AIDS group is therefore its translog index
-$\mathbf{P}_G$, the index that \citet{ChaudhuriGoldbergJia2006} use for the quinolone segment.
+Part (ii) of \cref{prop:05-first-stage} therefore applies when the top level is additive in the
+transformed subutilities, $U = F\bigl(\sum_G \ln u_G\bigr)$. Under this assumption the exact group price
+index of an AIDS group is its translog index $\mathbf{P}_G$, the index that
+\citet{ChaudhuriGoldbergJia2006} use for the quinolone segment.
+
+A separate increasing transformation of each subutility leaves within-group demands unchanged, but in general it
+changes preferences across groups. Additivity in the untransformed $u_G$ is therefore not enough. Suppose
+$U = \sum_G u_G$. The first-order conditions $\frac{\partial u_G}{\partial X_G} = \frac{1}{B_G X_G} =
+\lambda$ give
+\begin{equation*}
+  X_G = I\,\frac{B_G(p_G)^{-1}}{\sum_H B_H(p_H)^{-1}} .
+\end{equation*}
+Group expenditure then varies with $B_G(p_G)$ even when $a_G(p_G)$ is held fixed. In the coordinates
+$v_G = \ln u_G$ this aggregator is $\sum_G e^{v_G}$, which is not a function of $\sum_G v_G$.
 
 \casehead{The first stage in practice}
 Exact two-stage budgeting requires additivity at the top, which is itself a strong restriction on
@@ -1755,8 +1774,8 @@ homogeneous equations \citep[\S 3.4, Table~3.4, pp.~77--78]{DeatonMuellbauer1980
 \Cref{tab:05-dm-homog} reproduces that table. The rejection thresholds are 4.84 at the 5 percent level and
 9.65 at the 1 percent level (p.~77). Homogeneity is rejected at 1 percent for food ($F = 19.4$, $t =
 -4.4$), clothing ($20.3$, $-4.5$), housing ($82.8$, $9.1$) and transport and communication ($171.6$,
-$13.1$). A proportional increase in all prices and expenditure would lower spending on food and clothing
-and raise spending on housing and on transport and communication.
+$13.1$). A proportional increase in all prices and expenditure would lower the budget shares of food and
+clothing and raise those of housing and of transport and communication.
 
 The fit is very high in both versions, with $R^2$ above 0.95 in five of the eight free equations and
 never below 0.84. Budget
@@ -2095,16 +2114,23 @@ average of the prices of many stock-keeping units (SKUs), $p_{jt}^A = \sum_{k\in
 revenue weights $\omega_k$. The model is written in terms of an exact group price index $p_{jt}^T$, which
 is not observed. Following \citet[pp.~18--19]{ChaudhuriGoldbergJia2006}, let $\varsigma_{it}$ be the
 demand shock of the share equation written in the exact indices, and write $\ln p_{jt}^A = \ln p_{jt}^T +
-m_{jt}$, where $m_{jt}$ is the proportional approximation error. Substituting $\ln p_{jt}^T = \ln p_{jt}^A
-- m_{jt}$ into the share equation gives the equation taken to the data,
+m_{jt}$, where $m_{jt}$ is the proportional approximation error. Let $p_t^T$ and $p_t^A$ collect the exact
+and the measured group prices, and let $P(\cdot)$ be the price index of the share equation. Only $P(p_t^A)$
+can be computed. Substituting $\ln p_{jt}^T = \ln p_{jt}^A - m_{jt}$ into the share equation, and replacing
+$P(p_t^T)$ by $P(p_t^A)$, gives the equation taken to the data,
 \begin{equation}\label{eq:05-meas-error}
-  w_{it} = \alpha_i + \sum_j\gamma_{ij}\ln p_{jt}^A + \beta_i\ln\frac{X_t}{P_t} + \xi_{it},
-  \qquad \xi_{it} = \varsigma_{it} - \sum_j\gamma_{ij}m_{jt}.
+  w_{it} = \alpha_i + \sum_j\gamma_{ij}\ln p_{jt}^A + \beta_i\ln\frac{X_t}{P(p_t^A)} + \xi_{it},
+  \qquad \xi_{it} = \varsigma_{it} - \sum_j\gamma_{ij}m_{jt} + \beta_i\bigl[\ln P(p_t^A) - \ln P(p_t^T)\bigr].
 \end{equation}
+With $\gamma$ symmetric, for the translog index, to first order in the errors, $\ln P(p_t^A) - \ln P(p_t^T)
+\approx \sum_k\bigl(\alpha_k + \sum_j\gamma_{kj}\ln p_{jt}^T\bigr)m_{kt}$. \citet[p.~19]{ChaudhuriGoldbergJia2006} hold the index fixed in
+this substitution, so their composite error has only the first two terms. That form is exact only if the
+index itself is observed without error, which requires the unobserved $p_{jt}^T$.
+
 The composite error $\xi_{it}$ has two parts, and each is correlated with the observed group prices. The
-first, $-\sum_j\gamma_{ij}m_{jt}$, is correlated with $\ln p_{jt}^A$ by construction, as in any
-errors-in-variables problem. The second, the demand shock $\varsigma_{it}$, is correlated with $\ln
-p_{jt}^A$ because the weights $\omega_k$ respond to demand.
+first, $-\sum_j\gamma_{ij}m_{jt} + \beta_i[\ln P(p_t^A) - \ln P(p_t^T)]$, is correlated with $\ln p_{jt}^A$ by
+construction, as in any errors-in-variables problem. The second, the demand shock $\varsigma_{it}$, is
+correlated with $\ln p_{jt}^A$ because the weights $\omega_k$ respond to demand.
 
 A one-price version shows how the two channels bias least squares. Suppose $w_t = \alpha + \gamma\ln
 p_t^T + \varsigma_t$ and we observe $\ln p_t^A = \ln p_t^T + m_t$, with $m_t$ uncorrelated with $\ln

@@ -181,13 +181,19 @@ $\phi_j(b)-b$. An equivalent form, used repeatedly below, is
 \end{equation}
 
 The system needs boundary conditions. At the bottom, every bidder bids the reserve price,
-$\phi_i(r)=r$ for all $i$ \citep[Section II.B]{AtheyLevinSeira2011}. At the top, all bidders share
-a common highest bid $\bar b$, at which each bidder's highest type bids, so $\phi_i(\bar
-b)=\bar v_i$ (\cref{prop:14-common-support} below). The top bid $\bar b$ is itself unknown. The
-problem is therefore a two-point boundary value problem with a free endpoint. The right side of
+$\phi_i(r)=r$ for all $i$ \citep[Section II.B]{AtheyLevinSeira2011}. At the top, each bidder's
+highest type submits that bidder's highest bid $\bar b_i$, so $\phi_i(\bar b_i)=\bar v_i$. The top
+bids coincide in two cases covered by \cref{prop:14-common-support} below. The first is two
+bidders, with any upper bounds $\bar v_1$ and $\bar v_2$. The second is any number of bidders whose
+values share one support. In either case all bidders have a common top bid $\bar b$, and
+$\phi_i(\bar b)=\bar v_i$ for every $i$. With three or more bidders and different upper bounds, the
+top bids can differ (see the remark after the proposition). Bidder $i$ then leaves the system
+\eqref{eq:14-asym-ode} above $\bar b_i$, and each endpoint $\bar b_i$ must be found as part of the
+solution. In the two cases with a common top bid, $\bar b$ is itself unknown. The problem is
+therefore a two-point boundary value problem with a free endpoint. The right side of
 \eqref{eq:14-asym-ode} is singular at $b=r$, where every margin $\phi_j(b)-b$ vanishes. Numerical
-methods therefore guess $\bar b$, integrate backward from the top and adjust the guess until the
-solution reaches $(r,r)$ \citep{MarshallEtAl1994,Bajari2001}.
+methods therefore guess $\bar b$, integrate backward from the top and adjust the guess until every
+$\phi_i$ reaches $r$ at $b=r$ \citep{MarshallEtAl1994,Bajari2001}.
 
 \casehead{Type-symmetric bidding}
 In the application of \citet{AtheyLevinSeira2011} the participants consist of $n_L$ weak bidders
@@ -256,7 +262,9 @@ at $r$, which gives the common support $[r,\bar b]$.
 Part (b) needs the common value support when $n>2$. \citet[footnote 15]{AtheyHaile2007} give a
 three-bidder example with different value supports in which the bid supports differ. With two
 bidders, part (a) shows that the top bid is common even when $\bar v_s>\bar v_w$, as in the uniform
-example below.
+example below. The type-symmetric model of \cref{sec:14-asym-foc} falls outside both parts when it
+has more than two participants and the two types have different upper bounds. A common top bid then
+cannot be imposed without further argument.
 
 \casehead{Existence and uniqueness}
 \citet[Theorem~2.1]{AtheyHaile2007} summarize the results for first-price auctions in which values
@@ -837,7 +845,8 @@ least $K$. It may randomize when the two are equal.
 Bid strategies in the open auction are $b_k(v;\bm n)=v$. In the sealed auction they solve
 \eqref{eq:14-ts-foc-L} and \eqref{eq:14-ts-foc-M} with $b_k(r;\bm n)=r$. A type-symmetric entry
 equilibrium exists in both formats, but it need not be unique \citep[Section
-II.C]{AtheyLevinSeira2011}. The following condition restores uniqueness. For the proof we maintain
+II.C]{AtheyLevinSeira2011}. The following condition, with at least two potential bidders of each
+type, restores uniqueness. For the proof we maintain
 that a participant's expected profit falls when a rival is added, strictly in expectation. In the
 open auction this holds auction by auction, since a bidder's surplus
 $(v-\max\{\text{rival values},r\})^+$ can only fall when a rival is added.
@@ -847,8 +856,8 @@ Suppose that for all $n_L,n_M$,
 \begin{equation}\label{eq:14-als-condition}
 \pi_M^{\mathrm{s}}(n_L,n_M+1)>\pi_L^{\mathrm{s}}(n_L,n_M).
 \end{equation}
-Then there is a unique type-symmetric entry equilibrium for both auction formats. In equilibrium,
-either $p_L=0$ or $p_M=1$.
+Then every type-symmetric entry equilibrium of either auction format has $p_L=0$ or $p_M=1$. If
+also $N_L\ge 2$ and $N_M\ge 2$, each format has a unique type-symmetric entry equilibrium.
 \end{proposition}
 
 Condition \eqref{eq:14-als-condition} compares a mill and a logger that face the same $n_M$ mills.
@@ -875,11 +884,14 @@ Taking expectations gives $\Pi_M(p_L,p_M)>\Pi_L(p_L,p_M)$ for every profile.
 previous step gives $\Pi_M>K$, so mills enter with probability one.
 
 \emph{Uniqueness.} Candidate equilibria have either $p_M=1$ and $p_L$ solving the logger's condition,
-or $p_L=0$ and $p_M<1$ solving the mill's condition. Each family has at most one member, because
-$\Pi_L(\cdot,1)$ and $\Pi_M(0,\cdot)$ are strictly decreasing. Suppose an equilibrium with $p_L=0$
+or $p_L=0$ and $p_M<1$ solving the mill's condition. With all mills entering, a logger's payoff is
+$\Pi_L(p_L,1)=\E[\pi_L(1+X_L,N_M)]$. When $N_L\ge 2$, the count $X_L$ of other loggers is
+stochastically increasing in $p_L$, so $\Pi_L(\cdot,1)$ is strictly decreasing. When $N_M\ge 2$, the
+same argument shows that $\Pi_M(0,\cdot)$ is strictly decreasing. Each family therefore has at most
+one member. Suppose an equilibrium with $p_L=0$
 and $p_M<1$ exists. Then $\Pi_M(0,p_M)\le K$ when $p_M=0$, or $\Pi_M(0,p_M)=K$ when $p_M>0$. In
-either case $\Pi_M(p_L,1)<\Pi_M(0,p_M)\le K$ for every $p_L$, so no equilibrium with $p_M=1$
-exists. Only one candidate survives.
+either case $\Pi_M(p_L,1)\le\Pi_M(0,1)<\Pi_M(0,p_M)\le K$ for every $p_L$, so no equilibrium with
+$p_M=1$ exists. Only one candidate survives.
 
 \emph{Both formats.} For any participant set, mills earn more and loggers less in the open auction
 than in the sealed auction \citep[Section II.D]{AtheyLevinSeira2011}. This is the many-bidder
@@ -887,6 +899,17 @@ analogue of \cref{prop:14-maskin-riley}(iv). Hence
 $\pi_M^{\mathrm{o}}(n_L,n_M+1)\ge\pi_M^{\mathrm{s}}(n_L,n_M+1)>\pi_L^{\mathrm{s}}(n_L,n_M)\ge\pi_L^{\mathrm{o}}(n_L,n_M)$,
 and the argument applies to the open auction as well.
 \end{proof}
+
+\citet{AtheyLevinSeira2011} state uniqueness without the restriction $N_L,N_M\ge 2$, and the
+restriction matters. With a single potential logger, $\Pi_L(p_L,1)=\pi_L(1,N_M)$ does not depend on
+$p_L$. If $K=\pi_L(1,N_M)$, the logger is indifferent at every $p_L$, and mills strictly prefer to
+enter by the first step of the proof. Every profile $(p_L,1)$ with $p_L\in[0,1]$ is then an
+equilibrium. With one mill and one logger in the sealed auction of \cref{ex:14-als-entry} below, this
+happens at $K=\pi_L^{\mathrm{s}}(1,1)=0.0969$. A single potential mill creates the same indifference at
+$K=\pi_M(0,1)$, the profit of a mill without rivals, where every profile $(0,p_M)$ is an equilibrium.
+At every other entry cost, a payoff that does not depend on its own type's entry probability is either
+above or below $K$. It then pins down a single entry probability, and the equilibrium is again unique.
+The separation result, $p_L=0$ or $p_M=1$, holds for any numbers of potential bidders.
 
 The empirically relevant equilibrium has every mill entering and loggers randomizing,
 $p_M=1$ and $p_L\in(0,1)$. \citet[Section II.C]{AtheyLevinSeira2011} motivate this case with their
@@ -911,7 +934,8 @@ equilibrium of the open auction with the following properties.
 \end{proposition}
 
 \begin{proof}[Proof sketch for the empirically relevant case]
-Assume \eqref{eq:14-als-condition}, so each format has a unique equilibrium, and suppose the sealed
+Assume \eqref{eq:14-als-condition} and $N_L,N_M\ge 2$, so each format has a unique equilibrium by
+\cref{prop:14-als-unique}, and suppose the sealed
 equilibrium has $p_M^{\mathrm{s}}=1$ and $p_L^{\mathrm{s}}\in(0,1)$. For every participant set, a
 logger earns weakly less in the open auction. Hence $\Pi_L^{\mathrm{o}}(p_L,1)\le\Pi_L^{\mathrm{s}}(p_L,1)$
 for every $p_L$. At $p_L^{\mathrm{s}}$ the sealed condition holds with equality, so
@@ -926,7 +950,8 @@ entrants also mean a lower chance that the highest value belongs to a logger.
 \end{proof}
 
 The general statement allows multiple equilibria, which is why it is phrased as existence of a
-suitable open-auction equilibrium. Under the uniqueness condition, the prediction is sharp: ``open
+suitable open-auction equilibrium. Under the conditions of \cref{prop:14-als-unique}, the prediction
+is sharp: ``open
 bidding leads to less logger entry, equivalent mill entry and a lower chance that a logger wins''
 \citep[Section II.D]{AtheyLevinSeira2011}. The revenue comparison remains ambiguous. Sealed bidding
 attracts more loggers, which raises competition, but it allocates inefficiently. The sealed auction is
@@ -946,7 +971,9 @@ $U[0,1]$, and $r=0$. With both present, \cref{tab:14-asym-example} gives
 $\pi_L^{\mathrm{s}}=0.0969$, $\pi_L^{\mathrm{o}}=\frac{1}{12}\approx 0.0833$,
 $\pi_M^{\mathrm{s}}=0.5069$ and $\pi_M^{\mathrm{o}}=\frac{7}{12}$. A mill alone pays the reserve and
 earns $\E[V_M]=1$, and a logger alone earns $\E[V_L]=\frac{1}{2}$. Condition
-\eqref{eq:14-als-condition} holds, since $0.5069>0.5$. Let $K=0.09$. In the sealed auction the mill
+\eqref{eq:14-als-condition} holds, since $0.5069>0.5$. Let $K=0.09$. This cost differs from the
+knife-edge values $\pi_L^\tau(1,1)$ and $\pi_M^\tau(0,1)=1$ of both formats, so each format has a
+unique type-symmetric entry equilibrium. In the sealed auction the mill
 enters and the logger enters too, because $0.0969>0.09$. Revenue is $0.459$, the logger wins with
 probability $\frac{1}{3}$, and welfare is $1.0628-2K=0.883$. In the open auction the logger stays
 out, because $0.0833<0.09$. The mill wins at the reserve price, so revenue is zero and welfare is
@@ -1578,8 +1605,9 @@ Symmetric IPV, risk neutral & First-price $=$ Dutch $=$ second-price $=$ English
 \cref{prop:14-ret} \\[3pt]
 Symmetric IPV, risk averse & First-price $=$ Dutch $>$ second-price $=$ English & All efficient &
 \cref{prop:14-risk-fpa} \\[3pt]
-Symmetric affiliated values & English $\ge$ second-price $\ge$ first-price $=$ Dutch & All efficient &
-\cref{prop:14-mw-ranking} \\[3pt]
+Symmetric affiliated values & English $\ge$ second-price $\ge$ first-price $=$ Dutch & Highest
+signal wins in all. Efficient with private or pure common values, and more generally under the sufficient
+condition in the notes & \cref{prop:14-mw-ranking} \\[3pt]
 Asymmetric IPV & No general ranking. First-price higher in the uniform example & First-price
 inefficient and favors weak bidders. Open efficient & \cref{prop:14-maskin-riley},
 \cref{tab:14-asym-example} \\[3pt]
@@ -1595,7 +1623,12 @@ the open-auction allocation unchanged & \cref{prop:14-robinson}, \cref{prop:14-c
 \parbox{\textwidth}{\footnotesize Notes: IPV denotes independent private values. ``Efficient'' refers
 to the allocation among participating bidders in the symmetric increasing equilibrium. The ranking
 with risk aversion is due to \citet{Holt1980} and \citet{MaskinRiley1984}. Rankings for affiliated
-values hold in the symmetric model of \citet{MilgromWeber1982}.}
+values hold in the symmetric model of \citet{MilgromWeber1982}. With interdependent values, the
+bidder with the highest signal has the highest value if each value rises at least as fast in the
+bidder's own signal as in any rival's signal. Without this condition the allocation can be
+inefficient. Let $S_1$ and $S_2$ be independent and uniform on $[0,1]$, with $V_1=S_1+2S_2$ and
+$V_2=S_2+2S_1$. Every standard format awards the object to the higher signal, yet $S_1>S_2$ implies
+$V_1<V_2$.}
 \end{table}
 
 Second, equilibrium maps primitives into bids in ways that can be inverted. In second-price and

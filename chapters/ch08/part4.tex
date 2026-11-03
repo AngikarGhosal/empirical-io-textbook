@@ -400,8 +400,10 @@ eq.~6.13). BLP first obtain a preliminary estimate $\theta'$ with the plain smoo
 accept population draws of $\nu$ with probability $\bar f(\nu;\theta')$, the probability that a household
 with tastes $\nu$ buys some car, and reweight each accepted draw by $\frac{\bar s(\theta')}{\bar
 f(\nu;\theta')}$. The sampler oversamples households likely to buy a car, which is where the integrand is
-large. The same draws are used for every share, so the simulated shares sum to one, as the contraction
-requires.
+large. The same draws are used for every share. As \cref{sec:08-importance} shows, this does not make the
+simulated shares of all $J+1$ options sum to one. Their total is the sample mean of the weights, which is
+one only in expectation. The contraction still has a unique solution whenever the observed inside shares
+sum to less than that mean.
 
 The first-order conditions of \eqref{eq:08-blp-obj} are linear in $\beta$ and $\gamma$ given
 $(\alpha,\sigma)$. Both $\xi=\delta(\theta_2)-X\beta$ and $\omega=\ln(p-b(\theta_2))-W_c\gamma$ are linear
@@ -522,8 +524,13 @@ errors cannot come from the printed standard error of 0.123 in the simple way us
 That interval, $0.216\pm0.246$, includes zero and negative values. The paper does not explain the
 calculation, and we report the table as printed.}
 
-The fit of the logit regression shows that unobserved characteristics are large. The OLS logit has
-$R^2=0.387$, so $1-0.387=61$ percent of the variance in mean utility levels is due to $\xi$ (p.~874).
+The fit of the logit regression suggests that unobserved characteristics are large. The OLS logit has
+$R^2=0.387$, which BLP read as implying that 61 percent of the variance in mean utility levels is due to $\xi_{jt}$
+(p.~874). Strictly, $1-0.387=0.613$, so 61 percent of the variance of $\ln s_{jt}-\ln s_{0t}$ is unexplained by the OLS
+regressors. Price is correlated with $\xi_{jt}$, so the OLS residual is not $\xi_{jt}$. If the other characteristics are
+uncorrelated with $\xi_{jt}$, the population residual variance is below $\Var(\xi_{jt})$. The population value of
+$1-R^2$, which the sample puts at 0.61, is then a lower bound on $\frac{\Var(\xi_{jt})}{\Var(\delta_{jt})}$
+(\cref{sec:07-iv-evidence}).
 
 \casehead{The logit's markups}
 The logit cannot generate plausible markups. The IV logit implies that all 1990 models have markups
@@ -727,8 +734,11 @@ own-price elasticity written as a positive number.
 \end{minipage}
 \end{table}
 
-The MP\$ column shows why the mean and the dispersion of tastes both matter. The MP\$ elasticity falls
-almost monotonically with the car's MP\$ rating. A 10 percent rise in MP\$ raises the sales of the
+The MP\$ column shows why the mean and the dispersion of tastes both matter. The MP\$ elasticity rises
+almost monotonically with the car's MP\$ rating, from $-0.016$ for the BMW at 1.885 to 1.132 for the
+Escort at 4.022.\footnote{The text of \citet[p.~878]{BerryLevinsohnPakes1995} says that the elasticity
+``declines almost monotonically with the car's MP\$ rating.'' Their Table V shows that it declines as the
+rating falls. We describe the table.} A 10 percent rise in MP\$ raises the sales of the
 Mazda 323, Sentra and Escort by about 10 percent. For cars with low MP\$ the elasticity is slightly
 negative. BLP conclude that buyers of high-mileage cars care a lot about fuel economy, while buyers of
 the BMW 735i or Lexus LS400 do not (p.~878). Applying \eqref{eq:08-blp-attrelas}, the weighted mean
@@ -773,14 +783,17 @@ The price sensitivity of the marginal buyers can be read off the own semi-elasti
 \eqref{eq:08-blp-dsown} and \eqref{eq:08-blp-semi},
 \begin{equation*}
 -\frac{e_{jj}}{100}=\frac{1}{s_j}\int\frac{\alpha}{y_i-p_j}\,s_{ij}(1-s_{ij})\,\dd F(\nu_i)
-\approx\E\Big[\frac{\alpha}{y_i-p_j}\,\Big|\,i\text{ buys }j\Big],
+\le\E\Big[\frac{\alpha}{y_i-p_j}\,\Big|\,i\text{ buys }j\Big],
 \end{equation*}
-where the approximation uses $s_{ij}\ll1$. The semi-elasticities in \cref{tab:08-blp-semi} below give
-$-\frac{e_{jj}}{100}=1.26$ for the Mazda 323, 0.52 for the Accord and 0.094 for the BMW 735i. Dividing
-$\alpha=43.501$ by these numbers gives the harmonic mean of residual income $y_i-p_j$ among buyers. It is
-about \$35,000 for the Mazda, \$84,000 for the Accord and \$464,000 for the BMW, in 1983 dollars (our
-calculation). The specification can make luxury-car demand inelastic enough only by placing its buyers
-far in the upper tail of the lognormal income distribution. This is one motivation for adding data on
+because $0<1-s_{ij}<1$. The two sides are close when the buyers' individual choice probabilities $s_{ij}$
+are uniformly small. Small aggregate shares alone do not ensure this. The semi-elasticities in
+\cref{tab:08-blp-semi} below give $-\frac{e_{jj}}{100}=1.26$ for the Mazda 323, 0.52 for the Accord and
+0.094 for the BMW 735i. Dividing $\alpha=43.501$ by these numbers gives an upper bound on the harmonic
+mean of residual income $y_i-p_j$ among buyers. The bound is about \$35,000 for the Mazda, \$84,000 for
+the Accord and \$464,000 for the BMW, in 1983 dollars (our calculation). It approximates the harmonic
+mean itself only if the buyers' choice probabilities are small. Under that condition, the specification
+can make luxury-car demand inelastic enough only by placing its buyers far in the upper tail of the
+lognormal income distribution. This is one motivation for adding data on
 buyers' incomes, as \citet{BerryLevinsohnPakes2004} and \citet{Petrin2002} later did
 (\cref{sec:08-micro,sec:08-blp04}).
 
@@ -1098,8 +1111,12 @@ reversals, and the correlation of each column with the base column is between 0.
 move more. Across the seven columns a car's highest markup is between 1.6 and 3.3 times its lowest.
 
 The individual columns have specific explanations (pp.~883--885). Adding $\ln q$ in column (2) raises
-every markup, and it gives the highest markups of all the alternatives, yet even these are not
-extraordinarily high. As shown above, its markups over average variable cost are implausible. Using
+every markup above the base. It gives the highest markup in the table for six of the thirteen models,
+and column (6) gives the highest for the other seven.\footnote{\citet[pp.~883--884]{BerryLevinsohnPakes1995}
+write that, of all the alternatives, this specification ``yielded the highest price-marginal cost
+markups.'' Their Table IX supports this for six of the thirteen models only.} BLP judge that even these
+markups are not extraordinarily high. As shown above, the markups of column (2) over average variable
+cost are implausible. Using
 automatic transmission as the luxury proxy in column (3) raises markups slightly for cheap cars and lowers
 them slightly for expensive ones. Entering horsepower and weight separately in column (4) changes markups
 the most. It gives implausibly low markups for expensive cars, possibly because cost is not linear in
@@ -1157,8 +1174,8 @@ models appeared and the predictions became markedly worse (pp.~885--886).
 
 \casehead{Functional form and the supply side}
 All heterogeneity in price sensitivity comes from income through $\alpha\ln(y_i-p_j)$, with one income
-dispersion parameter for all years. Our harmonic-mean calculation shows how far into the income tail the
-model must place luxury-car buyers. The random coefficients are independent normals. Conduct is assumed
+dispersion parameter for all years. Our harmonic-mean bound suggests how far into the income tail the model
+places luxury-car buyers, provided their individual choice probabilities are small. The random coefficients are independent normals. Conduct is assumed
 to be Bertrand-Nash and is not tested. The constant-returns cost function produces a negative MPG
 coefficient, and the alternative with $\ln q$ implies implausible returns to scale.
 
@@ -1259,8 +1276,11 @@ Nevo then explains why the logit fails and how to fix it (pp.~522--526), with th
 examples that \cref{sec:08-logit-benchmark} reproduced. The cure is correlation in utility across brands, which
 can enter through $\epsilon$ or through $\mu$.
 Generalized extreme value models put it in $\epsilon$. The nested logit groups brands into exhaustive and
-mutually exclusive nests fixed in advance. Within a nest, substitution is again proportional to shares,
-and the model does nothing for own elasticities. \citet{Cardell1997} shows the distributional assumptions
+mutually exclusive nests fixed in advance. Within a nest, substitution is again proportional to shares.
+With nesting parameter $\sigma$ and within-nest share $s_{j|g}$, the own elasticity becomes $\alpha
+p_j\bigl[\frac{1}{1-\sigma}-\frac{\sigma}{1-\sigma}s_{j|g}-s_j\bigr]$. Nesting changes its level, yet it is
+still the price times a common coefficient times a function of shares. The nested logit therefore ``does
+not help with the problem of own-price elasticities'' (p.~524). \citet{Cardell1997} shows the distributional assumptions
 under which a random coefficient on segment dummies reproduces the nested logit. With several layers of
 segmentation the order of the nests matters. Grouping computers first by brand and then by technology
 gives different substitution than the reverse order, even with the same groups (footnote 18). The
