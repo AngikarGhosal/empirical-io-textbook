@@ -1,0 +1,2123 @@
+\section{Aggregation across consumers}\label{sec:05-aggregation}
+
+The AIDS of \cref{sec:05-aids} describes the choices of a single consumer. Most data in industrial
+organization are aggregates: the sales of a product in a city and a month, or national spending on a
+group of goods in a year. This section asks when such aggregates behave as if one consumer had chosen
+them. The answer decides two things. It decides whether the share equations of \eqref{eq:05-aids-share}
+can be fitted to market data, and whether the welfare measures of \cref{sec:05-cv-ev}, computed from the
+fitted system, describe anyone's welfare.
+
+We index households by $h = 1, \dots, H$. Household $h$ has total expenditure $I_h$, demands $q_{ih}$
+and budget shares $w_{ih} = \frac{p_i q_{ih}}{I_h}$. All households face the same price vector $p$.
+Mean expenditure is $\bar I = \frac{1}{H}\sum_h I_h$. Hicksian demands keep the notation $h_i(p,u)$ of
+\cref{sec:05-duality}, always written with their arguments, so they cannot be confused with the household
+index.
+
+\subsection{The aggregation problem}\label{sec:05-agg-problem}
+
+Aggregate demand for good $i$ is the sum of household demands,
+\begin{equation}\label{eq:05-agg-demand}
+  Q_i(p, I_1, \dots, I_H) = \sum_{h=1}^{H} q_{ih}(p, I_h).
+\end{equation}
+In general it depends on the whole distribution of expenditure. To see why, transfer a small amount
+$\dd t$ of expenditure from household $h'$ to household $h$, holding total expenditure fixed. Aggregate
+demand changes by
+\begin{equation*}
+  \dd Q_i = \left(\frac{\partial q_{ih}}{\partial I_h} - \frac{\partial q_{ih'}}{\partial I_{h'}}\right)\dd t .
+\end{equation*}
+The change is zero only if the two households have the same marginal propensity to spend on good $i$
+at their current budgets. Rich and poor households usually differ in this respect, so redistribution
+moves market demand even when total spending does not change.
+
+We want two things at once. Households should be allowed to differ in income and in demographics,
+because they do. Yet we would like market data to look as if one consumer had generated them. A
+\emph{representative consumer} is a fictional utility-maximizing consumer whose demand, evaluated at
+current prices and at a scalar summary of the expenditure distribution, equals aggregate demand. We call
+the representative consumer \emph{normative} when, in addition, its expenditure function measures the
+welfare of the population, for example as the sum of household compensating variations. The positive
+property licenses estimating a demand system on aggregate data. The normative property licenses welfare
+analysis with the estimated system. The next subsections show how far each property can be pushed.
+
+\subsection{The Gorman polar form and exact aggregation}\label{sec:05-gorman}
+
+\begin{definition}[Gorman polar form]\label{def:05-gorman}
+Households' preferences have the \emph{Gorman polar form} if their expenditure functions can be written
+as
+\begin{equation}\label{eq:05-gorman-form}
+  e_h(p, u_h) = a_h(p) + b(p)\, u_h , \qquad h = 1, \dots, H.
+\end{equation}
+Here each $a_h(p)$ and the common function $b(p)$ are positive, increasing, concave and homogeneous of
+degree one in $p$. Preferences of this form are called \emph{quasi-homothetic}.
+\end{definition}
+
+The function $a_h$ may differ across households, for example with family size or age. The function $b$
+must be common. Under these conditions each $e_h$ is a valid expenditure function, because it inherits
+homogeneity, monotonicity and concavity in $p$ from $a_h$ and $b$ and is increasing in $u_h$. The name
+reflects the relation to homotheticity. A homothetic expenditure function has the form $b(p)u$, so
+budget shares do not depend on the budget. Adding the fixed cost $a_h(p)$ keeps Engel curves straight
+but lets them miss the origin. The fixed cost is subsistence expenditure, the cost of living at $u_h = 0$
+\citep[\S 5.4, pp.~142--144, and \S 6.1, eqs.~1.4--1.7, pp.~150--151]{DeatonMuellbauer1980b}.
+
+\begin{proposition}[Exact aggregation, \citealp{Gorman1953,Gorman1961}]\label{prop:05-gorman}
+Suppose every household has an interior optimum.
+\begin{enumerate}[label=(\roman*)]
+  \item If every household's expenditure function has the Gorman polar form \eqref{eq:05-gorman-form}
+  with a common $b(p)$, aggregate demand depends on the distribution of expenditure only through
+  $\sum_h I_h$. It is the demand of a representative consumer with expenditure function
+  \begin{equation}\label{eq:05-gorman-rep}
+    e(p, U) = \sum_{h=1}^{H} a_h(p) + b(p)\, U ,
+  \end{equation}
+  and the compensating variation of this consumer for any price change equals the sum of the
+  households' compensating variations.
+  \item Conversely, suppose aggregate demand depends only on $p$ and $\sum_h I_h$ for all distributions
+  of expenditure in an open set. Then on that set household Engel curves are straight lines with slopes
+  common to all households, and preferences have the Gorman polar form with a common $b(p)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) Inverting $I_h = e_h(p, u_h)$ gives the indirect utility function
+\begin{equation*}
+  v_h(p, I_h) = \frac{I_h - a_h(p)}{b(p)} .
+\end{equation*}
+Roy's identity (\cref{prop:05-roy}) uses two partial derivatives:
+\begin{align*}
+  \frac{\partial v_h}{\partial I_h} &= \frac{1}{b(p)}, \\
+  \frac{\partial v_h}{\partial p_i} &= -\frac{1}{b(p)}\frac{\partial a_h}{\partial p_i}
+     - \frac{I_h - a_h(p)}{b(p)^2}\frac{\partial b}{\partial p_i} .
+\end{align*}
+Taking minus their ratio,
+\begin{equation}\label{eq:05-gorman-demand}
+  q_{ih}(p, I_h) = -\frac{\partial v_h}{\partial p_i}\left(\frac{\partial v_h}{\partial I_h}\right)^{-1}
+  = \frac{\partial a_h}{\partial p_i} + \frac{\partial \ln b}{\partial p_i}\bigl(I_h - a_h(p)\bigr).
+\end{equation}
+The marginal propensity to spend, $\frac{\partial q_{ih}}{\partial I_h} = \frac{\partial \ln b}{\partial
+p_i}$, depends on prices alone. It is the same for every household and at every budget. Summing
+\eqref{eq:05-gorman-demand} over households gives
+\begin{equation*}
+  Q_i = \sum_h \frac{\partial a_h}{\partial p_i}
+      + \frac{\partial \ln b}{\partial p_i}\Bigl(\sum_h I_h - \sum_h a_h(p)\Bigr),
+\end{equation*}
+which depends on budgets only through their sum.
+
+Define $A(p) = \sum_h a_h(p)$ and $U = \sum_h u_h$. The function $e(p, U) = A(p) + b(p)U$ is homogeneous
+of degree one, increasing and concave in $p$, and increasing in $U$, so it is an expenditure function.
+By Shephard's lemma (\cref{prop:05-shephard}) its Hicksian demand for good $i$ is $\frac{\partial
+A}{\partial p_i} + \frac{\partial b}{\partial p_i}U$, the sum of the household Hicksian demands. Its
+indirect utility at the total budget is $\frac{\sum_h I_h - A(p)}{b(p)} = \sum_h v_h(p, I_h)$, and Roy's
+identity applied to it reproduces $Q_i$.
+
+For a price change from $p^0$ to $p^1$, with initial utilities $u_h^0$, household $h$ has
+\begin{equation*}
+  CV_h = e_h(p^1, u_h^0) - e_h(p^0, u_h^0) = a_h(p^1) - a_h(p^0) + \bigl[b(p^1) - b(p^0)\bigr] u_h^0 .
+\end{equation*}
+Summing over households gives
+\begin{equation*}
+  \sum_h CV_h = A(p^1) - A(p^0) + \bigl[b(p^1) - b(p^0)\bigr] U^0 = e(p^1, U^0) - e(p^0, U^0),
+\end{equation*}
+the compensating variation of the representative consumer.
+
+(ii) We sketch the argument. If $Q_i$ depends only on $\sum_h I_h$, every transfer between two
+households leaves it unchanged. By the transfer argument of \cref{sec:05-agg-problem},
+$\frac{\partial q_{ih}}{\partial I_h} = \frac{\partial q_{ih'}}{\partial I_{h'}}$ for every pair of
+households and every pair of budgets in the open set. Fix the budget of $h'$ and vary that of $h$. The
+derivative of $q_{ih}$ does not change, so it is a function $c_i(p)$ of prices alone, common to all
+households. Integrating gives straight Engel curves $q_{ih} = d_{ih}(p) + c_i(p) I_h$. Recovering
+preferences from these demands, with the symmetry and homogeneity restrictions of
+\cref{prop:05-slutsky}, yields the Gorman polar form \citep{Gorman1961}.
+\end{proof}
+
+\begin{example}[The linear expenditure system]\label{ex:05-les}
+The linear expenditure system of \citet{Stone1954} has expenditure function
+\begin{equation*}
+  e_h(p, u_h) = \sum_k p_k \underline{q}_{kh} + u_h \prod_k p_k^{m_k},
+  \qquad m_k > 0, \quad \sum_k m_k = 1 ,
+\end{equation*}
+where $\underline{q}_{kh}$ is the subsistence quantity of good $k$ for household $h$. It has the Gorman
+polar form with $a_h(p) = \sum_k p_k\underline{q}_{kh}$ and $b(p) = \prod_k p_k^{m_k}$. Since
+$\frac{\partial \ln b}{\partial p_i} = \frac{m_i}{p_i}$, the demand function \eqref{eq:05-gorman-demand}
+becomes
+\begin{equation*}
+  p_i q_{ih} = p_i \underline{q}_{ih} + m_i\Bigl(I_h - \sum_k p_k \underline{q}_{kh}\Bigr).
+\end{equation*}
+Each household first buys its subsistence bundle and then spends the fraction $m_i$ of its remaining
+budget on good $i$. Households differ in subsistence quantities but share the marginal budget shares
+$m_i$. Panel (a) of \cref{fig:05-gorman-piglog} draws two such Engel curves.
+\end{example}
+
+Exact aggregation comes at a price. Engel curves that are straight lines imply budget shares that
+converge to constants as budgets grow and that leave the unit interval at low budgets. Household budget
+surveys favor the Working-Leser form instead, in which budget shares are linear in the logarithm of the
+budget (\cref{sec:05-engel}). Under that form the marginal propensity to spend changes with the budget,
+as panel (b) of \cref{fig:05-gorman-piglog} shows, so a transfer between households moves aggregate
+demand. We therefore want to relax linear Engel curves while keeping as much of the representative
+consumer as possible.
+
+Nonnegativity of demand breaks linear aggregation even when every household has quasi-homothetic
+preferences \citep[\S 6.1, pp.~150--153]{DeatonMuellbauer1980b}. Fix prices and write a household's
+Engel curve for one good as $q_h = d + cI_h$ with $c > 0$. If $d < 0$, the line implies negative demand
+below the budget $I^* = -\frac{d}{c}$. Actual demand is zero there, so the true Engel curve is the
+kinked line $q_h = \max\{0, c(I_h - I^*)\}$. A transfer from a household above the kink to one below it
+lowers market demand, because the two have marginal propensities $c$ and $0$. Market demand then depends
+on how many households sit below the kink. To see the shape, let budgets be uniform on $[\bar I -
+\frac{r}{2}, \bar I + \frac{r}{2}]$, with $I^*$ inside this interval. Mean demand is
+\begin{equation*}
+  \bar q = \frac{1}{r}\int_{I^*}^{\bar I + \frac{r}{2}} c\,(I - I^*)\,\dd I
+         = \frac{c}{2r}\Bigl(\bar I + \frac{r}{2} - I^*\Bigr)^2 ,
+\end{equation*}
+which is quadratic in mean expenditure. Its slope $\frac{c}{r}(\bar I + \frac{r}{2} - I^*)$ rises with
+$\bar I$ as households cross the kink, and it reaches $c$ once all of them buy. This is the quadratic
+case of \citet[Exercise~6.5]{DeatonMuellbauer1980b}, written in our notation.
+
+The argument matters most for narrowly defined goods. Many consumers buy none of a particular brand, so
+much of the market response to a higher budget comes from new buyers entering the market. Deaton and
+Muellbauer call this the ``extensive'' margin, as opposed to the ``intensive'' margin of buyers who buy
+more (p.~153). It would be a coincidence if the household Engel curves had just the offsetting
+nonlinearity that made market demand linear. The discrete-choice models of \cref{ch:discrete,ch:logit}
+put this extensive margin at the center, since each consumer there buys one product or none.
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.96\linewidth, height=0.84\linewidth,
+  xmin=0, xmax=10.5, ymin=0, ymax=4.8,
+  xlabel={total expenditure $I_h$}, ylabel={quantity of good 1, $q_{1h}$},
+  xlabel style={font=\small}, ylabel style={font=\small}, tick label style={font=\scriptsize},
+  axis lines=left, legend pos=north west, legend cell align=left,
+  legend style={font=\scriptsize, draw=none, fill=none}]
+  \addplot[thick, domain=1.5:10, samples=2] {0.55 + 0.3*x};
+  \addplot[thick, dashed, domain=2.5:10, samples=2] {1.25 + 0.3*x};
+  \addplot[only marks, mark=*, mark size=1.4pt, forget plot] coordinates {(1.5,1.0) (2.5,2.0)};
+  \legend{household A, household B}
+  \node[font=\scriptsize, align=left, anchor=north west] at (axis cs:3.6,1.3)
+     {common slope $\frac{\partial q_{1h}}{\partial I_h} = \frac{m_1}{p_1}$};
+\end{axis}
+\end{tikzpicture}
+\caption{Gorman polar form (linear expenditure system).}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.96\linewidth, height=0.84\linewidth,
+  xmin=0, xmax=8.5, ymin=0, ymax=2.8,
+  xlabel={total expenditure $I_h$}, ylabel={quantity of good 1, $q_{1h}$},
+  xlabel style={font=\small}, ylabel style={font=\small}, tick label style={font=\scriptsize},
+  axis lines=left, legend pos=north west, legend cell align=left,
+  legend style={font=\scriptsize, draw=none, fill=none}]
+  \addplot[thick, domain=0.02:8, samples=120] {x*(0.5 - 0.10*ln(x))};
+  \addplot[thin, dashed, domain=0:3.5, samples=2] {0.1 + 0.4*x};
+  \addplot[thin, dashed, domain=1:8, samples=2, forget plot] {0.3 + 0.290139*x};
+  \addplot[only marks, mark=*, mark size=1.4pt, forget plot] coordinates {(1,0.5) (3,1.170417)};
+  \legend{AIDS Engel curve, tangents}
+  \node[font=\scriptsize, anchor=north west] at (axis cs:1.05,0.45) {slope 0.40};
+  \node[font=\scriptsize, anchor=north west] at (axis cs:3.05,1.12) {slope 0.29};
+\end{axis}
+\end{tikzpicture}
+\caption{AIDS at unit prices (running example).}
+\end{subfigure}
+\caption{Engel curves under exact and almost exact aggregation. Panel (a): two households with the
+linear expenditure system of \cref{ex:05-les}, $p = (1,1)$, $m_1 = 0.3$, subsistence quantities
+$(\underline{q}_{1h}, \underline{q}_{2h}) = (1, 0.5)$ for household A (solid) and $(2, 0.5)$ for household
+B (dashed). The lines start at the subsistence budgets (dots) and are parallel. Panel (b): the Engel curve
+of good 1 in the running example of \cref{ex:05-running} at $p = (1,1,1)$, $q_1 = I(0.5 - 0.10\ln I)$. The
+dashed tangents at the budgets $I = 1$ and $I = 3$ of the two households in \cref{ex:05-aggregation} have
+slopes $0.4 - 0.10\ln I$, equal to 0.40 and 0.29. These are the households' marginal propensities to spend
+on good 1. A transfer from the richer to the poorer household therefore raises aggregate demand for good
+1. \Cref{fig:05-engel} draws the same curve together with a luxury.}
+\label{fig:05-gorman-piglog}
+\end{figure}
+
+\subsection{Muellbauer's generalization: PIGL and PIGLOG}\label{sec:05-pigl}
+
+\citet{Muellbauer1975,Muellbauer1976} weakens the requirement. The aggregate budget share of good $i$ is
+aggregate spending on $i$ divided by aggregate spending. It equals the expenditure-weighted mean of
+household shares:
+\begin{equation}\label{eq:05-wbar}
+  \bar w_i \equiv \frac{\sum_h p_i q_{ih}}{\sum_h I_h} = \sum_h \frac{I_h}{H\bar I}\, w_{ih}(p, I_h).
+\end{equation}
+Muellbauer's representative consumer exists if there is a scalar $I_0$, a function of prices and of the
+distribution $(I_1, \dots, I_H)$, such that
+\begin{equation}\label{eq:05-muellbauer}
+  \bar w_i = w_i\bigl(p, I_0(p, I_1, \dots, I_H)\bigr) \quad \text{for every good } i.
+\end{equation}
+Here $w_i(p, \cdot)$ is the share function of a reference household
+\citep[eq.~A1]{DeatonMuellbauer1980a}. We call $I_0$ the \emph{representative budget level}. The Gorman
+case has $I_0 = \bar I$. Allowing $I_0$ to differ from the mean lets features of the distribution other
+than its mean enter aggregate demand.
+
+Muellbauer shows that \eqref{eq:05-muellbauer} holds if and only if household shares have the
+\emph{generalized linear} form
+\begin{equation}\label{eq:05-gl}
+  w_{ih}(p, I_h) = v_h(p, I_h)\, A_i(p) + B_i(p) + C_{ih}(p),
+\end{equation}
+with $\sum_i A_i = \sum_i C_{ih} = \sum_h C_{ih} = 0$ and $\sum_i B_i = 1$
+\citep[eq.~A2]{DeatonMuellbauer1980a}. We drop the household-specific terms $C_{ih}$ from here on.
+
+The preferences behind \eqref{eq:05-gl} have a simple structure \citep[\S 6.2, eqs.~2.3--2.6,
+pp.~154--155]{DeatonMuellbauer1980b}. Household expenditure functions take the form $e_h(p, u_h) =
+\theta_h[u_h, a(p), b(p)] + \phi_h(p)$. Here $a(p)$ and $b(p)$ are linearly homogeneous price indices
+common to all households, and each $\theta_h$ is linearly homogeneous in $(a, b)$. The terms $\phi_h$ must
+sum to zero over households, so the representative expenditure function is $e(p, u_0) = \theta[u_0,
+a(p), b(p)]$. We can think of $a$ and $b$ as the prices of two intermediate goods. Shephard's lemma in
+share form and the chain rule give
+\begin{equation*}
+  \bar w_i = \frac{\partial\ln\theta}{\partial\ln a}\,\frac{\partial\ln a}{\partial\ln p_i}
+           + \frac{\partial\ln\theta}{\partial\ln b}\,\frac{\partial\ln b}{\partial\ln p_i} .
+\end{equation*}
+Euler's theorem for the degree-one function $\theta$ gives $\frac{\partial\ln\theta}{\partial\ln a} +
+\frac{\partial\ln\theta}{\partial\ln b} = 1$. Writing $\varrho(I_0, p) = \frac{\partial\ln\theta}{\partial
+\ln b}$ after substituting for $u_0$,
+\begin{equation}\label{eq:05-gl-shares}
+  \bar w_i = \bigl[1 - \varrho(I_0, p)\bigr]\frac{\partial\ln a}{\partial\ln p_i}
+           + \varrho(I_0, p)\,\frac{\partial\ln b}{\partial\ln p_i} .
+\end{equation}
+Every aggregate share is a weighted average of the shares of the two indices, with one weight common to
+all goods. Matching terms with \eqref{eq:05-gl} gives $B_i = \frac{\partial\ln a}{\partial\ln p_i}$, $A_i
+= \frac{\partial\ln b}{\partial\ln p_i} - \frac{\partial\ln a}{\partial\ln p_i}$ and $v(p, I_0) =
+\varrho(I_0, p)$. Hence
+at constant prices each aggregate share is a linear function of every other share. With time-series data
+in which relative prices barely move, this implication can be tested directly (p.~155).
+
+The representative budget level is independent of prices if and only if
+\begin{equation}\label{eq:05-pigl}
+  v_h(p, I_h) = \frac{1 - \left(\frac{I_h}{\kappa_h}\right)^{-\psi}}{\psi}.
+\end{equation}
+Here $\psi$ is a constant and $\kappa_h > 0$ is a household-specific scale that does not depend on $I_h$
+or $p$.\footnote{\citet[eq.~A3]{DeatonMuellbauer1980a} write the PIGL constant as $\alpha$. We use $\psi$
+because $\alpha_i$ denotes the AIDS intercepts, and $\kappa_h$ for their $k_h$ because $k$ indexes goods.
+The factor $\psi^{-1}$ appears in their typesetting as a superscript. We read it as a multiplicative
+factor, which is the reading under which the limit $\psi \to 0$ gives their eq.~(A4).} Shares of this form
+are called \emph{price-independent generalized linear} (PIGL). As $\psi \to 0$,
+$\frac{1}{\psi}\bigl[1 - \exp\bigl(-\psi\ln\frac{I_h}{\kappa_h}\bigr)\bigr] \to \ln\frac{I_h}{\kappa_h}$, so
+\begin{equation}\label{eq:05-piglog-v}
+  v_h(p, I_h) = \ln \frac{I_h}{\kappa_h}.
+\end{equation}
+This limit is the \emph{price-independent generalized logarithmic} (PIGLOG) case.
+
+\casehead{The representative budget level under PIGL}
+With $C_{ih} = 0$, substituting \eqref{eq:05-gl} into \eqref{eq:05-wbar} gives
+\begin{equation*}
+  \bar w_i = A_i(p) \sum_h \frac{I_h}{H\bar I}\, v_h(p, I_h) + B_i(p).
+\end{equation*}
+A reference household with $\kappa = 1$ reproduces $\bar w_i$ if and only if $v(p, I_0) = \sum_h
+\frac{I_h}{H\bar I} v_h(p, I_h)$. Under \eqref{eq:05-pigl} this condition reads
+\begin{equation*}
+  \frac{1 - I_0^{-\psi}}{\psi} = \sum_h \frac{I_h}{H\bar I}\,
+  \frac{1 - \left(\frac{I_h}{\kappa_h}\right)^{-\psi}}{\psi} .
+\end{equation*}
+The weights $\frac{I_h}{H\bar I}$ sum to one, so the constant terms cancel and
+\begin{equation}\label{eq:05-I0-pigl}
+  I_0 = \left[\sum_h \frac{I_h}{H\bar I}\left(\frac{I_h}{\kappa_h}\right)^{-\psi}\right]^{-\frac{1}{\psi}} .
+\end{equation}
+The right-hand side involves budgets only, never prices. This is equation (A5) of
+\citet{DeatonMuellbauer1980a}.\footnote{The version printed in their appendix omits the weight $I_h$
+inside the sum. With the weight, $I_0$ equals the common budget when all budgets are equal and
+$\kappa_h = 1$, as it must. Their book prints the formula with the weight. For $\kappa_h = 1$ it reads
+$I_0 = \bigl[\frac{\sum_h I_h^{1-\psi}}{\sum_h I_h}\bigr]^{-\frac{1}{\psi}}$ \citep[\S 6.2, eq.~2.13,
+p.~156]{DeatonMuellbauer1980b}, which is \eqref{eq:05-I0-pigl}.} Letting $\psi \to 0$ and expanding
+$(\frac{I_h}{\kappa_h})^{-\psi} \approx 1 - \psi\ln\frac{I_h}{\kappa_h}$ gives the PIGLOG representative
+budget,
+\begin{equation}\label{eq:05-I0-piglog}
+  \ln I_0 = \sum_h \frac{I_h}{H\bar I}\ln\frac{I_h}{\kappa_h}.
+\end{equation}
+
+The curvature parameter $\psi$ fixes how the distribution of budgets enters $I_0$. Take $\kappa_h = 1$.
+Then \eqref{eq:05-I0-pigl} says that $I_0$ is a power mean of order $-\psi$ of the budgets, with
+expenditure weights $\frac{I_h}{H\bar I}$. Power means rise with their order, so $I_0$ falls as $\psi$
+rises. At $\psi = 1$, the case of linear Engel curves, the weighted mean of order $-1$ is
+\begin{equation*}
+  I_0 = \Bigl[\sum_h \frac{I_h}{H\bar I}\cdot\frac{1}{I_h}\Bigr]^{-1} = \Bigl[\frac{H}{H\bar I}\Bigr]^{-1}
+      = \bar I ,
+\end{equation*}
+as in the Gorman case. Hence, when budgets are unequal, $I_0 > \bar I$ exactly when $\psi < 1$, the
+empirically relevant case. Two
+values of $\psi$ give closed forms \citep[\S 6.2, eqs.~2.14--2.15, p.~157]{DeatonMuellbauer1980b}. At
+$\psi = -1$ the shares \eqref{eq:05-pigl-shares} are linear in the budget, so spending on each good is
+quadratic in it. Then
+\begin{equation*}
+  I_0 = \frac{\sum_h I_h^2}{\sum_h I_h} = \frac{H(\sigma^2 + \bar I^2)}{H\bar I}
+      = \bar I\Bigl(1 + \frac{\sigma^2}{\bar I^2}\Bigr),
+\end{equation*}
+where $\sigma^2 = \frac{1}{H}\sum_h (I_h - \bar I)^2$ is the variance of budgets. The representative budget
+exceeds the mean by a factor of one plus the squared coefficient of variation. In the PIGLOG limit,
+\cref{sec:05-almost-exact} shows that $\frac{I_0}{\bar I} = \frac{H}{Z}$, where $\ln Z$ is Theil's entropy
+measure.
+Deaton and Muellbauer's book writes this ratio as $\kappa_0 = \frac{I_0}{\bar I}$. It is the inverse of the
+index $\kappa = \frac{Z}{H}$ of their article and of \cref{prop:05-almost-exact}.
+
+\casehead{Cost functions and budget shares}
+If household behavior comes from preferences, the PIGL cost function takes the form
+\begin{equation}\label{eq:05-pigl-cost}
+  \left[\frac{e(p, u_h)}{\kappa_h}\right]^{\psi} = (1 - u_h)\, a(p)^{\psi} + u_h\, b(p)^{\psi},
+\end{equation}
+and as $\psi \to 0$ it becomes the PIGLOG form
+\begin{equation}\label{eq:05-piglog-cost}
+  \ln\frac{e(p, u_h)}{\kappa_h} = (1 - u_h) \ln a(p) + u_h \ln b(p)
+\end{equation}
+\citep[eqs.~A6--A7]{DeatonMuellbauer1980a}. Here $a(p)$ and $b(p)$ are linearly homogeneous and concave,
+and $0 \le u_h \le 1$ except as discussed below. With $\kappa_h = 1$, \eqref{eq:05-piglog-cost} is the
+PIGLOG family of \cref{sec:05-piglog}.
+
+The budget shares follow from Shephard's lemma in share form, $w_i = \frac{\partial \ln e}{\partial \ln
+p_i}$. Take $\kappa_h = 1$, drop the household subscript, and write $a_i = \frac{\partial \ln a}{\partial
+\ln p_i}$ and $b_i = \frac{\partial \ln b}{\partial \ln p_i}$. Differentiating \eqref{eq:05-pigl-cost}
+with respect to $\ln p_i$, and using $\frac{\partial e^{\psi}}{\partial \ln p_i} = \psi e^{\psi}
+\frac{\partial \ln e}{\partial \ln p_i}$, gives
+\begin{equation*}
+  \psi e^{\psi}\frac{\partial \ln e}{\partial \ln p_i} = (1 - u)\,\psi a^{\psi} a_i + u\, \psi b^{\psi} b_i .
+\end{equation*}
+At the optimum $e = I$. Dividing by $\psi I^{\psi}$,
+\begin{equation}\label{eq:05-pigl-shares}
+  w_i = (1 - u)\left(\frac{a}{I}\right)^{\psi} a_i + u\left(\frac{b}{I}\right)^{\psi} b_i,
+  \qquad u = \frac{I^{\psi} - a^{\psi}}{b^{\psi} - a^{\psi}} .
+\end{equation}
+In the PIGLOG limit,
+\begin{equation}\label{eq:05-piglog-shares}
+  w_i = (1 - u)\, a_i + u\, b_i, \qquad u = \frac{\ln I - \ln a}{\ln b - \ln a}
+\end{equation}
+\citep[eqs.~A8--A10]{DeatonMuellbauer1980a}.
+
+These equations have a transparent reading. By \eqref{eq:05-pigl-cost}, $(1-u)a^{\psi} + ub^{\psi} =
+I^{\psi}$, so the weights $(1-u)(\frac{a}{I})^{\psi}$ and $u(\frac{b}{I})^{\psi}$ sum to one. Budget
+shares are weighted averages of $a_i$ and $b_i$. As utility rises from $0$ to $1$, cost rises from $a(p)$
+to $b(p)$ whenever $b > a$, whatever the sign of $\psi$, and the shares move from $a_i$ to $b_i$.
+\citet{DeatonMuellbauer1980a} call $a(p)$ ``poverty'' expenditure, with spending pattern $a_i$, and $b(p)$
+``affluence'' expenditure, with pattern $b_i$. A good is a luxury if and only if $b_i > a_i$, because its
+share then rises with $u$. Inferior goods are not excluded.
+
+For the AIDS, \eqref{eq:05-aids-cost} gives $\ln a(p) = \ln\mathbf{P}(p)$ and $\ln b(p) = \ln a(p) +
+\beta_0\prod_k p_k^{\beta_k}$. Because $\frac{\partial}{\partial \ln p_i}\prod_k p_k^{\beta_k} = \beta_i
+\prod_k p_k^{\beta_k}$,
+\begin{equation*}
+  b_i - a_i = \beta_i\, \beta_0 \prod_k p_k^{\beta_k}.
+\end{equation*}
+With $\beta_0 > 0$, good $i$ is a luxury exactly when $\beta_i > 0$, as found in \cref{sec:05-aids}.
+
+\casehead{Where the demands are valid}
+Shares must lie in $[0, 1]$. Under PIGLOG each $w_i$ is linear in $u$, so the admissible values of $u$
+form an interval. Because $a(p)$ and $b(p)$ are increasing and linearly homogeneous, $a_i \ge 0$, $b_i
+\ge 0$ and $\sum_i a_i = \sum_i b_i = 1$. Hence $a_i, b_i \in [0,1]$, and every $u \in [0,1]$ is
+admissible. Above $u = 1$, the share of a luxury reaches one at $u = \frac{1 - a_i}{b_i - a_i}$, and the
+share of a necessity reaches zero at $u = \frac{a_i}{a_i - b_i}$. The upper end of the admissible
+interval is the smallest of these values. Below $u = 0$ the same reasoning, with the roles of zero and
+one exchanged, gives the lower end. \citet[p.~324]{DeatonMuellbauer1980a} state the corresponding limits
+for the PIGL case.
+
+In the running example at unit prices, $\ln a = \alpha_0 = 0$ and $\ln b - \ln a = \beta_0 = 1$, so $u =
+\ln I$. The share vectors are $a = \alpha = (0.5, 0.3, 0.2)$ and $b = \alpha + \beta = (0.40, 0.34, 0.26)$.
+The necessity, good 1, has its share reach zero at $u = \frac{0.5}{0.1} = 5$. Goods 2 and 3 reach a share
+of one only at $u = 17.5$ and $u = 13.3$. Below zero, the share of good 3 reaches zero first, at $u =
+-\frac{0.2}{0.06} = -3.33$. The demands are therefore valid for $\ln I \in [-3.33, 5]$, the range reported
+for the running example in \cref{sec:05-aids-limits}.
+
+\casehead{Concavity}
+A sufficient condition for the PIGLOG cost function to be concave in $p$ is that $a$ and $b$ be concave
+and $0 \le u \le 1$. To see this, write \eqref{eq:05-piglog-cost} as $e = a(p)^{1-u}\, b(p)^{u}$. The
+weighted geometric mean $g(x, y) = x^{1-u}y^{u}$ is concave and nondecreasing on the positive orthant for
+$u \in [0, 1]$. A concave nondecreasing function of concave functions is concave. The condition is not
+necessary. \citet[p.~324]{DeatonMuellbauer1980a} show that the PIGL cost function is concave for
+\emph{all} $I > 0$ and $p > 0$ only if $a_i = b_i$ for every $i$, in which case preferences are
+homothetic. Any nonhomothetic PIGLOG system, the AIDS included, must therefore have its concavity checked
+where it is used, as in \cref{prop:05-negativity}.
+
+\casehead{Two special cases}
+With $\psi = 1$, \eqref{eq:05-pigl-cost} reads $e_h = \kappa_h a(p) + \kappa_h u_h[b(p) - a(p)]$. Defining
+$\tilde u_h = \kappa_h u_h$ gives $e_h = \kappa_h a(p) + [b(p) - a(p)]\tilde u_h$, a Gorman polar form with
+$a_h = \kappa_h a$ and common slope function $b - a$. So the PIGL family contains every model with linear
+Engel curves, such as the linear expenditure system \citep[p.~324]{DeatonMuellbauer1980a}. The second
+case is less obvious.
+
+\begin{remark}[When the indirect translog aggregates]\label{rem:05-translog-piglog}
+The indirect translog of \citet{ChristensenJorgensonLau1975} specifies indirect utility as
+\begin{equation*}
+  v = \tau_0 + \sum_i \tau_i \ln\frac{p_i}{I}
+      + \frac{1}{2}\sum_i\sum_j \tau_{ij}\ln\frac{p_i}{I}\ln\frac{p_j}{I},
+\end{equation*}
+with the normalizations $\sum_i \tau_i = -1$ and $\tau_{ij} = \tau_{ji}$. Let $\tau_{Mi} = \sum_k
+\tau_{ki}$ and $L = \ln I$. Expanding the products and collecting powers of $L$,
+\begin{equation*}
+  v = \tau_0 + \sum_i \tau_i \ln p_i + \frac{1}{2}\sum_i\sum_j \tau_{ij}\ln p_i \ln p_j
+      + L\Bigl(1 - \sum_i \tau_{Mi}\ln p_i\Bigr) + \frac{1}{2}L^2 \sum_i \tau_{Mi} .
+\end{equation*}
+If $\sum_i \tau_{Mi} = 0$, utility is linear in $L$ and can be solved for the log cost function:
+\begin{equation*}
+  \ln e(p, v) = \frac{v - \tau_0 - \sum_i \tau_i \ln p_i - \frac{1}{2}\sum_i\sum_j\tau_{ij}\ln p_i\ln p_j}
+                     {1 - \sum_i \tau_{Mi}\ln p_i} .
+\end{equation*}
+This is linear in $v$, with an intercept and a slope that depend on prices, which is the PIGLOG form
+\eqref{eq:05-piglog-cost}. If $\sum_i\tau_{Mi} \neq 0$, utility is quadratic in $L$ and $\ln e$ is not
+linear in $v$. The indirect translog therefore aggregates in Muellbauer's sense under exactly one
+linear restriction (compare \citealp[eqs.~A11--A12]{DeatonMuellbauer1980a}). Deaton and Muellbauer add
+that no such result holds for any interesting special case of the direct translog.
+\end{remark}
+
+\casehead{Evidence on the curvature parameter}
+\citet[\S 6.2, p.~158]{DeatonMuellbauer1980b} fit the PIGL demand functions to postwar British data for
+1954--1974 with eight groups of goods, the same period and number of groups as in
+\cref{sec:05-dm-application}. They take $a(p) = \sum_k
+a_kp_k$, the cost of a fixed subsistence bundle, and $b(p) = \beta_0\prod_k p_k^{\beta_k}$. The estimate of
+$\psi$ is very close to $-1$, which implies nearly quadratic Engel curves over time. The hypothesis $\psi =
+1$, which gives linear Engel curves, is decisively rejected. The book states these results in words and
+reports no numerical estimate. A full use of the PIGL class would also measure $I_0$ from the
+distribution of budgets. Few countries have data on the distribution of total expenditure of sufficient
+quality for this, and the authors' own indirect attempts had no notable success. Applied work therefore
+replaces $I_0$ by $\bar I$. The error is small if the distribution is stable, so that $\frac{I_0}{\bar I}$
+is roughly constant, which they judge possible for postwar Britain (p.~158).
+\Cref{sec:05-almost-exact} shows what the approximation costs when the distribution moves.
+
+\subsection{Almost exact aggregation of the AIDS}\label{sec:05-almost-exact}
+
+The AIDS is a PIGLOG system, so it aggregates through a single representative budget.
+\citet[Section~I.A]{DeatonMuellbauer1980a} allow households to differ through a scale $\kappa_h$. They
+interpret it as ``a sophisticated measure of household size'' that could reflect age composition, other
+characteristics and economies of household size. Household $h$ deflates its budget by $\kappa_h$ to a
+``needs corrected'' per capita level.
+
+\begin{proposition}[Almost exact aggregation]\label{prop:05-almost-exact}
+Suppose every household has the AIDS preferences of \eqref{eq:05-aids-cost} with common parameters, except
+for a scale $\kappa_h > 0$ that deflates its budget, so that
+\begin{equation}\label{eq:05-aids-household}
+  w_{ih} = \alpha_i + \sum_j \gamma_{ij}\ln p_j + \beta_i \ln\frac{I_h}{\kappa_h \mathbf{P}(p)} .
+\end{equation}
+Define the aggregate index $\kappa$ by
+\begin{equation}\label{eq:05-kappa}
+  \ln\frac{\bar I}{\kappa} = \sum_h \frac{I_h}{H\bar I}\ln\frac{I_h}{\kappa_h}.
+\end{equation}
+Then the aggregate budget shares are
+\begin{equation}\label{eq:05-aids-aggregate}
+  \bar w_i = \alpha_i + \sum_j \gamma_{ij}\ln p_j + \beta_i \ln\frac{\bar I}{\kappa\, \mathbf{P}(p)} ,
+\end{equation}
+the shares of a single AIDS household with budget $\frac{\bar I}{\kappa}$. When $\kappa_h = 1$ for all
+households, $\frac{\bar I}{\kappa} = I_0$ with
+\begin{equation}\label{eq:05-I0}
+  \ln I_0 = \frac{\sum_h I_h \ln I_h}{\sum_h I_h} .
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Let $A_i(p) = \alpha_i + \sum_j\gamma_{ij}\ln p_j - \beta_i\ln\mathbf{P}(p)$, so that $w_{ih} = A_i(p) +
+\beta_i\ln\frac{I_h}{\kappa_h}$. Substitute into \eqref{eq:05-wbar}:
+\begin{align*}
+  \bar w_i &= \sum_h \frac{I_h}{H\bar I}\Bigl[A_i(p) + \beta_i\ln\frac{I_h}{\kappa_h}\Bigr] \\
+           &= A_i(p)\sum_h \frac{I_h}{H\bar I} + \beta_i \sum_h \frac{I_h}{H\bar I}\ln\frac{I_h}{\kappa_h} \\
+           &= A_i(p) + \beta_i\ln\frac{\bar I}{\kappa} .
+\end{align*}
+The last line uses the fact that the weights sum to one and the definition \eqref{eq:05-kappa}.
+Substituting $A_i(p)$ back gives \eqref{eq:05-aids-aggregate}. With $\kappa_h = 1$, \eqref{eq:05-kappa}
+reads $\ln\frac{\bar I}{\kappa} = \sum_h \frac{I_h}{H\bar I}\ln I_h$, which is \eqref{eq:05-I0}.
+\end{proof}
+
+The same argument works for any PIGLOG system. From \eqref{eq:05-piglog-shares}, $u_h = \frac{\ln I_h -
+\ln a}{\ln b - \ln a}$, so
+\begin{equation*}
+  w_{ih} = a_i + (b_i - a_i)u_h
+  = \Bigl[a_i - \frac{b_i - a_i}{\ln b - \ln a}\ln a\Bigr] + \frac{b_i - a_i}{\ln b - \ln a}\ln I_h .
+\end{equation*}
+Household shares are linear in $\ln I_h$ with price-dependent coefficients $A_i(p)$ and $B_i(p)$. For the
+AIDS, $b_i - a_i = \beta_i(\ln b - \ln a)$, so $B_i = \beta_i$ and $A_i = a_i - \beta_i\ln a = \alpha_i +
+\sum_j\gamma_{ij}\ln p_j - \beta_i\ln\mathbf{P}$, as in the proof. Aggregation is ``almost'' exact
+because aggregate demand depends on the distribution of budgets, but only through one scalar index.
+
+\casehead{What $I_0$ measures}
+Write each budget as $I_h = \bar I\cdot\frac{I_h}{\bar I}$. Then
+\begin{align}
+  \ln I_0 &= \sum_h \frac{I_h}{H\bar I}\Bigl[\ln\bar I + \ln\frac{I_h}{\bar I}\Bigr]
+           = \ln\bar I + \mathcal{T}, \notag\\
+  \mathcal{T} &= \frac{1}{H}\sum_h \frac{I_h}{\bar I}\ln\frac{I_h}{\bar I}. \label{eq:05-theil}
+\end{align}
+The quantity $\mathcal{T}$ is the \emph{Theil index} of inequality. The function $f(r) = r\ln r$ is
+convex and the ratios $r_h = \frac{I_h}{\bar I}$ average one. Jensen's inequality therefore gives
+$\mathcal{T} = \frac{1}{H}\sum_h f(r_h) \ge f(1) = 0$, with equality only when all budgets are equal. The
+maximum, $\ln H$, is reached when one household does all the spending. Hence
+\begin{equation*}
+  I_0 = \bar I\, e^{\mathcal{T}} \ge \bar I .
+\end{equation*}
+The representative household is richer than the average household, because expenditure weighting gives
+rich households more weight.
+
+Deaton and Muellbauer express the same object through an entropy measure. With $\kappa_h = 1$ they write
+$\kappa = \frac{Z}{H}$, where $\ln Z = -\sum_h \frac{I_h}{H\bar I}\ln\frac{I_h}{H\bar I}$ is Theil's
+entropy measure of equality. Since $\ln\frac{I_h}{H\bar I} = \ln\frac{I_h}{\bar I} - \ln H$,
+\begin{equation*}
+  \ln Z = \ln H - \mathcal{T}, \qquad \ln\kappa = \ln Z - \ln H = -\mathcal{T}, \qquad
+  \frac{\bar I}{\kappa} = \bar I e^{\mathcal{T}} = I_0 .
+\end{equation*}
+Hence $\frac{I_0}{\bar I} = \frac{H}{Z}$, which is the ratio $\kappa_0$ of \citet[\S 6.2, eq.~2.15,
+p.~157]{DeatonMuellbauer1980b}. The entropy $Z$ reaches its maximum $H$ under perfect equality. In their words, ``as inequality
+increases, $k = \frac{Z}{H}$ decreases and the representative budget level increases''
+\citep[p.~315]{DeatonMuellbauer1980a}. When the scales $\kappa_h$ differ across households, $\kappa$
+reflects the demographic structure as well as the distribution of budgets.
+
+\casehead{Consequences for estimation}
+In a time series of aggregate shares, \eqref{eq:05-aids-aggregate} reads
+\begin{equation}\label{eq:05-aids-agg-ts}
+  \bar w_{it} = \alpha_i + \sum_j\gamma_{ij}\ln p_{jt} + \beta_i\ln\frac{\bar I_t}{\mathbf{P}_t}
+                - \beta_i\ln\kappa_t .
+\end{equation}
+Researchers usually observe mean expenditure $\bar I_t$ but not $\kappa_t$, which requires the joint
+distribution of budgets and household characteristics. If $\kappa_t$ is constant, or varies independently
+of $\bar I_t$ and $p_t$, we can replace $\ln\kappa_t$ by a constant $\ln\kappa^*$, its value or sample
+mean. The intercepts then become $\alpha_i^* = \alpha_i - \beta_i\ln\kappa^*$
+\citep[p.~315]{DeatonMuellbauer1980a}. The deviation $-\beta_i(\ln\kappa_t - \ln\kappa^*)$ joins the
+error term and is uncorrelated with the regressors.
+
+If $\kappa_t$ moves with the regressors, omitting it biases the estimates. Take the case $\kappa_h = 1$,
+so that $-\ln\kappa_t = \mathcal{T}_t$, and hold prices fixed for simplicity. Let the linear projection of
+inequality on log mean expenditure be $\mathcal{T}_t = c + \delta_{\mathcal{T}}\ln\bar I_t + r_t$, with
+$r_t$ uncorrelated with $\ln\bar I_t$. Substituting into \eqref{eq:05-aids-agg-ts} and adding an error
+term $\xi_{it}$,
+\begin{equation*}
+  \bar w_{it} = \bigl(\alpha_i - \beta_i\ln\mathbf{P} + \beta_i c\bigr)
+               + \beta_i(1 + \delta_{\mathcal{T}})\ln\bar I_t + \beta_i r_t + \xi_{it}.
+\end{equation*}
+A regression of $\bar w_{it}$ on $\ln\bar I_t$ estimates $\beta_i(1 + \delta_{\mathcal{T}})$. If
+inequality rises with mean expenditure ($\delta_{\mathcal{T}} > 0$), luxuries look more luxurious and
+necessities more necessary than they are. With several regressors the same logic applies to the partial
+correlation of $\mathcal{T}_t$ with each of them. Deaton and Muellbauer list a non-constant $\kappa$
+correlated with $\bar I$ and $p$ as one possible reason for the rejection of homogeneity in their data
+(\cref{sec:05-dm-application}).
+
+The index $\kappa$ is constant when the distribution of budgets and household characteristics changes
+only through equiproportional changes in all budgets. Deaton and Muellbauer point out that in this case
+even $\alpha_{ih}$ and $\gamma_{ijh}$ may differ across households. The reason is that the weights
+$\frac{I_h}{H\bar I}$ are then constant over time, and each household's $\ln\mathbf{P}_h$ is linear in its
+own parameters. With a common $\beta_i$, the weighted sum of the household equations is an AIDS whose
+$\alpha_i$ and $\gamma_{ij}$ are expenditure-weighted averages of the household parameters.
+
+\begin{example}[Two households]\label{ex:05-aggregation}
+Take the running example of \cref{ex:05-running} at $p = (1,1,1)$, where $\ln\mathbf{P} = 0$ and $w_{ih} =
+\alpha_i + \beta_i\ln I_h$. Two households have budgets $I_1 = 1$ and $I_2 = 3$, so $\bar I = 2$. The
+expenditure weights are $\frac{1}{4}$ and $\frac{3}{4}$, and
+\begin{equation*}
+  \ln I_0 = \frac{1}{4}\ln 1 + \frac{3}{4}\ln 3 = 0.8240, \qquad I_0 = 2.280 .
+\end{equation*}
+The Theil index is $\mathcal{T} = \ln I_0 - \ln\bar I = 0.8240 - 0.6931 = 0.1308$. Equivalently,
+$\kappa = e^{-\mathcal{T}} = 0.877$ and $Z = H\kappa = 1.755$. \Cref{tab:05-agg-example} reports the
+household shares, the aggregate shares computed from \eqref{eq:05-wbar}, and the shares of a single
+consumer at $I_0$ and at $\bar I$. The consumer with budget $I_0$ reproduces the aggregate shares
+exactly. The consumer with the mean budget overstates the share of the necessity, good 1, by 1.3
+percentage points and understates the share of the luxury, good 3, by 0.8 points.
+\end{example}
+
+\begin{table}[htbp]
+\centering
+\caption{Aggregation in the running example at unit prices}
+\label{tab:05-agg-example}
+\begin{tabular}{lccccc}
+\toprule
+ & Budget & $\ln$ budget & $w_1$ & $w_2$ & $w_3$ \\
+\midrule
+Household 1 & 1.000 & 0.0000 & 0.5000 & 0.3000 & 0.2000 \\
+Household 2 & 3.000 & 1.0986 & 0.3901 & 0.3439 & 0.2659 \\
+Aggregate, \eqref{eq:05-wbar} & 4.000 & & 0.4176 & 0.3330 & 0.2494 \\
+Consumer at $I_0$ & 2.280 & 0.8240 & 0.4176 & 0.3330 & 0.2494 \\
+Consumer at $\bar I$ & 2.000 & 0.6931 & 0.4307 & 0.3277 & 0.2416 \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\begin{minipage}{0.82\textwidth}
+\footnotesize Notes: parameters of \cref{ex:05-running}, $w_{ih} = \alpha_i + \beta_i\ln I_h$ at $p =
+(1,1,1)$. The aggregate row gives total expenditure and expenditure-weighted shares. Computed by
+\texttt{figures/ch05/src/aggregation\_example.py}.
+\end{minipage}
+\end{table}
+
+\begin{remark}[Welfare with a representative household]\label{rem:05-agg-welfare}
+Under the Gorman polar form the representative consumer is normative: its compensating variation is the
+sum of household compensating variations (\cref{prop:05-gorman}). Under PIGLOG the household with budget
+$I_0$ is a positive construct, and its expenditure function does not aggregate the household expenditure
+functions. How large is the error if we use it anyway? For the AIDS, the initial utility of household $h$
+is $u_h^0 = \frac{\ln I_h - \ln\mathbf{P}(p^0)}{B(p^0)}$ by \eqref{eq:05-aids-v}, with $B(p) =
+\beta_0\prod_k p_k^{\beta_k}$ as in \eqref{eq:05-aids-B}. Its cost of reaching $u_h^0$ at new prices $p^1$
+satisfies
+\begin{equation*}
+  \ln e(p^1, u_h^0) = \ln\mathbf{P}(p^1) + g\bigl[\ln I_h - \ln\mathbf{P}(p^0)\bigr],
+  \qquad g = \frac{B(p^1)}{B(p^0)} ,
+\end{equation*}
+so $e(p^1, u_h^0) = \mathbf{P}(p^1)\mathbf{P}(p^0)^{-g} I_h^{g}$. Summing over households gives
+$\mathbf{P}(p^1)\mathbf{P}(p^0)^{-g}\sum_h I_h^g$. A natural representative calculation computes the
+compensating variation of the household with budget $I_0$ as a fraction of its budget and applies that
+fraction to aggregate expenditure $H\bar I$. This gives $\mathbf{P}(p^1)\mathbf{P}(p^0)^{-g} H\bar I\,
+I_0^{g-1}$ for the aggregate cost at new prices. Since the exponential function is convex, Jensen's
+inequality gives
+\begin{equation*}
+  \sum_h I_h^{g} = H\bar I\sum_h \frac{I_h}{H\bar I}\, e^{(g-1)\ln I_h}
+  \ge H\bar I\, e^{(g-1)\sum_h \frac{I_h}{H\bar I}\ln I_h} = H\bar I\, I_0^{g-1}.
+\end{equation*}
+The representative calculation therefore understates the sum of household compensating variations. The
+two coincide when $g = 1$ or when all budgets are equal, and their first-order terms in $g - 1$ agree, so
+the gap is of second order. In \cref{ex:05-aggregation}, a 10 percent rise in $p_3$ gives $g = 1.1^{0.06}
+= 1.0057$. Household compensating variations are 0.0184 (1.84 percent of the budget) and 0.0745 (2.48
+percent). Their sum is 0.09296, against 0.09294 from the representative calculation. For a 50 percent
+rise the figures are 0.3621 and 0.3618. The aggregate is accurate, but it hides who bears the loss. The
+richer household loses a larger fraction of its budget because good 3 is a luxury. The welfare numbers
+of \citet{ChaudhuriGoldbergJia2006}, studied in \cref{sec:05-cgj}, are representative-household numbers
+of this kind. The authors state that their framework is not suited to asking how different groups in the
+population are affected (their Section 3.6).\footnote{Page, table, equation and footnote numbers for
+\citet{ChaudhuriGoldbergJia2006} refer throughout this chapter to the revised NBER working paper (Working Paper
+10159, revised July 2006). Page numbers are those printed in it. Where we cite the published article instead, the
+text says so.} They add that this
+question would need micro data on purchases (their fn.~30). The same issue arises for price indices.
+Under PIGLOG the exact cost-of-living index differs across households whenever the prices of luxuries
+and necessities move apart. \Cref{sec:05-welfare-cv} derives the household index and reports British
+estimates in which inflation in 1975--76 ranged from 16.39 percent for a poor couple to 14.05 percent for
+a rich one (\cref{tab:05-dm-table71}).
+\end{remark}
+
+\section{Separability and multi-stage budgeting}\label{sec:05-separability}
+
+A product-space system for $J$ goods has of the order of $J^2$ price coefficients
+(\cref{sec:05-aids-limits}). With a hundred brands the AIDS has 4,950 free price coefficients even after
+symmetry and homogeneity, far more than any data set can pin down. The classical remedy is to arrange
+goods in a tree. The consumer first allocates total expenditure across broad groups and then allocates
+each group's budget across the goods in the group. This section states the preferences under which such
+\emph{multi-stage budgeting} is consistent with utility maximization, what they imply for substitution
+between groups, and how elasticities at different levels of the tree combine.
+
+Throughout, the goods are partitioned into groups $G = 1, \dots, \mathcal{G}$. We write $q_G$ and $p_G$
+for the quantities and prices of the goods in group $G$, $X_G = p_G^{\T} q_G$ for group expenditure, and
+$w_{i|G} = \frac{p_i q_i}{X_G}$ for the \emph{within-group share} of good $i \in G$. A second group is
+denoted $G'$.
+
+\subsection{Weak separability and the second stage}\label{sec:05-second-stage}
+
+\begin{definition}[Weak separability]\label{def:05-weak-sep}
+Preferences are \emph{weakly separable} in the partition $\{G\}$ if the utility function can be written as
+\begin{equation}\label{eq:05-weak-sep}
+  U(q) = F\bigl(U_1(q_1), U_2(q_2), \dots, U_{\mathcal{G}}(q_{\mathcal{G}})\bigr).
+\end{equation}
+Here $F$ is strictly increasing in each argument, and each \emph{subutility function} $U_G$ is
+continuous, increasing and strictly quasi-concave. Preferences are \emph{additively separable} across groups if, in
+addition, $F$ can be chosen as an increasing function of $\sum_G U_G(q_G)$.
+\end{definition}
+
+Weak separability says that the marginal rate of substitution between two goods in the same group does
+not depend on the quantities of goods outside the group. Hence tastes within a group can be described
+without reference to the rest of the budget.
+
+\begin{proposition}[The second stage]\label{prop:05-second-stage}
+Under weak separability, the Marshallian demand for a good $i \in G$ can be written as
+\begin{equation}\label{eq:05-conditional-demand}
+  q_i(p, I) = q_{i|G}\bigl(p_G, X_G(p, I)\bigr),
+\end{equation}
+where $X_G(p, I)$ is the optimal expenditure on group $G$ and $q_{i|G}(p_G, X_G)$ solves
+$\max_{q_G} U_G(q_G)$ subject to $p_G^{\T} q_G = X_G$. The \emph{conditional demand} functions
+$q_{i|G}$ depend only on the prices of the group and on group expenditure.
+\end{proposition}
+
+\begin{proof}
+Let $q^*$ be the optimal bundle at $(p, I)$ and let $X_G^* = p_G^{\T} q_G^*$. Suppose $q_G^*$ did not
+solve the group problem at budget $X_G^*$. Then some $q_G'$ with $p_G^{\T} q_G' \le X_G^*$ would give
+$U_G(q_G') > U_G(q_G^*)$. Replacing $q_G^*$ by $q_G'$ in $q^*$ keeps total spending within $I$ and, because
+$F$ is strictly increasing, raises $U$. This contradicts the optimality of $q^*$. So $q_G^*$ solves the
+group problem, whose solution is unique by strict quasi-concavity of $U_G$. Hence $q_G^* =
+q_G(p_G, X_G^*)$.
+\end{proof}
+
+The conditional demands are ordinary demand functions generated by the subutility $U_G$, with $X_G$ in
+the role of income. They add up to $X_G$, are homogeneous of degree zero in $(p_G, X_G)$, and have a
+symmetric and negative semidefinite conditional Slutsky matrix. Any flexible demand system, the AIDS in
+particular, can therefore be fitted to within-group shares $w_{i|G}$ with group expenditure as the
+budget variable. This is the bottom level of both multi-level systems studied in this chapter. It gives
+the quinolone equations of \citet{ChaudhuriGoldbergJia2006} (\cref{sec:05-cgj-demand}) and the brand
+equations of \citet{HausmanLeonardZona1994} and \citet{Hausman1997} (\cref{sec:05-hlz}). Hausman
+stresses that the budget variable must be segment expenditure. Using overall expenditure instead ``is
+inconsistent with the economic theory of multistage budgeting, and it can lead to decidedly inferior
+econometric results'' \citep[p.~217]{Hausman1997}.
+
+\subsection{The first stage}\label{sec:05-first-stage}
+
+Weak separability alone does not deliver a simple first stage. Group expenditure $X_G(p, I)$ depends, in
+general, on every individual price in every group. Multi-stage budgeting in the useful sense requires
+that the allocation of total expenditure depend on group prices only through group price indices
+$P_G(p_G)$, so that $X_G = X_G(P_1, \dots, P_{\mathcal{G}}, I)$. Two preference structures deliver
+this. The second uses the following functional form.
+
+\begin{definition}[Generalized Gorman polar form]\label{def:05-ggpf}
+A sub-indirect utility function $V_G(p_G, X_G) = \max\{U_G(q_G) : p_G^{\T}q_G \le X_G\}$ has the
+\emph{generalized Gorman polar form} (GGPF) if
+\begin{equation}\label{eq:05-ggpf}
+  V_G(p_G, X_G) = F_G\!\left(\frac{X_G}{\mathcal{P}_G(p_G)}\right) + \mathcal{A}_G(p_G).
+\end{equation}
+Here $F_G$ is increasing, $\mathcal{P}_G$ is homogeneous of degree one and $\mathcal{A}_G$ is homogeneous
+of degree zero in $p_G$.
+\end{definition}
+
+\begin{proposition}[Two-stage budgeting, \citealp{Gorman1959}]\label{prop:05-first-stage}
+Suppose preferences are weakly separable.
+\begin{enumerate}[label=(\roman*)]
+  \item If every subutility $U_G$ is homothetic, group expenditures depend on prices only through the
+  group price indices $P_G(p_G) = e_G(p_G, 1)$, the unit costs of the subutilities.
+  \item If preferences are additively separable across groups and every sub-indirect utility function
+  has the GGPF \eqref{eq:05-ggpf}, group expenditures depend on prices only through the indices
+  $\mathcal{P}_G(p_G)$.
+\end{enumerate}
+\citet{Gorman1959} showed that, except when there are only two groups, these two structures are also
+necessary for exact two-stage budgeting under weak separability \citep[\S 5.2,
+p.~131]{DeatonMuellbauer1980b}. \citet{BlackorbyPrimontRussell1978} give a complete statement.
+\end{proposition}
+
+\begin{proof}
+(i) Normalize each homothetic $U_G$ to be homogeneous of degree one. Its expenditure function is then
+$e_G(p_G, u_G) = P_G(p_G)\, u_G$, with $P_G(p_G) = e_G(p_G, 1)$ linearly homogeneous and concave. By
+\cref{prop:05-second-stage} the consumer chooses subutility levels to solve
+\begin{equation*}
+  \max_{u_1, \dots, u_{\mathcal{G}}} F(u_1, \dots, u_{\mathcal{G}})
+  \quad\text{subject to}\quad \sum_G P_G(p_G)\, u_G \le I .
+\end{equation*}
+This is a standard consumer problem with ``quantities'' $u_G$ and ``prices'' $P_G$. Its solution $u_G^*$
+depends only on $(P_1, \dots, P_{\mathcal{G}}, I)$, and so does $X_G = P_G u_G^*$.
+
+(ii) Under additive separability the first stage maximizes $\sum_G V_G(p_G, X_G)$ subject to $\sum_G X_G
+= I$, after an increasing transformation of the objective. At an interior optimum the marginal utilities
+of group expenditure are equal:
+\begin{equation*}
+  \frac{\partial V_G}{\partial X_G} = \frac{1}{\mathcal{P}_G(p_G)}\,
+  F_G'\!\left(\frac{X_G}{\mathcal{P}_G(p_G)}\right) = \lambda \quad \text{for every } G.
+\end{equation*}
+Each equation involves $p_G$ only through $\mathcal{P}_G$. Solving for $X_G$ in terms of $\lambda$ and
+$\mathcal{P}_G$, and choosing $\lambda$ so that the $X_G$ sum to $I$, gives $X_G$ as a function of
+$(\mathcal{P}_1, \dots, \mathcal{P}_{\mathcal{G}}, I)$. The term $\mathcal{A}_G$ does not affect the
+allocation.
+\end{proof}
+
+Both routes are restrictive, in different places \citep[\S 5.2, pp.~130--131]{DeatonMuellbauer1980b}.
+Route (i) restricts tastes within groups. With $e_G = P_G(p_G)\,u_G$, Shephard's lemma in share form gives
+the within-group shares
+\begin{equation*}
+  w_{i|G} = \frac{\partial\ln e_G(p_G, u_G)}{\partial\ln p_i} = \frac{\partial\ln P_G(p_G)}{\partial\ln p_i},
+\end{equation*}
+which do not depend on $u_G$ and hence not on $X_G$. Every good in the group then has an elasticity of
+one with respect to group expenditure. A group cannot mix necessities and luxuries, so a segment
+containing both cheap and premium brands violates route (i). Route (ii) permits nonlinear within-group
+Engel curves. Its price is additivity across groups, which Deaton and Muellbauer call ``both severe and,
+in our view, unrealistic'' (p.~131). A reasonably general solution must therefore be approximate, or it
+must abandon weak separability. The rest of this subsection takes the first path, and
+\cref{rem:05-implicit-sep} sketches the second.
+
+\casehead{The AIDS is a generalized Gorman polar form}
+\citet[fn.~17]{Hausman1997} notes that the AIDS is a GGPF, so Gorman's theorem applies to a top level
+that is additive across segments. The verification is short. Within group $G$ the AIDS indirect utility
+is
+\begin{equation*}
+  u_G = \frac{\ln X_G - \ln a_G(p_G)}{B_G(p_G)}, \qquad B_G(p_G) = \beta_0\prod_{k\in G} p_k^{\beta_k}.
+\end{equation*}
+Here $\ln a_G = \ln\mathbf{P}_G$ is the translog index of the group. The function $B_G$ is homogeneous
+of degree zero because the $\beta_k$ of the group sum to zero. Where $X_G > a_G(p_G)$, that is $u_G > 0$, the
+increasing transformation $\ln u_G$ represents the same preferences and equals
+\begin{equation*}
+  \ln u_G = \ln\ln\frac{X_G}{a_G(p_G)} - \ln B_G(p_G).
+\end{equation*}
+This is \eqref{eq:05-ggpf} with $F_G(z) = \ln\ln z$, $\mathcal{P}_G = a_G$ and $\mathcal{A}_G = -\ln B_G$.
+Under additive separability, the exact group price index of an AIDS group is therefore its translog index
+$\mathbf{P}_G$, the index that \citet{ChaudhuriGoldbergJia2006} use for the quinolone segment.
+
+\casehead{The first stage in practice}
+Exact two-stage budgeting requires additivity at the top, which is itself a strong restriction on
+substitution between groups. Applied work therefore treats the top level as an approximation. The
+approximation of \citet[\S 5.2, eqs.~2.18--2.19, pp.~131--132]{DeatonMuellbauer1980b} starts from an
+identity. Choose base prices $p^0$ with group subvectors $p_G^0$, and write each group expenditure function
+as
+\begin{equation}\label{eq:05-approx-stage}
+  e_G(p_G, u_G) = e_G(p_G^0, u_G)\cdot\frac{e_G(p_G, u_G)}{e_G(p_G^0, u_G)}
+                \equiv V_G\cdot P_G(p_G, p_G^0; u_G).
+\end{equation}
+The first factor $V_G$ is the money cost of reaching $u_G$ at base prices, a group quantity index
+measured in money. The second factor is the exact cost-of-living index of the group at utility $u_G$, in
+the sense of \cref{sec:05-cv-ev}. Under weak separability the first stage chooses subutilities to maximize
+$F(u_1, \dots, u_{\mathcal{G}})$ subject to $\sum_G e_G(p_G, u_G) = I$. Since $V_G$ is increasing in
+$u_G$, we can invert it and write $u_G = \chi_G(V_G)$, with base prices fixed. The first stage becomes
+\begin{equation}\label{eq:05-approx-budget}
+  \max_{V_1, \dots, V_{\mathcal{G}}} F\bigl(\chi_1(V_1), \dots, \chi_{\mathcal{G}}(V_{\mathcal{G}})\bigr)
+  \quad\text{subject to}\quad \sum_G V_G\, P_G(p_G, p_G^0; u_G) = I .
+\end{equation}
+This looks like a standard consumer problem with quantities $V_G$ and prices $P_G$. It is not one, because
+each $P_G$ depends on $u_G$, and allowing for this dependence takes us back to the original problem. The
+dependence reflects within-group Engel curves that are not straight lines through the origin. If
+homothetic subutilities remove it, \eqref{eq:05-approx-budget} is exact, which is route (i) of
+\cref{prop:05-first-stage}. Otherwise the approximation replaces $P_G$ by an index that does not depend on
+utility. When the variation of $P_G$ with $u_G$ is small, Laspeyres or Paasche indices of group prices
+approximate it well. These are the indices that national accounts supply, so the construction
+justifies standard practice, ``albeit in an approximate way'' (p.~132).
+
+\citet[p.~13]{ChaudhuriGoldbergJia2006} adopt ``an approximate solution'' along these lines. It is an AIDS
+for the shares of sub-segments in total expenditure, with group price indices in place of prices.
+\citet{HausmanLeonardZona1994} also put group price indices in place of prices at their top and middle
+levels (\cref{sec:05-hlz-model}). Hausman reports that he also estimated a
+middle level that is not necessarily consistent with exact two-stage budgeting, with ``quite similar''
+results \citep[fn.~17]{Hausman1997}. Group price indices may be the exact translog index of the lower
+level, or a Stone or Laspeyres-type index of the group's prices (both defined in \cref{sec:05-stone}).
+Hausman finds that this choice ``does
+not typically have much influence on the final model estimates'' \citep[p.~218]{Hausman1997}.
+Representative applications of multi-stage budgeting to differentiated products include
+\citet{HausmanLeonardZona1994}, \citet{EllisonEtAl1997} and \citet{HausmanLeonard2002}.
+
+\begin{remark}[Implicit separability]\label{rem:05-implicit-sep}
+Weak separability is not the only structure that supports budgeting in stages. Preferences are
+\emph{implicitly separable} if the expenditure function can be written as
+\begin{equation*}
+  e(p, u) = C\bigl[u, e_1(u, p_1), \dots, e_{\mathcal{G}}(u, p_{\mathcal{G}})\bigr],
+\end{equation*}
+where each $e_G$ is increasing in $u$ and linearly homogeneous in $p_G$ \citep{Gorman1970}. Total utility
+$u$ enters every $e_G$, and there are no group subutilities. Shephard's lemma and the chain rule give
+$q_i = \frac{\partial C}{\partial e_G}\frac{\partial e_G}{\partial p_i}$ for $i \in G$. Summing over the
+group and using Euler's theorem for $e_G$,
+\begin{equation*}
+  X_G = \sum_{i \in G} p_iq_i = \frac{\partial C}{\partial e_G}\sum_{i \in G} p_i\frac{\partial e_G}{\partial p_i}
+      = \frac{\partial C}{\partial e_G}\, e_G(u, p_G).
+\end{equation*}
+Dividing by $I = C$ and by $X_G$ gives the two stages:
+\begin{equation*}
+  \frac{X_G}{I} = \frac{\partial\ln C}{\partial\ln e_G}, \qquad
+  w_{i|G} = \frac{\partial\ln e_G(u, p_G)}{\partial\ln p_i}.
+\end{equation*}
+The top stage allocates the budget with the ``macro'' cost function $C$ and the group price indices $e_G(u,
+p_G)$. The bottom stage allocates within groups with the same indices. Both stages are exact, at the cost
+of group price indices that depend on the level of total utility \citep[\S 5.2, eqs.~2.24--2.28,
+pp.~133--134]{DeatonMuellbauer1980b}.
+\end{remark}
+
+\subsection{What separability implies for substitution}\label{sec:05-gu}
+
+Separability buys a large reduction in parameters by restricting substitution between groups. The next
+result makes the restriction precise.
+
+\begin{proposition}[\citealp{GoldmanUzawa1964}]\label{prop:05-goldman-uzawa}
+Suppose preferences are weakly separable and demands are differentiable, with nonzero income effects
+$\frac{\partial X_G}{\partial I}$. For goods $i \in G$ and $j \in G'$ in different groups, the Slutsky
+terms satisfy
+\begin{equation}\label{eq:05-gu}
+  S_{ij} = \mu_{GG'}(p, I)\, \frac{\partial q_i}{\partial I}\, \frac{\partial q_j}{\partial I}
+\end{equation}
+for a function $\mu_{GG'}$ that depends on the pair of groups but not on the goods within them.
+\end{proposition}
+
+\begin{proof}
+We follow the argument of \citet{Gorman1971} as presented by \citet[\S 5.2, eqs.~2.4--2.9,
+pp.~128--129]{DeatonMuellbauer1980b}. By \cref{prop:05-second-stage}, $q_i(p, I) = q_{i|G}(p_G, X_G(p, I))$. The Hicksian demand is $h_i(p, u) =
+q_i(p, e(p, u)) = q_{i|G}(p_G, X_G^h(p, u))$, where $X_G^h(p,u) = X_G(p, e(p,u))$ is compensated group
+expenditure. For $j \notin G$, the price $p_j$ enters $h_i$ only through $X_G^h$, so
+\begin{equation*}
+  S_{ij} = \frac{\partial h_i}{\partial p_j}
+         = \frac{\partial q_{i|G}}{\partial X_G}\,\frac{\partial X_G^h}{\partial p_j}.
+\end{equation*}
+The income derivative has the same structure, $\frac{\partial q_i}{\partial I} = \frac{\partial
+q_{i|G}}{\partial X_G}\frac{\partial X_G}{\partial I}$. Eliminating $\frac{\partial q_{i|G}}{\partial
+X_G}$,
+\begin{equation*}
+  S_{ij} = \frac{\partial q_i}{\partial I}\left(\frac{\partial X_G}{\partial I}\right)^{-1}
+           \frac{\partial X_G^h}{\partial p_j}.
+\end{equation*}
+The same steps with the roles of $i$ and $j$ exchanged give $S_{ji} = \frac{\partial q_j}{\partial I}
+(\frac{\partial X_{G'}}{\partial I})^{-1}\frac{\partial X_{G'}^h}{\partial p_i}$. Slutsky symmetry,
+$S_{ij} = S_{ji}$ (\cref{prop:05-slutsky}), and division by $\frac{\partial q_i}{\partial
+I}\frac{\partial q_j}{\partial I}$ give
+\begin{equation*}
+  \left(\frac{\partial q_j}{\partial I}\right)^{-1}\frac{\partial X_G^h}{\partial p_j}
+  \left(\frac{\partial X_G}{\partial I}\right)^{-1}
+  = \left(\frac{\partial q_i}{\partial I}\right)^{-1}\frac{\partial X_{G'}^h}{\partial p_i}
+  \left(\frac{\partial X_{G'}}{\partial I}\right)^{-1}.
+\end{equation*}
+The left side does not depend on which good $i \in G$ we picked, and the right side does not depend on
+which good $j \in G'$ we picked. Since the equality holds for all such pairs, both sides equal a common
+value $\mu_{GG'}(p, I)$. The left side then gives $\frac{\partial X_G^h}{\partial
+p_j}\bigl(\frac{\partial X_G}{\partial I}\bigr)^{-1} = \mu_{GG'}\frac{\partial q_j}{\partial I}$.
+Substituting into the expression for $S_{ij}$,
+\begin{equation*}
+  S_{ij} = \mu_{GG'}\,\frac{\partial q_i}{\partial I}\,\frac{\partial q_j}{\partial I},
+\end{equation*}
+which is \eqref{eq:05-gu}. If a good has a zero income effect the formula holds trivially for the pairs
+that involve it.
+\end{proof}
+
+\citet{Gorman1971} shows that the restriction \eqref{eq:05-gu} is also sufficient for weak separability,
+so it summarizes the empirical content of separability for substitution
+\citep[p.~129]{DeatonMuellbauer1980b}. The factor $\mu_{GG'}$ has an
+interpretation in terms of the groups themselves. Define
+\begin{equation}\label{eq:05-lambda-GG}
+  \lambda_{GG'} = \mu_{GG'}\,\frac{\partial X_G}{\partial I}\,\frac{\partial X_{G'}}{\partial I}.
+\end{equation}
+Since $\frac{\partial q_i}{\partial I} = \frac{\partial q_{i|G}}{\partial X_G}\frac{\partial X_G}{\partial
+I}$, \eqref{eq:05-gu} becomes $S_{ij} = \lambda_{GG'}\frac{\partial q_{i|G}}{\partial
+X_G}\frac{\partial q_{j|G'}}{\partial X_{G'}}$. The first display of the proof gives $S_{ij} =
+\frac{\partial q_{i|G}}{\partial X_G}\frac{\partial X_G^h}{\partial p_j}$. Equating the two expressions,
+\begin{equation}\label{eq:05-XG-pj}
+  \frac{\partial X_G^h}{\partial p_j} = \lambda_{GG'}\,\frac{\partial q_{j|G'}}{\partial X_{G'}},
+  \qquad j \in G',\ G' \neq G .
+\end{equation}
+Multiply by $p_j$ and sum over $j \in G'$. Conditional demands add up to group expenditure, so $\sum_{j \in
+G'} p_j\frac{\partial q_{j|G'}}{\partial X_{G'}} = 1$, and
+\begin{equation}\label{eq:05-lambda-interp}
+  \lambda_{GG'} = \sum_{j \in G'} p_j\,\frac{\partial X_G^h}{\partial p_j}
+\end{equation}
+\citep[\S 5.2, eq.~2.10, p.~129]{DeatonMuellbauer1980b}. The right side is the compensated response of
+spending on group $G$ to a proportional rise in all prices of group $G'$. So $\lambda_{GG'}$ is the
+substitution term between two group aggregates, each defined with fixed relative prices inside the group.
+Writing $X_G^h = \sum_{i \in G} p_ih_i$ in \eqref{eq:05-lambda-interp} gives $\lambda_{GG'} = \sum_{i \in G}
+\sum_{j \in G'} p_ip_jS_{ij}$, which is symmetric in $(G, G')$ by Slutsky symmetry. We define $\lambda_{GG}$
+by the same double sum with $G' = G$. Let $\Pi$ be the $J \times \mathcal{G}$ matrix with elements $p_j$
+in the rows of the goods of group $G$ and column $G$, and zeros elsewhere. Then $\Lambda = [\lambda_{GG'}]
+= \Pi^{\T} S\,\Pi$. This matrix is symmetric and negative semidefinite. Its rows sum to zero because
+$\Pi\iota = p$ for the vector of ones $\iota$, and $Sp = 0$. It is the Slutsky matrix of the group
+aggregates. Weak separability thus gives
+two tiers of substitution matrices. Within each group the conditional Slutsky matrix is unrestricted, and
+between groups substitution runs through $\Lambda$ alone.
+
+The signs of cross-group substitution are also restricted. If no good is inferior, $\frac{\partial
+q_i}{\partial I} > 0$ for all $i$, and \eqref{eq:05-gu} gives every $S_{ij}$ with $i \in G$ and $j \in G'$
+the sign of $\mu_{GG'}$. When two groups are substitutes, every good of one is a Hicksian substitute for
+every good of the other. When the groups are complements, every cross pair is complementary
+\citep[p.~129]{DeatonMuellbauer1980b}.
+
+In elasticity form, with $\frac{\partial q_i}{\partial I} = \eta_i\frac{q_i}{I}$, \eqref{eq:05-gu} becomes
+\begin{equation}\label{eq:05-gu-elast}
+  \varepsilon^h_{ij} = \frac{\mu_{GG'}}{I}\,\eta_i\,\eta_j\, w_j, \qquad i \in G,\ j \in G',\ G \neq G'.
+\end{equation}
+All compensated cross elasticities between two groups are governed by one number per pair of groups,
+scaled by the goods' expenditure elasticities and the budget share of the good whose price changes. Under
+additive separability the factor $\mu$ is the same for all pairs of groups. Substitution between groups
+runs entirely through group expenditures.
+
+The restriction is strong when goods in different groups are close substitutes. If a cheap good in one
+group competes directly with a particular good in another, separability spreads that competition evenly,
+in proportion to income effects, over all goods of the second group. The sign result adds a second
+constraint. Two groups that are substitutes on the whole cannot contain a complementary cross pair, such
+as a camera in one group and its film in the other. The grouping must therefore put close substitutes
+together and keep complements in the same group. In ready-to-eat cereals the segmentation comes from marketing research and
+has little ambiguity, but \citet[fn.~5]{Bresnahan1997} warns that this is an exception. In many
+industries ``several principles of differentiation, each with a distinct set of close-substitute
+products, compete for the analyst's attention.'' In automobiles, size segments, brand names and even
+country reputations all shape substitution, and many consumer product markets mix named segments with a
+private-label versus brand-name split.
+
+Separability can be tested. Under weak separability the individual prices of goods outside a group
+affect the group's demand only through the group price indices and group expenditure. Adding individual
+outside prices to a group-level equation and testing their exclusion is therefore a specification test
+of the grouping. \citet{HausmanLeonardZona1994} implement such a test by adding the prices of individual
+light beers to the segment equation for premium beer (\cref{sec:05-hlz}).
+
+Under weak separability alone, the first stage takes a differential form with two price indices per
+group. The result goes back to \citet{BartenTurnovsky1966}, and we
+state it as in \citet[\S 5.2, eqs.~2.20--2.23, pp.~132--133]{DeatonMuellbauer1980b}. Write $w_i =
+\frac{p_iq_i}{I}$ for the share of good $i$ in total expenditure, $w_G = \frac{X_G}{I}$ for the share of
+group $G$, and $b_G = \sum_{i \in G} p_i\frac{\partial q_i}{\partial I}$ for the marginal propensity to
+spend on the group. Define two differential price indices for each group,
+\begin{equation}\label{eq:05-two-indices}
+  \dd\ln P^{w}_G = \sum_{k \in G} w_{k|G}\,\dd\ln p_k, \qquad
+  \dd\ln P^{m}_G = \sum_{k \in G} p_k\frac{\partial q_{k|G}}{\partial X_G}\,\dd\ln p_k .
+\end{equation}
+The first weights price changes by within-group budget shares. The second weights them by within-group
+marginal budget shares. Both sets of weights sum to one.
+
+\begin{proposition}[Two price indices per group]\label{prop:05-two-indices}
+Under weak separability, for every group $G$,
+\begin{equation}\label{eq:05-bt}
+  \sum_{i \in G} w_i\,\dd\ln q_i
+  = b_G\Bigl(\dd\ln I - \sum_{G'} w_{G'}\,\dd\ln P^{w}_{G'}\Bigr)
+  + \sum_{G'} \frac{\lambda_{GG'}}{I}\,\dd\ln P^{m}_{G'} ,
+\end{equation}
+where the sums run over all groups, including $G$, and $\lambda_{GG'}$ is defined in
+\eqref{eq:05-lambda-GG} and below \eqref{eq:05-lambda-interp}.
+\end{proposition}
+
+\begin{proof}
+Totally differentiate $q_i(p, I)$ and substitute the Slutsky equation $\frac{\partial q_i}{\partial p_j} =
+S_{ij} - q_j\frac{\partial q_i}{\partial I}$ (\cref{prop:05-slutsky}):
+\begin{equation*}
+  \dd q_i = \frac{\partial q_i}{\partial I}\Bigl(\dd I - \sum_j q_j\,\dd p_j\Bigr) + \sum_j S_{ij}\,\dd p_j .
+\end{equation*}
+Multiply by $\frac{p_i}{I}$, use $\dd p_j = p_j\,\dd\ln p_j$, and sum over $i \in G$:
+\begin{equation*}
+  \sum_{i \in G} w_i\,\dd\ln q_i = b_G\Bigl(\dd\ln I - \sum_j w_j\,\dd\ln p_j\Bigr)
+  + \frac{1}{I}\sum_j\Bigl(\sum_{i \in G} p_iS_{ij}\Bigr)p_j\,\dd\ln p_j .
+\end{equation*}
+Since $w_j = w_{G'}w_{j|G'}$ for $j \in G'$, the first bracket equals $\dd\ln I - \sum_{G'}
+w_{G'}\,\dd\ln P^{w}_{G'}$. It remains to show that, for every $j$ in any group $G'$,
+\begin{equation}\label{eq:05-bt-step}
+  \sum_{i \in G} p_iS_{ij} = \lambda_{GG'}\,\frac{\partial q_{j|G'}}{\partial X_{G'}} .
+\end{equation}
+For $G' \neq G$, the sum equals $\frac{\partial X_G^h}{\partial p_j}$, and \eqref{eq:05-XG-pj} gives
+\eqref{eq:05-bt-step}. For $G' = G$, use Slutsky symmetry and then homogeneity of $h_j$ of degree zero in
+prices, $\sum_k p_kS_{jk} = 0$:
+\begin{equation*}
+  \sum_{i \in G} p_iS_{ij} = \sum_{i \in G} p_iS_{ji} = -\sum_{G'' \neq G}\ \sum_{k \in G''} p_kS_{kj}
+  = -\frac{\partial q_{j|G}}{\partial X_G}\sum_{G'' \neq G}\lambda_{G''G} .
+\end{equation*}
+The last step applies \eqref{eq:05-XG-pj} to group $G''$ and the price $p_j$ of a good in $G$. The rows
+of $\Lambda$ sum to zero and $\Lambda$ is symmetric, so $-\sum_{G'' \neq G}\lambda_{G''G} = \lambda_{GG}$,
+which proves \eqref{eq:05-bt-step} for $G' = G$. Substituting \eqref{eq:05-bt-step} into the last sum,
+\begin{equation*}
+  \frac{1}{I}\sum_{G'}\lambda_{GG'}\sum_{j \in G'} p_j\frac{\partial q_{j|G'}}{\partial X_{G'}}\,\dd\ln p_j
+  = \sum_{G'}\frac{\lambda_{GG'}}{I}\,\dd\ln P^{m}_{G'} ,
+\end{equation*}
+which completes the proof.
+\end{proof}
+
+The left side of \eqref{eq:05-bt} is the change in a share-weighted quantity index of group $G$. The
+right side has the form of a Rotterdam equation for groups (\cref{sec:05-rotterdam}). Real income enters
+through the share-weighted indices $P^w$, and substitution through the marginally weighted indices $P^m$.
+Knowledge of two price indices per group is therefore enough to maintain an optimal allocation across
+groups, once it is reached. No restriction beyond weak separability is needed. In practice, if prices
+inside each group move roughly together, the two indices move together and one index may be an adequate
+proxy for both (p.~133). The result is local. The coefficients $b_G$ and $\lambda_{GG'}$ vary with prices and
+expenditure, and a Rotterdam-type model treats them as constants.
+
+\subsection{Conditional and unconditional elasticities}\label{sec:05-uncond}
+
+Estimates of a multi-level system yield \emph{conditional} elasticities, which hold group expenditure
+fixed. Pricing, merger and welfare calculations need \emph{unconditional} elasticities, which let group
+expenditure respond. As elsewhere in this chapter, elasticities are signed: $\varepsilon_{ij} =
+\frac{\partial\ln q_i}{\partial\ln p_j}$, so own-price elasticities are negative.
+
+Consider a two-level system. Total expenditure on the upper-level category is $X$, for example spending
+on all systemic antibiotics, and plays the role of income. The upper level allocates $X$ to groups with
+shares $w_G = \frac{X_G}{X}$ that depend on group price indices $P_{G'}$ and on $X$. The lower level is a
+conditional demand system $q_{i|G}(p_G, X_G)$ within each group, and $P_G = P_G(p_G)$. For $i \in G$ and
+a price $p_j$ of the same group, the chain rule with $X$ held fixed gives
+\begin{equation}\label{eq:05-uncond-elast}
+  \varepsilon_{ij} = \varepsilon_{ij}\big|_{X_G}
+  + \frac{\partial\ln q_i}{\partial\ln X_G}\,\frac{\partial\ln X_G}{\partial\ln P_G}\,
+    \frac{\partial\ln P_G}{\partial\ln p_j},
+\end{equation}
+which is equation (3.10) of \citet{ChaudhuriGoldbergJia2006}. The first term is the conditional
+elasticity. The second term traces the effect of $p_j$ on the group price index, of the index on group
+expenditure, and of group expenditure on $q_i$.
+
+With an AIDS at both levels, each factor has a closed form. The lower level gives the conditional
+Marshallian elasticity of \eqref{eq:05-elast-marshall}, written with within-group shares,
+\begin{equation*}
+  \varepsilon_{ij}\big|_{X_G} = -\indic(i = j)
+  + \frac{\gamma_{ij} - \beta_i\bigl(w_{j|G} - \beta_j\ln\frac{X_G}{P_G}\bigr)}{w_{i|G}},
+\end{equation*}
+and the conditional expenditure elasticity $\frac{\partial\ln q_i}{\partial\ln X_G} = 1 +
+\frac{\beta_i}{w_{i|G}}$. With the translog group index, Shephard's lemma at the lower level gives
+\begin{equation*}
+  \frac{\partial\ln P_G}{\partial\ln p_j} = \alpha_j + \sum_{k\in G}\gamma_{jk}\ln p_k
+  = w_{j|G} - \beta_j\ln\frac{X_G}{P_G},
+\end{equation*}
+which reduces to $w_{j|G}$ for a Stone group index whose weights are held fixed. At the upper level,
+$X_G = w_G X$ with $X$ fixed, so
+\begin{equation}\label{eq:05-dlnXG}
+  \frac{\partial\ln X_G}{\partial\ln P_G} = \frac{\partial\ln w_G}{\partial\ln P_G}
+  = \frac{1}{w_G}\frac{\partial w_G}{\partial\ln P_G} = 1 + \varepsilon_{GG},
+\end{equation}
+where $\varepsilon_{GG}$ is the own-price elasticity of the group quantity index $\frac{X_G}{P_G}$. With
+an upper-level AIDS deflated by a Stone index, $\ln P = \sum_{G'} w_{G'}\ln P_{G'}$, and the Stone weights
+held fixed, $\frac{\partial w_G}{\partial\ln P_G} = \gamma_{GG} - \beta_G w_G$. Collecting terms,
+\begin{equation}\label{eq:05-uncond-aids}
+  \varepsilon_{ij} = \varepsilon_{ij}\big|_{X_G}
+  + \Bigl(1 + \frac{\beta_i}{w_{i|G}}\Bigr)\Bigl(\frac{\gamma_{GG}}{w_G} - \beta_G\Bigr)
+    \Bigl(w_{j|G} - \beta_j\ln\frac{X_G}{P_G}\Bigr).
+\end{equation}
+The middle factor shows when the correction matters. If the group as a whole has unit-elastic demand
+($\varepsilon_{GG} = -1$), a higher group price leaves group expenditure unchanged and unconditional and
+conditional elasticities coincide. If group demand is inelastic, a higher group price draws spending into
+the group, and the correction is positive. If group demand is elastic, spending leaves the group.
+
+For goods in different groups, $i \in G$ and $j \in G'$ with $G' \neq G$, the conditional term vanishes
+and only the expenditure channel remains:
+\begin{equation}\label{eq:05-uncond-cross}
+  \varepsilon_{ij} = \frac{\partial\ln q_i}{\partial\ln X_G}\,\frac{\partial\ln X_G}{\partial\ln P_{G'}}\,
+  \frac{\partial\ln P_{G'}}{\partial\ln p_j}
+  = \Bigl(1 + \frac{\beta_i}{w_{i|G}}\Bigr)\,\varepsilon_{GG'}\,
+    \Bigl(w_{j|G'} - \beta_j\ln\frac{X_{G'}}{P_{G'}}\Bigr),
+\end{equation}
+where $\varepsilon_{GG'} = \frac{1}{w_G}\frac{\partial w_G}{\partial\ln P_{G'}} = \frac{\gamma_{GG'} -
+\beta_G w_{G'}}{w_G}$ is the upper-level cross elasticity. This is the elasticity counterpart of
+\cref{prop:05-goldman-uzawa}: cross-group effects are the product of a group-level elasticity and
+within-group factors. Finally, the unconditional elasticity of $q_i$ with respect to the category budget
+is the product of the expenditure elasticities at the two levels,
+\begin{equation*}
+  \frac{\partial\ln q_i}{\partial\ln X} = \frac{\partial\ln q_i}{\partial\ln X_G}\,
+  \frac{\partial\ln X_G}{\partial\ln X} = \Bigl(1 + \frac{\beta_i}{w_{i|G}}\Bigr)
+  \Bigl(1 + \frac{\beta_G}{w_G}\Bigr).
+\end{equation*}
+
+\casehead{Three levels}
+\citet{HausmanLeonardZona1994} and \citet{Hausman1997} use three levels. The bottom level explains brand
+shares within a segment by an AIDS on segment expenditure. The middle level explains segment quantities
+by a log-log system in category expenditure and segment price indices. The top level explains category
+demand by a log-log equation in income and the category price index. Let
+$\Pi$ denote the category price index and $y$ income. Group expenditure $X_G(P_1, \dots,
+P_{\mathcal{G}}, X)$ now responds to $P_G$ also through the category budget $X(\Pi, y)$. The total effect
+of the segment index on segment expenditure is
+\begin{equation*}
+  \frac{\dd\ln X_G}{\dd\ln P_G} = \frac{\partial\ln X_G}{\partial\ln P_G}\Big|_{X}
+  + \frac{\partial\ln X_G}{\partial\ln X}\,\frac{\partial\ln X}{\partial\ln\Pi}\,
+    \frac{\partial\ln\Pi}{\partial\ln P_G},
+\end{equation*}
+and this total replaces $\frac{\partial\ln X_G}{\partial\ln P_G}$ in \eqref{eq:05-uncond-elast}. The
+estimating equations of the three levels are given in \cref{sec:05-hlz}.
+
+\Cref{fig:05-budget-tree} draws the two budgeting trees used in this chapter.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  lvl/.style={draw, rounded corners=2pt, font=\scriptsize, align=center, inner sep=3pt,
+    minimum height=0.62cm},
+  edge/.style={-{Stealth[length=1.6mm]}, thin},
+  note/.style={font=\scriptsize\itshape, align=left, text width=3.3cm, anchor=west}]
+\node[lvl] (inc) at (4.6,0) {Income $y$};
+\node[lvl] (cat) at (2.6,-1.25) {Cereal, $X$ (index $\Pi$)};
+\node[lvl] (oth) at (6.8,-1.25) {Other goods};
+\node[lvl] (ad) at (0.0,-2.5) {Adult, $X_1$};
+\node[lvl] (ch) at (2.6,-2.5) {Child, $X_2$};
+\node[lvl] (fa) at (5.2,-2.5) {Family, $X_3$};
+\node[lvl] (b1) at (3.4,-3.75) {Cheerios};
+\node[lvl] (b2) at (5.2,-3.75) {Corn Flakes};
+\node[lvl, dashed] (b3) at (7.1,-3.75) {other brands};
+\draw[edge] (inc) -- (cat); \draw[edge] (inc) -- (oth);
+\draw[edge] (cat) -- (ad); \draw[edge] (cat) -- (ch); \draw[edge] (cat) -- (fa);
+\draw[edge] (fa) -- (b1); \draw[edge] (fa) -- (b2); \draw[edge] (fa) -- (b3);
+\node[note] at (9.0,-1.25) {top: category demand on income and $\Pi$};
+\node[note] at (9.0,-2.5) {middle: segment demand on $X$ and segment indices};
+\node[note] at (9.0,-3.75) {bottom: brand shares on segment expenditure};
+\node[font=\small] at (-1.3,0) {(a)};
+\end{tikzpicture}
+
+\vspace{0.6cm}
+\begin{tikzpicture}[
+  lvl/.style={draw, rounded corners=2pt, font=\scriptsize, align=center, inner sep=2pt,
+    minimum height=0.62cm},
+  seg/.style={draw, rounded corners=2pt, font=\scriptsize, align=center, inner sep=2pt,
+    text width=1.42cm, minimum height=0.8cm},
+  grp/.style={draw, rounded corners=2pt, font=\scriptsize, align=center, inner sep=2pt,
+    text width=1.66cm, minimum height=0.8cm},
+  edge/.style={-{Stealth[length=1.6mm]}, thin}]
+\node[lvl] (top) at (6.3,0) {Systemic antibacterials, total expenditure $X$};
+\foreach \name/\x [count=\n] in {Tetra-\\cyclines/0.0, Chloram-\\phenicol/1.8, Ampicillin/3.6,
+    Cephalo-\\sporins/5.4, Trimetho-\\prim/7.2, Macrolides/9.0, Other\\penicillins/10.8,
+    Quinolones/12.6} {
+  \node[seg] (s\n) at (\x,-1.45) {\name};
+  \draw[edge] (top.south) -- (s\n.north);
+}
+\foreach \name/\x [count=\n] in {Foreign\\ciprofloxacin/0.6, Foreign\\norfloxacin/2.6,
+    Foreign\\ofloxacin/4.6, Domestic\\ciprofloxacin/6.6, Domestic\\norfloxacin/8.6,
+    Domestic\\ofloxacin/10.6, Domestic\\sparfloxacin/12.6} {
+  \node[grp] (g\n) at (\x,-3.3) {\name};
+  \draw[edge] (s8.south) -- (g\n.north);
+}
+\node[lvl, dashed] (sku1) at (6.6,-4.8) {SKUs (firm $\times$ presentation)};
+\node[lvl, dashed] (sku2) at (10.6,-4.8) {SKUs (firm $\times$ presentation)};
+\draw[edge, dashed] (g4.south) -- (sku1.north);
+\draw[edge, dashed] (g6.south) -- (sku2.north);
+\node[font=\small] at (-1.0,0) {(b)};
+\end{tikzpicture}
+\caption{Budgeting trees. Panel (a): the three-level structure of \citet{Hausman1997} for ready-to-eat
+cereal, with the three segments he uses and two of the family-segment brands (his Table 5.1). Panel (b):
+the two-level structure of \citet{ChaudhuriGoldbergJia2006}. The upper level allocates systemic
+antibacterial expenditure across sub-segments, eight of which appear with equations in their
+upper-level system (their Table A3). The lower level allocates quinolone expenditure across seven
+molecule-by-status groups. Foreign sparfloxacin, with a minuscule share, is folded into the domestic
+group. Within-group choice among stock-keeping units (SKUs) is not modeled (dashed).}
+\label{fig:05-budget-tree}
+\end{figure}
+
+\section{Estimation and identification}\label{sec:05-estimation}
+
+This section turns the AIDS into an econometric model. We add an error term and ask what it contains,
+deal with the singular covariance matrix that adding up creates, and compare the exact nonlinear model
+with its linear approximation. We then show how the theoretical restrictions are tested and work through
+the original application of \citet{DeatonMuellbauer1980a} in detail. The section closes with the
+identification problems that dominate industrial organization applications: endogenous prices,
+endogenous group expenditure, and group prices measured with error.
+
+\subsection{Stochastic specification}\label{sec:05-stochastic}
+
+Observations are indexed by $t = 1, \dots, T$. An observation may be a year of national data, a month in a
+region, or a week in a city. The estimating equations are
+\begin{equation}\label{eq:05-stoch}
+  w_{it} = \alpha_i + \sum_{j=1}^{J}\gamma_{ij}\ln p_{jt} + \beta_i\ln\frac{I_t}{\mathbf{P}_t} + \xi_{it},
+  \qquad i = 1, \dots, J,
+\end{equation}
+with the translog index $\ln\mathbf{P}_t = \alpha_0 + \sum_k\alpha_k\ln p_{kt} + \frac{1}{2}\sum_k\sum_j
+\gamma_{kj}\ln p_{kt}\ln p_{jt}$ of \eqref{eq:05-translog}. We write the error as $\xi_{it}$, in place of
+the $\varepsilon_{it}$ used by the original papers, because $\varepsilon$ denotes elasticities in this
+chapter. Its content matters for every later step, so we list the main components.
+\begin{enumerate}[label=(\alph*)]
+  \item \emph{Unobserved demand shifters.} Advertising campaigns, epidemics that call for a particular
+  drug, or changes in demographics shift the shares of particular goods. Firms often observe these
+  shocks when they set prices.
+  \item \emph{Measurement error.} Shares and prices are measured with error. In multi-level systems the
+  prices of product groups are averages of the prices of many stock-keeping units, which approximate an
+  unobserved exact group price index (\cref{sec:05-endogeneity}).
+  \item \emph{Aggregation error.} The omitted term $-\beta_i(\ln\kappa_t - \ln\kappa^*)$ of
+  \eqref{eq:05-aids-agg-ts} enters the error when the distribution of budgets changes.
+  \item \emph{Specification error.} Habits, stocks of durables, price expectations and other dynamics
+  that the static model omits.
+\end{enumerate}
+Component (a) makes prices endogenous when firms set them. Component (b) creates errors in variables.
+Components (c) and (d) are correlated with the regressors whenever inequality or the omitted dynamics move
+with prices and real expenditure. We write $\Sigma = \E[\xi_t\xi_t^{\T}]$ for the $J\times J$ covariance
+matrix of $\xi_t = (\xi_{1t}, \dots, \xi_{Jt})^{\T}$.
+
+\subsection{Adding up and the singular covariance matrix}\label{sec:05-singular}
+
+Budget shares sum to one in the data. Under the adding-up restrictions of \cref{prop:05-restrictions},
+the deterministic part of \eqref{eq:05-stoch} also sums to one, because
+\begin{equation*}
+  \sum_i\Bigl(\alpha_i + \sum_j\gamma_{ij}\ln p_{jt} + \beta_i\ln\frac{I_t}{\mathbf{P}_t}\Bigr)
+  = \sum_i\alpha_i + \sum_j\Bigl(\sum_i\gamma_{ij}\Bigr)\ln p_{jt} + \Bigl(\sum_i\beta_i\Bigr)
+    \ln\frac{I_t}{\mathbf{P}_t} = 1 .
+\end{equation*}
+Hence $\sum_i\xi_{it} = 0$ for every $t$. Writing $\iota$ for the $J$-vector of ones, $\iota^{\T}\xi_t = 0$
+implies $\iota^{\T}\Sigma = 0$, so $\Sigma$ is singular with rank at most $J - 1$. The Gaussian likelihood
+of the full system is not defined, because it requires $\Sigma^{-1}$.
+
+The standard solution drops one equation, say the $J$-th, and estimates the remaining $J - 1$. The
+parameters of the dropped equation follow from adding up:
+\begin{equation*}
+  \alpha_J = 1 - \sum_{i<J}\alpha_i, \qquad \beta_J = -\sum_{i<J}\beta_i, \qquad
+  \gamma_{Jj} = -\sum_{i<J}\gamma_{ij} \quad (j = 1, \dots, J).
+\end{equation*}
+Which equation we drop does not matter for maximum likelihood.
+
+\begin{proposition}[\citealp{Barten1969}]\label{prop:05-barten}
+Suppose the errors of any $J-1$ share equations are jointly normal with an unrestricted covariance matrix.
+Then the maximum likelihood estimates of the parameters are the same whichever equation is dropped.
+\end{proposition}
+
+\begin{proof}
+Let $\tilde\xi_t(\theta)$ be the residuals of the $J-1$ retained equations at parameter value $\theta$.
+Concentrating the unrestricted covariance matrix out of the Gaussian log likelihood gives, up to a
+constant,
+\begin{equation*}
+  \ln L^c(\theta) = -\frac{T}{2}\ln\det\hat\Omega(\theta), \qquad
+  \hat\Omega(\theta) = \frac{1}{T}\sum_t\tilde\xi_t(\theta)\tilde\xi_t(\theta)^{\T}.
+\end{equation*}
+Dropping equation $k$ instead of equation $J$ replaces $\xi_{kt}$ by $\xi_{Jt} = -\sum_{i<J}\xi_{it}$. The
+new residual vector is $A\tilde\xi_t$, where $A$ is the identity matrix with row $k$ replaced by a row of
+$-1$'s, followed by a reordering of rows. Expanding the determinant along row $k$ shows that $\det A =
+\pm 1$. The new concentrated likelihood is therefore
+\begin{equation*}
+  -\frac{T}{2}\ln\det\bigl(A\hat\Omega(\theta)A^{\T}\bigr)
+  = -\frac{T}{2}\ln\bigl[(\det A)^2\det\hat\Omega(\theta)\bigr] = \ln L^c(\theta),
+\end{equation*}
+the same function of $\theta$, with the same maximizer.
+\end{proof}
+
+\casehead{Seemingly unrelated regressions}
+The standard system estimator is \emph{seemingly unrelated regressions} (SUR) \citep{Zellner1962}. Write
+retained equation $i$ as $\mathbf{w}_i = \mathbf{X}_ib_i + \boldsymbol{\xi}_i$, where $\mathbf{w}_i$ stacks
+the $T$ observed shares, $\mathbf{X}_i$ is the $T \times K_i$ matrix of its regressors and $b_i$ is its
+coefficient vector. Stacking the $J - 1$ equations gives $\mathbf{w} = \mathbf{X}b + \boldsymbol{\xi}$, with
+$\mathbf{X} = \diag(\mathbf{X}_1, \dots, \mathbf{X}_{J-1})$ block diagonal. The errors of one observation
+have covariance matrix $\E[\tilde\xi_t\tilde\xi_t^{\T}] = \Omega$ and are independent over $t$, so
+$\Var(\boldsymbol{\xi}) = \Omega\otimes I_T$. Feasible generalized least squares gives
+\begin{equation}\label{eq:05-sur}
+  \hat b = \bigl[\mathbf{X}^{\T}(\hat\Omega^{-1}\otimes I_T)\mathbf{X}\bigr]^{-1}
+           \mathbf{X}^{\T}(\hat\Omega^{-1}\otimes I_T)\,\mathbf{w},
+\end{equation}
+where $\hat\Omega$ has elements $\hat\Omega_{ik} = \frac{1}{T}\hat{\boldsymbol{\xi}}_i^{\T}\hat{\boldsymbol{\xi}}_k$
+computed from equation-by-equation OLS residuals. Homogeneity and symmetry are linear restrictions
+$Rb = r_0$. Minimizing the generalized least squares criterion subject to them gives
+\begin{equation}\label{eq:05-sur-restricted}
+  \hat b_R = \hat b - VR^{\T}\bigl(RVR^{\T}\bigr)^{-1}\bigl(R\hat b - r_0\bigr), \qquad
+  V = \bigl[\mathbf{X}^{\T}(\hat\Omega^{-1}\otimes I_T)\mathbf{X}\bigr]^{-1}.
+\end{equation}
+\Cref{sec:A-systems} derives this formula from the Lagrangian. Recomputing $\hat\Omega$ from the new residuals
+and iterating until convergence gives the Gaussian maximum likelihood estimator. Iterated SUR therefore shares
+the invariance of \cref{prop:05-barten}. \emph{Three-stage least squares} applies \eqref{eq:05-sur} after
+replacing $\mathbf{X}$ by its projection on the instruments, with $\hat\Omega$ estimated from two-stage least
+squares residuals (\cref{sec:A-3sls}).
+
+Two further facts simplify estimation when there are no cross-equation restrictions. First, when every
+equation has the same regressors, $\mathbf{X}_i = \mathbf{X}_0$ for all $i$, SUR reduces to ordinary least
+squares (OLS) equation by equation (\cref{prop:A-sur-ols}). OLS is then the maximum likelihood estimator
+under normality \citep[p.~316]{DeatonMuellbauer1980a}. Second, OLS automatically satisfies adding up. To see
+this, stack the $T$ observations of the regressors $(1, \ln p_{1t}, \dots, \ln p_{Jt},
+\ln\frac{I_t}{\mathbf{P}_t})$ in the matrix $\mathbf{X}_0$, whose first column is the vector of ones $\iota_T$.
+The OLS coefficient vectors $b_i = (\mathbf{X}_0^{\T}\mathbf{X}_0)^{-1}\mathbf{X}_0^{\T}\mathbf{w}_i$ sum to
+\begin{equation*}
+  \sum_i b_i = (\mathbf{X}_0^{\T}\mathbf{X}_0)^{-1}\mathbf{X}_0^{\T}\sum_i \mathbf{w}_i
+  = (\mathbf{X}_0^{\T}\mathbf{X}_0)^{-1}\mathbf{X}_0^{\T}\iota_T = (1, 0, \dots, 0)^{\T},
+\end{equation*}
+because regressing a column of ones on $\mathbf{X}_0$ returns a coefficient of one on the constant and zero
+elsewhere. Hence $\sum_i\hat\alpha_i = 1$, $\sum_i\hat\gamma_{ij} = 0$ and $\sum_i\hat\beta_i = 0$.
+
+\casehead{Short samples}
+Symmetry is a cross-equation restriction, so the covariance matrix now affects the estimates. With few
+observations an unrestricted covariance matrix cannot be estimated. \citet[p.~318]{DeatonMuellbauer1980a}
+had 21 annual observations on eight shares. They note that the likelihood ``can be made arbitrarily
+large by making any one equation fit perfectly.'' The reason is visible in $\ln L^c(\theta)$. If the
+parameters can be chosen so that one equation has zero residuals, $\det\hat\Omega(\theta) = 0$ and the
+concentrated likelihood is unbounded. Under symmetry their system has 42 free coefficients, and every
+equation depends on all of them through $\ln\mathbf{P}_t$. With only 21 observations per equation, the
+coefficients can typically be chosen to fit one equation exactly. Deaton and Muellbauer therefore impose
+a structure on the covariance matrix,
+\begin{equation}\label{eq:05-dm-cov}
+  \Sigma = \sigma^2\Bigl(I_J - \frac{1}{J}\iota\iota^{\T}\Bigr),
+\end{equation}
+where $I_J$ is the identity matrix and $\iota$ is the $J$-vector of ones. This matrix satisfies $\Sigma\iota = 0$, as adding up requires. It
+turns maximum likelihood into least squares on the whole system. To see this, drop equation $J$. The
+covariance matrix of the remaining errors is $\sigma^2(I_{J-1} - \frac{1}{J}\mathbf{1}\mathbf{1}^{\T})$,
+where $\mathbf{1}$ is a $(J-1)$-vector of ones. Its inverse is $\sigma^{-2}(I_{J-1} +
+\mathbf{1}\mathbf{1}^{\T})$, as multiplying the two matrices confirms:
+\begin{equation*}
+  \Bigl(I - \frac{1}{J}\mathbf{1}\mathbf{1}^{\T}\Bigr)\bigl(I + \mathbf{1}\mathbf{1}^{\T}\bigr)
+  = I + \mathbf{1}\mathbf{1}^{\T} - \frac{1}{J}\mathbf{1}\mathbf{1}^{\T} - \frac{J-1}{J}\mathbf{1}\mathbf{1}^{\T}
+  = I .
+\end{equation*}
+The quadratic form in the likelihood is then
+\begin{equation*}
+  \tilde\xi_t^{\T}\bigl(I + \mathbf{1}\mathbf{1}^{\T}\bigr)\tilde\xi_t
+  = \sum_{i<J}\xi_{it}^2 + \Bigl(\sum_{i<J}\xi_{it}\Bigr)^2 = \sum_{i=1}^{J}\xi_{it}^2,
+\end{equation*}
+using $\xi_{Jt} = -\sum_{i<J}\xi_{it}$. Maximizing the likelihood over the coefficients therefore minimizes
+the total sum of squared residuals across all $J$ equations, the trace of the residual cross-product
+matrix rather than its determinant.
+
+\subsection{The nonlinear AIDS}\label{sec:05-nl}
+
+Substituting the translog index into \eqref{eq:05-stoch} gives the estimating equations of the exact model
+\citep[eq.~15]{DeatonMuellbauer1980a}:
+\begin{equation}\label{eq:05-nl-aids}
+  w_{it} = (\alpha_i - \beta_i\alpha_0) + \sum_j\gamma_{ij}\ln p_{jt}
+  + \beta_i\Bigl\{\ln I_t - \sum_k\alpha_k\ln p_{kt}
+  - \frac{1}{2}\sum_k\sum_j\gamma_{kj}\ln p_{kt}\ln p_{jt}\Bigr\} + \xi_{it}.
+\end{equation}
+The system is nonlinear in the parameters because $\beta_i$ multiplies $\alpha_k$ and $\gamma_{kj}$. It can
+be estimated by nonlinear least squares, by maximum likelihood, or by the generalized method of moments
+(GMM) when instruments are needed, with or without the homogeneity and symmetry restrictions. The
+computation is easier than it looks. Given $\beta$, the equations are linear in $(\alpha, \gamma)$.
+Given $(\alpha, \gamma)$, the index is known and the equations are linear in $\beta$. The first-order
+conditions can therefore be solved by alternating between two linear problems
+\citep[p.~316]{DeatonMuellbauer1980a}.
+
+All parameters of \eqref{eq:05-nl-aids} are identified given enough variation in prices and expenditure.
+The constant $\alpha_0$ is the exception in practice. It is identified only through the appearance of the
+$\alpha_k$ inside the braces. When individual prices move closely together, $\ln\mathbf{P}_t$ is
+insensitive to its weights. A change in $\alpha_0$ can then be offset by changes in the $\alpha_i$ with
+little effect on the fit. Deaton and Muellbauer recommend fixing $\alpha_0$ a priori. At unit prices
+$\ln a(p) = \alpha_0$, so $e^{\alpha_0}$ is the cost of subsistence when all prices equal one. In their
+words it is ``the outlay required for a minimal standard of living,'' and a plausible value is easy to
+choose \citep[p.~316]{DeatonMuellbauer1980a}.
+
+\subsection{The linear approximate AIDS and the Stone index}\label{sec:05-stone}
+
+The same collinearity suggests a shortcut. If $\mathbf{P}_t$ is approximately proportional to a known
+index $P_t^*$, say $\mathbf{P}_t \approx \varphi P_t^*$, then
+\begin{equation}\label{eq:05-la-aids}
+  w_{it} = (\alpha_i - \beta_i\ln\varphi) + \sum_j\gamma_{ij}\ln p_{jt}
+  + \beta_i\ln\frac{I_t}{P_t^*} + \xi_{it}
+\end{equation}
+\citep[eq.~16]{DeatonMuellbauer1980a}. This \emph{linear approximate AIDS} (LA-AIDS) is linear in the
+parameters. Without cross-equation restrictions it can be estimated by OLS equation by equation, which is
+maximum likelihood for the system and satisfies adding up. The intercepts $\alpha_i^* = \alpha_i -
+\beta_i\ln\varphi$ still sum to one because $\sum_i\beta_i = 0$. The usual choice of $P_t^*$ is the
+\emph{Stone index}
+\begin{equation}\label{eq:05-stone}
+  \ln P_t^S = \sum_k w_{kt}\ln p_{kt}.
+\end{equation}
+It is exact, up to the constant $\alpha_0$, in one case. If $\gamma_{ij} = 0$ and $\beta_i = 0$ for all
+$i, j$, then $w_k = \alpha_k$ and $\ln\mathbf{P} = \alpha_0 + \sum_k\alpha_k\ln p_k = \alpha_0 + \ln P^S$.
+This is the Cobb-Douglas case. Otherwise the approximation is good when prices move together.
+
+\casehead{The exact gap between the two models}
+How good is the approximation, and what goes wrong when it fails? Substituting the share equations into
+\eqref{eq:05-stone} and subtracting the translog index gives an exact expression for the gap:
+\begin{align}
+  \ln P_t^S - \ln\mathbf{P}_t
+  &= \sum_k\Bigl(\alpha_k + \sum_j\gamma_{kj}\ln p_{jt} + \beta_k\ln\frac{I_t}{\mathbf{P}_t}
+     + \xi_{kt}\Bigr)\ln p_{kt} - \ln\mathbf{P}_t \notag\\
+  &= -\alpha_0 + \frac{1}{2}\sum_k\sum_j\gamma_{kj}\ln p_{kt}\ln p_{jt}
+     + \ln\frac{I_t}{\mathbf{P}_t}\sum_k\beta_k\ln p_{kt} + \sum_k\xi_{kt}\ln p_{kt}.
+  \label{eq:05-stone-gap}
+\end{align}
+The true model \eqref{eq:05-stoch} can be written in terms of the Stone index by adding and subtracting
+$\beta_i\ln P^S_t$:
+\begin{equation}\label{eq:05-la-exact}
+\begin{split}
+  w_{it} = {}& (\alpha_i - \beta_i\alpha_0) + \sum_j\gamma_{ij}\ln p_{jt} + \beta_i\ln\frac{I_t}{P^S_t} \\
+  &+ \beta_i\Bigl[\frac{1}{2}\sum_k\sum_j\gamma_{kj}\ln p_{kt}\ln p_{jt}
+  + \ln\frac{I_t}{\mathbf{P}_t}\sum_k\beta_k\ln p_{kt} + \sum_k\xi_{kt}\ln p_{kt}\Bigr] + \xi_{it}.
+\end{split}
+\end{equation}
+The LA-AIDS omits the bracket. Each of its three terms explains one known problem of the Stone index.
+
+\emph{Interpretation of the coefficients.} The middle term is linear in $\ln p_{kt}$ with coefficient
+$\beta_i\beta_k\ln\frac{I_t}{\mathbf{P}_t}$. When real expenditure varies around a mean $m$, this term is
+absorbed into the price coefficients, and the LA-AIDS estimates $\gamma_{ij}^{LA} \approx \gamma_{ij} +
+\beta_i\beta_j m$ rather than $\gamma_{ij}$. The usual LA-AIDS elasticity formula
+\begin{equation}\label{eq:05-la-elast}
+  \varepsilon_{ij} \approx -\indic(i=j) + \frac{\gamma_{ij}^{LA} - \beta_i w_j}{w_i}
+\end{equation}
+then equals $-\indic(i=j) + \frac{\gamma_{ij} - \beta_i(w_j - \beta_j m)}{w_i}$, which is the exact AIDS
+elasticity of \eqref{eq:05-elast-marshall} at $\ln\frac{I}{\mathbf{P}} = m$. Although the LA coefficients
+differ from the AIDS coefficients, the LA elasticities can be close to the AIDS elasticities near the
+center of the data.
+
+\emph{Simultaneity.} The last term contains the errors of all equations. The Stone index is built from
+current shares, so the regressor $\ln\frac{I_t}{P_t^S}$ is correlated with $\xi_{it}$. The term is small
+when log prices are close to zero.
+
+\emph{Units of measurement.} \citet{Moschini1995} shows that the Stone index is not invariant to the units
+in which goods are measured. Suppose the unit of good $k$ is changed, so that $p_{kt}$ becomes
+$\lambda p_{kt}$ ($\lambda > 1$ for a larger unit) and $\ln p_{kt}$ becomes $\ln p_{kt} + c$ with
+$c = \ln\lambda$. The exact AIDS absorbs
+the change. Replacing $\alpha_j$ by $\alpha_j - c\gamma_{jk}$ for every $j$ and $\alpha_0$ by $\alpha_0 -
+c\alpha_k + \frac{1}{2}c^2\gamma_{kk}$ leaves both the translog index and every share equation unchanged
+as functions of the new prices. To verify, expand the index in the new log prices $\ln p'_{jt}$:
+\begin{equation*}
+  \ln\mathbf{P}_t = \Bigl(\alpha_0 - c\alpha_k + \frac{1}{2}c^2\gamma_{kk}\Bigr)
+  + \sum_j(\alpha_j - c\gamma_{jk})\ln p'_{jt} + \frac{1}{2}\sum_j\sum_l\gamma_{jl}\ln p'_{jt}\ln p'_{lt},
+\end{equation*}
+using symmetry, and note that $\gamma_{ik}\ln p_{kt} = \gamma_{ik}\ln p'_{kt} - c\gamma_{ik}$ in each share
+equation. The new $\alpha_j$ still sum to one because $\sum_j\gamma_{jk} = 0$. Fitted shares and
+elasticities do not change. The Stone index, by contrast, shifts by $c\,w_{kt}$, which varies over
+observations. Redoing \eqref{eq:05-stone-gap} in the new units, the bracket in \eqref{eq:05-la-exact} gains
+the term $c(w_{kt} - \alpha_k)$ plus a constant. The LA-AIDS therefore omits a time-varying term
+$\beta_i c\, w_{kt}$ that is correlated with its regressors. Its estimates of $\beta_i$, $\gamma_{ij}$ and
+the elasticities depend on the arbitrary choice of units, and the dependence grows with $|c|$.
+
+\begin{example}[Units and the Stone index: a simulation]\label{ex:05-stone-mc}
+We generate data from the exact AIDS with the running-example parameters and $\alpha_0 = 0$. Log prices
+are $\ln p_{jt} = \pi_t + s_e e_{jt}$, with a common component $\pi_t \sim N(0, 0.3^2)$ and relative-price
+noise $e_{jt} \sim N(0,1)$. Log expenditure is $\ln I_t = 1 + \pi_t + 0.3g_t$ with $g_t \sim N(0,1)$, and
+share errors sum to zero, with standard deviations of about $0.004$. Design A has nearly collinear prices
+($s_e = 0.02$) and design B has substantial relative-price variation ($s_e = 0.20$). Each sample has $T =
+100$ observations, and we draw 500 samples. Four estimators impose adding up, homogeneity and symmetry,
+and minimize the total sum of squared residuals. The first is the exact nonlinear AIDS and the second the
+LA-AIDS with the Stone index. The third is the same LA-AIDS after good 1 is measured in units one hundred
+times larger ($p_1$ multiplied by 100, $c = \ln 100 = 4.61$). The fourth is an LA-AIDS deflated by a fixed-weight index with
+sample-mean shares. \Cref{tab:05-stone-mc}
+reports the results, with elasticities evaluated at the base point of \cref{ex:05-running}.
+
+Three lessons emerge. First, with prices normalized to one near the center of the data, the Stone LA-AIDS
+recovers the elasticities in both designs. It does so even though the gap between the indices in design B
+is of the order of 0.1 in logs. Its own-price coefficient $\hat\gamma_{11}^{LA}$ averages $-0.190$, while
+the AIDS coefficient is $-0.200$. The difference is $\beta_1^2 m = 0.01$, exactly as
+\eqref{eq:05-la-exact} predicts. Second, merely changing the units of
+good 1 moves $\hat\beta_1$ from $-0.100$ to about $-0.069$ and the own-price elasticity of good 1 from
+$-1.38$ to $-1.26$. Third, the fixed-weight index gives the same estimates in either unit, and its
+elasticities match those of the exact model. In design A the average largest gap between the demeaned Stone and translog indices is
+0.008, the same magnitude that Deaton and Muellbauer found in British data (\cref{sec:05-dm-application}).
+\end{example}
+
+\begin{table}[htbp]
+\centering
+\caption{Estimating the AIDS with exact and approximate price indices (simulation)}
+\label{tab:05-stone-mc}
+\small
+\begin{tabular}{lcccc}
+\toprule
+Estimator & $\hat\beta_1$ & $\hat\gamma_{11}$ & $\hat\varepsilon_{11}$ & $\hat\varepsilon_{33}$ \\
+\midrule
+True values & $-0.100$ & $-0.200$ & $-1.375$ & $-1.738$ \\
+\addlinespace
+\multicolumn{5}{l}{\textit{Design A: nearly collinear prices ($s_e = 0.02$)}} \\
+Exact AIDS (nonlinear) & $-0.100$ (0.001) & $-0.200$ (0.017) & $-1.376$ (0.042) & $-1.739$ (0.066) \\
+LA-AIDS, Stone index & $-0.100$ (0.001) & $-0.190$ (0.017) & $-1.376$ (0.042) & $-1.740$ (0.066) \\
+LA-AIDS, Stone, rescaled $p_1$ & $-0.069$ (0.001) & $-0.130$ (0.012) & $-1.257$ (0.029) & $-1.667$ (0.060) \\
+LA-AIDS, fixed-weight index & $-0.100$ (0.001) & $-0.190$ (0.017) & $-1.376$ (0.042) & $-1.739$ (0.066) \\
+\addlinespace
+\multicolumn{5}{l}{\textit{Design B: independent relative prices ($s_e = 0.20$)}} \\
+Exact AIDS (nonlinear) & $-0.100$ (0.001) & $-0.200$ (0.002) & $-1.375$ (0.004) & $-1.738$ (0.007) \\
+LA-AIDS, Stone index & $-0.100$ (0.001) & $-0.190$ (0.002) & $-1.375$ (0.005) & $-1.737$ (0.007) \\
+LA-AIDS, Stone, rescaled $p_1$ & $-0.068$ (0.001) & $-0.130$ (0.001) & $-1.257$ (0.004) & $-1.665$ (0.007) \\
+LA-AIDS, fixed-weight index & $-0.100$ (0.001) & $-0.190$ (0.002) & $-1.375$ (0.005) & $-1.738$ (0.007) \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\begin{minipage}{0.94\textwidth}
+\footnotesize Notes: means over 500 simulated samples of $T = 100$, standard deviations across samples in
+parentheses. Data are generated from the exact AIDS with the parameters of \cref{ex:05-running}.
+Elasticities are evaluated at $p = (1,1,1)$, $\ln I = 1$, with the true shares $(0.40, 0.34, 0.26)$. The
+LA-AIDS elasticities use \eqref{eq:05-la-elast}. The fixed-weight estimates are identical in either unit.
+Computed by \texttt{figures/ch05/src/stone\_index\_mc.py}.
+\end{minipage}
+\end{table}
+
+\casehead{Elasticities from the LA-AIDS}
+Applied work often computes LA-AIDS elasticities from \eqref{eq:05-la-elast}, which treats
+$\frac{\partial\ln P^S}{\partial\ln p_j}$ as $w_j$. \citet{GreenAlston1990} point out that the Stone
+weights themselves respond to prices. Within the LA model,
+\begin{equation*}
+  \frac{\partial\ln P^S}{\partial\ln p_j} = w_j + \sum_k\ln p_k\frac{\partial w_k}{\partial\ln p_j}.
+\end{equation*}
+Let $\mathcal{D}$ be the matrix of share derivatives $\frac{\partial w_i}{\partial\ln p_j}$, $\ell$ the vector of
+log prices, $\beta$ the vector of expenditure coefficients and $w$ the vector of shares. Differentiating
+\eqref{eq:05-la-aids},
+\begin{equation*}
+  \mathcal{D} = \Gamma^{LA} - \beta w^{\T} - \beta\ell^{\T}\mathcal{D}
+  \quad\Longrightarrow\quad
+  \mathcal{D} = \bigl(I + \beta\ell^{\T}\bigr)^{-1}\bigl(\Gamma^{LA} - \beta w^{\T}\bigr).
+\end{equation*}
+By the Sherman-Morrison formula, $(I + \beta\ell^{\T})^{-1} = I - \frac{\beta\ell^{\T}}{1 +
+\ell^{\T}\beta}$. At a point where all prices equal one, $\ell = 0$ and \eqref{eq:05-la-elast} is exact for
+the LA model. Away from it the correction matters, and it depends on units for the reason just given.
+Normalizing prices to one at the point of evaluation removes the problem.
+
+\casehead{Remedies}
+Several fixes are available. A \emph{Laspeyres-type} index with fixed weights, $\ln P_t^L = \sum_k\bar
+w_k\ln p_{kt}$ (base-period or sample-mean shares), contains no current shares, so it removes the
+simultaneity. A change of units shifts it by a constant that the intercepts absorb. The
+\emph{Tornqvist} index $\ln P_t^T = \sum_k\frac{1}{2}(w_{kt} + w_k^0)\ln\frac{p_{kt}}{p_k^0}$ and the
+log-linear analogue of the Paasche index, $\sum_k w_{kt}\ln\frac{p_{kt}}{p_k^0}$, use prices relative to a
+base point $p^0$ and are therefore invariant to units \citep{Moschini1995}.
+
+The Tornqvist index also has a basis in demand theory \citep[\S 7.1, eqs.~1.8--1.10,
+pp.~174--175]{DeatonMuellbauer1980b}. Along any price path at fixed utility, Shephard's lemma gives
+$\dd\ln e(p, u) = \sum_k w_k(p, u)\,\dd\ln p_k$, with Hicksian shares $w_k(p, u)$. Integrating from $p^0$
+to $p^1$,
+\begin{equation*}
+  \ln\frac{e(p^1, u)}{e(p^0, u)} = \int_{p^0}^{p^1}\sum_k w_k(p, u)\,\dd\ln p_k ,
+\end{equation*}
+which is the log of the exact cost-of-living index at $u$. The \emph{Divisia index} replaces the Hicksian
+shares in this integral by observed shares. Unless preferences are homothetic, observed shares move with
+utility along the path, so the Divisia index depends on the path. Prices are observed only at discrete
+dates, so the integral must be approximated. The Tornqvist index is a natural approximation, since it
+averages the shares at the two ends. Following \citet{Diewert1976}, it equals an exact index when the log
+expenditure function is quadratic in log prices and utility, with reference utility the geometric mean
+of the two utilities (p.~174). A fixed-weight index shares the units invariance but not this link to the
+exact index. A Stone index with lagged
+shares removes the contemporaneous correlation with $\xi_t$ when the errors are serially uncorrelated.
+Finally, we can iterate toward the exact model, as \citet[p.~321]{DeatonMuellbauer1980a} suggest:
+\begin{enumerate}[label=\arabic*.]
+  \item Compute $P^*_t$ (for example the Stone index) and estimate \eqref{eq:05-la-aids}.
+  \item Compute $\ln\mathbf{P}_t$ from the estimated $\alpha$ and $\gamma$ and a chosen $\alpha_0$.
+  \item Re-estimate the share equations with $\ln\mathbf{P}_t$ in place of $\ln P^*_t$.
+  \item Repeat steps 2 and 3 until the estimates stop changing.
+\end{enumerate}
+Deaton and Muellbauer describe this as ``a computationally efficient way of obtaining good estimates of
+the full nonlinear system.'' They also stress that \eqref{eq:05-la-aids} exists only as an approximation.
+Once the restrictions have been chosen, the full system \eqref{eq:05-nl-aids} should be re-estimated
+\citep[p.~317]{DeatonMuellbauer1980a}.
+
+\subsection{First differences and the Rotterdam model}\label{sec:05-rotterdam}
+
+Time-series applications often estimate in first differences. Differencing \eqref{eq:05-stoch} gives
+\begin{equation}\label{eq:05-fd-aids}
+  \Delta w_{it} = \beta_i\Delta\ln\frac{I_t}{\mathbf{P}_t} + \sum_j\gamma_{ij}\Delta\ln p_{jt}
+  + \Delta\xi_{it}
+\end{equation}
+\citep[eq.~17]{DeatonMuellbauer1980a}, in which the $\alpha_i$ appear only through $\Delta\ln\mathbf{P}_t$.
+Written out, $\Delta\ln\mathbf{P}_t$ involves $\sum_k\alpha_k\Delta\ln p_{kt}$ and $\frac{1}{2}\sum_k\sum_j
+\gamma_{kj}\Delta(\ln p_{kt}\ln p_{jt})$ (their eq.~18). With nearly collinear prices the $\gamma_{ij}$ and
+the products $\beta_i\alpha_j$ are hard to separate. In practice $\Delta\ln\mathbf{P}_t$ is replaced by
+the change in a Stone index or by $\sum_k w_{kt}\Delta\ln p_{kt}$.
+
+With the second choice the right-hand side becomes identical to that of the \emph{Rotterdam model} of
+\citet{Theil1965} and \citet{Barten1969}. The Rotterdam model is a differential demand system. Totally
+differentiating $q_i(p, I)$ and multiplying by $w_i$ gives $w_i\,\dd\ln q_i = w_i\eta_i\,\dd\ln I +
+\sum_j w_i\varepsilon_{ij}\,\dd\ln p_j$. Substituting the Slutsky equation in elasticity form,
+$\varepsilon_{ij} = \varepsilon^h_{ij} - \eta_i w_j$ (\cref{sec:05-elasticity-identities}), gives
+\begin{equation}\label{eq:05-rotterdam}
+  w_{it}\Delta\ln q_{it} = b_i\Bigl(\Delta\ln I_t - \sum_k w_{kt}\Delta\ln p_{kt}\Bigr)
+  + \sum_j c_{ij}\Delta\ln p_{jt},
+\end{equation}
+with $b_i = w_i\eta_i = p_i\frac{\partial q_i}{\partial I}$, the marginal budget share, and $c_{ij} =
+w_i\varepsilon^h_{ij} = \frac{p_ip_jS_{ij}}{I}$. The Rotterdam model treats $b_i$ and $c_{ij}$ as constant
+parameters \citep[eq.~19]{DeatonMuellbauer1980a}.
+
+The two models differ in the dependent variable. The AIDS has $\Delta w_i$, which is approximately $w_i
+\Delta\ln w_i = w_i(\Delta\ln q_i + \Delta\ln p_i - \Delta\ln I)$. So the first-difference AIDS replaces the
+Rotterdam dependent variable $w_i\Delta\ln q_i$ by $w_i\Delta\ln w_i$, adding $w_i\Delta\ln\frac{p_i}{I}$.
+Both models are linear in constant parameters, and both test homogeneity and symmetry through linear
+restrictions. Their parameters mean different things. The Rotterdam $c_{ij}$ are compensated price effects,
+so negativity applies directly to the matrix $[c_{ij}]$. In the AIDS negativity applies to the matrix $K$
+of \eqref{eq:05-K}, which depends on the data. Above all, the AIDS is derived from explicit preferences.
+For forecasting demand this difference may matter little. For cost-of-living indices, equivalence scales
+or welfare calculations, the link between estimated parameters and preferences matters a great deal
+\citep[pp.~317--318]{DeatonMuellbauer1980a}.
+
+\subsection{Testing the restrictions of demand theory}\label{sec:05-testing}
+
+The restrictions of \cref{prop:05-restrictions} have different statistical status.
+
+\emph{Adding up} cannot be tested with share data. The shares sum to one by construction, and OLS
+estimates satisfy adding up automatically, as shown in \cref{sec:05-singular}.
+
+\emph{Homogeneity}, $\sum_j\gamma_{ij} = 0$, involves one equation at a time and can be tested equation by
+equation. Because the Stone index is homogeneous of degree one in prices, homogeneity can be imposed on
+\eqref{eq:05-la-aids} by writing prices relative to the price of good $J$:
+\begin{equation}\label{eq:05-homog-sub}
+  w_{it} = \alpha_i^* + \sum_{j=1}^{J-1}\gamma_{ij}\ln\frac{p_{jt}}{p_{Jt}} + \beta_i\ln\frac{I_t}{P^*_t}
+  + \xi_{it}
+\end{equation}
+\citep[eq.~20]{DeatonMuellbauer1980a}. The identity $\sum_j\gamma_{ij}\ln p_j = \sum_{j<J}\gamma_{ij}
+\ln\frac{p_j}{p_J} + (\sum_j\gamma_{ij})\ln p_J$ shows that \eqref{eq:05-homog-sub} is the unrestricted
+equation with the coefficient on $\ln p_J$ set to $\sum_j\gamma_{ij} = 0$. An $F$ test compares the
+residual sums of squares of the two regressions. Equivalently, it is the square of the $t$ statistic on
+$\sum_j\hat\gamma_{ij}$ in the unrestricted regression.
+
+\emph{Symmetry}, $\gamma_{ij} = \gamma_{ji}$, links equations and can only be tested on the system, for
+example by a likelihood-ratio test,
+\begin{equation*}
+  LR = 2\bigl(\ln L_{\mathrm{U}} - \ln L_{\mathrm{R}}\bigr) \xrightarrow{d} \chi^2_r .
+\end{equation*}
+Here $L_{\mathrm{U}}$ and $L_{\mathrm{R}}$ are the maximized likelihoods without and with the
+restrictions, and $r$ is the number of restrictions. In a $J$-good system estimated on $J - 1$ equations, homogeneity
+imposes $J - 1$ restrictions and symmetry imposes $\frac{(J-1)(J-2)}{2}$ more. For $J = 8$ these numbers
+are 7 and 21. The test is asymptotic, and allowance must be made for that when samples are short.
+
+Deaton and Muellbauer test symmetry whether or not homogeneity has been rejected. They report an
+objection by Grayham Mizon, who argued that optimal inference stops testing once a rejection occurs.
+Their reply is that the choice of maintained hypothesis is partly a matter of judgment. Many economists
+would treat the absence of money illusion as maintained and regard symmetry as the interesting test.
+Moreover, ``few if any tests in econometrics are carried out within the framework of maintained hypotheses which
+are even widely accepted'' \citep[pp.~318--319]{DeatonMuellbauer1980a}.
+
+\emph{Negativity} cannot be imposed by linear restrictions and is checked after estimation. At each
+observation we compute the matrix $K$ of \eqref{eq:05-K} and its eigenvalues. One eigenvalue is
+identically zero because $K\iota = 0$, and the others should be nonpositive. Negativity can be imposed
+locally, at one point, by a Cholesky reparameterization of the Slutsky matrix \citep{Lau1978,Moschini1999}.
+
+\subsection{Case study: the AIDS on British data, 1954--1974}\label{sec:05-dm-application}
+
+\casehead{Question}
+The empirical half of \citet{DeatonMuellbauer1980a} asks whether aggregate consumer demand obeys the
+homogeneity, symmetry and negativity restrictions of demand theory. Earlier studies with the Rotterdam and
+translog models had rejected homogeneity. The AIDS lets the question be posed within a maintained model
+flexible enough to approximate any demand system to first order (\cref{sec:05-flexible}). A rejection
+then speaks against the theory or its static formulation, and an arbitrary functional form cannot take
+the blame. A second question is practical. Does the linear approximation with the Stone
+index work well enough to serve as a routine tool?
+
+\casehead{Data}
+The data are 21 annual British observations, from 1954 to 1974 inclusive. They cover eight groups of
+nondurable consumers' expenditure: food, clothing, housing services, fuel, drink and tobacco, transport
+and communication services, other goods, and other services. For each year and group the data give a
+budget share and a price index, together with total expenditure on the eight groups. Over the period the
+price level rose by a factor of about 2.6. In their Table 3 the exact index rises from 0.571 in 1954 to
+1.461 in 1974, with 1970 equal to one.
+
+\casehead{Model}
+The estimating model is the aggregate AIDS \eqref{eq:05-aids-aggregate} of a representative household. Deaton
+and Muellbauer assume that the aggregation index $\kappa$ is constant, or that its deviations are
+independent of mean expenditure and prices. The terms $-\beta_i\ln\kappa$ are then absorbed in the
+intercepts, as in \cref{sec:05-almost-exact}.
+
+\casehead{Estimating equations and estimator}
+The procedure has five steps.
+\begin{enumerate}[label=\arabic*.]
+  \item Estimate the LA-AIDS \eqref{eq:05-la-aids} with the Stone index, equation by equation by OLS,
+  with no restrictions beyond adding up, which holds automatically (their Table 1).
+  \item Impose homogeneity by substitution, \eqref{eq:05-homog-sub}, re-estimate by OLS, and compute an
+  $F$ test for each equation.
+  \item Impose symmetry, replace $P^*$ by the exact index $\mathbf{P}$ with $\alpha_0$ fixed a priori, and
+  estimate the nonlinear system \eqref{eq:05-nl-aids} by maximum likelihood under the covariance structure
+  \eqref{eq:05-dm-cov}. Under symmetry the system has fourteen free intercepts and expenditure
+  coefficients and twenty-eight free price coefficients, the upper triangle, diagonal included, of the
+  $\gamma$ matrix with its last row and column deleted.
+  \item Compare $P^*$ with $\mathbf{P}$, re-estimate the unrestricted and homogeneous models with
+  $\mathbf{P}$, and check concavity with the eigenvalues of $K$ in every year.
+  \item Repeat the analysis in first differences, adding intercepts $d_i$ to \eqref{eq:05-fd-aids}:
+  \begin{equation}\label{eq:05-dm-fd}
+    \Delta w_{it} = d_i + \beta_i\Delta\ln\frac{I_t}{\mathbf{P}_t} + \sum_k\gamma_{ik}\Delta\ln p_{kt}
+    + \Delta\xi_{it}
+  \end{equation}
+  (their eq.~21, where the intercepts are written $\eta_i$). Collinearity prevented linking $\mathbf{P}$
+  to the first-difference estimates, so the index computed from the symmetric levels estimates is used
+  throughout.
+\end{enumerate}
+
+\casehead{Identification}
+Prices and total expenditure are treated as exogenous. The article does not discuss this assumption,
+which is common in the analysis of national aggregates. The authors' book does, and doubts both halves
+of it \citep[\S 3.5, pp.~81--82]{DeatonMuellbauer1980b}. On total expenditure it says that ``individual
+expenditures are as much a determinant of the total as the other way round'' (p.~81). On prices it says
+that demand as a function of prices ``only makes sense if prices are set exogenously (say by
+manufacturers) and quantities supplied elastically to meet whatever demand emerges.'' That is probably
+true of most goods, ``although food may be a partial exception'' (pp.~81--82). The book links this to
+the difficulty of estimating a ``sensible'' price elasticity for food. The positive own-price elasticity of
+food in the unconstrained levels model of \cref{tab:05-dm-table2} (0.07) fits this warning. The case for
+treating the regressors as given rests on two premises. Broad group prices are driven largely by costs and
+by the general price level. Total nondurable expenditure is taken as given at the second stage of an
+intertemporal budgeting problem. That second premise is the weak intertemporal separability that the
+authors question in their interpretation. The price coefficients are identified by movements in
+relative prices, and the expenditure coefficients by movements in real expenditure. Relative prices moved
+little, which explains both the closeness of $P^*$ and $\mathbf{P}$ and the imprecision of many
+$\gamma_{ij}$.
+
+\casehead{Unconstrained estimates and homogeneity}
+\Cref{tab:05-dm-table1} reproduces selected columns of their Table 1. The expenditure coefficients
+classify food ($\beta = -0.160$) and housing ($-0.104$) as necessities and the other six groups as
+luxuries. Twenty-two of the sixty-four price coefficients have $t$ values above two in absolute value.
+Yet no variable has a detectable effect on the share of fuel, and few affect the shares of other goods
+and other services. The column $\sum_j\gamma_{ij}$ gives 100 times the effect on each share of a 1
+percent rise in all prices and total expenditure. Homogeneity requires it to be zero, and its $t$ value
+is the square root of the $F$ statistic for the restriction. The authors' book reports these $F$
+statistics, with one and eleven degrees of freedom, together with the fit of the free and the
+homogeneous equations \citep[\S 3.4, Table~3.4, pp.~77--78]{DeatonMuellbauer1980b}.
+\Cref{tab:05-dm-homog} reproduces that table. The rejection thresholds are 4.84 at the 5 percent level and
+9.65 at the 1 percent level (p.~77). Homogeneity is rejected at 1 percent for food ($F = 19.4$, $t =
+-4.4$), clothing ($20.3$, $-4.5$), housing ($82.8$, $9.1$) and transport and communication ($171.6$,
+$13.1$). A proportional increase in all prices and expenditure would lower spending on food and clothing
+and raise spending on housing and on transport and communication.
+
+The fit is very high in both versions, with $R^2$ above 0.95 in five of the eight free equations and
+never below 0.84. Budget
+shares are harder to predict than quantities or expenditures, so these values are informative. For
+comparison, the linear expenditure system fitted to the same share data gives $R^2 = -0.16$ for other
+services (p.~77). A negative $R^2$ is possible because the restrictions of that system fit the share worse
+than its sample mean. The \emph{Durbin-Watson statistic} tests for first-order serial correlation in the
+residuals. Values near 2 indicate none, and values well below 2 indicate positive correlation. In each of
+the four equations that reject homogeneity, imposing it makes the statistic fall sharply, for example
+from 2.24 to 1.36 for transport and communication. For the other four groups the statistic barely moves.
+The imposition of homogeneity thus generates positive serial correlation. Deaton and Muellbauer read this
+as a sign that the rejection may come from misspecified dynamics (p.~77).
+
+\begin{table}[htbp]
+\centering
+\caption{Unconstrained LA-AIDS estimates and tests of homogeneity, British data, 1954--1974}
+\label{tab:05-dm-table1}
+\small
+\begin{tabular}{lcccc}
+\toprule
+Group & $\alpha_i^*$ & $\beta_i$ & $\gamma_{ii}$ & $\sum_j\gamma_{ij}$ \\
+\midrule
+Food & 1.221 & $-0.160$ & 0.186 & $-0.033$ \\
+ & (7.4) & ($-6.1$) & (9.8) & ($-4.4$) \\
+Clothing & $-0.482$ & 0.091 & 0.016 & $-0.032$ \\
+ & ($-3.1$) & (3.7) & (1.0) & ($-4.5$) \\
+Housing & 0.793 & $-0.104$ & 0.088 & 0.051 \\
+ & (6.3) & ($-5.1$) & (7.2) & (9.1) \\
+Fuel & $-0.159$ & 0.033 & 0.037 & $-0.010$ \\
+ & ($-0.8$) & (1.0) & (1.6) & ($-1.1$) \\
+Drink and tobacco & $-0.043$ & 0.028 & 0.056 & 0.001 \\
+ & ($-0.3$) & (1.2) & (6.9) & (0.0) \\
+Transport and communication & $-0.061$ & 0.029 & $-0.023$ & 0.040 \\
+ & ($-0.9$) & (2.6) & ($-2.2$) & (13.1) \\
+Other goods & $-0.038$ & 0.022 & 0.032 & $-0.005$ \\
+ & ($-0.2$) & (0.9) & (1.5) & (0.7) \\
+Other services & $-0.231$ & 0.060 & 0.019 & $-0.014$ \\
+ & ($-1.5$) & (2.4) & (0.9) & ($-2.0$) \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\begin{minipage}{0.94\textwidth}
+\footnotesize Notes: selected columns of \citet[Table~1]{DeatonMuellbauer1980a}, with $t$ values in
+parentheses. OLS estimates of \eqref{eq:05-la-aids} with the Stone index, equation by equation. The column
+$\gamma_{ii}$ is the own-price coefficient. The original also reports the seven cross-price coefficients
+of each equation, equation standard errors, $R^2$ and Durbin-Watson statistics, which
+\cref{tab:05-dm-homog} gives. $\sum_j\gamma_{ij}$ is the row sum of the unconstrained price
+coefficients, and its $t$ value tests homogeneity. The $t$ value for other goods is printed as positive in
+the original. For drink and tobacco the printed $t$ of 0.0 does not match the book's $F$ of 0.2 in
+\cref{tab:05-dm-homog}, which implies $|t| \approx 0.45$. Both are far from significance. Each equation
+uses $T = 21$ annual observations.
+\end{minipage}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Tests of homogeneity on British data, 1954--1974}
+\label{tab:05-dm-homog}
+\small
+\begin{tabular}{lccccc}
+\toprule
+ & \multicolumn{2}{c}{Unrestricted} & \multicolumn{2}{c}{Homogeneous} & Test \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-6}
+Group & $R^2$ & Durbin-Watson & $R^2$ & Durbin-Watson & $F(1, 11)$ \\
+\midrule
+Food & 0.999 & 2.33 & 0.998 & 1.74 & 19.4 \\
+Clothing & 0.984 & 2.29 & 0.955 & 1.55 & 20.3 \\
+Housing & 0.999 & 1.89 & 0.992 & 1.29 & 82.8 \\
+Fuel & 0.883 & 2.25 & 0.870 & 2.03 & 1.2 \\
+Drink and tobacco & 0.969 & 2.96 & 0.969 & 2.93 & 0.2 \\
+Transport and communication & 1.000 & 2.24 & 0.992 & 1.36 & 171.6 \\
+Other goods & 0.885 & 1.92 & 0.880 & 1.91 & 0.5 \\
+Other services & 0.843 & 2.27 & 0.788 & 1.98 & 4.0 \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\begin{minipage}{0.94\textwidth}
+\footnotesize Notes: reproduced from \citet[Table~3.4, p.~78]{DeatonMuellbauer1980b}. Equation-by-equation
+OLS estimates of the LA-AIDS with the Stone index, $T = 21$, the same regressions as
+\cref{tab:05-dm-table1}. $F(1, 11)$ tests the single homogeneity restriction of each equation. The
+thresholds are 4.84 at 5 percent and 9.65 at 1 percent. Except for drink and tobacco, each $F$ equals the
+square of the $t$ value in \cref{tab:05-dm-table1} up to rounding.
+\end{minipage}
+\end{table}
+
+\Cref{tab:05-dm-table2} reproduces their Table 2, the total expenditure and own-price elasticities of
+all four specifications. In the unconstrained levels model, food has a positive own-price elasticity
+(0.07), which is insignificant. Demand is generally price inelastic, and only transport and
+communication is price elastic ($-1.21$). The elasticities that change most when homogeneity is imposed
+belong to the four groups that reject it. The expenditure elasticity of housing rises from 0.30 to 0.79,
+and that of transport and communication from 1.23 to 1.73.
+
+\begin{table}[htbp]
+\centering
+\caption{Total expenditure and own-price elasticities, British data, 1954--1974}
+\label{tab:05-dm-table2}
+\small
+\begin{tabular}{lcccccccc}
+\toprule
+ & \multicolumn{4}{c}{Levels model} & \multicolumn{4}{c}{First-differences model} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+ & \multicolumn{2}{c}{Unconstrained} & \multicolumn{2}{c}{Homogeneous}
+ & \multicolumn{2}{c}{Unconstrained} & \multicolumn{2}{c}{Homogeneous} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+Group & $\eta_i$ & $\varepsilon_{ii}$ & $\eta_i$ & $\varepsilon_{ii}$ & $\eta_i$ & $\varepsilon_{ii}$
+ & $\eta_i$ & $\varepsilon_{ii}$ \\
+\midrule
+Food & 0.21 & 0.07 & 0.04 & $-0.01$ & 0.04 & 0.22 & 0.17 & $-0.00$ \\
+Clothing & 2.00 & $-0.92$ & 1.51 & $-0.48$ & 2.83 & $-0.94$ & 2.92 & $-0.94$ \\
+Housing & 0.30 & $-0.31$ & 0.79 & $-0.16$ & 0.04 & $-0.31$ & $-0.02$ & $-0.30$ \\
+Fuel & 1.67 & $-0.28$ & 1.37 & 0.10 & 1.00 & 0.00 & 0.86 & $-0.08$ \\
+Drink and tobacco & 1.22 & $-0.60$ & 1.22 & $-0.62$ & 1.37 & $-0.67$ & 1.36 & $-0.68$ \\
+Transport and comm. & 1.23 & $-1.21$ & 1.73 & $-0.92$ & 1.14 & $-1.23$ & 1.05 & $-1.17$ \\
+Other goods & 1.21 & $-0.72$ & 1.15 & $-0.77$ & 2.03 & $-0.52$ & 1.92 & $-0.47$ \\
+Other services & 1.40 & $-0.93$ & 1.28 & $-0.78$ & 1.03 & $-0.78$ & 1.06 & $-0.74$ \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\begin{minipage}{0.94\textwidth}
+\footnotesize Notes: reproduced from \citet[Table~2]{DeatonMuellbauer1980a}, who write $e_i$ and $e_{ii}$.
+$\eta_i$ is the total expenditure elasticity and $\varepsilon_{ii}$ the uncompensated own-price
+elasticity.
+\end{minipage}
+\end{table}
+
+\casehead{The Stone index versus the exact index}
+Before imposing symmetry with the exact index, Deaton and Muellbauer compare the two indices year by year
+(their Table 3, both normalized to one in 1970). The largest absolute difference is 0.008, reached in 1955
+(0.587 against 0.595) and 1973 (1.271 against 1.279). At the ends of the sample the indices are 0.566 and
+0.571 in 1954 and 1.465 and 1.461 in 1974. Re-estimating the unrestricted and homogeneous models with
+$\mathbf{P}$ in place of $P^*$ changes the likelihoods little compared with the effect of the
+restrictions, as the paired columns of \cref{tab:05-dm-table4} show. In the authors' words, it
+``confirmed the empirical unimportance of the difference.'' They add that this finding is conditional on the kind of relative
+price movements in their sample.
+
+\casehead{Symmetry}
+\Cref{tab:05-dm-table4} reproduces their Table 4 and computes the likelihood-ratio statistics. In levels
+with the exact index, homogeneity gives $LR = 1723.8 - 1585.1 = 138.7$ on 7 degrees of freedom, far
+above the 5 percent threshold of 14.07. Symmetry given homogeneity gives $LR = 1585.1 - 1491.0 =
+94.1$ on 21 degrees of freedom, against a 5 percent threshold of 32.67. Symmetry is therefore rejected whether
+or not homogeneity is part of the maintained hypothesis. The authors note that the meaning of this
+rejection is unclear without an explanation of the failure of homogeneity. For example, habits that are
+ignored can destroy symmetry even when preferences satisfy it. Their book reads the same evidence more
+softly. Imposing symmetry led to ``a further but less sharp drop in likelihood,'' especially in first
+differences \citep[\S 3.4, p.~78]{DeatonMuellbauer1980b}. Hence ``it is unclear whether we must reject
+symmetry as a restriction beyond homogeneity'' (p.~78). Looking across models and countries, the book concludes
+that ``demand functions fitted to aggregate time series data are not homogeneous and probably not
+symmetric'' (p.~78).
+
+\begin{table}[htbp]
+\centering
+\caption{Likelihood values and likelihood-ratio tests, British data, 1954--1974}
+\label{tab:05-dm-table4}
+\small
+\begin{tabular}{lcccc}
+\toprule
+\multicolumn{5}{l}{\textit{Panel A: values of $2\ln L$}} \\
+ & \multicolumn{2}{c}{Levels} & \multicolumn{2}{c}{First differences} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & Using $P^*$ & Using $\mathbf{P}$ & Using $P^*$ & Using $\mathbf{P}$ \\
+\midrule
+Unrestricted & 1722.5 & 1723.8 & 1560.0 & 1560.3 \\
+Homogeneous & 1579.6 & 1585.1 (7) & 1546.6 & 1547.9 (7) \\
+Symmetric & & 1491.0 (21) & & 1508.8 (21) \\
+\midrule
+\multicolumn{5}{l}{\textit{Panel B: likelihood-ratio tests computed from Panel A, using $\mathbf{P}$}} \\
+ & $LR$ & df & 5\% threshold & $p$-value \\
+\midrule
+\multicolumn{5}{l}{Levels} \\
+\quad Homogeneity & 138.7 & 7 & 14.07 & $< 10^{-20}$ \\
+\quad Symmetry given homogeneity & 94.1 & 21 & 32.67 & $3 \times 10^{-11}$ \\
+\multicolumn{5}{l}{First differences} \\
+\quad Homogeneity & 12.4 & 7 & 14.07 & 0.088 \\
+\quad Symmetry given homogeneity & 39.1 & 21 & 32.67 & 0.010 \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\begin{minipage}{0.94\textwidth}
+\footnotesize Notes: Panel A reproduces \citet[Table~4]{DeatonMuellbauer1980a}, with numbers of restrictions in
+parentheses. Values can be compared within columns only. Panel B: $LR$ is the difference in $2\ln L$
+between the less and the more restricted model, compared with the $\chi^2$ distribution with df degrees of
+freedom. Computed by \texttt{figures/ch05/src/dm\_lr\_tests.py}.
+\end{minipage}
+\end{table}
+
+\casehead{Negativity}
+The symmetric estimates themselves are not reported. Deaton and Muellbauer evaluate the matrix $K$ of
+\eqref{eq:05-K} in every year. One eigenvalue is identically zero, and concavity requires the others to be
+negative. They find one positive eigenvalue early in the sample and two by its end. The clearest symptom
+is a positive compensated own-price elasticity for fuel throughout the period. They argue that the
+failure matters even though the symmetric model has already been rejected. Price and quantity index
+numbers and optimal tax formulas require cost functions that are homogeneous and concave. Applied
+welfare work had therefore relied on the linear expenditure system, whose concavity is virtually
+guaranteed when no good is inferior, but whose restrictiveness is known to be empirically false.
+
+\casehead{Robustness: first differences}
+The first-difference model \eqref{eq:05-dm-fd} changes the picture. Homogeneity is now rejected only for
+food and for transport and communication. For clothing and housing the $F$ ratios become insignificant,
+and in both equations the intercept $d_i$, insignificant without constraints, becomes significant when
+homogeneity is imposed. For transport and communication the intercept also becomes significant, but the
+$F$ ratio stays significant. An intercept in first differences is a time trend in levels, so these
+results point to trends, stocks or other omitted variables. The first-difference expenditure
+elasticities are higher than the levels estimates where stock effects are likely (clothing, other goods)
+and lower where short-run expenditure effects should be limited (food, housing, transport). For the
+system, homogeneity is no longer rejected at 5 percent ($LR = 12.4$ against 14.07). Symmetry given
+homogeneity is ``only just rejected'' ($LR = 39.1$ against 32.67, $p = 0.010$). Concavity tests still
+reveal several violations.
+
+\casehead{Interpretation}
+Deaton and Muellbauer read the rejection of homogeneity, together with the serial correlation it
+induces, as a sign of dynamic misspecification. They offer several explanations and say that the data
+cannot discriminate among them.
+\begin{enumerate}[label=(\roman*)]
+  \item Spending on some items is inflexible in the short run, housing being the obvious case. Stocks,
+  lagged dependent variables or time trends, which the absolute price level may proxy, are omitted.
+  \item Price expectations are omitted. The frequency with which goods are bought should affect how
+  spending responds to prices when relative or absolute prices change rapidly.
+  \item The aggregation index $\kappa$, which reflects the distribution of budgets and the demographic
+  structure, may be correlated with mean expenditure and prices (\cref{sec:05-almost-exact}).
+  \item Weak intertemporal separability of nondurables, which the static model requires, may fail.
+\end{enumerate}
+They conclude that the AIDS explains a high proportion of the variance of budget shares. Without
+arbitrary time trends, however, it does so ``in a way which is inconsistent with the hypothesis of
+consumers making decisions according to the model's demand functions''
+\citep[pp.~322--323]{DeatonMuellbauer1980a}. With trends, much of the conflict between data
+and theory disappears.
+
+\casehead{Limitations and critiques}
+The application has the weaknesses of its time and data. Twenty-one observations support a system with
+dozens of parameters, so the covariance matrix has to be restricted to \eqref{eq:05-dm-cov}, and the
+likelihood-ratio tests rest on asymptotic approximations in a short sample. The article treats prices and
+expenditure as exogenous without discussion, although the authors' book doubts both
+\citep[\S 3.5, pp.~81--82]{DeatonMuellbauer1980b}. The aggregation index is assumed constant, although the authors
+themselves list its variation as a possible cause of the rejections. The symmetric estimates violate
+concavity, and the authors leave the construction of a concave version to future work. Later research
+took up each point. It added demographic and distributional variables to aggregate demand and built
+dynamic and habit-forming versions of the AIDS. It also developed richer Engel curves, such as the
+quadratic AIDS of \citet{BanksBlundellLewbel1997} (\cref{sec:05-engel}).
+
+\casehead{Contribution}
+The paper introduced a demand system that is flexible, consistent with utility maximization, aggregable
+without linear Engel curves, and nearly linear to estimate. Its application established three lasting
+practices. The first is to estimate the linear approximation and check it against the exact index. The
+second is to test homogeneity equation by equation and symmetry on the system. The third is to check
+concavity observation by observation. The application also carries a lesson for industrial organization. A static demand system
+estimated on time series can reject the restrictions of theory for reasons that have nothing to do with
+preferences, such as dynamics, aggregation or trends. Applications in industrial organization use panels
+of markets with market-specific intercepts, partly to absorb such omitted factors. Examples are the
+product-by-region effects of \citet{ChaudhuriGoldbergJia2006} and the city effects of \citet{Hausman1997}.
+
+\subsection{Endogenous prices, endogenous expenditure and measured group prices}\label{sec:05-endogeneity}
+
+The British application treats prices and expenditure as exogenous. In the data that industrial
+organization uses, brand or product prices in many markets and periods, this assumption usually fails.
+This subsection explains why, describes the available instruments, and shows how group prices built from
+many stock-keeping units add a measurement problem of their own.
+
+\casehead{Why prices are endogenous}
+Firms set prices knowing at least part of the demand shock. A brand-specific advertising success or a
+regional epidemic raises $\xi_{it}$ and, through the firm's first-order condition, the price of good $i$.
+In the single-product case of \cref{ch:theory}, $p_{it} = mc_{it}\bigl(1 +
+\frac{1}{\varepsilon_{ii}}\bigr)^{-1}$, so the price moves with any demand shock that moves marginal cost
+or the elasticity. Then $\Cov(\ln p_{it}, \xi_{it}) \neq 0$, and OLS estimates of $\gamma_{ii}$ are biased,
+typically toward less elastic demand. Regulated prices, as in Indian pharmaceuticals, weaken this channel
+(\cref{sec:05-cgj-identification}).
+
+\casehead{Why group expenditure is endogenous}
+At the bottom of a multi-level system the budget variable is group expenditure $X_G$. Within-group share
+errors sum to zero, so a pure reallocation inside the group does not change $X_G$. But shocks that raise
+demand for the whole group, such as an epidemic that calls for one type of drug, usually raise demand
+for particular goods in it as well. The upper-level shock and the lower-level shock
+$\xi_{it}$ are then correlated, and so are $\ln\frac{X_{Gt}}{P_{Gt}}$ and $\xi_{it}$.
+\citet[p.~219]{Hausman1997} notes that instruments ``might still be required for the segment-expenditure
+variable'' even when prices are predetermined. Natural instruments are upper-level expenditure, income
+and the price indices of other groups. \citet{ChaudhuriGoldbergJia2006} include total antibiotic
+expenditure among their instruments.
+
+\casehead{Instruments for product-space systems}
+An unrestricted $J$-good AIDS with homogeneity imposed has $J - 1$ relative prices and real expenditure on
+the right-hand side of each share equation. Each equation therefore needs at least $J$ excluded
+instruments, and the requirement grows with the number of goods. Three families of instruments are used.
+\begin{enumerate}[label=(\alph*)]
+  \item \emph{Cost shifters}, such as input prices, are the textbook choice. They are often too few, or
+  observed too infrequently, to identify many price coefficients \citep[p.~219]{Hausman1997}.
+  \item \emph{Prices of the same product in other markets.} Suppose prices in city $n$ follow $\ln p_{jnt}
+  = \rho_j\ln c_{jt} + \mu_{jn} + \zeta_{jnt}$ \citep[eq.~8]{Hausman1997}. Here $c_{jt}$ is a cost
+  component common to all cities, $\mu_{jn}$ a city-brand effect, and $\zeta_{jnt}$ a local shock that is
+  independent across cities. Prices of brand $j$ in other cities are then correlated with its price in
+  city $n$ through $c_{jt}$. They are uncorrelated with the demand error in city $n$. \Cref{sec:05-hlz-identification} develops these instruments and
+  \cref{sec:05-bresnahan-critique} presents the critique that national demand shocks invalidate them.
+  \citet{Nevo2001} adopts them in characteristic space (\cref{ch:blp}).
+  \item \emph{Institutional instruments.} \citet{ChaudhuriGoldbergJia2006} use the number of
+  stock-keeping units in each product group, which changes with entry and exit. They also use the prices
+  of the five largest units in each group (\cref{sec:05-cgj-identification}).
+\end{enumerate}
+Characteristic-based instruments, which drive identification in \cref{ch:logit} and \cref{ch:blp}, help
+little here. In product space every product has its own intercept and price coefficients, and a product's
+characteristics are fixed over time and absorbed by its intercept.
+
+A different route treats prices as predetermined. If retailers fix prices for the week under roughly
+constant marginal cost and do not adjust them to that week's demand, prices are uncorrelated with the
+week's demand shock. The need for instruments can then be tested with a specification test that compares
+the IV and OLS estimates \citep{Hausman1978,Hausman1997}.
+
+\casehead{Estimators}
+With instruments $z_t$, the moment conditions are $\E[z_t\otimes\xi_t(\theta)] = 0$, where
+$\xi_t(\theta)$ stacks the residuals of the $J - 1$ retained equations of \eqref{eq:05-nl-aids} or
+\eqref{eq:05-la-aids}. Equation-by-equation two-stage least squares (2SLS) is consistent but ignores the
+cross-equation restrictions. Three-stage least squares, defined in \cref{sec:05-singular}, and GMM impose
+symmetry and use the correlation of errors across equations. Two practical points deserve attention. First, consider a two-step estimator that replaces endogenous regressors by their first-stage
+fitted values and then runs constrained least squares. It is consistent when the second step is linear in
+the replaced variables, since it is then 2SLS. Its second-step standard errors are wrong, however, because
+the residual variance is computed with the fitted regressors. Correct 2SLS formulas compute it with the
+actual regressors, and the bootstrap is an alternative. \citet[p.~20]{ChaudhuriGoldbergJia2006} use such a two-step procedure. They regress
+group prices on the instruments, insert the predicted prices in constrained least squares, and compute
+standard errors by the bootstrap (\cref{sec:05-cgj-identification}). Second, when an endogenous variable
+enters nonlinearly, plugging in fitted values is
+generally inconsistent. The translog index contains products $\ln p_{kt}\ln p_{jt}$. If $\ln p_{kt} =
+\widehat{\ln p}_{kt} + v_{kt}$ with first-stage errors $v_{kt}$, then
+\begin{equation*}
+  \E\bigl[\ln p_{kt}\ln p_{jt}\,\big|\, z_t\bigr] = \widehat{\ln p}_{kt}\,\widehat{\ln p}_{jt}
+  + \Cov(v_{kt}, v_{jt}\,|\, z_t),
+\end{equation*}
+so the plug-in regressor misses a term. The intercepts absorb it only when the conditional covariance is
+constant, and even then the intercepts, which also enter the index, are distorted. Nonlinear GMM, which
+computes residuals from the actual variables and uses instruments only in the moment conditions, avoids
+the problem.
+
+\casehead{Group prices as noisy proxies}
+Multi-level systems face a further problem at the bottom level. The price of a product group is an
+average of the prices of many stock-keeping units (SKUs), $p_{jt}^A = \sum_{k\in j}\omega_k p_{kt}$ with
+revenue weights $\omega_k$. The model is written in terms of an exact group price index $p_{jt}^T$, which
+is not observed. Following \citet[pp.~18--19]{ChaudhuriGoldbergJia2006}, let $\varsigma_{it}$ be the
+demand shock of the share equation written in the exact indices, and write $\ln p_{jt}^A = \ln p_{jt}^T +
+m_{jt}$, where $m_{jt}$ is the proportional approximation error. Substituting $\ln p_{jt}^T = \ln p_{jt}^A
+- m_{jt}$ into the share equation gives the equation taken to the data,
+\begin{equation}\label{eq:05-meas-error}
+  w_{it} = \alpha_i + \sum_j\gamma_{ij}\ln p_{jt}^A + \beta_i\ln\frac{X_t}{P_t} + \xi_{it},
+  \qquad \xi_{it} = \varsigma_{it} - \sum_j\gamma_{ij}m_{jt}.
+\end{equation}
+The composite error $\xi_{it}$ has two parts, and each is correlated with the observed group prices. The
+first, $-\sum_j\gamma_{ij}m_{jt}$, is correlated with $\ln p_{jt}^A$ by construction, as in any
+errors-in-variables problem. The second, the demand shock $\varsigma_{it}$, is correlated with $\ln
+p_{jt}^A$ because the weights $\omega_k$ respond to demand.
+
+A one-price version shows how the two channels bias least squares. Suppose $w_t = \alpha + \gamma\ln
+p_t^T + \varsigma_t$ and we observe $\ln p_t^A = \ln p_t^T + m_t$, with $m_t$ uncorrelated with $\ln
+p_t^T$. The measured price may still be correlated with the demand shock, for example through the
+weights. The regression of $w_t$ on $\ln p_t^A$ has error $\varsigma_t - \gamma m_t$. Since
+$\Cov(\ln p_t^A, m_t) = \Var(m_t)$ and $\Var(\ln p_t^A) = \Var(\ln p_t^T) + \Var(m_t)$, its probability
+limit is
+\begin{equation}\label{eq:05-meas-bias}
+\begin{split}
+  \plim\hat\gamma_{OLS}
+  &= \gamma + \frac{\Cov(\ln p_t^A, \varsigma_t - \gamma m_t)}{\Var(\ln p_t^A)} \\
+  &= \gamma\,\frac{\Var(\ln p_t^T)}{\Var(\ln p_t^T) + \Var(m_t)}
+   + \frac{\Cov(\ln p_t^A, \varsigma_t)}{\Var(\ln p_t^T) + \Var(m_t)} .
+\end{split}
+\end{equation}
+The first term is attenuation toward zero. The second is simultaneity. When positive demand shocks raise
+the measured price, it also pushes a negative $\gamma$ toward zero, so both channels make demand look
+less elastic. Even if every SKU price were exogenous, OLS on \eqref{eq:05-meas-error} would be
+inconsistent, because the measurement error alone biases it. A valid instrument must be correlated with
+the observed group price and uncorrelated with both the demand shock and the approximation errors
+$m_{jt}$. Chaudhuri, Goldberg and Jia point out that the number of SKUs fails this test if the
+approximation error grows with the number of SKUs in a group (their fn.~22).
+\Cref{sec:05-cgj-identification} examines their instruments in detail.

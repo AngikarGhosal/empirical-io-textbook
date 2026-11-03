@@ -1,0 +1,194 @@
+\chapter{Worked Problems}\label{app:problems}
+
+This appendix works through eight problems with complete solutions. They apply the tools of the book to concrete
+markets: the Cournot and conduct models of \cref{ch:theory,ch:conduct}, the pricing theory of \cref{ch:diffprod},
+and the demand models of \cref{ch:discrete,ch:logit,ch:blp}. Following a derivation and carrying one out are
+different skills. A model becomes a working tool only once we have computed its equilibrium, estimated it on data
+and checked the answer. Most of the problems use simulated data. We then know the truth, so we can see exactly what
+each estimator recovers and where it fails.
+
+The problems fall into four groups. \Cref{sec:C-cournot,sec:C-passthrough} treat a homogeneous good. The first works
+out what Cournot competition, collusion and free entry imply for the relation between concentration and margins,
+and what that relation can say about mergers. The second asks what the pass-through of a tax reveals about conduct,
+and it re-estimates the cigarette tax regressions of \citet{Sumner1981}. \Cref{sec:C-logit-bertrand,sec:C-simulate}
+compute price equilibria with differentiated products. The first does so for logit demand, proves that the
+equilibrium is unique, and evaluates a merger and a tax. The second simulates 100 markets from a random coefficients
+logit with multi-product pricing. \Cref{sec:C-vertical,sec:C-logit-est,sec:C-rc-est} estimate the vertical model,
+the logit and the random coefficients logit on these simulated data. They compare the elasticities, markups,
+recovered costs and merger predictions of the three models with the truth. \Cref{sec:C-autos} closes with real data,
+the product file of the replication package of \citet{GriecoMurryYurukoglu2024}. It asks what simple demand models
+say about the decline of markups in the U.S. automobile market, and it compares their answer with the full model of
+that paper. \Cref{tab:C-map} lists the problems with the tools
+and chapters each one draws on.
+
+\begin{table}[tb]
+\centering
+\caption{The eight worked problems}
+\label{tab:C-map}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}Xl@{}}
+\toprule
+Problem & Topic & Main tools & Builds on \\
+\midrule
+\ref{sec:C-cournot} & Cournot competition, collusion and entry, concentration and margins, mergers &
+  Nash and subgame-perfect equilibrium, repeated games, OLS limits, Monte Carlo & Chapters \ref{ch:intro},
+  \ref{ch:theory}, \ref{ch:mergers} \\
+\addlinespace
+\ref{sec:C-passthrough} & Tax pass-through and conduct in cigarettes & Comparative statics, two-way fixed effects,
+  clustered inference, power, ad valorem taxes & Chapters \ref{ch:theory}, \ref{ch:conduct} \\
+\addlinespace
+\ref{sec:C-logit-bertrand} & Logit Bertrand pricing with single- and multi-product firms, a merger and a tax &
+  Lambert W function, aggregative uniqueness proof, contraction mapping, upward pricing pressure & Chapters
+  \ref{ch:diffprod}, \ref{ch:logit}, \ref{ch:mergers} \\
+\addlinespace
+\ref{sec:C-simulate} & Simulating a random coefficients logit market & Simulated shares, Morrow-Skerlos fixed
+  point, sampling and simulation error & Chapter \ref{ch:blp} \\
+\addlinespace
+\ref{sec:C-vertical} & Estimating the vertical model & Share inversion, normalization, clustered OLS, implied
+  costs & Chapter \ref{ch:discrete} \\
+\addlinespace
+\ref{sec:C-logit-est} & Estimating logit demand and recovering costs & Berry inversion, 2SLS, instrument
+  strength, market bootstrap, joint GMM, omitted-heterogeneity bias & Chapters \ref{ch:logit}, \ref{ch:blp} \\
+\addlinespace
+\ref{sec:C-rc-est} & Random coefficients estimation, a comparison of three models and a merger & BLP contraction,
+  2SLS, elasticity matrices, diversion, merger simulation & Chapters \ref{ch:blp}, \ref{ch:mergers} \\
+\addlinespace
+\ref{sec:C-autos} & Markups over time in U.S. automobiles & Nested logit, weak instruments with two endogenous
+  regressors, second-choice data, decompositions & Chapters \ref{ch:intro}, \ref{ch:logit} \\
+\bottomrule
+\end{tabularx}
+
+\vspace{3pt}
+\begin{minipage}{0.97\textwidth}
+\footnotesize Notes: Problems \ref{sec:C-simulate} to \ref{sec:C-rc-est} share one simulated data set and are best
+read in order. The other problems can be read on their own.
+\end{minipage}
+\end{table}
+
+Every problem has the same format. A short paragraph motivates it. A statement gives the data and the parameters
+and poses parts (a), (b) and so on. The solution answers every part in order, with propositions and proofs for the
+results it relies on. Theory proved in a chapter is restated in one line with a cross-reference and then used.
+Computational notes describe the algorithms as numbered steps. Readers gain most by attempting each part before
+reading its solution. The numerical parts need a scientific programming language with linear algebra, a root
+finder and a random number generator. Every number computed in the solutions was produced by a Python script in
+\texttt{figures/appC/src}, and numbers quoted from papers are cited to their tables or pages. The scripts read the
+supplied data files in \texttt{figures/appC/data}, or the replication package used in \cref{sec:C-autos}. They draw
+all simulated consumers, bootstrap samples and Monte Carlo samples with fixed seeds. Readers who draw their own random
+numbers will obtain slightly different values.
+
+Three conventions need care across the problems. First, $\delta$ is the discount factor in \cref{sec:C-cournot}
+and mean utility in the other problems. Second, in \cref{sec:C-cournot,sec:C-passthrough} the symbol $\varepsilon$
+is the market elasticity written as a positive number, as in the notation list. From \cref{sec:C-logit-bertrand}
+on, we report elasticity matrices with entries $\varepsilon_{jk} = \frac{\partial s_j}{\partial p_k}\frac{p_k}{s_j}$.
+Own elasticities are then negative, and the positive own elasticity of the notation list is $-\varepsilon_{jj}$.
+Third, $\Phi$ always denotes the logit denominator, while $\Lambda_t$ and $\Gamma_t$ are the matrices of the
+Morrow-Skerlos fixed point of \cref{sec:C-simulate}. Symbols used in a single problem are defined where they first
+appear.
+
+\input{chapters/appC/part1}
+\input{chapters/appC/part2}
+\input{chapters/appC/part3}
+\input{chapters/appC/part4}
+
+\section{Bibliographic notes}\label{sec:C-notes}
+
+The cross-industry regressions of margins on concentration that \cref{sec:C-cournot} examines go back to
+\citet{Bain1951}, and \citet{Schmalensee1989} reviews the evidence they produced. \citet{CowlingWaterson1976} derived
+the Cournot relation between the Herfindahl index and the share-weighted Lerner index. \citet{Demsetz1973} stated
+the efficiency critique that \cref{prop:C-demsetz} formalizes. \citet[Section~5.5]{Tirole1988} develops both results as
+exercises, together with the welfare bound of \citet{DansbyWillig1979}. The merger paradox of Cournot competition is
+due to \citet{SalantSwitzerReynolds1983}. \citet{FarrellShapiro1990} derive the general synergy condition for a Cournot
+merger to lower price and a sufficient condition for it to raise welfare. \citet[Section~3.3]{AskerNocke2021} survey
+the theory of unilateral merger effects built on that analysis, including mergers among multi-product logit firms and
+mergers under free entry. \citet{MankiwWhinston1986} established the excess-entry result. Grim-trigger strategies
+come from \citet{Friedman1971}, and \citet{Abreu1986} characterized the optimal punishments that sustain collusion at
+lower discount factors. \citet[Section~6.3.2.1]{Tirole1988} uses the Bertrand supergame to link concentration with
+tacit collusion.
+
+\citet{Sumner1981} introduced the tax pass-through test of \cref{sec:C-passthrough}. The link between pass-through
+and the curvature of demand goes back to \citet{BulowPfleiderer1983}, and \citet{WeylFabinger2013} develop it into a
+general framework for incidence under imperfect competition. \citet{Barzel1976} raised the quality response to unit
+taxes. \citet{Bresnahan1982} and \citet{Lau1982} showed that parallel shifts of demand cannot separate conduct
+from marginal cost. Demand rotations, which change the slope of demand at a given price, can. \citet{Bresnahan1989}
+restates this argument in his survey of conduct estimation. \citet{Corts1999} shows that an estimated conduct
+parameter can badly mismeasure market power when firms collude tacitly in a repeated game.
+\citet{BertrandDufloMullainathan2004} documented how serial correlation overstates the precision of
+difference-in-differences regressions, the same problem that clustering addresses in \cref{sec:C-passthrough}.
+
+For logit pricing, \citet{CaplinNalebuff1991} proved existence of price equilibrium under $\rho$-concavity conditions
+on the distribution of tastes, which are weaker than log-concavity. They proved uniqueness in cases that include
+single-product logit firms, and they credit \citet{AndersonDePalma1988} with the first uniqueness result for the logit
+duopoly.
+\citet{KonovalovSandor2010} extended uniqueness to multi-product logit firms, and \citet{NockeSchutz2018} developed
+the aggregative approach used in \cref{prop:C-unique}. \citet{MorrowSkerlos2011} proposed the fixed-point
+formulation that \cref{sec:C-simulate} uses to compute random coefficients equilibria. The upward pricing pressure of
+\cref{sec:C-logit-bertrand} is due to \citet{FarrellShapiro2010}, and \citet{Werden1996} derived the compensating
+marginal cost reductions of the further problems below.
+
+The estimation problems rest on \citet{Berry1994}, who introduced the share inversion and applied it to the logit,
+the nested logit and the vertical model. The vertical model of \cref{sec:C-vertical} follows \citet{Bresnahan1987}
+and his study of the 1955 automobile market, which finds collusive pricing in 1954 and 1956 and competitive pricing in
+1955. \citet{BerryLevinsohnPakes1995} developed the random coefficients model, its
+contraction and its instruments, and \citet{Nevo2000a} gives a practical guide to its estimation.
+\citet{ConlonGortmaker2020} collect current best practice for computation and instruments, including the
+differentiation instruments of \citet{GandhiHoude2019}. \citet{DubeFoxSu2012} show how loose inner-loop tolerances
+distort the estimates. \citet{BerryLevinsohnPakes2004} brought second-choice data into demand estimation, and
+\citet{SandersonWindmeijer2016} give the weak-instrument diagnostics for several endogenous regressors that
+\cref{sec:C-autos} uses. The question of \cref{sec:C-autos} comes from \citet{GriecoMurryYurukoglu2024}. They estimate
+a random coefficients logit with demographic micro moments and second-choice data. They separate unobserved quality
+from the value of the outside good with the continuing-products restriction of \citet{PakesBerryLevinsohn1993}. They
+find that the mean Lerner index of new vehicles roughly halved from 1980 to 2018. The production-function evidence on rising markups that motivates the question is in \citet{DeLoeckerEeckhoutUnger2020}.
+
+\section{Further problems}\label{sec:C-further}
+
+The following problems extend the worked problems. Solutions are not provided.
+
+\begin{enumerate}
+\item \emph{Cournot with constant-elasticity demand.} Let inverse demand be $P(Q) = AQ^{-\frac{1}{\varepsilon}}$ with
+  $\varepsilon > 1$, and let firm $i$ have constant marginal cost $c_i$ and fixed cost $F$. Show that every active firm
+  satisfies $L_i = \frac{s_i}{\varepsilon}$. With symmetric costs, find the free-entry number of firms, treating it as
+  continuous, and the resulting $L$ and $\HHI$. Compare the relation between concentration and margins across
+  industries that differ in $A$ or in $F$ with the linear case of \cref{sec:C-cournot}, part (d).
+
+\item \emph{One-period punishments.} In the repeated linear Cournot game of \cref{sec:C-cournot}, part (c), let inverse
+  demand be $P(Q) = \max\{a - bQ, 0\}$. After a deviation every firm produces $q^p$ for one period and then returns to
+  $\frac{Q^m}{N}$. Write the incentive constraints of the collusive phase and of the punishment phase. For $N = 2$ and
+  the parameters of \cref{sec:C-cournot}, part (g), find numerically the lowest discount factor at which some $q^p$
+  satisfies both constraints, and compare it with $\delta^*(2) = \frac{9}{17}$ \citep{Abreu1986}.
+
+\item \emph{An ad valorem tax in the logit market.} In the 25-product market of \cref{sec:C-logit-bertrand}, firms
+  receive $(1 - \tau)p_j$ per unit sold. Derive the single-product and multi-product first-order conditions, compute the
+  equilibria at $\tau = 0.1$, and report the elasticity of each price with respect to $\frac{1}{1 - \tau}$. Compare the
+  results with \cref{prop:C-adval} and explain the role of the curvature of logit demand.
+
+\item \emph{Compensating marginal cost reductions with random coefficients.} \Cref{ex:04-merger-sim} computes the
+  reductions in marginal cost that leave every price unchanged after the logit merger of \cref{sec:C-logit-bertrand},
+  part (g) \citep{Werden1996}. Consider instead the merger of firms B and C in market 0 of \cref{sec:C-rc-est},
+  part (f). Show that, for any demand model, the compensating marginal costs are
+  $mc' = p + (\Omega' \odot \Delta^\top)^{-1}s$, with $\Omega'$ the post-merger ownership matrix and $\Delta$ and $s$
+  evaluated at pre-merger prices. Explain why the costs of non-merging products are unchanged. Compute the reductions
+  under the logit, the estimated random coefficients model and the true model, and compare them with the upward
+  pricing pressure in \cref{tab:C-merger-m0}.
+
+\item \emph{The vertical model with uniform tastes.} Let the price sensitivity $\nu_i$ be uniform on
+  $[0, \bar\nu]$. Redo parts (a) to (c) of \cref{sec:C-vertical}. Which parameters are identified, and do the implied
+  markups depend on $\bar\nu$? Compare the implied own elasticities in market 0 with \cref{tab:C-velast}. Then let the
+  taste for quality $\frac{1}{\nu_i}$ be uniform instead, the specification of \citet{Bresnahan1987}, and derive the
+  inversion again.
+
+\item \emph{How many simulation draws?} Let $s^{n_s}_{jt} = \frac{1}{n_s}\sum_{i=1}^{n_s}s_{ijt}$ with independent
+  draws $\nu_i$. Show that $\Var(s^{n_s}_{jt}) = \frac{1}{n_s}\Var_\nu(s_{ijt})$. With the firms' draws of
+  \cref{sec:C-simulate}, estimate the number of draws that gives a relative standard error of one percent for every
+  product in market 0. Compare this simulation error with the sampling error of the realized shares.
+
+\item \emph{Differentiation instruments.} Replace the six competition instruments of \cref{sec:C-logit-est} by two
+  counts \citep{GandhiHoude2019}. The first counts rival products whose sugar content lies within one standard
+  deviation of the product's own. The second counts rival products with the same organic status. Re-estimate the logit by 2SLS and the random
+  coefficients model of \cref{sec:C-rc-est} with $\Sigma$ known. Report the first-stage statistics and explain why the
+  new instruments are or are not stronger.
+
+\item \emph{Nested logit pricing.} With nested logit demand and multi-product firms, derive the first-order
+  conditions for prices. Show that markups are common within each pair of a firm and a nest, and give the formula
+  for the common markup in terms of the firm's within-nest and total shares. When does the formula reduce to the
+  single-product markup of \cref{prop:C-nl-deriv}?
+\end{enumerate}

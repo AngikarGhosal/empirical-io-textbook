@@ -1,0 +1,326 @@
+\chapter{Collusion: Evidence and Detection}\label{ch:collusion-evidence}
+
+\Cref{ch:collusion-theory} showed that firms that meet repeatedly can sustain prices above the static equilibrium
+without any enforceable contract. This chapter asks what the data say. Did real cartels behave as the theory
+predicts? How did they organize themselves, and what did collusion cost their customers? Can an outsider who sees
+only prices, quantities or bids tell collusion from competition? The answers matter for antitrust policy, which
+must decide which conduct to prosecute, how to prove it and how to measure the harm. They also matter for the rest
+of empirical industrial organization, because every model of demand and supply in \cref{ch:conduct,ch:blp} rests on
+an assumption about how firms compete.
+
+The chapter combines econometric theory with case studies. It derives the testable implications of the
+repeated-game models and develops, with proofs, the econometrics needed to test them. It then studies the cases
+that shaped the field in depth. They include a nineteenth-century railroad cartel, the internal records of legal
+and prosecuted cartels, retail gasoline, a ring of stamp dealers and bid rigging in public procurement. Each case
+reproduces the estimating equations and the key tables, and each ends with an assessment of what it shows and what
+it cannot show.
+
+The chapter draws on much of the book. The supply relation and the conduct parameter come from
+\cref{ch:theory,ch:conduct}, and \cref{ch:conduct} also treats the pre-1914 sugar price wars that reappear here.
+The bidding ring and the detection tests rest on the auction theory of \cref{ch:auction-theory} and on the
+inversion methods of \cref{ch:auction-empirics}. The methods for measuring damages share their logic with the
+merger retrospectives of \cref{ch:mergers}. \Cref{app:econometrics} collects the econometric tools used here,
+including two-stage least squares, maximum likelihood, the bootstrap, selection models and difference in
+differences.
+
+\section{Collusion in Practice and the Nature of the Evidence}\label{sec:13-intro}
+
+Collusion matters for understanding how imperfectly competitive markets work, and it is a central concern of
+antitrust policy. Four questions organize the empirical literature. How often do firms collude? Can we develop
+methods to detect collusion? How does collusion occur, that is, how do cartels reach agreement, monitor compliance
+and respond to cheating? Which practices and institutions facilitate it?
+
+\casehead{Definitions}
+\emph{Collusion} is coordination among firms that raises their joint profit above the level of noncooperative
+competition, by raising prices, restricting output or dividing customers. It helps to distinguish two forms. In
+\emph{explicit collusion} firms communicate directly. They meet to discuss prices, agree on quotas or on the
+allocation of customers, and sometimes make payments to one another. In \emph{tacit collusion} firms reach
+supracompetitive prices without communicating. The high prices are a noncooperative equilibrium of a repeated game,
+in which the threat of future punishment deters price cuts (\cref{ch:collusion-theory}). A \emph{cartel} is a group
+of firms that colludes explicitly. \emph{Bid rigging} is collusion among bidders in auctions or procurement, and a
+cartel of bidders is called a \emph{bidding ring}. Collusion can also run on the buying side, as in the buyer cartels
+and no-poach agreements defined in \cref{sec:12-forms}.
+
+\casehead{The scale of cartel enforcement}
+Cartels are not a historical curiosity. \Cref{tab:12-eu-fines} in \cref{sec:12-eu-facts} lists the ten largest fines
+that the European Commission has imposed in cartel cases since 1969. The largest, in the trucks case of 2016 and
+2017, exceeds 3.8 billion euros. The vitamins case in that table shows how far a single conspiracy can reach. The
+main vitamin producers pleaded guilty to a worldwide price-fixing conspiracy covering much of the 1990s
+\citep[p.~1]{MarshallMarx2012}. It extended to vitamins A, B$_1$, B$_2$, B$_5$, B$_6$, C, D and E, beta-carotene,
+biotin, carotenoids, choline chloride and other products. In the United States, Roche paid a criminal fine of \$500 million and BASF one of
+\$225 million. U.S.\ sales of a single product, vitamin A acetate 650 feed grade, were \$311{,}982{,}095 during the
+period covered by the plea agreements (p.~2, Figure~1.1). Buyers recovered billions of dollars in civil suits, and
+several executives went to prison (p.~2).
+
+Fines outside the top ten reach a wide range of markets. Consider the twenty-two Commission decisions on
+industrial-product cartels from 2000 through 2005. They concern products as varied as amino acids, carbonless paper, citric
+acid, copper plumbing tubes, graphite electrodes, industrial bags, needles, plasterboard and zinc phosphate
+\citep[pp.~125--127, Table~6.1]{MarshallMarx2012}. \Cref{sec:12-eu-facts} also reports the Commission's 2025 fines
+on a buyer cartel and on a no-poach agreement, and how much annual totals vary.
+
+\casehead{Why the evidence is hard to obtain}
+Empirical work on collusion is difficult for three reasons. First, collusion is illegal in most markets today, so
+firms hide it. The records available to researchers come from cartels that were legal, from prosecutions, or from
+documents that surfaced by accident. Second, the theory admits many outcomes. With $N$ symmetric Bertrand
+competitors, every price between marginal cost $c$ and the monopoly price $p^m$ can be sustained when
+$\delta \ge 1 - \frac{1}{N}$ (\cref{ch:collusion-theory}). A finding that prices exceed cost therefore says little
+about which equilibrium firms play. Third, most price patterns that look collusive have competitive explanations.
+Price wars can reflect cost shocks (\cref{prop:13-obs-equiv}), sawtooth price cycles arise in competitive
+equilibria (\cref{sec:13-noel}), and a rotation of winners can come from capacity constraints
+(\cref{sec:13-detection-theory}).
+
+\casehead{The empirical approach}
+The approach of the chapter follows from these difficulties. We start from a baseline of noncooperative behavior,
+a static Nash equilibrium in prices or, in an auction, in bids. We then take seriously that firms interact
+repeatedly, so that the threat of future competition can sustain high margins today. Most models in this tradition
+abstract from entry, exit and other changes in the market over time, and several of the cases show how much these
+omissions matter. The question in each case is what collusion adds to the baseline that the data can detect.
+
+The evidence comes in three kinds, and the chapter is organized around them. The first is historical studies of
+cartels that operated openly and left records. Examples are the Joint Executive Committee railroad cartel, the
+Sugar Institute and the bromine pools. The second is prosecuted cases of price fixing, bid rigging and facilitating
+practices, whose court records reveal how cartels worked. A \emph{facilitating practice} is conduct that makes
+coordination easier without itself being an agreement on price. Examples are gasoline retailers in Quebec, the airlines'
+fare-publishing system, the lysine and citric acid cartels and a ring of stamp dealers. The third is statistical
+detection. The researcher writes down a model of noncooperative behavior that implies testable restrictions on
+prices, quantities or bids, and reads a rejection as possible collusion. Other explanations for a rejection usually
+remain, and the chapter returns often to the question of what else could produce the same pattern.
+\Cref{sec:13-market-evidence} places these tests within the wider body of market-based evidence and the
+\emph{plus factors}, circumstantial economic evidence of collusion beyond parallel price movements, that courts
+look for.
+
+The first of the four questions, how often firms collude, is the hardest to answer. Prosecutions reveal only the
+cartels that were caught, and the cartels that researchers study in depth are selected again. Enforcement
+statistics are hard to read. Fewer prosecutions need not mean less collusion. Where collusion can be measured
+directly, it appears common. \Cref{sec:13-institutions} reviews this evidence and the evidence on how long
+detected cartels last
+\citep{LevensteinSuslow2006}. It also shows that the direction of the resulting bias depends on how detection works.
+
+\casehead{Notation and sources}
+\Cref{sec:13-implications} fixes the chapter's notation for conduct regimes. Throughout the chapter $\delta$ is the
+discount factor, as in \cref{ch:collusion-theory}. Later sections introduce local symbols, for example for a
+paper's variables, and say so at first use. Several papers are available to us only in working-paper versions,
+whose page, table and theorem numbers can differ from those of the published articles. When we cite such a number
+we say so, and ``WP p.'' denotes a page of the working paper. Computations that are ours, and not the authors', are
+labeled as such.
+
+\casehead{Plan of the chapter}
+\Cref{sec:13-implications} turns the theories of \cref{ch:collusion-theory} into statements about data and develops
+the econometrics of regime switching. \Cref{sec:13-jec} applies these tools to the Joint Executive Committee
+\citep{Porter1983,Ellison1994}. \Cref{sec:13-legal} studies the internal records of the Sugar Institute and of the
+bromine cartel. \Cref{sec:13-information} asks how information about prices affects collusion, in theory and in
+three policy episodes. \Cref{sec:13-gasoline} examines four studies of retail gasoline that reach different
+conclusions about similar price patterns, and a fifth on how tacit coordination emerged in Perth.
+\Cref{sec:13-imperfect} documents cheating and its toleration in prosecuted cartels and develops the model of
+\citet{BernheimMadsen2017}. \Cref{sec:13-asker} studies the internal organization of a bidding ring
+\citep{Asker2010}. \Cref{sec:13-detection} reviews market-based evidence and plus factors
+\citep{Kaplow2013,MarshallMarx2012}. It then develops statistical tests for bid rigging and applies them to highway
+paving and school milk \citep{PorterZona1993,PorterZona1999}. \Cref{sec:13-enforcement} discusses enforcement, the
+selection of observed cartels and the measurement of damages and welfare losses \citep{AskerNocke2021}, and it
+collects the lessons of the chapter.
+
+\input{chapters/ch13/part1}
+\input{chapters/ch13/part2}
+\input{chapters/ch13/part3}
+\input{chapters/ch13/part4}
+\input{chapters/ch13/part5}
+
+\section{Bibliographic notes}\label{sec:13-bibnotes}
+
+The econometrics of collusion began with the Joint Executive Committee. \citet{Porter1983} introduced the switching
+simultaneous-equations model, building on the switching regressions of \citet{Kiefer1980} and the EM algorithm of
+\citet{DempsterLairdRubin1977}. \citet{LeePorter1984} added imperfect sample separation, \citet{Porter1985} studied
+the incidence and duration of the wars, and \citet{Hajivassiliou1989} related the regimes to grain production.
+\citet{CosslettLee1985} and \citet{Hamilton1989} developed the Markov switching models that \citet{Ellison1994} used
+to test what started the wars. \citet{BerryBriggs1988} proposed the test of the order of the regime process.
+\citet{Davies1987} and \citet{Hansen1992} treat likelihood-ratio tests when a parameter is not identified under the
+null hypothesis. The history of the cartel is told by \citet{MacAvoy1965} and \citet{Ulen1979}.
+
+Narrative evidence from the records of cartels has grown into a literature of its own, and
+\citet{GenesoveMullin2001} and \citet{Levenstein1997} are its models. \citet{LevensteinSuslow2006} survey what
+determines cartel success. \citet{AskerNocke2021} survey the current evidence on collusion, from its prevalence and
+organization to its detection and its effects on welfare. \citet{MarshallMarx2012} give a book-length treatment of
+cartels and bidding rings that draws on many prosecuted cases. Their chapters on the structures of cartels and
+rings, on the effect of auction design on rings, and on the plus factors of each are used in this chapter.
+\citet{HarringtonSkrzypacz2011} document the quota-and-transfer schemes of industrial cartels, and
+\citet{MarshallMarxSamkharadze2013} document how often cartels were troubled by discord. \citet{BernheimMadsen2017}
+explain why a cartel may tolerate cheating.
+
+On information, \citet{Stigler1964} remains the starting point. \citet{AlbaekMollgaardOvergaard1997} give the
+cleanest evidence that transparency can raise prices, and \citet{FullerRuppelBessler1990} and
+\citet{SchmitzFuller1995} report related evidence from rail contracts. \citet{Borenstein2004} and \citet{Miller2010}
+study the Airline Tariff Publishing case, and \citet{CarltonBambergerEpstein1995} analyze the Overlap case.
+\citet{Kaplow2013} examines how the law should define a prohibited agreement and questions the weight it places on
+evidence of communication. His chapters on detection classify market-based evidence, structural conditions,
+internal records and communications.
+
+\citet{BorensteinShepard1996} brought dynamic models of collusion to retail gasoline. The theory of Edgeworth cycles
+is due to \citet{MaskinTirole1988}, with the asymmetric extension of \citet{Eckert2003}, and \citet{Noel2007}
+provided the first detailed test. \citet{Wang2009} exploits a regulation of the timing of price changes.
+\citet{ClarkHoude2013,ClarkHoude2014} and \citet{ErutkuHildebrand2010} study the Quebec cartel, using the cost
+estimates of \citet{Houde2012}. \citet{ByrneDeRoos2019} show how stations in Perth learned to coordinate tacitly
+through price leadership. \citet{AbrantesMetzEtAl2006} propose a screen for collusion based on the variance of
+prices.
+
+The theory of bidding rings starts with \citet{GrahamMarshall1987}, \citet{GrahamMarshallRichard1990},
+\citet{MailathZemsky1991} and \citet{McAfeeMcMillan1992}. \citet{LopomoMarshallMarx2005} show the limits of
+efficient collusion at English auctions. \citet{Asker2010} is the most detailed empirical study of the internal
+mechanism of a ring, and \citet{Pesendorfer2000} studies collusion in school milk auctions from outcome data. The
+deconvolution methods behind Asker's estimates are due to \citet{Kotlarski1966}, \citet{LiVuong1998} and
+\citet{Krasnokutskaya2011}.
+
+\citet{PorterZona1993,PorterZona1999} set the template for statistical detection in procurement, and
+\citet{FeinsteinBlockNold1985} study the clustering of bids. \citet{BajariYe2003} develop tests of conditional
+independence and exchangeability. \citet{KawaiNakabayashi2020}, \citet{ConleyDecarolis2016} and
+\citet{OrtnerEtAl2020} develop newer screens for procurement. \citet{Harrington2008b} surveys methods for detecting
+cartels. \citet{Harrington2008} identifies the opposing effects of leniency on cartel stability, and
+\citet{ChenRey2013} analyze the design of leniency programs, whose theory is in \cref{ch:collusion-theory}.
+\citet{Miller2009} measures the effects of the 1993 U.S.\ program on detection and deterrence. Tests based on the
+comparison of auction formats, such as that of \citet{AtheyLevinSeira2011}, are treated in
+\cref{ch:auction-empirics}.
+
+On the costs of collusion, \citet{ConnorBolotova2006} compile overcharges across several hundred cartel episodes.
+\citet{AskerCollardWexlerDeLoecker2019} measure the productive inefficiency caused by OPEC.
+\citet{Barkley2020} and \citet{Caoui2020} show that the welfare effects of cartels can reach far beyond the
+overcharge on their own sales.
+
+\section{Exercises}\label{sec:13-exercises}
+
+\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=6pt]
+
+\item \textit{Conduct and margins in the JEC.}
+\begin{enumerate}[label=(\alph*)]
+  \item Show that the conduct index \eqref{eq:13-theta-from-beta3} and the collusive Lerner index
+  \eqref{eq:13-lerner-beta3} satisfy $\theta = \varepsilon L^{c}$, with $\varepsilon = -\alpha_1$.
+  \item Treat $\hat\alpha_1$ and $\hat\beta_3$ as uncorrelated. Use the delta method (\cref{app:econometrics}) to
+  compute the standard error of $\hat\theta$ for Porter's maximum likelihood estimates (\cref{tab:13-porter-t3})
+  and for Ellison's standard model (\cref{tab:13-ellison-t2}). You should find about 0.04 and about 0.61.
+  \item Compute the standard error of the Lerner index $1 - e^{-\hat\beta_3}$ in both cases. Explain why the
+  margin is much better determined than conduct in Ellison's estimates.
+  \item For model 3 of \cref{tab:13-ellison-t7}, compute $\theta$ and the value of $\beta_3$ that static joint
+  profit maximization would imply (\cref{cor:13-static-monopoly}). Did the JEC price below the static monopoly level
+  in that model?
+\end{enumerate}
+
+\item \textit{Cournot reversion and market shares.} In the model of \cref{asm:13-porter}, suppose that price wars
+are Cournot reversions, so $\theta_{it} = s_{it}$ in wars.
+\begin{enumerate}[label=(\alph*)]
+  \item Show that shares in a war satisfy $p_t\left(1 + \frac{s_{it}}{\alpha_1}\right) = \psi a_i (s_{it}Q_t)^{\psi
+  - 1}$. With two firms, show that
+  \begin{equation*}
+    \frac{\alpha_1 + s_{1t}}{\alpha_1 + s_{2t}} = \frac{a_1}{a_2}\left(\frac{s_{1t}}{s_{2t}}\right)^{\psi - 1},
+  \end{equation*}
+  so that war shares do not depend on $p_t$ or $Q_t$.
+  \item Let $\psi = 2$, $a_1 = 1$ and $a_2 = 2$. Show that firm 1's share is $\frac{2}{3}$ under common conduct.
+  Compute its share in a Cournot war when $\alpha_1 = -1.8$ and when $\alpha_1 = -20$. You should find about 0.62
+  and about 0.66.
+  \item Show that, with two firms, the low-cost firm's share is smaller in a Cournot war than under common conduct,
+  and that the difference vanishes as $\alpha_1 \to -\infty$.
+  \item Explain how movements of market shares between regimes can help separate conduct regimes from cost regimes
+  (\cref{prop:13-obs-equiv}). What does the evidence on shares in \cref{sec:13-jec-data} suggest about the form of
+  reversion in the JEC?
+\end{enumerate}
+
+\item \textit{The EM algorithm for a switching regression.} Let $y_t = x_t\beta + \beta_3 I_t + u_t$ for
+$t = 1, \dots, T$, with $u_t \sim N(0, \sigma^2)$ i.i.d., and with $I_t$ i.i.d.\ Bernoulli$(\lambda)$ and
+independent of $(x_t, u_t)$.
+\begin{enumerate}[label=(\alph*)]
+  \item Write the E-step. Use \eqref{eq:13-mstep-identity} to show that the M-step for $(\beta, \beta_3)$ solves the
+  normal equations of a least-squares regression of $y_t$ on $(x_t, w_t)$, except that $\sum_t w_t^2$ is replaced
+  by $\sum_t w_t$. Show that the update of the variance is
+  $\hat\sigma^2 = \frac{1}{T}\sum_t\left[(y_t - x_t\beta - \beta_3 w_t)^2 + \beta_3^2 w_t(1 - w_t)\right]$.
+  \item Explain why replacing $I_t$ by $w_t$ in ordinary least squares, without the correction in (a), does not
+  deliver the maximum likelihood estimator.
+  \item Simulate $T = 328$ observations with $x_t = 1$, $\lambda = 0.62$ and
+  $\frac{\beta_3}{\sigma} \in \{1, 2, 3, 5\}$. Run EM from several starting values, classify periods with
+  \cref{prop:13-classify}, and report the share of misclassified periods. Compare your results with panel (b) of
+  \cref{fig:13-em-mc}, which uses the simultaneous model. Explain why the error at a ratio of 1 is close to that of
+  calling every period collusive.
+\end{enumerate}
+
+\item \textit{Transparency with lags and informed buyers.}
+\begin{enumerate}[label=(\alph*)]
+  \item In the model of \cref{prop:13-transparency}, suppose that a secret price cut is detected for sure, but only
+  $k \ge 1$ periods after it begins. The deviator undercuts in every period until then. Show that
+  collusion at $p^m$ with Nash reversion is sustainable if and only if $\delta^k \ge 1 - \frac{1}{N}$. Compute the
+  threshold for $N = 2$ and $k = 1, 2, 4$.
+  \item Show that the threshold of \cref{rem:13-transparency-buyers} can be written
+  $\underline\delta = \left(1 + \frac{\mu}{N\omega - 1}\right)^{-1}$. A policy raises the detection probability
+  from $\mu'$ to $\mu''$ and the share of the market that a secret cut captures from $\omega'$ to $\omega''$, with
+  $\omega' > \frac{1}{N}$. Show that the policy makes collusion harder if and only if
+  $\frac{N\omega'' - 1}{N\omega' - 1} > \frac{\mu''}{\mu'}$.
+  \item The Danish Competition Council published prices with a lag of about three months
+  (\cref{sec:13-concrete}). Use (a) and (b) to discuss how the lag affected the two channels through which
+  publication works.
+\end{enumerate}
+
+\item \textit{Asymmetric retailers and transfers.} Use the two-firm model of \cref{prop:13-ch-shares} with
+$\bar p = 1$ and $c = 0.6$.
+\begin{enumerate}[label=(\alph*)]
+  \item Show that collusion with equal shares is impossible for every $\delta < 1$. Find the share $s_L^*$ that
+  minimizes the threshold discount factor $\underline\delta(s_L)$.
+  \item The cartel cannot allocate shares directly. At equal prices each firm serves half the market. The low-cost
+  firm can be allowed to serve an extra fraction $\tau$ of the market each period, for example by delaying price
+  increases. Find the smallest $\tau$ that sustains collusion when $\delta = 0.9$. You should find 0.14.
+  \item \citet{ClarkHoude2013} estimate that delays raised the volumes of the low-cost firms by about 4 to 6
+  percent (\cref{tab:13-ch-t7}). Explain why transfers of this size can matter for stability in their setting,
+  although they are small next to the answer to (b). Relate your answer to the differences between the two models,
+  such as product differentiation, the number of firms and finite punishments (\cref{tab:13-ch-t8}).
+\end{enumerate}
+
+\item \textit{Knockouts.}
+\begin{enumerate}[label=(\alph*)]
+  \item Knockout bids are 9,000 (A), 8,000 (G), 7,500 (B) and 5,100 (J). Compute the sidepayments under the rule of
+  \cref{def:13-asker-rule} and under the older equal-split rule when the target price is 6,750 and when it is
+  7,800. Explain why the two rules coincide in the second case.
+  \item A member with value $v \in [0,1]$ faces one rival. Suppose that the rival's knockout bid and the highest
+  outside value are independent and uniform on $[0,1]$. Use \eqref{eq:13-asker-foc} to show that the optimal bid
+  is $b(v) = \frac{4v + 1}{5}$, and check the answer against \eqref{eq:13-asker-inverse}. For which values does
+  the member overbid?
+  \item Remove the sidepayments, so that the payoff is $G(b)A(b)$ as in \cref{rem:13-asker-nosidepay}. Find the
+  optimal bid under the assumptions of (b), and compare the amount of overbidding with your answer to (b).
+  \item In \eqref{eq:13-asker-pairs}, suppose that $\ln\kappa_k \sim N(\mu, s^2)$ and
+  $\ln\beta(v_{jk}) \sim N(m_j, a_j^2)$ for $j = 1, 2$, with $m_1 = 0$ and all three components independent. Use
+  \cref{thm:13-kotlarski} to recover the characteristic function of $\ln\kappa_k$, and show that
+  $\Cov(\ln\hat b_{1k}, \ln\hat b_{2k}) = s^2$. What does the theorem identify that this covariance does not?
+\end{enumerate}
+
+\item \textit{Imperfect collusion in a numerical example.} In the model of \cref{sec:13-bm}, let $D(p) = 1 - p$,
+$c_H = 0$, $c_A = 0.2$ and $\phi = 0.04$.
+\begin{enumerate}[label=(\alph*)]
+  \item Compute $p_H^*$, $\underline p_A$, $\Pi^C$ and $\Pi^M$. In the stage game, compute the away firm's quoting
+  probability $\lambda_A$ and the home firm's atom at $p_H^*$. You should find $\underline p_A \approx 0.254$ and
+  $\lambda_A \approx 0.243$.
+  \item Verify the condition of \cref{thm:13-bm-perfect} and compute $\delta^0$ and $\delta^M$.
+  \item For $\delta = 0.3$, solve \eqref{eq:13-bm-floor} for the price floor and compute $\bar\Pi$ and the away
+  firm's entry probability. You should find a floor of about 0.419.
+  \item Show that a clean split of the markets at this floor violates \eqref{eq:13-bm-nosteal}. Explain in words
+  why the cartel tolerates raids above the floor.
+\end{enumerate}
+
+\item \textit{Detecting and measuring the effects of collusion.}
+\begin{enumerate}[label=(\alph*)]
+  \item Take the reported standard error of the Overlap regression of \cref{tab:13-cbe-t6} as given. Compute the
+  smallest effect of Ivy-plus-MIT membership that a two-sided 5 percent test would detect with probability 0.8.
+  Express it as a share of the average net price of \$12{,}366.
+  \item A cartel operated in months 31 to 90 of a sample of 120 months. An analyst dates it to months 43 to 90 and
+  runs the regression of \cref{rem:13-misclassification}. By what factor is the estimated overcharge attenuated?
+  \item Use \cref{prop:13-selection} with $q = 0.25$ and $h = 0.1$ to compute the mean duration of cartels
+  discovered after the fact and of cartels ended by detection. Compare both with the natural mean duration. Which
+  mechanism better describes cartels that end because a member applies for leniency?
+  \item Explain why naive damages overstate the seller's loss in Asker's ring, and why bidders outside the ring may
+  also have a claim (\cref{sec:13-asker-results}).
+  \item In \cref{ex:13-tax-cartel}, let $a = 10$ and $c = 2$. For which taxes $t \in (0, 8)$ is the marginal effect
+  of the cartel less than half of its inframarginal effect? Which of the two effects would a court use to compute
+  damages, and why? You should find $t > 4$.
+  \item A screen flags a market when prices leave the 95 percent band of a benchmark model, so that
+  $\Pr[F \mid \text{not } C] = 0.05$. Suppose $\Pr[F \mid C] = 0.6$ and the prior probability of collusion is 0.02.
+  Use \cref{rem:13-plus-bayes} to compute the posterior probability of collusion after one flag, and after two flags
+  from screens that are independent conditional on $C$ and on not $C$. You should find about 0.20 and about 0.75.
+  Explain why two screens built on the same price series would not be conditionally independent.
+  \item Use \eqref{eq:13-freeze-breakeven} to find the smallest elevation $m$ at which a firm that can triple its
+  output breaks even in the short run on a 20 percent price cut. Relate your answer to the claim that a leniency
+  program for the first price cutter works better than a mandatory price freeze (\cref{ex:13-price-freeze}).
+\end{enumerate}
+
+\end{enumerate}

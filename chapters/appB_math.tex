@@ -1,0 +1,246 @@
+\chapter{Mathematical Toolkit}\label{app:math}
+
+Empirical industrial organization uses a small set of mathematical tools again and again. Pass-through formulas
+come from the implicit function theorem, and Shephard's lemma and Roy's identity come from the envelope theorem.
+Logit demand comes from the algebra of the Gumbel distribution. The identification of auction models comes from
+the distribution theory of order statistics. This appendix states each tool with its assumptions, gives or locates
+a proof, and shows how the chapters use it.
+
+The appendix serves two kinds of reader. A reader who meets a tool in a chapter can come here for a precise
+statement, a proof, a worked example and the usual pitfalls. A reader who wants a systematic treatment can read
+the appendix from start to finish, because each section builds on the earlier ones. Several chapters prove a tool
+in the context of one application. For those results we usually restate the theorem and refer to the chapter
+that proves it. We give full proofs for the tools that no chapter proves and for the parts of a result that go
+beyond the chapter's version. Worked applications, such as pass-through in \cref{sec:B-passthrough}, keep their
+derivations because they show a tool at work.
+
+The sections follow the logic of the tools. \Cref{sec:B-prelim} collects calculus, matrix and probability facts.
+\Cref{sec:B-ift,sec:B-envelope} develop the two workhorses of comparative statics, the implicit function theorem
+and the envelope theorem. \Cref{sec:B-duality} applies the envelope theorem to consumer and producer theory, and
+\cref{sec:B-ev} derives the logit family from the extreme value distribution. \Cref{sec:B-orderstats} turns to
+order statistics, the language of auction data. \Cref{sec:B-fixedpoint} treats fixed points: the inversion of
+market shares, and the existence, uniqueness and computation of price equilibria. \Cref{sec:B-logconcave,%
+sec:B-supermod} study the shape restrictions that make equilibria exist, comparative statics signable and auction
+models tractable. These are log-concavity, supermodularity and affiliation. \Cref{tab:B-toolmap} maps each tool
+to its section and to the chapters that use it.
+
+Notation follows the rest of the book, with a few generic symbols. A generic parameter is $a \in A \subseteq \R^m$
+and a generic choice is $x \in X \subseteq \R^n$. We never use $\theta$ for a generic parameter, because $\theta$
+denotes conduct and $(\theta_1, \theta_2)$ denote demand parameters elsewhere. Euler's constant is $\gamma_E$, the
+modulus of a contraction is $\kappa$, and the curvature of inverse demand is $\chi = -\frac{qP''}{P'}$, as in
+\cref{ch:theory}. Symbols that matter in one section only are introduced there. In \cref{sec:B-duality}, for
+instance, $I$ denotes income and $r$ a vector of input prices, while $r$ is a reserve price in the auction
+applications.
+
+\begin{table}[!tb]
+\centering
+\caption{The tools of this appendix and where the book uses them}\label{tab:B-toolmap}
+\footnotesize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{1.3cm}%
+>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Tool & Section & Main result & Where the book uses it \\
+\midrule
+Implicit function theorem & \ref{sec:B-ift} & $D_a x = -[D_x\Psi]^{-1}D_a\Psi$ (\cref{thm:B-ift}) &
+  Pass-through (\cref{ch:theory,ch:conduct}), best-response slopes (\cref{ch:theory}), gradient of the share
+  inversion (\cref{ch:blp}), merger price effects (\cref{ch:mergers}) \\
+Envelope theorem & \ref{sec:B-envelope} & $V'(a) = f_a(x^*(a), a)$ (\cref{thm:B-envelope}) &
+  Shephard's and Hotelling's lemmas (\cref{ch:intro,ch:aids}), entry and profits (\cref{ch:theory}), bidder rents
+  and revenue equivalence (\cref{ch:auction-theory}) \\
+Duality & \ref{sec:B-duality} & Shephard's lemma, Roy's identity, the Slutsky equation, virtual and shadow
+  prices &
+  Almost ideal demand system (\cref{ch:aids}), new goods (\cref{ch:newgoods}), cost functions (\cref{ch:conduct,%
+  ch:airlines}) \\
+Extreme value and logit algebra & \ref{sec:B-ev} & Max-stability, the log-sum $\ln\Lambda + \gamma_E$, GEV shares
+  (\cref{prop:B-maxstable,prop:B-logsum,thm:B-gev}) &
+  Logit, nested logit and random coefficients demand (\cref{ch:diffprod,ch:discrete,ch:logit,ch:blp}),
+  applications (\cref{ch:airlines,ch:newgoods,ch:mergers}) \\
+Order statistics & \ref{sec:B-orderstats} & $F_{(k:n)} = \phi_{k:n} \circ F$, competing risks
+  (\cref{prop:B-os-cdf,prop:B-competing-risks}) &
+  Equilibrium bids and revenues (\cref{ch:auction-theory}), identification of value distributions
+  (\cref{ch:auction-empirics}) \\
+Contraction mapping & \ref{sec:B-fixedpoint} & Unique fixed point and geometric convergence
+  (\cref{thm:B-banach}) &
+  Share inversion (\cref{ch:blp,ch:airlines,ch:mergers}), computation of equilibria (\cref{ch:diffprod,%
+  ch:mergers}, \cref{app:problems}) \\
+Log-concavity & \ref{sec:B-logconcave} & Preserved by products, marginals and integration
+  (\cref{prop:B-lc-products,prop:B-lc-cdf,thm:B-prekopa}) &
+  Monopoly pricing and pass-through (\cref{ch:theory,ch:conduct}), existence of price equilibrium
+  (\cref{ch:diffprod}), auctions (\cref{ch:auction-theory,ch:auction-empirics}) \\
+Supermodularity and affiliation & \ref{sec:B-supermod} & Topkis's theorem, supermodular games, MLRP and
+  association (\cref{thm:B-topkis,thm:B-smgames,thm:B-association}) &
+  Strategic complements (\cref{ch:theory,ch:mergers}), the vertical model (\cref{ch:discrete}), affiliated
+  values (\cref{ch:auction-theory,ch:auction-empirics}) \\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\begin{minipage}{\textwidth}
+\footnotesize Notes: Each section states the general result. It proves the result, proves the case the book uses,
+or refers to the chapter or source that proves it. The chapters listed carry the economic applications.
+\end{minipage}
+\end{table}
+
+\input{chapters/appB/part1}
+\input{chapters/appB/part2}
+\input{chapters/appB/part3}
+\input{chapters/appB/part4}
+
+\section{Bibliographic notes}\label{sec:B-notes}
+
+Optimization, comparative statics and duality are covered in every graduate text in microeconomic theory.
+\citet{MasColellWhinstonGreen1995} prove the Kuhn-Tucker conditions, the theorem of the maximum and the duality
+results of \cref{sec:B-duality}. \citet{SimonBlume1994} give the matrix and calculus background.
+\citet{MilgromSegal2002} prove the envelope theorem for arbitrary choice sets, which is the version that mechanism
+design and auction theory need. \citet{Samuelson1947} introduced the correspondence principle and the Le Chatelier
+principle into economics. \citet{DeatonMuellbauer1980b} develop duality for demand analysis at book length. Their
+chapters on rationing, aggregation and index numbers supply the shadow prices, representative incomes and
+cost-of-living bounds of \cref{sec:B-welfare}. \citet{Hausman1981} showed how to recover exact welfare measures from
+an estimated demand curve.
+\citet{BulowPfleiderer1983} and \citet{WeylFabinger2013} are the main references on pass-through and the curvature
+of demand.
+
+The extreme value foundations of discrete choice are due to \citet{McFadden1974, McFadden1978, McFadden1981}, and
+the survey of \citet{McFadden1984} collects them. \citet{SmallRosen1981} derived the log-sum measure of consumer
+surplus, and \citet{Williams1977} and \citet{DalyZachary1978} proved that the expected maximum utility has the choice
+probabilities as its gradient. \citet{AndersonDePalmaThisse1992} connect discrete choice with representative-consumer
+models of product differentiation. \citet{Train2009} is the standard text on discrete choice with simulation.
+\citet{Cardell1997} constructed the distribution behind the random-coefficients reading of the nested logit, and
+\citet{McFaddenTrain2000} showed that mixed logits approximate any random utility model.
+
+\citet{David1981} and \citet{ArnoldBalakrishnanNagaraja1992} are the standard references on order statistics.
+\citet{AtheyHaile2002, AtheyHaile2007} turned these results into a theory of identification for auctions, and the
+deconvolution lemma of \citet{Kotlarski1966} underlies the treatment of unobserved auction heterogeneity. On fixed
+points, \citet{StokeyLucas1989} treat contractions in function spaces, and \citet{Judd1998} discusses the numerical
+side. \citet{Berry1994} proved that market shares can be inverted for mean utilities, and
+\citet{BerryLevinsohnPakes1995} supplied the contraction that computes the inverse. \citet{BerryGandhiHaile2013}
+established invertibility under much weaker conditions. \citet{BerryPakes2007} show how far the contraction weakens when the logit error
+vanishes. Chapter~11 of \citet{Tirole1988} is a compact guide to the equilibrium concepts of the book, and its
+Section~11.6.1 derives their existence from the theorem of \citet{Debreu1952}. \citet{DasguptaMaskin1986} treat
+games with discontinuous payoffs.
+
+Log-concavity entered economics from probability theory. \citet{Prekopa1971} and \citet{Borell1975} proved the
+integration results, and \citet{CaplinNalebuff1991} used them to prove the existence of price equilibrium in
+differentiated-products oligopoly. \citet{BagnoliBergstrom2005} classify the common distributions. Lattice methods
+for comparative statics begin with \citet{Topkis1978}, and \citet{MilgromShannon1994} found their ordinal form.
+\citet{Topkis1979}, \citet{Vives1990} and \citet{MilgromRoberts1990} developed the theory of supermodular games, and
+\citet{Vives1999} applies it to oligopoly. \citet{BulowGeanakoplosKlemperer1985} introduced strategic substitutes
+and complements. \citet{NockeSchutz2018} develop the aggregative structure of logit and CES pricing games, and
+\citet[p.~229]{AskerNocke2021} survey its use in merger analysis. \citet{MilgromWeber1982} made affiliation the central dependence concept of auction
+theory, and \citet{LiPerrigneVuong2002} turned it into a nonparametric estimator for first-price auctions.
+\citet{KarlinRinott1980} study the same property under the name of multivariate total positivity, and
+\citet{ShakedShanthikumar2007} cover the stochastic orders of \cref{sec:B-stochastic-orders}.
+
+\section{Exercises}\label{sec:B-exercises}
+
+\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=6pt]
+
+\item \emph{Duality with CES utility.} Let $U(q_1, q_2) = (q_1^r + q_2^r)^{\frac{1}{r}}$ with $r < 1$ and $r \neq 0$, and
+write $\sigma_{\mathrm{CES}} = \frac{1}{1 - r}$.
+\begin{enumerate}[label=(\alph*)]
+  \item Derive the Marshallian demands and the indirect utility function. Show that
+  $q_i = \frac{p_i^{-\sigma_{\mathrm{CES}}}I}{P^{1 - \sigma_{\mathrm{CES}}}}$ with
+  $P^{1 - \sigma_{\mathrm{CES}}} = p_1^{1 - \sigma_{\mathrm{CES}}} + p_2^{1 - \sigma_{\mathrm{CES}}}$.
+  \item Derive the expenditure function $e(p, u) = uP$. Verify Shephard's lemma, Roy's identity and the symmetry of
+  the Slutsky matrix.
+  \item Show that the elasticity of $\frac{h_1}{h_2}$ with respect to $\frac{p_2}{p_1}$ equals $\sigma_{\mathrm{CES}}$.
+  \item Use \cref{prop:B-virtual} to show that the compensating variation of removing good 2 is finite when
+  $\sigma_{\mathrm{CES}} > 1$ and infinite when $\sigma_{\mathrm{CES}} < 1$. Interpret the difference.
+  \item Ration good 1 at $z$ units. Derive the restricted expenditure function $e^*(p, u, z)$ and the shadow price
+  $p_1^*(p_2, u, z)$, and verify $\frac{\partial e^*}{\partial z} = p_1 - p_1^*$ (\cref{rem:B-rationing}). With two
+  goods the ration fixes $q_2$, so $S^*_{22} = 0$. Use $Sp = 0$ to check that $S_{22} - \frac{S_{21}^2}{S_{11}} = 0$,
+  as \cref{rem:B-lechatelier} requires.
+\end{enumerate}
+
+\item \emph{Exact welfare from log-linear demand.} Let the demand for good 1 be $q_1 = \exp(c_0 + c_1p_1 + c_2I)$ with
+$c_1 < 0$ and $c_2 > 0$, holding the other prices fixed.
+\begin{enumerate}[label=(\alph*)]
+  \item Write the differential equation \eqref{eq:B-hausman-ode} for this demand and solve it by separation of
+  variables. Use the constant of integration as the utility index.
+  \item Derive the indirect utility function and check that Roy's identity returns $q_1$.
+  \item Derive the compensating variation of a price increase from $p_1^0$ to $p_1^1$. Show that it tends to the
+  change in Marshallian consumer surplus as $c_2 \to 0$.
+  \item Show that the Hicksian demand is positive at every finite price, so the virtual price is infinite. Is the
+  value of the good still finite? Compare with the linear demand of \cref{ex:B-hausman-linear}.
+  \item For a rise in $p_1$ alone, show that the bounds \eqref{eq:B-cv-ev-bounds} follow from the fact that
+  compensated demand slopes down. Compute both bounds and both exact measures for $c_0 = 1$, $c_1 = -1$,
+  $c_2 = 0.01$, $I = 100$ and a price rise from 1 to 2.
+\end{enumerate}
+
+\item \emph{Pass-through and conduct.} Consider the supply relation \eqref{eq:B-supply-relation}.
+\begin{enumerate}[label=(\alph*)]
+  \item Derive \eqref{eq:B-pt-conduct} step by step, with $\varepsilon_S$ defined relative to marginal cost including
+  the tax.
+  \item Show that a pass-through rate of one is consistent with three worlds: price taking with flat marginal cost,
+  monopoly with exponential demand, and monopoly with log-convex demand and rising marginal cost.
+  \item Let $P(Q) = a - bQ$ and $mc(Q) = c + dQ$ with $b, d > 0$. Show that $\rho = \frac{1}{1 + \theta + \frac{d}{b}}$,
+  first from the proposition and then by solving the model directly.
+  \item Explain what these results imply for tests of market power that regress prices on taxes.
+\end{enumerate}
+
+\item \emph{Cournot comparative statics.} Let $N$ symmetric firms with constant marginal cost $c$ face inverse demand
+$P(Q)$, and treat $N$ as a continuous variable.
+\begin{enumerate}[label=(\alph*)]
+  \item Write the symmetric equilibrium condition $P(Nq) + qP'(Nq) = c$. Use the implicit function theorem to derive
+  $\frac{\dd q}{\dd N}$ and $\frac{\dd Q}{\dd N}$.
+  \item State conditions on $P'$ and $P''$ under which $\frac{\dd Q}{\dd N} > 0$ and $\frac{\dd q}{\dd N} < 0$. Relate
+  the second inequality, business stealing, to the sign of $P' + qP''$.
+  \item Use the envelope theorem to derive $\frac{\dd \pi}{\dd N}$ and show that it is negative under the conditions
+  of part (b).
+  \item Verify all three derivatives for linear demand $P(Q) = A - Q$.
+\end{enumerate}
+
+\item \emph{Extreme value algebra.} Let $\epsilon_{i0}, \dots, \epsilon_{iJ}$ be independent standard Gumbel shocks and
+$u_{ij} = \delta_j + \epsilon_{ij}$.
+\begin{enumerate}[label=(\alph*)]
+  \item Prove max-stability for $\mathrm{EV}(0, b)$ shocks and use it to derive the logit shares with scale $b$.
+  \item Show that the expected maximal utility conditional on choosing $j$ is the same for every $j$. Derive
+  $\E[\epsilon_{ij} \mid j \text{ chosen}] = \gamma_E - \ln s_j$.
+  \item In a nested logit with one nest of $m$ identical products of mean utility $\delta$ and an outside good,
+  compute expected consumer surplus as a function of $m$ and $\sigma$. Show that it grows like
+  $\frac{1 - \sigma}{\alpha}\ln m$ for large $m$, and explain the role of $\sigma$.
+  \item Derive the within-nest correlation $1 - (1 - \sigma)^2$ from Cardell's representation.
+\end{enumerate}
+
+\item \emph{Order statistics and competing risks.}
+\begin{enumerate}[label=(\alph*)]
+  \item Let $n$ values be drawn independently from $F(x) = x^a$ on $[0, 1]$ with $a > 0$. Derive the CDF and the mean
+  of the second-highest value. Check your answer against \cref{cor:B-os-revenue} at $a = 1$.
+  \item Prove the recurrence relation \eqref{eq:B-os-recurrence} for $k = n - 1$ directly from \eqref{eq:B-os-cdf},
+  for i.i.d.\ draws.
+  \item Two independent bidders have values with $F_i(x) = x^{a_i}$ on $[0, 1]$, $i = 1, 2$. Compute
+  $G_1^w(x) = \Pr(M \leq x, I = 1)$ and the CDF of the maximum $M$. Verify that \eqref{eq:B-competing-risks}
+  recovers $F_1$.
+  \item In part (c), show that the winning value and the identity of the winner are independent. Explain why the
+  frequency of wins then carries all the information that separates the two distributions.
+\end{enumerate}
+
+\item \emph{Contractions and equilibrium computation.}
+\begin{enumerate}[label=(\alph*)]
+  \item In the plain logit, show that the Jacobian of the share-inversion map \eqref{eq:B-blp-map} is $\mathbf{1}s^\T$.
+  Compute the number of iterations needed per digit of accuracy when $s_0 = 0.05$ and when $s_0 = 0.5$.
+  \item Take a nested logit with one nest of two products. Show that the undampened map has a Jacobian eigenvalue
+  $-\frac{\sigma}{1 - \sigma}$, and that the dampened map \eqref{eq:B-nl-dampened} sends this eigenvalue to zero.
+  \item A single-product logit monopolist has $\alpha = 1$ and $v = \tilde\delta - \alpha mc = 3$. Use
+  \cref{prop:B-logit-br} to compute its share. Show that the markup iteration \eqref{eq:B-markup-iteration} diverges
+  locally while best-response iteration converges in one step.
+  \item Use \eqref{eq:B-iterations} to bound the number of iterations that reach a tolerance of $10^{-8}$ from an
+  initial step of $10$, for $\kappa = 0.9$ and $\kappa = 0.99$.
+\end{enumerate}
+
+\item \emph{Log-concavity, supermodularity and affiliation.}
+\begin{enumerate}[label=(\alph*)]
+  \item Show that the standard logistic density is log-concave. Deduce that its hazard rate is nondecreasing and
+  that values with this distribution satisfy Myerson's regularity condition.
+  \item Show that the single-product logit pricing game is log-supermodular. Use \cref{thm:B-smgames} to show that
+  an increase in one firm's marginal cost does not lower any equilibrium price. Then use the closed-form best
+  response \eqref{eq:B-logit-br-closed} to show that every price strictly rises.
+  \item Verify that the Farlie-Gumbel-Morgenstern density of \cref{ex:B-affil-examples} is affiliated if and only if
+  $\vartheta \geq 0$. Show directly that affiliation implies the monotone likelihood ratio property for this
+  density.
+  \item Prove that the likelihood ratio order implies first-order stochastic dominance. Give an example of two
+  distributions ranked by first-order dominance but not by the likelihood ratio.
+\end{enumerate}
+
+\end{enumerate}

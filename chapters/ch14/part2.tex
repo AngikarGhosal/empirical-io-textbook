@@ -1,0 +1,1004 @@
+\section{First-Price Auctions with Symmetric Independent Private Values}\label{sec:14-fpa}
+
+In a first-price sealed-bid auction each bidder submits one sealed bid, the highest bid wins, and the winner pays its own bid. Unlike in the second-price auction of \cref{sec:14-spa}, no bidder has a dominant strategy in this format. The best bid depends on how aggressively the rivals bid, so the analysis requires an equilibrium of a game of incomplete information. This section solves that game in the benchmark model of symmetric independent private values (SIPV). We derive the equilibrium bid function in two ways and study its shape in closed-form examples. We then rewrite the equilibrium condition in terms of the distribution of bids, which is the starting point of the empirical methods in \cref{ch:auction-empirics}. The section ends with reserve prices, multiple equilibria, and risk-averse bidders.
+
+\subsection{The first-price auction as a Bayesian game}\label{sec:14-fpa-game}
+
+We maintain the following assumption throughout \cref{sec:14-fpa}, except where we relax risk neutrality in \cref{sec:14-fpa-risk}.
+
+\begin{assumption}[Symmetric independent private values]\label{ass:14-sipv}
+(i) There are $n\ge 2$ risk-neutral bidders and one indivisible object.
+(ii) Bidder $i$ privately observes its value $V_i$.
+(iii) The values $V_1,\dots,V_n$ are independent draws from a distribution $F$ with support $[\underline v,\bar v]$, where $0\le\underline v<\bar v\le\infty$. The distribution has a finite mean and a continuous density $f$ that is strictly positive on $(\underline v,\bar v)$.
+(iv) A losing bidder receives zero, whoever wins.
+(v) The number of bidders $n$ and the distribution $F$ are common knowledge.
+\end{assumption}
+
+The first-price auction (FPA) under \cref{ass:14-sipv} is a Bayesian game. The players are the $n$ bidders. A player's type is its value $v_i$, and types are drawn from the product distribution $\prod_{i=1}^n F(v_i)$. An action is a bid $b_i\in\R$. The seller may announce a \emph{reserve price} $r\ge\underline v$, which is the lowest bid it accepts. A bidder who does not wish to buy at a price of $r$ or more submits no bid, and we treat this as a bid below $r$. When bidder $i$'s bid is accepted, its payoff is
+\begin{equation}\label{eq:14-fpa-payoff}
+u_i(b_i,\bm b_{-i};v_i)=(v_i-b_i)\,\indic\Big(b_i>\max_{j\neq i}b_j\Big).
+\end{equation}
+The payoff depends on the rivals only through their bids. This is the content of private values together with the absence of externalities. Ties are broken at random. They occur with probability zero in every equilibrium we study, because equilibrium bids have continuous distributions.
+
+A \emph{strategy} for bidder $i$ is a bid function $\beta_i$ that maps each value into a bid. We write $B_j=\beta_j(V_j)$ for bidder $j$'s random bid.
+
+\begin{definition}[Bayesian Nash equilibrium]\label{def:14-bne}
+A strategy profile $(\beta_1,\dots,\beta_n)$ is a \emph{Bayesian Nash equilibrium} (BNE) if, for every bidder $i$ and every value $v_i$, the bid $\beta_i(v_i)$ maximizes
+\[
+\E\Big[(v_i-b)\,\indic\Big(b>\max_{j\neq i}\beta_j(V_j)\Big)\Big]
+\]
+over $b$. The expectation is over the rivals' values. The equilibrium is \emph{symmetric} if $\beta_i=\beta$ for every $i$.
+\end{definition}
+
+Each bidder best-responds to the strategies of the others. It knows its own value, treats the rivals' values as random, and shares with them the knowledge of $F$ and of the payoff function.
+
+Consider a bidder who values the object at \$10. If it bids \$10, its payoff is zero whether it wins or loses. If it bids \$9, it earns \$1 each time the bid wins. Any bid with a positive chance of winning beats bidding one's value, so equilibrium bids lie below values. We call the gap $v_i-b_i$ the \emph{shading} of the bid. How much to shade is a trade-off. A lower bid raises the profit conditional on winning but lowers the probability of winning. Let
+\[
+H(b)=\Pr\Big(\max_{j\neq i}B_j<b\Big)
+\]
+denote the probability that a bid $b$ wins. Bidder $i$ then maximizes
+\begin{equation}\label{eq:14-fpa-objective}
+U(b;v_i)=(v_i-b)\,H(b).
+\end{equation}
+This is the problem of a monopsonist that buys one unit. The value plays the role of the buyer's marginal value, the bid is the price, and $H$ is the residual supply curve. We make the analogy precise in \cref{sec:14-fpa-G}.
+
+Independence implies that $H$ is the same function for every value $v_i$. Bidder $i$'s value tells it nothing about the rivals' values, hence nothing about their bids. The next lemma exploits this fact.
+
+\begin{lemma}[Monotone bidding]\label{lem:14-monotone}
+Fix the rivals' strategies and let $H$ be the induced win probability. Let $v'>v$, let $b$ be an optimal bid for value $v$, and let $b'$ be an optimal bid for value $v'$. If $H(b)>0$, then $b'\ge b$. Hence in every equilibrium each bidder's strategy is nondecreasing on the set of values that win with positive probability.
+\end{lemma}
+
+\begin{proof}
+Optimality of $b$ for $v$ and of $b'$ for $v'$ gives two inequalities:
+\begin{align*}
+(v-b)H(b)&\ge(v-b')H(b'),\\
+(v'-b')H(b')&\ge(v'-b)H(b).
+\end{align*}
+We add them. The terms $-bH(b)$ and $-b'H(b')$ appear on both sides and cancel, which leaves
+\[
+vH(b)+v'H(b')\ge vH(b')+v'H(b).
+\]
+Collecting terms gives
+\[
+(v'-v)\big[H(b')-H(b)\big]\ge 0.
+\]
+Since $v'>v$, we obtain $H(b')\ge H(b)$. Suppose now that $b'<b$. Because $H$ is nondecreasing, $H(b')\le H(b)$, so $H(b')=H(b)>0$. Then the bid $b'$ gives value $v$ the payoff $(v-b')H(b)$, which exceeds $(v-b)H(b)$. This contradicts the optimality of $b$ for $v$, so $b'\ge b$.
+\end{proof}
+
+The proof uses one property of the objective. The difference $U(b;v')-U(b;v)=(v'-v)H(b)$ is nondecreasing in $b$, so the objective has \emph{increasing differences} in $(b,v)$. A higher value makes higher bids relatively more attractive. With affiliated values, $H$ would depend on $v_i$, and monotonicity requires the stronger tools of \cref{sec:14-mw-fpa}.
+
+\subsection{Equilibrium by the first-order condition}\label{sec:14-fpa-foc}
+
+Let $Y_1=\max_{j\neq i}V_j$ denote the highest value among bidder $i$'s rivals. Under \cref{ass:14-sipv} its distribution function and density are
+\[
+F_{Y_1}(y)=F(y)^{n-1},\qquad f_{Y_1}(y)=(n-1)F(y)^{n-2}f(y).
+\]
+The following result is the central equilibrium characterization for first-price auctions.
+
+\begin{proposition}[\citealp{RileySamuelson1981}]\label{prop:14-rs}
+Let \cref{ass:14-sipv} hold, and let the seller accept only bids of at least $r\in[\underline v,\bar v)$. There is exactly one symmetric equilibrium in strategies that are continuous on $[r,\bar v)$ and strictly increasing and differentiable on $(r,\bar v)$. In it, a bidder with value $v<r$ does not bid, and a bidder with value $v\ge r$ bids
+\begin{equation}\label{eq:14-rs-bid}
+\beta(v)=v-\frac{\int_r^v F(t)^{n-1}\,dt}{F(v)^{n-1}},
+\end{equation}
+with $\beta(r)=r$. Equivalently,
+\begin{equation}\label{eq:14-rs-condexp}
+\beta(v)=\E\left[\max\{Y_1,r\}\given Y_1<v\right].
+\end{equation}
+\end{proposition}
+
+When $r=\underline v$, the fraction in \eqref{eq:14-rs-bid} has the form $\frac{0}{0}$ at $v=\underline v$. The bound $\int_{\underline v}^v F(t)^{n-1}dt\le(v-\underline v)F(v)^{n-1}$ shows that the fraction is at most $v-\underline v$, so it vanishes as $v$ falls to $\underline v$ and $\beta(\underline v)=\underline v$. When no reserve price is announced, the rules still bound bids from below, for example by zero. \Citet[footnote 25]{MilgromWeber1982} interpret such a floor as an implicit reserve price. \Cref{sec:14-fpa-multiplicity} shows what happens without any floor.
+
+\begin{proof}
+We first derive the bid function from the necessary conditions. We then verify that it is an equilibrium.
+
+\emph{Step 1.} We establish participation and the boundary condition. Suppose all bidders use a strategy $\beta$ with the stated properties. A bidder with $v<r$ who wins pays at least $r>v$, so it prefers not to bid. A bidder must earn a nonnegative expected payoff, since it can always abstain. For $v>r$ this payoff is $(v-\beta(v))F(v)^{n-1}$, which requires $\beta(v)\le v$. Letting $v$ fall to $r$ and using continuity gives $\beta(r)\le r$. Bids below $r$ are rejected, so $\beta(r)\ge r$. Hence
+\[
+\beta(r)=r.
+\]
+
+\emph{Step 2.} We write the bidder's objective. Consider a bidder with value $v\ge r$ who bids $b$ in the range $[r,\beta(\bar v)]$. It wins when every rival bids less than $b$. A rival with value below $r$ does not bid. A rival with value $V_j\ge r$ bids less than $b$ exactly when $V_j<\beta^{-1}(b)$, because $\beta$ is strictly increasing. The rivals' values are independent, so the expected payoff is
+\begin{equation}\label{eq:14-rs-objective}
+\Pi(b;v)=(v-b)\,F\big(\beta^{-1}(b)\big)^{n-1}.
+\end{equation}
+
+\emph{Step 3.} We derive the first-order condition. By the inverse function rule, $\frac{d}{db}\beta^{-1}(b)=\frac{1}{\beta'(\beta^{-1}(b))}$. Differentiating \eqref{eq:14-rs-objective} gives
+\[
+\frac{\partial\Pi(b;v)}{\partial b}=-F\big(\beta^{-1}(b)\big)^{n-1}+(v-b)(n-1)F\big(\beta^{-1}(b)\big)^{n-2}f\big(\beta^{-1}(b)\big)\frac{1}{\beta'\big(\beta^{-1}(b)\big)}.
+\]
+For $v\in(r,\bar v)$ the equilibrium bid $\beta(v)$ lies in the interior of the range, so the derivative vanishes at $b=\beta(v)$. Substituting $\beta^{-1}(\beta(v))=v$ yields
+\[
+0=-F(v)^{n-1}+\big(v-\beta(v)\big)(n-1)F(v)^{n-2}f(v)\frac{1}{\beta'(v)}.
+\]
+
+\emph{Step 4.} We rewrite the condition as a differential equation. Multiplying by $\beta'(v)$ gives the equilibrium differential equation
+\begin{equation}\label{eq:14-rs-ode}
+\beta'(v)F(v)^{n-1}=\big(v-\beta(v)\big)(n-1)F(v)^{n-2}f(v).
+\end{equation}
+We move the term in $\beta(v)$ to the left:
+\[
+\beta'(v)F(v)^{n-1}+\beta(v)(n-1)F(v)^{n-2}f(v)=v(n-1)F(v)^{n-2}f(v).
+\]
+The left side is the derivative of the product $\beta(v)F(v)^{n-1}$, and the right side is $v$ times the derivative of $F(v)^{n-1}$:
+\[
+\frac{d}{dv}\Big[\beta(v)F(v)^{n-1}\Big]=v\,\frac{d}{dv}\Big[F(v)^{n-1}\Big].
+\]
+
+\emph{Step 5.} We solve the differential equation. We integrate both sides from $r$ to $v$:
+\[
+\beta(v)F(v)^{n-1}-\beta(r)F(r)^{n-1}=\int_r^v t\,d\big[F(t)^{n-1}\big].
+\]
+Integration by parts evaluates the right side:
+\[
+\int_r^v t\,d\big[F(t)^{n-1}\big]=vF(v)^{n-1}-rF(r)^{n-1}-\int_r^v F(t)^{n-1}\,dt.
+\]
+We substitute and use $\beta(r)=r$ from Step 1. The terms $rF(r)^{n-1}$ cancel, which leaves
+\[
+\beta(v)F(v)^{n-1}=vF(v)^{n-1}-\int_r^v F(t)^{n-1}\,dt.
+\]
+Dividing by $F(v)^{n-1}>0$ gives \eqref{eq:14-rs-bid}. Every candidate satisfies this equation, so there is at most one symmetric equilibrium of the stated form.
+
+\emph{Step 6.} We check that the candidate is strictly increasing. Rearranging \eqref{eq:14-rs-ode} gives
+\[
+\beta'(v)=(n-1)\frac{f(v)}{F(v)}\big(v-\beta(v)\big).
+\]
+By \eqref{eq:14-rs-bid}, $v-\beta(v)=\frac{\int_r^vF(t)^{n-1}dt}{F(v)^{n-1}}>0$ for $v>r$. Hence $\beta'(v)>0$ on $(r,\bar v)$, and the candidate is strictly increasing, as assumed.
+
+\emph{Step 7.} We verify that the candidate is an equilibrium. Suppose all rivals use \eqref{eq:14-rs-bid}. Let $\bar b=\sup_v\beta(v)$. A bid above $\bar b$ wins for sure, like a bid of $\bar b$, but costs more, so it is dominated. A bid below $r$ is rejected and earns zero. Every bid in $[r,\bar b)$ equals $\beta(z)$ for exactly one $z\in[r,\bar v)$. A bidder with value $v$ who bids $\beta(z)$ wins with probability $F(z)^{n-1}$, so its payoff from mimicking type $z$ is
+\[
+\Pi(z;v)=\big(v-\beta(z)\big)F(z)^{n-1}.
+\]
+Its derivative with respect to $z$ is
+\[
+\frac{\partial\Pi(z;v)}{\partial z}=-\beta'(z)F(z)^{n-1}+\big(v-\beta(z)\big)(n-1)F(z)^{n-2}f(z).
+\]
+The differential equation \eqref{eq:14-rs-ode} at $z$ replaces $\beta'(z)F(z)^{n-1}$ by $\big(z-\beta(z)\big)(n-1)F(z)^{n-2}f(z)$. Therefore
+\[
+\frac{\partial\Pi(z;v)}{\partial z}=(n-1)F(z)^{n-2}f(z)\Big[\big(v-\beta(z)\big)-\big(z-\beta(z)\big)\Big]=(n-1)F(z)^{n-2}f(z)\,(v-z).
+\]
+For $v\ge r$ the derivative is positive for $z<v$ and negative for $z>v$. Mimicking one's own type is optimal, and it earns $\int_r^vF(t)^{n-1}dt\ge 0$, which is at least the payoff from abstaining. For $v<r$ the derivative is negative for all $z\ge r$. The best accepted bid is then $r$, which earns $(v-r)F(r)^{n-1}\le 0$, so abstaining is optimal.
+
+\emph{Step 8.} We derive the conditional expectation form. The random variable $\max\{Y_1,r\}$ equals $r$ when $Y_1<r$. Hence
+\[
+\E\big[\max\{Y_1,r\}\indic(Y_1<v)\big]=rF(r)^{n-1}+\int_r^v y\,d\big[F(y)^{n-1}\big].
+\]
+By the integration by parts of Step 5, the right side equals $vF(v)^{n-1}-\int_r^vF(t)^{n-1}dt$. Dividing by $\Pr(Y_1<v)=F(v)^{n-1}$ gives \eqref{eq:14-rs-condexp}.
+\end{proof}
+
+The conditional expectation form \eqref{eq:14-rs-condexp} has a sharp interpretation. In a second-price auction with reserve price $r$, a winner with value $v$ pays $\max\{Y_1,r\}$. Conditional on winning, that is on $Y_1<v$, its expected payment is the right side of \eqref{eq:14-rs-condexp}. In the first-price auction it bids exactly this amount. Each bidder acts as if its value were the highest and bids its best estimate of the price that the second-highest value (or the reserve) would set. Type by type, expected payments in the two formats coincide, and \cref{sec:14-ret} explains why.
+
+Two features of the equilibrium deserve comment. First, the bid of the marginal participant equals the reserve price. When $r>\underline v$, so that $F(r)>0$, the bid function is also flat there. Letting $v$ fall to $r$ in the formula of Step 6 gives $\beta'(r)=(n-1)\frac{f(r)}{F(r)}\big(r-\beta(r)\big)=0$. Without a binding reserve the slope at $\underline v$ need not vanish. With uniform values on $[0,1]$ it equals $\frac{n-1}{n}$ (\cref{ex:14-uniform}). Second, uniqueness extends beyond the class of symmetric differentiable strategies. Consider an independent private values model with a common compact support and a continuously differentiable density that is positive on its interior. Its FPA has a unique equilibrium, which is in pure, strictly increasing and differentiable strategies \citep[Theorem 2.1(ii)]{AtheyHaile2007}. \Citet{Lebrun1999} and \citet{MaskinRiley2003} establish the uniqueness results behind this statement. With symmetric bidders, the unique equilibrium is therefore the one in \cref{prop:14-rs}. \Cref{thm:14-existence} collects the existence and uniqueness results. The multiplicity example of \cref{sec:14-fpa-multiplicity} shows that such uniqueness results rely on a floor on bids.
+
+\casehead{The original paper} \citet{RileySamuelson1981} ask which auction a seller with independent private value buyers should use to maximize expected revenue. They model a broad class of auctions in which the highest bidder wins. Within it, they derive the first-price equilibrium \eqref{eq:14-rs-bid} with a reserve price and prove that all auctions in the class yield the same expected revenue. They also characterize the revenue-maximizing reserve price, which we derive in \cref{sec:14-optimal}.
+\Citet[pp.~1092--1093]{MilgromWeber1982} place the paper with \citet{HarrisRaviv1981} and \citet{Myerson1981} in the self-selection approach, which explained revenue equivalence and was then applied to optimal auction design. \Citet{Vickrey1961} had already solved the first-price auction for uniformly distributed values.
+
+\subsection{Equilibrium by the envelope theorem}\label{sec:14-fpa-envelope}
+
+A second derivation uses the bidder's equilibrium payoff instead of its first-order condition. It requires less smoothness, and it is the template for the revenue equivalence theorem.
+
+Let $\pi(v)$ denote the equilibrium expected payoff of a bidder with value $v\ge r$. Since a bid $\beta(z)$ wins with probability $F(z)^{n-1}$, and since mimicking the own type is optimal,
+\[
+\pi(v)=\max_{z}\,\big(v-\beta(z)\big)F(z)^{n-1}.
+\]
+For each fixed $z$ the objective is an affine function of $v$ with slope $F(z)^{n-1}$. The \emph{envelope theorem} states that the derivative of the maximized value equals the partial derivative of the objective with respect to the parameter, evaluated at the optimal choice. The optimal choice is $z=v$, so
+\[
+\pi'(v)=\frac{\partial}{\partial v}\Big[\big(v-\beta(z)\big)F(z)^{n-1}\Big]_{z=v}=F(v)^{n-1}.
+\]
+The step is rigorous here because $\pi$ is the upper envelope of a family of affine functions of $v$. Such an envelope is convex, hence absolutely continuous, and its derivative equals the slope of the maximizing line wherever the derivative exists \citep{MilgromSegal2002}. \Cref{app:math} states the envelope theorem in general form.
+
+The marginal participant earns nothing, because $\pi(r)=\big(r-\beta(r)\big)F(r)^{n-1}=0$. Integrating $\pi'$ from $r$ gives
+\begin{equation}\label{eq:14-fpa-payoff-envelope}
+\pi(v)=\int_r^v F(t)^{n-1}\,dt.
+\end{equation}
+The payoff is also the probability of winning times the surplus when winning:
+\[
+\pi(v)=\big(v-\beta(v)\big)F(v)^{n-1}.
+\]
+Equating the two expressions and solving for $\beta(v)$ gives \eqref{eq:14-rs-bid} again.
+
+The argument used only two features of the first-price auction. The first is that a bidder with value $v$ wins with probability $F(v)^{n-1}$, so the object goes to the highest value among the participants. The second is that the marginal participant earns zero. The pricing rule entered only when we translated $\pi(v)$ into a bid. Any format with these two features gives every type the same payoff \eqref{eq:14-fpa-payoff-envelope}, hence the same expected payment $vF(v)^{n-1}-\pi(v)$. \Cref{sec:14-ret} develops this observation into the revenue equivalence theorem.
+
+\subsection{Examples}\label{sec:14-fpa-examples}
+
+We now compute the equilibrium for four families of distributions. Each computation applies \eqref{eq:14-rs-bid} directly.
+
+\begin{example}[Uniform values]\label{ex:14-uniform}
+Let $F(v)=v$ on $[0,1]$ and $r=0$. Then $F(t)^{n-1}=t^{n-1}$ and
+\[
+\int_0^v t^{n-1}\,dt=\frac{v^n}{n}.
+\]
+Substituting into \eqref{eq:14-rs-bid} gives
+\[
+\beta(v)=v-\frac{\frac{v^n}{n}}{v^{n-1}}=v-\frac{v}{n}=\frac{n-1}{n}\,v.
+\]
+With two bidders, each bids half its value. The highest value $V_{(n:n)}$ has distribution function $v^n$, density $nv^{n-1}$ and mean $\frac{n}{n+1}$. The winner pays its bid, so expected revenue is
+\[
+\E\big[\beta(V_{(n:n)})\big]=\frac{n-1}{n}\cdot\frac{n}{n+1}=\frac{n-1}{n+1}.
+\]
+This equals the expected second-highest value $\E[V_{(n-1:n)}]=\frac{n-1}{n+1}$, the revenue of the second-price auction (\cref{prop:14-spa-revenue}). By \eqref{eq:14-fpa-payoff-envelope}, a bidder with value $v$ earns $\pi(v)=\frac{v^n}{n}$, so each bidder's ex ante payoff is $\int_0^1\frac{v^n}{n}dv=\frac{1}{n(n+1)}$. As a check, expected total surplus equals revenue plus the payoffs of all $n$ bidders:
+\[
+\frac{n-1}{n+1}+n\cdot\frac{1}{n(n+1)}=\frac{n}{n+1}=\E\big[V_{(n:n)}\big].
+\]
+\end{example}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.55\textwidth,height=0.47\textwidth,xmin=0,xmax=1,ymin=0,ymax=1,
+  xlabel={Value $v$},ylabel={Bid $\beta(v)$},axis lines=left,
+  xtick={0,0.25,0.5,0.75,1},ytick={0,0.25,0.5,0.75,1},
+  legend style={at={(1.04,0.5)},anchor=west,draw=none,fill=white,font=\small},legend cell align=left]
+\addplot[thick,black,dashed,domain=0:1] {x};
+\addlegendentry{45-degree line, $\beta(v)=v$}
+\addplot[thick,c14blue,domain=0:1] {x/2};
+\addlegendentry{$n=2$: $\beta(v)=\frac{1}{2}v$}
+\addplot[thick,c14orange,domain=0:1] {2*x/3};
+\addlegendentry{$n=3$: $\beta(v)=\frac{2}{3}v$}
+\addplot[thick,c14aqua,domain=0:1] {4*x/5};
+\addlegendentry{$n=5$: $\beta(v)=\frac{4}{5}v$}
+\addplot[thick,c14gray,domain=0:1] {9*x/10};
+\addlegendentry{$n=10$: $\beta(v)=\frac{9}{10}v$}
+\end{axis}
+\end{tikzpicture}
+\caption{Equilibrium bids in the first-price auction with values uniform on $[0,1]$ and no reserve price, $\beta(v)=\frac{n-1}{n}v$. Shading falls as the number of bidders grows.}\label{fig:14-rs-uniform}
+\end{figure}
+
+\begin{example}[Uniform values with a reserve price]\label{ex:14-uniform-reserve}
+Keep $F(v)=v$ on $[0,1]$ and let $r\in(0,1)$. Then
+\[
+\int_r^v t^{n-1}\,dt=\frac{v^n-r^n}{n},
+\]
+and \eqref{eq:14-rs-bid} gives, for $v\ge r$,
+\[
+\beta(v)=v-\frac{v^n-r^n}{nv^{n-1}}=\frac{n-1}{n}\,v+\frac{r^n}{n\,v^{n-1}}.
+\]
+The reserve raises the bid of every participant by $\frac{r^n}{nv^{n-1}}$. For $n=2$ and $r=\frac12$,
+\[
+\beta(v)=\frac{v}{2}+\frac{1}{8v},\qquad v\in\Big[\frac12,1\Big],
+\]
+so that $\beta(\frac12)=\frac12$ and $\beta(1)=\frac58$. The object is sold when the highest value $V_{(2:2)}$, with density $2v$, is at least $\frac12$. Expected revenue is
+\[
+\int_{\frac{1}{2}}^{1}\Big(\frac{v}{2}+\frac{1}{8v}\Big)2v\,dv=\int_{\frac{1}{2}}^{1}\Big(v^2+\frac14\Big)dv=\Big[\frac{v^3}{3}+\frac{v}{4}\Big]_{\frac{1}{2}}^{1}=\frac{7}{12}-\frac{1}{6}=\frac{5}{12}.
+\]
+The reserve price raises expected revenue from $\frac13$ to $\frac{5}{12}$. \Cref{sec:14-optimal} shows that $r=\frac12$ is the revenue-maximizing reserve for these values.
+\end{example}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.62\textwidth,height=0.5\textwidth,xmin=0,xmax=1,ymin=0,ymax=1,
+  xlabel={Value $v$},ylabel={Bid $\beta(v)$},axis lines=left,
+  xtick={0,0.25,0.5,0.75,1},xticklabels={$0$,$\frac14$,$\frac12$,$\frac34$,$1$},
+  ytick={0,0.25,0.5,0.625,0.75,1},yticklabels={$0$,$\frac14$,$\frac12$,$\frac58$,$\frac34$,$1$},
+  legend style={at={(0.03,0.97)},anchor=north west,draw=none,fill=white,font=\small},legend cell align=left]
+\addplot[thick,black,dashed,domain=0:1] {x};
+\addlegendentry{45-degree line}
+\addplot[thick,c14blue,domain=0:1] {x/2};
+\addlegendentry{$r=0$: $\beta(v)=\frac{v}{2}$}
+\addplot[thick,c14orange,domain=0.5:1,samples=60] {x/2+1/(8*x)};
+\addlegendentry{$r=\frac12$: $\beta(v)=\frac{v}{2}+\frac{1}{8v}$}
+\addplot[only marks,mark=*,c14orange,mark size=1.6pt] coordinates {(0.5,0.5)};
+\draw[densely dotted,gray] (axis cs:0.5,0) -- (axis cs:0.5,0.5);
+\node[font=\small,align=center] at (axis cs:0.25,0.62) {no bid\\when $r=\frac12$};
+\end{axis}
+\end{tikzpicture}
+\caption{Equilibrium bids with two bidders and values uniform on $[0,1]$, without a reserve price and with $r=\frac12$. Values below the reserve do not bid. Participants bid more than without a reserve, and the bid function is flat at $v=r$.}\label{fig:14-rs-reserve}
+\end{figure}
+
+\begin{example}[Power distribution]\label{ex:14-power}
+Let $F(v)=v^\gamma$ on $[0,1]$ with $\gamma>0$, and $r=0$. Then $F(t)^{n-1}=t^{\gamma(n-1)}$ and
+\[
+\int_0^v t^{\gamma(n-1)}\,dt=\frac{v^{\gamma(n-1)+1}}{\gamma(n-1)+1}.
+\]
+Substituting into \eqref{eq:14-rs-bid} gives
+\[
+\beta(v)=v-\frac{v^{\gamma(n-1)+1}}{\big(\gamma(n-1)+1\big)v^{\gamma(n-1)}}=v-\frac{v}{\gamma(n-1)+1}=\frac{\gamma(n-1)}{\gamma(n-1)+1}\,v.
+\]
+The parameters enter only through the product $\gamma(n-1)$. The reason is that bidding depends on $F$ and $n$ only through the distribution of the highest rival value, $F_{Y_1}(y)=y^{\gamma(n-1)}$. A bidder facing $n-1$ rivals with exponent $\gamma$ bids like a bidder facing one rival with exponent $\gamma(n-1)$. A larger $\gamma$ shifts probability toward high values, which stiffens competition and reduces shading.
+\end{example}
+
+\begin{example}[Exponential values, two bidders]\label{ex:14-exponential}
+Let $F(v)=1-e^{-\lambda v}$ on $[0,\infty)$ with $\lambda>0$, $n=2$ and $r=0$. Then
+\[
+\int_0^v\big(1-e^{-\lambda t}\big)dt=v-\frac{1-e^{-\lambda v}}{\lambda}.
+\]
+Substituting into \eqref{eq:14-rs-bid} gives
+\[
+\beta(v)=v-\frac{v-\frac{1-e^{-\lambda v}}{\lambda}}{1-e^{-\lambda v}}=v-\frac{v}{1-e^{-\lambda v}}+\frac{1}{\lambda}=\frac{1}{\lambda}-\frac{v\,e^{-\lambda v}}{1-e^{-\lambda v}}.
+\]
+The last term equals $\frac{v}{e^{\lambda v}-1}$. It tends to $\frac{1}{\lambda}$ as $v\to 0$ and to $0$ as $v\to\infty$. Hence $\beta(0)=0$ and $\beta(v)$ rises toward $\frac{1}{\lambda}=\E[V]$. Values are unbounded, yet no bid exceeds the mean value. Form \eqref{eq:14-rs-condexp} explains why: with two bidders, $\beta(v)=\E[V_j\mid V_j<v]$, which is below $\E[V_j]$. Expected revenue equals $\frac{1}{2\lambda}$, the mean of the lower of two independent exponential values.
+\end{example}
+
+The examples suggest that bids rise with the number of bidders. The next result confirms this for every distribution.
+
+\begin{proposition}[More bidders, less shading]\label{prop:14-fpa-n}
+Let \cref{ass:14-sipv} hold and fix $r$. For every $v>r$, the shading $v-\beta(v)$ strictly decreases in $n$ and converges to zero as $n\to\infty$. Equilibrium bids therefore rise with $n$ and converge to values.
+\end{proposition}
+
+\begin{proof}
+By \eqref{eq:14-rs-bid}, the shading of type $v$ is
+\[
+v-\beta(v)=\int_r^v\Big(\frac{F(t)}{F(v)}\Big)^{n-1}dt.
+\]
+The density is positive on $(\underline v,\bar v)$, so $F$ is strictly increasing there and $0\le\frac{F(t)}{F(v)}<1$ for $t<v$. The integrand therefore decreases in $n$ at every $t<v$, strictly wherever $F(t)>0$. This set of $t$ has positive length in $[r,v]$, so the integral strictly decreases in $n$. As $n\to\infty$ the integrand converges to zero at every $t<v$. It is bounded by one on the bounded interval $[r,v]$, so the dominated convergence theorem gives convergence of the integral to zero.
+\end{proof}
+
+Conditional on winning, a bidder's estimate of the second-highest value rises with the number of rivals. More bidders thus discipline markdowns in the way that more Cournot competitors discipline markups (\cref{ch:theory}).
+
+\Cref{tab:14-uniform-formats} collects the uniform-value equilibria of six auction formats. The all-pay and third-price bids are derived in \cref{sec:14-ret}. Every format yields expected revenue $\frac{n-1}{n+1}$, and every type makes the same expected payment in every format. This regularity motivates \cref{sec:14-ret}.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Equilibrium bids, expected payments and expected revenue in six formats, with $n$ symmetric bidders, values uniform on $[0,1]$, and no reserve price.}\label{tab:14-uniform-formats}
+\small
+\begin{tabular}{lccc}
+\toprule
+Format & Bid of type $v$ & Expected payment of type $v$ & Expected revenue\\
+\midrule
+First-price sealed bid & $\frac{n-1}{n}v$ & $\frac{n-1}{n}v^n$ & $\frac{n-1}{n+1}$\\[3pt]
+Dutch (descending clock) & stop at $\frac{n-1}{n}v$ & $\frac{n-1}{n}v^n$ & $\frac{n-1}{n+1}$\\[3pt]
+Second-price sealed bid & $v$ & $\frac{n-1}{n}v^n$ & $\frac{n-1}{n+1}$\\[3pt]
+English (button) & exit at $v$ & $\frac{n-1}{n}v^n$ & $\frac{n-1}{n+1}$\\[3pt]
+All-pay & $\frac{n-1}{n}v^n$ & $\frac{n-1}{n}v^n$ & $\frac{n-1}{n+1}$\\[3pt]
+Third-price ($n\ge 3$) & $\frac{n-1}{n-2}v$ & $\frac{n-1}{n}v^n$ & $\frac{n-1}{n+1}$\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item Notes: The expected payment of type $v$ is taken before the outcome is known, so it includes the event of losing. In the first-price and Dutch auctions it equals the bid times the win probability $v^{n-1}$. In the second-price and English auctions it equals $\E[Y_1\indic(Y_1<v)]=\int_0^v y\,(n-1)y^{n-2}dy$. In the all-pay auction it equals the bid. Expected revenue is $n\int_0^1\frac{n-1}{n}v^n\,dv$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{The first-order condition in terms of the bid distribution}\label{sec:14-fpa-G}
+
+The equilibrium can be characterized without reference to $F$ or $\beta$. Let $G$ denote the distribution function of a single rival's equilibrium bid and $g$ its density, and suppose the reserve price does not bind ($r=\underline v$). In the symmetric equilibrium, $G(b)=\Pr\big(\beta(V_j)\le b\big)=F\big(\beta^{-1}(b)\big)$ on the bid support $[\underline b,\bar b]=[\beta(\underline v),\beta(\bar v)]$. A bidder with value $v_i$ takes $G$ as given and solves
+\[
+\max_b\;(v_i-b)\,G(b)^{n-1}.
+\]
+The first-order condition is
+\[
+-G(b)^{n-1}+(v_i-b)(n-1)G(b)^{n-2}g(b)=0.
+\]
+Dividing by $(n-1)G(b)^{n-2}g(b)$ and solving for $v_i$ gives
+\begin{equation}\label{eq:14-foc-G}
+v_i=b+\frac{G(b)}{(n-1)\,g(b)}.
+\end{equation}
+
+Equation \eqref{eq:14-foc-G} is the differential equation \eqref{eq:14-rs-ode} written in terms of the bid distribution. To see this, differentiate $G(b)=F(\beta^{-1}(b))$ to get $g(b)=\frac{f(\beta^{-1}(b))}{\beta'(\beta^{-1}(b))}$. At $b=\beta(v)$,
+\[
+\frac{G(b)}{(n-1)g(b)}=\frac{F(v)\,\beta'(v)}{(n-1)f(v)}=v-\beta(v),
+\]
+where the last equality is \eqref{eq:14-rs-ode}. For uniform values, $\beta(v)=\frac{n-1}{n}v$, so bids lie in $[0,\frac{n-1}{n}]$ with $G(b)=\frac{nb}{n-1}$ and $g(b)=\frac{n}{n-1}$. Then $\frac{G(b)}{(n-1)g(b)}=\frac{b}{n-1}$, and \eqref{eq:14-foc-G} gives $v=\frac{nb}{n-1}$, which inverts the bid function.
+
+The right side of \eqref{eq:14-foc-G} involves only the bid, the bid distribution, and the number of bidders. All three are observable when bids are recorded. Each bid can therefore be mapped into the value that rationalizes it, without solving a differential equation and without knowing $F$. \Citet{GuerrePerrigneVuong2000} build their identification result and their two-step nonparametric estimator on this observation (\cref{ch:auction-empirics}). In equilibrium the map $b\mapsto b+\frac{G(b)}{(n-1)g(b)}$ equals $\beta^{-1}$, so it must be strictly increasing. This is a testable restriction on bid data.
+
+The condition also has an economic reading. Rewrite \eqref{eq:14-foc-G} as a markdown relative to the bid:
+\begin{equation}\label{eq:14-markdown}
+\frac{v_i-b}{b}=\frac{1}{\eta(b)},\qquad \eta(b)=(n-1)\frac{b\,g(b)}{G(b)}=\frac{d\ln G(b)^{n-1}}{d\ln b}.
+\end{equation}
+Here $\eta(b)$ is the elasticity of the win probability $G(b)^{n-1}$ with respect to the bid. \Citet[footnote 13]{AtheyHaile2007} compare this markdown to that of an \emph{oligopsonist}, a buyer that sets its price from the equilibrium elasticity of its residual supply curve. In the auction, the distribution of the highest rival bid plays the role of the residual supply curve. A buyer that values one unit at $v$ and faces residual supply $S(w)$ maximizes $(v-w)S(w)$, which gives $\frac{v-w}{w}=\frac{1}{\varepsilon_S}$ with $\varepsilon_S$ the supply elasticity. With a single rival the bidder is a monopsonist facing that rival's bid distribution, which is our own reading of the analogy. The markdown rule is the buyer's mirror image of the Lerner rule $\frac{p-c}{p}=\frac{1}{\varepsilon}$ (\cref{ch:theory}). Recovering a value from a bid mirrors recovering marginal cost from a pricing first-order condition (\cref{ch:diffprod}). For uniform values $\eta(b)=n-1$ at every bid, so the relative markdown is $\frac{1}{n-1}$. \Cref{sec:14-procurement} develops the same analogy for procurement auctions, where the bid is a price and the win probability a quantity.
+
+Integrating \eqref{eq:14-foc-G} over the bid distribution yields a simple relation between mean values and mean bids \citep[Section 2.2.1]{AtheyHaile2007}.
+
+\begin{proposition}[Mean values and mean bids]\label{prop:14-mean-bid}
+In the symmetric equilibrium of the first-price auction under \cref{ass:14-sipv} with a nonbinding reserve price, let $B$ denote an equilibrium bid, with support $[\underline b,\bar b]$. Then
+\begin{equation}\label{eq:14-mean-bid}
+\E[V]=\frac{n-2}{n-1}\,\E[B]+\frac{1}{n-1}\,\bar b,\qquad \E[V-B]=\frac{1}{n-1}\big(\bar b-\E[B]\big).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+In equilibrium $V=B+\frac{G(B)}{(n-1)g(B)}$, where $B$ has density $g$. Taking expectations,
+\[
+\E[V]=\E[B]+\frac{1}{n-1}\int_{\underline b}^{\bar b}\frac{G(b)}{g(b)}\,g(b)\,db=\E[B]+\frac{1}{n-1}\int_{\underline b}^{\bar b}G(b)\,db.
+\]
+Integration by parts with $G(\underline b)=0$ and $G(\bar b)=1$ gives
+\[
+\int_{\underline b}^{\bar b}G(b)\,db=\Big[b\,G(b)\Big]_{\underline b}^{\bar b}-\int_{\underline b}^{\bar b}b\,g(b)\,db=\bar b-\E[B].
+\]
+Substituting,
+\[
+\E[V]=\E[B]+\frac{\bar b-\E[B]}{n-1}=\frac{n-2}{n-1}\E[B]+\frac{1}{n-1}\bar b.
+\]
+The second equation in \eqref{eq:14-mean-bid} follows by subtracting $\E[B]$.
+\end{proof}
+
+With two bidders the relation reduces to $\E[V]=\bar b$: the highest bid in the support equals the mean value. Form \eqref{eq:14-rs-condexp} gives the same result directly, since $\beta(\bar v)=\E[Y_1\mid Y_1<\bar v]=\E[V]$ when $n=2$. For uniform values with $n$ bidders, $\E[B]=\frac{n-1}{2n}$ and $\bar b=\frac{n-1}{n}$, and \eqref{eq:14-mean-bid} returns $\frac{n-2}{2n}+\frac{1}{n}=\frac12=\E[V]$. \Citet[Section 2.2.1]{AtheyHaile2007} observe that such moment relations had not been exploited in econometric work.
+
+\subsection{Reserve prices, the Dutch auction, and multiplicity}\label{sec:14-fpa-multiplicity}
+
+The Dutch auction is strategically equivalent to the first-price auction (\cref{prop:14-dutch-fpa}). Its equilibrium is therefore the same: a bidder with value $v\ge r$ stops the descending clock at the price $\beta(v)$ given by \eqref{eq:14-rs-bid}.
+
+A reserve price has two effects in the first-price auction. It excludes all values below $r$, and it raises the bids of all participants. Write $\beta_r$ for the equilibrium bid with reserve $r$ and $\beta_{\underline v}$ for the bid without a binding reserve. By \eqref{eq:14-rs-bid}, for $v>r$,
+\[
+\beta_r(v)-\beta_{\underline v}(v)=\frac{\int_{\underline v}^v F(t)^{n-1}dt-\int_r^v F(t)^{n-1}dt}{F(v)^{n-1}}=\frac{\int_{\underline v}^r F(t)^{n-1}\,dt}{F(v)^{n-1}}>0.
+\]
+The reserve acts like an extra competitor who bids $r$. With uniform values the increase is $\frac{r^n}{nv^{n-1}}$, as in \cref{ex:14-uniform-reserve}. The effect fades as $v$ rises, because a high-value bidder rarely faces a situation in which the reserve is the binding competitor. The net effect on revenue weighs the higher bids against the lost sales, and \cref{sec:14-optimal} resolves it.
+
+The boundary condition $\beta(r)=r$ in \cref{prop:14-rs} came from the floor on bids. \Citet[footnote 25]{MilgromWeber1982} show that the floor matters. Suppose any real number is a valid bid, including a negative one, which would oblige the seller to pay the winner. Step 1 of the proof then fails. Integrating the differential equation without a boundary condition gives
+\[
+\beta(v)F(v)^{n-1}=\int_{\underline v}^v t\,d\big[F(t)^{n-1}\big]-k
+\]
+for an arbitrary constant $k$. Hence the family of candidates is
+\begin{equation}\label{eq:14-multiplicity}
+\beta_k(v)=\beta(v)-\frac{k}{F(v)^{n-1}},
+\end{equation}
+where $\beta$ is the bid \eqref{eq:14-rs-bid} with $r=\underline v$. With uniform values on $[0,1]$ this family is
+\[
+\beta_k(v)=\frac{n-1}{n}\,v-\frac{k}{v^{n-1}},\qquad k\ge 0.
+\]
+\Citet[footnote 25]{MilgromWeber1982} print the slope of this family as $\frac{n}{n+1}$. That is a misprint. The footnote carries it into the ranges of the strategies, which it prints as $\big(0,\frac{n}{n+1}\big)$ for $k=0$ and $\big(-\infty,\frac{n}{n+1}-k\big)$ for $k>0$. The slope $\frac{n}{n+1}$ violates the first-order condition, since the two sides of \eqref{eq:14-rs-ode} then differ by $\frac{v^{n-1}}{n+1}$, or by $\frac{1}{n+1}$ after dividing by $v^{n-1}$. The slope $\frac{n-1}{n}$ satisfies it and reproduces exactly the ex ante payoff $\frac{1}{n(n+1)}+k$ that the footnote reports, as we now verify.
+
+Fix $k\ge 0$ and suppose all rivals use $\beta_k$. Its derivative is $\beta_k'(v)=\frac{n-1}{n}+\frac{(n-1)k}{v^n}>0$, so $\beta_k$ is strictly increasing. For $k>0$ its range is $\big(-\infty,\frac{n-1}{n}-k\big)$, and for $k=0$ it is $\big(0,\frac{n-1}{n}\big)$. A bid $\beta_k(z)$ wins with probability $z^{n-1}$, so a bidder with value $v$ who mimics type $z$ earns
+\[
+\Pi_k(z;v)=\big(v-\beta_k(z)\big)z^{n-1}=v\,z^{n-1}-\frac{n-1}{n}z^n+k.
+\]
+Differentiating with respect to $z$,
+\[
+\frac{\partial\Pi_k(z;v)}{\partial z}=(n-1)z^{n-2}v-(n-1)z^{n-1}=(n-1)z^{n-2}(v-z).
+\]
+The payoff peaks at $z=v$. A bid above the range wins for sure at a higher cost than the top of the range, and a bid below the range (possible only when $k=0$) never wins. Hence $\beta_k$ is a symmetric equilibrium for every $k\ge 0$. Type $v$ earns $\Pi_k(v;v)=\frac{v^n}{n}+k$, and the ex ante payoff is
+\[
+\int_0^1\Big(\frac{v^n}{n}+k\Big)dv=\frac{1}{n(n+1)}+k.
+\]
+The allocation is efficient in every member of the family, so total surplus is the same. Each bidder gains $k$, and the seller's expected revenue falls to $\frac{n-1}{n+1}-nk$. In the equilibria with $k>0$, low types submit large negative bids, and even a bidder with value zero expects to receive $k$. \Citet[footnote 25]{MilgromWeber1982} suggest that this possibility may explain why almost all observed auctions have at least an implicit reserve price. The lesson is that the floor on bids, set by a reserve price or by a nonnegativity rule, selects the equilibrium. In empirical work the floor is part of the rules and should be recorded with the bids.
+
+\subsection{Risk-averse bidders}\label{sec:14-fpa-risk}
+
+We now replace risk neutrality in \cref{ass:14-sipv}(i). Each bidder has a utility of money $\mathcal U$ that is strictly increasing and concave, with $\mathcal U(0)=0$, and twice differentiable on $(0,\infty)$. A bidder with value $v$ who wins at price $b$ receives $\mathcal U(v-b)$, and a losing bidder receives $\mathcal U(0)=0$. We look for a symmetric equilibrium with strictly increasing bid function $\beta_u$ and bid distribution $G$.
+
+A bidder with value $v$ solves
+\[
+\max_b\;\mathcal U(v-b)\,G(b)^{n-1}.
+\]
+The first-order condition is
+\[
+-\mathcal U'(v-b)\,G(b)^{n-1}+\mathcal U(v-b)(n-1)G(b)^{n-2}g(b)=0,
+\]
+which simplifies, after division by $G(b)^{n-2}$, to
+\[
+\mathcal U'(v-b)\,G(b)=(n-1)\,\mathcal U(v-b)\,g(b).
+\]
+Following \citet[eq.~(6.24)]{AtheyHaile2007}, define the ratio
+\begin{equation}\label{eq:14-ell}
+\ell(s)=\frac{\mathcal U(s)}{\mathcal U'(s)}.
+\end{equation}
+They denote this ratio by $\lambda$. We write $\ell$ to keep $\lambda$ for the exponential rate of \cref{ex:14-exponential}. The first-order condition becomes $\ell(v-b)=\frac{G(b)}{(n-1)g(b)}$, so
+\begin{equation}\label{eq:14-risk-foc}
+v=b+\ell^{-1}\Big(\frac{G(b)}{(n-1)\,g(b)}\Big),
+\end{equation}
+which is their eq.~(6.25). The ratio has three properties. First, $\ell(0)=\lim_{s\downarrow 0}\ell(s)=0$. Second, $\ell'(s)=1-\frac{\mathcal U(s)\,\mathcal U''(s)}{\mathcal U'(s)^2}\ge 1$, so $\ell$ is strictly increasing and invertible. Third, concavity and $\mathcal U(0)=0$ give $0=\mathcal U(0)\le\mathcal U(s)+\mathcal U'(s)(0-s)$, that is,
+\[
+\ell(s)\ge s\quad\text{for } s\ge 0,
+\]
+with strict inequality for $s>0$ when $\mathcal U$ is strictly concave. Under risk neutrality $\ell(s)=s$, and \eqref{eq:14-risk-foc} reduces to \eqref{eq:14-foc-G}.
+
+In terms of the bid function, $G(b)=F(\beta_u^{-1}(b))$, so at $b=\beta_u(v)$ we have $\frac{G(b)}{(n-1)g(b)}=\frac{F(v)\beta_u'(v)}{(n-1)f(v)}$. Substituting into $\ell(v-b)=\frac{G(b)}{(n-1)g(b)}$ and solving for $\beta_u'(v)$,
+\begin{equation}\label{eq:14-risk-ode}
+\beta_u'(v)=\frac{\mathcal U\big(v-\beta_u(v)\big)}{\mathcal U'\big(v-\beta_u(v)\big)}\,\frac{f_{Y_1}(v)}{F_{Y_1}(v)}\;\ge\;\big(v-\beta_u(v)\big)\frac{f_{Y_1}(v)}{F_{Y_1}(v)},
+\end{equation}
+where $\frac{f_{Y_1}}{F_{Y_1}}=(n-1)\frac{f}{F}$ and the inequality uses $\ell(s)\ge s$. This is eq.~(11) of \citet{MilgromWeber1982}. The boundary condition is again $\beta_u(\underline v)=\underline v$, by the argument of Step 1 of \cref{prop:14-rs}.
+
+\begin{example}[Constant relative risk aversion]\label{ex:14-crra}
+Let $\mathcal U(x)=x^a$ with $0<a\le 1$, a case of constant relative risk aversion (CRRA), so that the coefficient of relative risk aversion is $1-a$. Then $\ell(s)=\frac{s^a}{a s^{a-1}}=\frac{s}{a}$. Let values be uniform on $[0,1]$, so $\frac{f_{Y_1}(v)}{F_{Y_1}(v)}=\frac{n-1}{v}$. Equation \eqref{eq:14-risk-ode} becomes
+\[
+\beta_u'(v)=\frac{(n-1)\big(v-\beta_u(v)\big)}{a\,v},
+\]
+a linear differential equation:
+\[
+\beta_u'(v)+\frac{n-1}{a\,v}\,\beta_u(v)=\frac{n-1}{a}.
+\]
+We try $\beta_u(v)=cv$. Substituting gives $c+\frac{(n-1)c}{a}=\frac{n-1}{a}$, so $c(a+n-1)=n-1$. The homogeneous equation adds solutions $Cv^{-\frac{n-1}{a}}$, which are unbounded near zero, and the boundary condition $\beta_u(0)=0$ forces $C=0$. Hence
+\[
+\beta_u(v)=\frac{n-1}{n-1+a}\,v.
+\]
+With $a=1$ we recover $\frac{n-1}{n}v$. As $a$ falls, bids rise, and they approach values as $a\to 0$. Expected revenue is $\frac{n-1}{n-1+a}\cdot\frac{n}{n+1}$. Its ratio to the second-price revenue $\frac{n-1}{n+1}$ is $\frac{n}{n-1+a}$, which exceeds one whenever $a<1$. For example, with $n=2$ and $a=\frac12$, bids are $\frac23v$ and expected revenue is $\frac49$, against $\frac13$ in the second-price auction.
+\end{example}
+
+The example ranks the formats. To prove the ranking in general we need a simple comparison lemma, which \cref{sec:14-mw-rank} also uses.
+
+\begin{lemma}[Crossing lemma, \citealp{MilgromWeber1982}, Lemma 2]\label{lem:14-crossing}
+Let $h_1$ and $h_2$ be continuous on $[\underline x,\bar x]$ and differentiable on $(\underline x,\bar x]$. Suppose (i) $h_1(\underline x)\ge h_2(\underline x)$, and (ii) $h_1(x)<h_2(x)$ implies $h_1'(x)\ge h_2'(x)$. Then $h_1(x)\ge h_2(x)$ for all $x\in[\underline x,\bar x]$.
+\end{lemma}
+
+\begin{proof}
+Let $d=h_1-h_2$ and suppose, to the contrary, that $d(x)<0$ for some $x>\underline x$. The set $\{t\in[\underline x,x]:d(t)\ge 0\}$ is closed and contains $\underline x$. Let $x_0$ be its largest element. Then $d(x_0)\ge 0$, $x_0<x$, and $d<0$ on $(x_0,x]$. By the mean value theorem there is $\hat x\in(x_0,x)$ with
+\[
+d'(\hat x)=\frac{d(x)-d(x_0)}{x-x_0}<0.
+\]
+At $\hat x$ we have $h_1(\hat x)<h_2(\hat x)$ and $h_1'(\hat x)<h_2'(\hat x)$, which contradicts (ii).
+\end{proof}
+
+\begin{proposition}[Risk aversion favors the first-price auction, \citealp{Holt1980,MaskinRiley1984}]\label{prop:14-risk-fpa}
+Let \cref{ass:14-sipv} hold with risk neutrality replaced by a common utility $\mathcal U$ that is strictly increasing and concave, with $\mathcal U(0)=0$, and twice differentiable on $(0,\infty)$. Let there be no binding reserve price. Then the first-price auction yields at least as much expected revenue as the second-price auction. The ranking is strict when $\mathcal U$ is strictly concave.
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1.} We start with the second-price auction. Bidding one's value remains a weakly dominant strategy. The proof of \cref{prop:14-spa-dominant} compares the surplus $v-m$ from winning at the highest rival bid $m$ with zero, and an increasing $\mathcal U$ preserves its sign. Expected revenue is therefore $\E[V_{(n-1:n)}]$, as with risk neutrality. Let $\beta_N$ be the risk-neutral first-price bid. By \eqref{eq:14-rs-condexp} with $r=\underline v$, $\beta_N(v)=\E[Y_1\mid Y_1<v]$. Conditional on $V_{(n:n)}=v$, the second-highest value is distributed as $Y_1$ given $Y_1<v$. The law of iterated expectations therefore gives $\E[V_{(n-1:n)}]=\E[\beta_N(V_{(n:n)})]$.
+
+\emph{Step 2.} We show that risk-averse bidders bid more. The risk-neutral bid satisfies $\beta_N'(v)=\big(v-\beta_N(v)\big)\frac{f_{Y_1}(v)}{F_{Y_1}(v)}$. We apply \cref{lem:14-crossing} with $h_1=\beta_u$ and $h_2=\beta_N$. Condition (i) holds because $\beta_u(\underline v)=\beta_N(\underline v)=\underline v$. For condition (ii), suppose $\beta_u(v)<\beta_N(v)$. Then \eqref{eq:14-risk-ode} gives
+\[
+\beta_u'(v)\ge\big(v-\beta_u(v)\big)\frac{f_{Y_1}(v)}{F_{Y_1}(v)}>\big(v-\beta_N(v)\big)\frac{f_{Y_1}(v)}{F_{Y_1}(v)}=\beta_N'(v).
+\]
+The lemma yields $\beta_u(v)\ge\beta_N(v)$ for all $v$.
+
+\emph{Step 3.} We compare revenues. Both bid functions are strictly increasing, so the bidder with the highest value wins in both cases. Expected first-price revenue with risk aversion is $\E[\beta_u(V_{(n:n)})]\ge\E[\beta_N(V_{(n:n)})]$, which is the second-price revenue by Step 1.
+
+\emph{Step 4.} We prove strictness. If $\mathcal U$ is strictly concave, then $\ell(s)>s$ for $s>0$. Let $d=\beta_u-\beta_N\ge 0$ and suppose $d(v)=0$ at some $v>\underline v$. Then $v-\beta_u(v)=v-\beta_N(v)>0$, and \eqref{eq:14-risk-ode} holds with strict inequality, so $d'(v)>0$. Hence $d<0$ just to the left of $v$, a contradiction. Thus $\beta_u>\beta_N$ on $(\underline v,\bar v]$, and the revenue ranking is strict.
+\end{proof}
+
+The intuition is that shading is a gamble. A lower bid raises the gain from winning but lowers the chance of winning. A risk-averse bidder dislikes this gamble and buys insurance against losing by bidding more. In the second-price auction the bid does not affect the price paid upon winning, so there is no gamble to manage. \Citet[p.~1114]{MilgromWeber1982} combine this result with their ranking for affiliated values. With both affiliation and risk aversion, the first-price and second-price auctions cannot be ranked in general (\cref{sec:14-mw-risk}).
+
+Risk aversion also complicates the inversion of bids. Equation \eqref{eq:14-risk-foc} requires the function $\ell$, which a single bid distribution cannot pin down \citep[Section 6.4]{AtheyHaile2007}. In the CRRA case, $\ell^{-1}(x)=ax$, so values satisfy $V=B+a\frac{G(B)}{(n-1)g(B)}$. Bids rationalized by exponent $a$ are equally well rationalized by any $\tilde a\in(0,a)$ with values
+\[
+\tilde V=B+\frac{\tilde a}{a}\,(V-B),
+\]
+which lie between the bids and the original values. More risk-averse bidders with lower values produce the same bids. \Cref{ch:auction-empirics} returns to this identification problem.
+
+Empirical work suggests that the effect is not small. \Citet{CampoEtAl2011} break the indeterminacy with a parametric utility function and a parametric quantile restriction. In sealed-bid timber auctions of the U.S.\ Forest Service, they estimate a CRRA measure of 0.278 \citep[Section~2.4, p.~95]{HortacsuPerrigne2021}. Under CRRA, risk aversion acts like an increase in competition and lowers the bidders' information rents. Exercise~3(b) of \cref{sec:14-exercises} makes this precise. Bidders already bid aggressively, so the seller needs a smaller reserve price. The simulated optimal reserve price is about 19 percent below the one computed under risk neutrality \citep[p.~95]{HortacsuPerrigne2021}.
+
+\casehead{The original papers} \citet{Holt1980} studies procurement auctions with risk-averse bidders and shows that the first-price format yields a lower expected cost to the buyer than the oral or second-price formats. \Citet{MaskinRiley1984} characterize the revenue-maximizing auction when buyers are risk averse. They show that the first-price auction dominates the second-price auction and that the optimal mechanism differs from all the standard formats.
+\Citet[p.~1093]{MilgromWeber1982} list the risk-aversion ranking as the seventh conclusion of the independent private values model. They credit it to \citet{HarrisRaviv1981}, \citet{Holt1980}, a 1980 discussion paper by Maskin and Riley, and a 1979 working paper by Matthews. On p.~1114 they give the proof by \cref{lem:14-crossing} that we follow.
+
+\section{Revenue Equivalence}\label{sec:14-ret}
+
+Every format in \cref{tab:14-uniform-formats} yields the same expected revenue. Each type even makes the same expected payment in every format. This section explains the regularity. We first present the geometric argument of \citet{MilgromWeber1982}, then the mechanism-design formulation of \citet{Myerson1981}. We use the theorem to solve for equilibria of new formats, extend it to interdependent values with independent signals, and list the assumptions whose failure breaks it.
+
+\subsection{The self-selection view}\label{sec:14-ret-selfselection}
+
+With independent private values, the four standard formats yield the same expected revenue. \Citet[p.~1092]{MilgromWeber1982} credit this finding to \citet{OrtegaReichert1968} and \citet{Vickrey1962}. They add that it remained a puzzle until the self-selection approach of \citet{HarrisRaviv1981}, \citet{Myerson1981} and \citet{RileySamuelson1981}. We follow their exposition. In this subsection only, $p$ denotes a probability of winning, as in their paper.
+
+Fix the rules of an auction and the strategies of bidder $i$'s rivals. Every action available to bidder $i$, whether a bid, a stopping price or a plan of exits, leads to some probability of winning $p$ and some expected payment. Let $e(p)$ denote the lowest expected payment among the actions that win with probability $p$. Because values are independent, the menu of pairs $(p,e(p))$ depends only on the rules and on the rivals' strategies. It does not depend on bidder $i$'s own value.
+
+A bidder with value $v$ who chooses the pair $(p,e)$ obtains expected utility $vp-e$. Its indifference curves in the $(p,e)$ plane are straight lines $e=vp-\text{constant}$ with slope $v$. A lower intercept means a higher utility. It therefore chooses the point of the menu that touches the lowest line of slope $v$. Let $p^*(v)$ denote the chosen probability. \Cref{fig:14-mw-selfselection} illustrates the choice.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.72\textwidth,height=0.56\textwidth,xmin=0,xmax=1.04,ymin=0,ymax=0.86,
+  axis lines=left,xlabel={Probability of winning $p$},ylabel={Expected payment $e$},
+  xtick={0,0.11013,0.59299,0.74883,1},xticklabels={$0$,$p_L$,$p_R$,$p^*(v)$,$1$},
+  ytick={0,0.31300},yticklabels={$0$,$e(p^*(v))$},
+  every axis x label/.style={at={(axis description cs:0.5,-0.1)},anchor=north},
+  clip=false]
+\addplot[very thick,black,domain=0:1,samples=200] {0.1*x+2*x^2-4.5*x^3+3.2*x^4};
+\addplot[thick,c14blue,domain=0.52:1.02] {0.9*x-0.36094};
+\addplot[thick,c14orange,dashed,domain=0.035:0.8] {0.39388*x-0.01365};
+\addplot[only marks,mark=*,c14blue,mark size=1.8pt] coordinates {(0.74883,0.31300)};
+\addplot[only marks,mark=o,c14orange,mark size=2pt,thick] coordinates {(0.11013,0.02973) (0.59299,0.21992)};
+\draw[densely dotted,gray] (axis cs:0.74883,0) -- (axis cs:0.74883,0.31300) -- (axis cs:0,0.31300);
+\draw[densely dotted,gray] (axis cs:0.11013,0) -- (axis cs:0.11013,0.02973);
+\draw[densely dotted,gray] (axis cs:0.59299,0) -- (axis cs:0.59299,0.21992);
+\node[font=\small,c14blue,anchor=west] at (axis cs:0.86,0.38) {slope $v$};
+\node[font=\small,c14orange,anchor=south east,align=right] at (axis cs:0.47,0.20) {slope $\hat v$: two points\\of tangency, $p^*$ jumps};
+\node[font=\small,anchor=east] at (axis cs:0.93,0.68) {menu $e(p)$};
+\draw[decorate,decoration={brace,amplitude=4pt},gray] (axis cs:0.125,0.006) -- (axis cs:0.578,0.006) node[midway,above=4pt,font=\footnotesize] {never chosen};
+\end{axis}
+\end{tikzpicture}
+\caption{The bidder's choice among pairs of win probability and expected payment. Indifference lines have slope equal to the value. A bidder with value $v$ chooses the point where the lowest line of slope $v$ touches the menu. At the value $\hat v$ the line touches the menu twice, and the chosen win probability jumps from $p_L$ to $p_R$. Redrawn after \citet{MilgromWeber1982}, Figure 1, with an illustrative menu.}\label{fig:14-mw-selfselection}
+\end{figure}
+
+Two facts follow from the geometry. First, $p^*$ is nondecreasing. Optimality of $p^*(v)$ for $v$ and of $p^*(v')$ for $v'$ gives two revealed-preference inequalities. Adding them, as in the proof of \cref{lem:14-monotone}, yields $(v'-v)\big[p^*(v')-p^*(v)\big]\ge 0$. Second, where $p^*$ is differentiable, the line of slope $v$ is tangent to the menu, so $e'(p^*(v))=v$. The chain rule then gives
+\[
+\frac{d}{dv}\,e\big(p^*(v)\big)=e'\big(p^*(v)\big)\frac{dp^*(v)}{dv}=v\,\frac{dp^*(v)}{dv}.
+\]
+Where the line touches the menu at two points, a small increase in $v$ makes $p^*$ jump by $\Delta p^*$. Both points lie on the same line of slope $v$, so the payment jumps by $\Delta e=v\,\Delta p^*$. Combining the smooth parts and the jumps, and integrating from the lowest value $\underline v$,
+\begin{equation}\label{eq:14-mw-selfselection}
+e\big(p^*(v)\big)=e\big(p^*(\underline v)\big)+\int_{\underline v}^{v}t\,dp^*(t).
+\end{equation}
+
+Equation \eqref{eq:14-mw-selfselection} is the core of revenue equivalence. Each type's expected payment depends on the rules only through two objects: the function $p^*$ and the payment of the lowest type. The seller's expected revenue is the sum of the bidders' expected payments, so the same is true of revenue. Every auction that always awards the object to the highest value has $p^*(v)=F(v)^{n-1}$. If, in addition, the lowest type pays nothing, all such auctions produce the same expected revenue. The menu need not be smooth or even continuous \citep[footnote 12]{MilgromWeber1982}. It always contains a point $(0,e(0))$ with $e(0)\le 0$, because a bidder can abstain. The payment $e(0)$ is negative only if the seller subsidizes losing bidders.
+
+For uniform values and two bidders, the first-price menu is easy to compute. A bid $b\in[0,\frac12]$ wins against a rival who bids half its value with probability $p=2b$. The expected payment is $e=bp=\frac{p^2}{2}$. Tangency requires $e'(p)=p=v$, so $p^*(v)=v=F(v)$, and the expected payment is $\frac{v^2}{2}=\int_0^v t\,dt$, as \eqref{eq:14-mw-selfselection} predicts.
+
+\subsection{Mechanisms and incentive compatibility}\label{sec:14-ret-mechanisms}
+
+The general formulation allows asymmetric bidders and arbitrary selling procedures. We use it here and in \cref{sec:14-optimal}.
+
+\begin{assumption}[Independent private values]\label{ass:14-ipv}
+There are $n$ risk-neutral bidders. Bidder $i$'s value $V_i$ is drawn from a distribution $F_i$ with a finite mean, support $[\underline v_i,\bar v_i]$ with $\underline v_i$ finite and $\bar v_i\le\infty$, and a density $f_i$ that is strictly positive on the support. Values are independent across bidders. The seller's own value for the object is $v_0$, and it is risk neutral.
+\end{assumption}
+
+The seller's value $v_0$ is what the object is worth to the seller if it is not sold. It is not a reserve price.
+
+A \emph{direct mechanism} asks each bidder to report a value. It consists of an allocation rule and a payment rule. The allocation rule $q_i(\bm v)\in[0,1]$ is the probability that bidder $i$ receives the object when the reports are $\bm v=(v_1,\dots,v_n)$, with $\sum_i q_i(\bm v)\le 1$. The payment rule $\tau_i(\bm v)$ is the amount bidder $i$ pays. Bidder $i$ cares about the \emph{interim} allocation and payment, which average over the rivals' values:
+\[
+Q_i(v_i)=\E\big[q_i(v_i,\bm V_{-i})\big],\qquad m_i(v_i)=\E\big[\tau_i(v_i,\bm V_{-i})\big].
+\]
+A bidder with value $v_i$ who reports $z$ while the others report truthfully obtains $v_iQ_i(z)-m_i(z)$. Its truthful payoff is
+\[
+\pi_i(v_i)=v_iQ_i(v_i)-m_i(v_i).
+\]
+The mechanism is \emph{incentive compatible} (IC) if truth-telling is optimal,
+\begin{equation}\label{eq:14-ic}
+\pi_i(v_i)\ge v_iQ_i(z)-m_i(z)\quad\text{for all }i,\ v_i,\ z,
+\end{equation}
+and \emph{individually rational} (IR) if participation is voluntary,
+\begin{equation}\label{eq:14-ir}
+\pi_i(v_i)\ge 0\quad\text{for all }i,\ v_i.
+\end{equation}
+
+The \emph{revelation principle} \citep{Myerson1981} makes direct mechanisms a general tool. Take any auction and any Bayesian Nash equilibrium $(\beta_1,\dots,\beta_n)$ of it. Define $q_i(\bm v)$ and $\tau_i(\bm v)$ as the allocation and payments that result when the bidders play $\beta_1(v_1),\dots,\beta_n(v_n)$. This direct mechanism is incentive compatible. A type $v_i$ who gained by reporting $z$ would have gained in the original auction by playing $\beta_i(z)$, contradicting equilibrium. The direct mechanism produces the same allocation and payments as the auction for every profile of values. Hence any statement about IC direct mechanisms applies to the equilibrium outcomes of all auctions.
+
+\begin{lemma}[Characterization of incentive compatibility]\label{lem:14-ic}
+Under \cref{ass:14-ipv}, a direct mechanism is incentive compatible if and only if, for every bidder $i$, (a) $Q_i$ is nondecreasing, and (b) for every $v_i$,
+\begin{equation}\label{eq:14-envelope-ic}
+\pi_i(v_i)=\pi_i(\underline v_i)+\int_{\underline v_i}^{v_i}Q_i(t)\,dt.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+We drop the subscript $i$.
+
+\emph{Necessity.} Let $v$ and $v'$ be two values. The IC constraint of type $v$ against report $v'$ reads $\pi(v)\ge vQ(v')-m(v')$. Since $m(v')=v'Q(v')-\pi(v')$, this is
+\[
+\pi(v)\ge\pi(v')+(v-v')\,Q(v').
+\]
+Exchanging the roles of $v$ and $v'$ gives
+\[
+\pi(v')\ge\pi(v)+(v'-v)\,Q(v).
+\]
+Together the two inequalities give
+\[
+(v'-v)\,Q(v)\le\pi(v')-\pi(v)\le(v'-v)\,Q(v').
+\]
+For $v'>v$, dividing by $v'-v$ shows $Q(v)\le Q(v')$, which is (a). Because $0\le Q\le 1$, the same chain gives $|\pi(v')-\pi(v)|\le|v'-v|$. So $\pi$ is Lipschitz, hence absolutely continuous and differentiable almost everywhere. Letting $v'\to v$ in the chain shows that $\pi'(v)=Q(v)$ wherever $Q$ is continuous, which is almost everywhere because $Q$ is monotone. An absolutely continuous function is the integral of its derivative, which gives (b).
+
+\emph{Sufficiency.} Suppose (a) and (b) hold. For any $v$ and $z$, using $m(z)=zQ(z)-\pi(z)$ and (b),
+\[
+\pi(v)-\big[vQ(z)-m(z)\big]=\pi(v)-\pi(z)-(v-z)Q(z)=\int_z^v\big[Q(t)-Q(z)\big]dt.
+\]
+If $z<v$, the integrand is nonnegative on $[z,v]$ by (a). If $z>v$, the integral equals $\int_v^z\big[Q(z)-Q(t)\big]dt$, which is also nonnegative by (a). Hence truth-telling is optimal.
+\end{proof}
+
+Condition (b) is the envelope formula of \cref{sec:14-fpa-envelope} in general form. Since $m_i(v_i)=v_iQ_i(v_i)-\pi_i(v_i)$, it yields the \emph{payment identity}
+\begin{equation}\label{eq:14-payment-identity}
+m_i(v_i)=v_iQ_i(v_i)-\pi_i(\underline v_i)-\int_{\underline v_i}^{v_i}Q_i(t)\,dt.
+\end{equation}
+In an incentive compatible mechanism, the interim allocation and the payoff of the lowest type determine every interim payment.
+
+\subsection{The revenue equivalence theorem}\label{sec:14-ret-theorem}
+
+\begin{proposition}[Revenue equivalence, \citealp{Myerson1981,RileySamuelson1981}]\label{prop:14-ret}
+Let \cref{ass:14-ipv} hold. Consider two auctions, each with a Bayesian Nash equilibrium. Suppose the two equilibria induce the same interim allocation $Q_i$ for every bidder, and give the lowest type of each bidder the same expected payoff $\pi_i(\underline v_i)$. Then every type of every bidder makes the same expected payment in the two auctions, and the seller's expected revenue is the same. In particular, let bidders be symmetric ($F_i=F$). Then any auction whose equilibrium awards the object to the highest value and charges the lowest type nothing yields expected revenue $\E[V_{(n-1:n)}]$.
+\end{proposition}
+
+\begin{proof}
+By the revelation principle, each auction with its equilibrium is an incentive compatible direct mechanism. By the payment identity \eqref{eq:14-payment-identity}, each interim payment $m_i(v_i)$ depends only on $Q_i$ and $\pi_i(\underline v_i)$, which the two auctions share. Expected revenue is $\sum_i\E[m_i(V_i)]$, so it is also the same.
+
+For the symmetric case, the highest value wins, so $Q(v)=F(v)^{n-1}=F_{Y_1}(v)$. The lowest type never wins and pays nothing, so $\pi(\underline v)=0$. The payment identity and integration by parts give
+\[
+m(v)=vF(v)^{n-1}-\int_{\underline v}^vF(t)^{n-1}\,dt=\int_{\underline v}^v y\,dF_{Y_1}(y)=\E\big[Y_1\indic(Y_1<v)\big].
+\]
+This is the expected payment of type $v$ in the second-price auction. Summing over bidders,
+\[
+\sum_{i=1}^n\E\big[m(V_i)\big]=\sum_{i=1}^n\E\Big[\max_{j\neq i}V_j\;\indic\Big(V_i>\max_{j\neq i}V_j\Big)\Big]=\E\big[V_{(n-1:n)}\big].
+\]
+The last equality holds because exactly one bidder has the highest value, and for that bidder the highest rival value is the second-highest value overall.
+\end{proof}
+
+\Citet[Theorem 0]{MilgromWeber1982} state the symmetric case as follows. Assume the independent private values model and a noncooperative equilibrium of some auction mechanism. Suppose that in equilibrium the bidder with the highest value is certain to receive the object, and that a bidder with the lowest possible value has an expected payment of zero. Then the seller's expected revenue equals the expected value of the object to the second-highest evaluator. The symmetric equilibria of the English, Dutch, first-price and second-price auctions satisfy these conditions, so all four yield the same expected price. \Cref{prop:14-ret} generalizes Theorem 0 in two directions: bidders may be asymmetric, and the allocation need not be efficient.
+
+\Citet[p.~1093]{MilgromWeber1982} give the theorem an appealing economic reading. Whatever competitive mechanism sets the price, the sale on average takes place at the lowest price at which supply equals demand. The supply is one unit. At a price $p$, demand is the number of bidders with values above $p$. Demand equals one exactly when $p$ lies between $V_{(n-1:n)}$ and $V_{(n:n)}$, and the lowest such price is $V_{(n-1:n)}$. Revenue equivalence thus says that auctions deliver, on average, the competitive price.
+
+\subsection{Using revenue equivalence to solve for equilibria}\label{sec:14-ret-solve}
+
+Revenue equivalence gives a shortcut to equilibrium bids. Suppose a format has a symmetric equilibrium with a strictly increasing bid function, so that the highest value wins, and the lowest type pays nothing. Then \cref{prop:14-ret} fixes the expected payment of every type at $m(v)=\E[Y_1\indic(Y_1<v)]$. Writing $m(v)$ in terms of the format's bid function gives an equation for that function. The shortcut produces a candidate. Its optimality must still be verified, which we do in each case.
+
+\emph{First-price auction.} The winner pays its bid, so $m(v)=\beta(v)F(v)^{n-1}$. Revenue equivalence gives
+\[
+\beta(v)=\frac{\E[Y_1\indic(Y_1<v)]}{F_{Y_1}(v)}=\E\left[Y_1\given Y_1<v\right],
+\]
+which is \eqref{eq:14-rs-condexp} without a reserve price. With a reserve price $r$, the allocation is $Q(v)=F(v)^{n-1}\indic(v\ge r)$ and the type $r$ earns zero. The payment identity then gives $m(v)=vF(v)^{n-1}-\int_r^vF(t)^{n-1}dt=\E[\max\{Y_1,r\}\indic(Y_1<v)]$ for $v\ge r$, which again delivers \eqref{eq:14-rs-condexp}. \Cref{prop:14-rs} verified optimality.
+
+\emph{All-pay auction.} Every bidder pays its bid, win or lose. All-pay auctions model lobbying, research races and other contests in which effort is sunk. Here $m(v)=\beta(v)$, so
+\[
+\beta^{AP}(v)=\E\big[Y_1\indic(Y_1<v)\big]=\int_{\underline v}^v y\,dF_{Y_1}(y).
+\]
+For uniform values, $\beta^{AP}(v)=\int_0^v y(n-1)y^{n-2}dy=\frac{n-1}{n}v^n$. To verify optimality, note that a bidder with value $v$ who bids $\beta^{AP}(z)$ earns $vz^{n-1}-\frac{n-1}{n}z^n$. Its derivative with respect to $z$ is $(n-1)z^{n-2}(v-z)$, which changes sign from positive to negative at $z=v$.
+
+\emph{Third-price auction.} With $n\ge 3$ bidders, the highest bidder wins and pays the third-highest bid. Let $Y_2$ denote the second-highest rival value. With a strictly increasing $\beta$, the expected payment is $m(v)=\E[\beta(Y_2)\indic(Y_1<v)]$. Revenue equivalence requires, for every $v$,
+\[
+\int_{\underline v}^v\E\big[\beta(Y_2)\mid Y_1=y\big]f_{Y_1}(y)\,dy=\int_{\underline v}^v y\,f_{Y_1}(y)\,dy.
+\]
+Differentiating with respect to $v$ and dividing by $f_{Y_1}(v)$ gives
+\begin{equation}\label{eq:14-third-cond}
+\E\big[\beta(Y_2)\mid Y_1=v\big]=v.
+\end{equation}
+Given $Y_1=v$, the other $n-2$ rival values are independent with distribution function $\frac{F(y)}{F(v)}$ on $[\underline v,v]$. The variable $Y_2$ is their maximum, with distribution function $\big(\frac{F(y)}{F(v)}\big)^{n-2}$. Condition \eqref{eq:14-third-cond} becomes
+\[
+\int_{\underline v}^v\beta(y)\,(n-2)F(y)^{n-3}f(y)\,dy=v\,F(v)^{n-2}.
+\]
+Differentiating with respect to $v$,
+\[
+\beta(v)(n-2)F(v)^{n-3}f(v)=F(v)^{n-2}+v(n-2)F(v)^{n-3}f(v).
+\]
+Dividing by $(n-2)F(v)^{n-3}f(v)$ gives
+\begin{equation}\label{eq:14-third-bid}
+\beta^{III}(v)=v+\frac{F(v)}{(n-2)\,f(v)}.
+\end{equation}
+The bid function is increasing whenever $\frac{F}{f}$ is nondecreasing, which holds for log-concave $F$. For uniform values, $\beta^{III}(v)=\frac{n-1}{n-2}v$, so bids exceed values. A bidder's own bid sets the price only when it ranks third, and then it loses anyway. Raising the bid above the value matters only when it overtakes the highest rival bid. The bidder then pays the second-highest rival bid, which may well lie below its value, so overbidding has a positive expected return. To verify optimality, a bidder with value $v$ who bids $\beta^{III}(z)$ earns
+\[
+\E\big[(v-\beta^{III}(Y_2))\indic(Y_1<z)\big]=\int_{\underline v}^z\big(v-\E[\beta^{III}(Y_2)\mid Y_1=y]\big)f_{Y_1}(y)\,dy=\int_{\underline v}^z(v-y)f_{Y_1}(y)\,dy,
+\]
+using \eqref{eq:14-third-cond}. Its derivative with respect to $z$ is $(v-z)f_{Y_1}(z)$, so $z=v$ is optimal.
+
+\subsection{Interdependent values with independent signals}\label{sec:14-ret-interdependent}
+
+Revenue equivalence survives interdependent values as long as signals are independent. We show this in an example that \cref{sec:14-mw-ranking} reuses as the benchmark that affiliation breaks.
+
+\begin{example}[A common value with independent signals]\label{ex:14-iv-independent}
+Two bidders observe signals $S_1,S_2$ that are independent and uniform on $[0,1]$. The object has the common value $V=\frac{S_1+S_2}{2}$ for both.
+
+\emph{Second-price auction.} We claim that bidding $\beta(s)=s$ is a symmetric equilibrium. Suppose bidder 2 bids $S_2$. Bidder 1 with signal $s$ who bids $b\le 1$ wins when $S_2<b$ and then pays $S_2$. Its expected payoff and its derivative are
+\[
+\int_0^b\Big(\frac{s+s_2}{2}-s_2\Big)ds_2=\int_0^b\frac{s-s_2}{2}\,ds_2,\qquad \frac{d}{db}\int_0^b\frac{s-s_2}{2}\,ds_2=\frac{s-b}{2}.
+\]
+The derivative is positive for $b<s$ and negative for $b>s$, so $b=s$ is optimal. Expected revenue is $\E[\min\{S_1,S_2\}]=\frac13$.
+
+\emph{First-price auction.} We look for an equilibrium $\beta(s)=cs$. Suppose bidder 2 bids $cS_2$. Bidder 1 with signal $s$ who bids $b$ wins when $S_2<\frac{b}{c}$. Its expected payoff is
+\[
+\Pi(b)=\int_0^{\frac{b}{c}}\Big(\frac{s+s_2}{2}-b\Big)ds_2=\frac{b}{c}\Big(\frac{s}{2}-b\Big)+\frac{b^2}{4c^2}.
+\]
+The first-order condition is
+\[
+\Pi'(b)=\frac{s}{2c}-\frac{2b}{c}+\frac{b}{2c^2}=0.
+\]
+At $b=cs$ it reads $\frac{s}{2c}-2s+\frac{s}{2c}=0$, so $c=\frac12$. The second derivative is $-\frac{2}{c}+\frac{1}{2c^2}=-2<0$ at $c=\frac12$, so the bid $\beta(s)=\frac{s}{2}$ is a best response. Expected revenue is $\frac12\E[\max\{S_1,S_2\}]=\frac12\cdot\frac23=\frac13$.
+
+The two formats yield the same revenue. The envelope argument explains why. The value depends on the own signal with slope $\frac12$, and a bidder with signal $s$ wins with probability $s$ in both formats. Hence $\pi'(s)=\frac12 s$, and with $\pi(0)=0$ we get $\pi(s)=\frac{s^2}{4}$ in both formats. Direct computation confirms this: in the second-price auction $\int_0^s\frac{s-s_2}{2}ds_2=\frac{s^2}{4}$, and in the first-price auction $\int_0^s\big(\frac{s+s_2}{2}-\frac{s}{2}\big)ds_2=\frac{s^2}{4}$.
+\end{example}
+
+The example generalizes. With independent signals, a bidder's signal does not change the distribution of rival signals. The derivative of its equilibrium payoff with respect to its signal therefore depends only on who wins, as in \cref{lem:14-ic}. Two formats with the same allocation and the same payoff of the lowest type then have the same expected payments. \Citet{Myerson1981} allows for such interdependence through what he calls revision effects.
+
+\subsection{When revenue equivalence fails}\label{sec:14-ret-failures}
+
+Each hypothesis of \cref{prop:14-ret} can fail in practice, and each failure leads to a result later in the chapter.
+\begin{itemize}
+\item Risk aversion makes payoffs nonlinear in money, so the envelope formula changes. The first-price auction then raises more revenue than the second-price auction (\cref{prop:14-risk-fpa}).
+\item Affiliated signals let a bidder's signal shift the distribution of rival signals, so the payment identity no longer holds. The English auction then yields at least as much revenue as the second-price auction, which yields at least as much as the first-price auction (\cref{prop:14-mw-ranking}).
+\item Asymmetric bidders break the efficiency of the first-price auction, so the interim allocations of the formats differ (\cref{sec:14-asym}).
+\item Endogenous entry with asymmetric bidders lets formats attract different sets of participants (\cref{sec:14-entry}).
+\item Collusive bidders do not play the noncooperative equilibrium, and formats differ in how easily a ring sustains its agreement (\cref{sec:14-collusion}).
+\item Budget constraints make payoffs nonlinear in money, and the standard formats are then no longer equivalent \citep{CheGale1998}.
+\end{itemize}
+
+\section{Reserve Prices and Optimal Auctions}\label{sec:14-optimal}
+
+Revenue equivalence says that the format does not matter once the allocation and the payoff of the lowest type are fixed. A seller can still raise revenue by changing the allocation. It can exclude low values with a reserve price, or it can favor some bidders over others. This section asks which allocation rule maximizes the seller's expected payoff. \Citet{Myerson1981} answered the question for independent private values in general, and \citet{RileySamuelson1981} answered it for symmetric bidders and standard auctions. We maintain \cref{ass:14-ipv}.
+
+\subsection{Expected revenue in terms of virtual values}\label{sec:14-optimal-virtual}
+
+Define bidder $i$'s \emph{virtual valuation}
+\begin{equation}\label{eq:14-psi}
+\psi_i(v)=v-\frac{1-F_i(v)}{f_i(v)}.
+\end{equation}
+The next derivation expresses expected revenue in terms of virtual valuations.
+
+Start from the payment identity \eqref{eq:14-payment-identity} and take expectations over $V_i$:
+\[
+\E\big[m_i(V_i)\big]=\int_{\underline v_i}^{\bar v_i}vQ_i(v)f_i(v)\,dv-\pi_i(\underline v_i)-\int_{\underline v_i}^{\bar v_i}\Big[\int_{\underline v_i}^{v}Q_i(t)\,dt\Big]f_i(v)\,dv.
+\]
+The double integral runs over the triangle $\underline v_i\le t\le v\le\bar v_i$. Exchanging the order of integration (Fubini's theorem) gives
+\[
+\int_{\underline v_i}^{\bar v_i}\Big[\int_{\underline v_i}^{v}Q_i(t)\,dt\Big]f_i(v)\,dv=\int_{\underline v_i}^{\bar v_i}Q_i(t)\Big[\int_{t}^{\bar v_i}f_i(v)\,dv\Big]dt=\int_{\underline v_i}^{\bar v_i}Q_i(t)\big(1-F_i(t)\big)\,dt.
+\]
+We substitute, rename the integration variable, and factor out $f_i(v)$:
+\[
+\E\big[m_i(V_i)\big]=\int_{\underline v_i}^{\bar v_i}\Big[v-\frac{1-F_i(v)}{f_i(v)}\Big]Q_i(v)f_i(v)\,dv-\pi_i(\underline v_i)=\E\big[\psi_i(V_i)Q_i(V_i)\big]-\pi_i(\underline v_i).
+\]
+Since $Q_i(v_i)=\E[q_i(v_i,\bm V_{-i})]$ and values are independent, the law of iterated expectations gives $\E[\psi_i(V_i)Q_i(V_i)]=\E[\psi_i(V_i)q_i(\bm V)]$. Summing over bidders,
+\begin{equation}\label{eq:14-revenue-psi}
+\E\Big[\sum_{i=1}^n m_i(V_i)\Big]=\E\Big[\sum_{i=1}^n\psi_i(V_i)\,q_i(\bm V)\Big]-\sum_{i=1}^n\pi_i(\underline v_i).
+\end{equation}
+The seller also keeps the object, worth $v_0$, when it is not sold. Its expected payoff is therefore
+\begin{equation}\label{eq:14-seller-objective}
+\E\Big[\sum_{i=1}^n m_i(V_i)\Big]+v_0\,\E\Big[1-\sum_{i=1}^n q_i(\bm V)\Big]=v_0+\E\Big[\sum_{i=1}^n\big(\psi_i(V_i)-v_0\big)q_i(\bm V)\Big]-\sum_{i=1}^n\pi_i(\underline v_i).
+\end{equation}
+
+The virtual valuation is a marginal revenue \citep{BulowRoberts1989}. Consider a seller who posts a price $p$ to a single buyer with value distribution $F$. It sells with probability $x=1-F(p)$, which plays the role of a quantity. The inverse demand is $p(x)=F^{-1}(1-x)$, with $p'(x)=-\frac{1}{f(p)}$. Revenue is $R(x)=x\,p(x)$, and marginal revenue is
+\[
+R'(x)=p+x\,p'(x)=p-\frac{1-F(p)}{f(p)}=\psi(p).
+\]
+Selling to a buyer with value $v$ adds $v$ to surplus but forces the seller to leave rent to all higher types. The term $\frac{1-F(v)}{f(v)}$ measures that \emph{information rent}, just as the inframarginal loss $x\,p'(x)$ enters a monopolist's marginal revenue (\cref{ch:theory}). Equation \eqref{eq:14-seller-objective} says that the seller should allocate the object to the bidder with the highest marginal revenue, provided it exceeds its marginal cost $v_0$.
+
+\subsection{The optimal auction}\label{sec:14-optimal-myerson}
+
+\begin{definition}[Regularity]\label{def:14-regular}
+The distribution $F_i$ is \emph{regular} if its virtual valuation $\psi_i$ is strictly increasing. It satisfies the \emph{monotone hazard rate} condition if $\frac{f_i(v)}{1-F_i(v)}$ is nondecreasing.
+\end{definition}
+
+The monotone hazard rate condition implies regularity, because then $\frac{1-F_i}{f_i}$ is nonincreasing and $\psi_i$ is the sum of the strictly increasing function $v$ and a nondecreasing function. Uniform, exponential and normal distributions satisfy it. For the uniform distribution on $[0,\bar v]$, $\psi(v)=v-(\bar v-v)=2v-\bar v$. For the exponential distribution with rate $\lambda$, $\psi(v)=v-\frac{1}{\lambda}$.
+
+\begin{proposition}[Optimal auction, \citealp{Myerson1981}]\label{prop:14-myerson}
+Let \cref{ass:14-ipv} hold with every $F_i$ regular. The following mechanism maximizes the seller's expected payoff among all incentive compatible and individually rational mechanisms.
+\begin{enumerate}[label=(\roman*)]
+\item The object goes to the bidder with the highest virtual valuation $\psi_i(v_i)$ if that virtual valuation exceeds $v_0$. Otherwise the seller keeps it.
+\item The lowest type of every bidder earns zero, $\pi_i(\underline v_i)=0$. One payment rule with this property charges the winner the lowest value it could have reported and still won: $\tau_i(\bm v)=q_i(\bm v)\inf\{z:\psi_i(z)\ge v_0\text{ and }\psi_i(z)\ge\max_{j\neq i}\psi_j(v_j)\}$.
+\end{enumerate}
+The seller's maximal expected payoff is $\E\big[\max\{v_0,\psi_1(V_1),\dots,\psi_n(V_n)\}\big]$.
+\end{proposition}
+
+\begin{proof}
+By \eqref{eq:14-seller-objective}, the seller's expected payoff from any IC mechanism is
+\[
+v_0+\E\Big[\sum_i\big(\psi_i(V_i)-v_0\big)q_i(\bm V)\Big]-\sum_i\pi_i(\underline v_i).
+\]
+ IR requires $\pi_i(\underline v_i)\ge 0$, so the last term is at least zero. We maximize the middle term pointwise. Fix a profile $\bm v$ and maximize $\sum_i(\psi_i(v_i)-v_0)q_i$ subject to $q_i\ge 0$ and $\sum_iq_i\le 1$. The maximum places all probability on a bidder with the largest $\psi_i(v_i)-v_0$ when it is positive, and none otherwise. This is rule (i), and setting $\pi_i(\underline v_i)=0$ minimizes the subtracted term.
+
+It remains to check that the solution satisfies the constraints. Under regularity, $q_i(v_i,\bm v_{-i})$ from rule (i) is nondecreasing in $v_i$ for every $\bm v_{-i}$, so $Q_i$ is nondecreasing. By \cref{lem:14-ic}, payments defined by the payment identity with $\pi_i(\underline v_i)=0$ make the mechanism IC. IR holds for every type, because $\pi_i(v_i)=\int_{\underline v_i}^{v_i}Q_i(t)dt\ge 0$. The payment rule in (ii) is one such rule. Under it, a bidder wins exactly when its report exceeds a threshold that does not depend on its report, and it pays the threshold. Truth-telling is then a dominant strategy, as in the second-price auction, and the lowest type pays nothing. Finally, with $\pi_i(\underline v_i)=0$ and rule (i), the term inside the expectation in \eqref{eq:14-seller-objective}, plus $v_0$, equals $\max\{v_0,\max_i\psi_i(v_i)\}$ at every profile. Taking expectations gives the stated value.
+\end{proof}
+
+Regularity matters only for the monotonicity of $Q_i$. When $\psi_i$ is not monotone, the pointwise rule can violate condition (a) of \cref{lem:14-ic}. \Citet{Myerson1981} then replaces $\psi_i$ by an \emph{ironed} virtual valuation that is flat on the intervals where monotonicity fails. We do not develop ironing here.
+
+\subsection{Symmetric bidders: the optimal reserve price}\label{sec:14-optimal-reserve}
+
+With symmetric bidders, the optimal mechanism is a standard auction with a reserve price.
+
+\begin{corollary}[Optimal reserve price, \citealp{RileySamuelson1981,Myerson1981}]\label{cor:14-optimal-reserve}
+Let \cref{ass:14-ipv} hold with $F_i=F$ regular for every $i$, and suppose $\psi(\underline v)<v_0<\bar v$. Let $r^*$ solve
+\begin{equation}\label{eq:14-optimal-reserve}
+r^*-\frac{1-F(r^*)}{f(r^*)}=v_0.
+\end{equation}
+Then the following hold.
+\begin{enumerate}[label=(\roman*)]
+\item The first-price, second-price, English and Dutch auctions with reserve price $r^*$ are all optimal mechanisms.
+\item The optimal reserve price exceeds the seller's value, $r^*>v_0$.
+\item The optimal reserve price does not depend on the number of bidders.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+With a common and strictly increasing $\psi$, the bidder with the highest virtual valuation is the bidder with the highest value. Rule (i) of \cref{prop:14-myerson} therefore awards the object to the highest value if $\psi(v)>v_0$, that is, if $v>r^*$. Each standard auction with reserve price $r^*$ has a symmetric equilibrium with strictly increasing bids (\cref{prop:14-rs,prop:14-spa-dominant}). In it, the highest value wins whenever it is at least $r^*$, and the lowest type earns zero. By \cref{prop:14-ret}, its expected revenue equals that of the optimal mechanism, which proves (i). For (ii), $\frac{1-F(r^*)}{f(r^*)}>0$ for $r^*<\bar v$, so \eqref{eq:14-optimal-reserve} gives $r^*>v_0$. For (iii), neither $F$ nor $v_0$ depends on $n$.
+\end{proof}
+
+A direct calculation in the second-price auction shows the trade-off behind \eqref{eq:14-optimal-reserve}. Raise the reserve from $r$ to $r+dr$. The price rises by $dr$ in the event that exactly one bidder has a value above $r$, which has probability $nF(r)^{n-1}\big(1-F(r)\big)$. The sale is lost, and the seller receives $v_0$ instead of $r$, in the event that the highest value lies in $[r,r+dr]$, which has probability $nF(r)^{n-1}f(r)\,dr$. The marginal effect on the seller's payoff is
+\[
+nF(r)^{n-1}\Big[\big(1-F(r)\big)-(r-v_0)f(r)\Big]=nF(r)^{n-1}f(r)\big[v_0-\psi(r)\big].
+\]
+The seller gains from raising $r$ while $\psi(r)<v_0$ and loses once $\psi(r)>v_0$. The number of bidders enters only through the positive factor $nF(r)^{n-1}$, which explains why $r^*$ does not depend on $n$. The reserve price is a monopoly price. It is set as if the seller faced a single buyer, because it binds only when a single buyer is left.
+
+\Citet[Section~2.1, p.~87]{HortacsuPerrigne2021} state the same condition, $r^*=v_0+\frac{1-F(r^*)}{f(r^*)}$, and stress that it does not depend on the number of potential bidders. Setting $r^*$ requires knowledge of $F$, which is what the empirical methods of \cref{ch:auction-empirics} estimate. The estimated gains can be large. In ascending auctions of British Columbia timber, \citet{Paarsch1997} finds average optimal reserve prices 3.4 to 4.2 times the observed ones. The range corresponds to seller values from zero to the appraised value of the timber \citep[p.~88]{HortacsuPerrigne2021}. \Citet{HaileTamer2003} bound the optimal reserve price in U.S.\ Forest Service ascending auctions. Depending on the seller's value, the implied gain in the seller's profit ranges from little to 34 percent \citep[p.~88]{HortacsuPerrigne2021}.
+
+For values uniform on $[0,1]$, $\psi(v)=2v-1$ and \eqref{eq:14-optimal-reserve} gives $r^*=\frac{1+v_0}{2}$, so $r^*=\frac12$ when $v_0=0$. For exponential values with rate $\lambda$, $\psi(v)=v-\frac{1}{\lambda}$ and $r^*=v_0+\frac{1}{\lambda}$, which equals $\frac{1}{\lambda}$ when $v_0=0$. \Cref{fig:14-virtual} shows the uniform case. \Citet[p.~1093]{MilgromWeber1982} summarize the implication. For many common distributions, including the normal, exponential and uniform, the four standard formats with suitably chosen reserve prices or entry fees are optimal auctions.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.56\textwidth,height=0.5\textwidth,xmin=0,xmax=1,ymin=-1,ymax=1,
+  axis lines=left,xlabel={Value $v$},ylabel={},
+  xtick={0,0.5,0.65,1},xticklabels={$0$,$\frac12$,$\frac{13}{20}$,$1$},
+  ytick={-1,-0.5,0,0.3,1},yticklabels={$-1$,$-\frac12$,$0$,$\frac{3}{10}$,$1$},clip=false,
+  legend style={at={(0.5,1.04)},anchor=south,draw=none,fill=white,font=\small},legend columns=2,legend cell align=left]
+\addplot[thick,black,dashed,domain=0:1] {x};
+\addlegendentry{value $v$}
+\addplot[thick,c14blue,domain=0:1] {2*x-1};
+\addlegendentry{virtual valuation $\psi(v)=2v-1$}
+\addplot[thin,gray,domain=0:1] {0};
+\addplot[thin,gray,densely dashed,domain=0:1] {0.3};
+\addplot[only marks,mark=*,c14orange,mark size=1.8pt] coordinates {(0.5,0) (0.65,0.3)};
+\draw[densely dotted,c14orange] (axis cs:0.65,-1) -- (axis cs:0.65,0.3);
+\draw[densely dotted,c14orange] (axis cs:0.5,-1) -- (axis cs:0.5,0);
+\node[font=\small,anchor=west] at (axis cs:1.02,0.3) {$v_0=\frac{3}{10}$: $r^*=\frac{13}{20}$};
+\node[font=\small,anchor=west] at (axis cs:1.02,0) {$v_0=0$: $r^*=\frac12$};
+\draw[<->,gray] (axis cs:0.25,-0.5) -- (axis cs:0.25,0.25) node[midway,left,font=\footnotesize] {$\frac{1-F(v)}{f(v)}$};
+\end{axis}
+\end{tikzpicture}
+\caption{Virtual valuation for values uniform on $[0,1]$. The gap between the value and the virtual valuation is the information rent $\frac{1-F(v)}{f(v)}=1-v$. The optimal reserve price is the value at which the virtual valuation equals the seller's value $v_0$, so it exceeds $v_0$.}\label{fig:14-virtual}
+\end{figure}
+
+\subsection{The cost of a reserve price: a worked example}\label{sec:14-optimal-example}
+
+Let values be uniform on $[0,1]$, $v_0=0$ and $n=2$. Without a reserve price, revenue is $\E[V_{(1:2)}]=\frac13$. With the optimal reserve $r^*=\frac12$, \cref{prop:14-myerson} gives expected revenue
+\[
+\E\big[\max\{0,\psi(V_{(2:2)})\}\big]=\int_{\frac{1}{2}}^{1}(2v-1)\,2v\,dv=2\int_{\frac{1}{2}}^{1}(2v^2-v)\,dv=2\Big[\frac{2v^3}{3}-\frac{v^2}{2}\Big]_{\frac{1}{2}}^{1}=2\Big(\frac16+\frac{1}{24}\Big)=\frac{5}{12}.
+\]
+A direct computation in the second-price auction confirms the number. Both values exceed $\frac12$ with probability $\frac14$, and the price is then the lower value, with conditional mean $\frac23$. Exactly one value exceeds $\frac12$ with probability $\frac12$, and the price is then $\frac12$. Expected revenue is $\frac14\cdot\frac23+\frac12\cdot\frac12=\frac{5}{12}$, the same as the first-price revenue in \cref{ex:14-uniform-reserve}.
+
+The gain to the seller comes at a cost. With probability $\frac14$ both values fall below $\frac12$ and the object is not sold, although the seller values it at zero. The expected surplus lost in this event is $\int_0^{\frac{1}{2}}v\,2v\,dv=\frac{1}{12}$. Total surplus falls from $\frac23$ to $\frac{7}{12}$, and the bidders' combined surplus falls from $\frac13$ to $\frac16$. The reserve price thus transfers $\frac{1}{12}$ from bidders to the seller and destroys another $\frac{1}{12}$. This exclusion of buyers who value the object more than the seller is the auction analogue of the deadweight loss of monopoly pricing.
+
+The gain from the reserve shrinks quickly with the number of bidders. For $n$ uniform bidders,
+\[
+\int_{\frac{1}{2}}^{1}(2v-1)\,nv^{n-1}\,dv=\Big[\frac{2n\,v^{n+1}}{n+1}-v^n\Big]_{\frac{1}{2}}^{1}=\frac{n-1}{n+1}+\frac{1}{(n+1)2^n}.
+\]
+The second term is the gain over the no-reserve revenue $\frac{n-1}{n+1}$. The reserve binds only when at most one value exceeds it, and that event becomes rare as $n$ grows. \Cref{tab:14-reserve-uniform} reports the numbers.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{The value of the optimal reserve price and of one more bidder, with values uniform on $[0,1]$ and $v_0=0$.}\label{tab:14-reserve-uniform}
+\small
+\begin{tabular}{cccccc}
+\toprule
+ & \multicolumn{2}{c}{Expected revenue, $n$ bidders} & & & Absolute auction,\\
+\cmidrule(lr){2-3}
+$n$ & No reserve & Reserve $r^*=\frac12$ & $\Pr(\text{no sale})$ & Surplus lost & $n+1$ bidders\\
+\midrule
+1 & $0$ & $\frac{1}{4}$ & $\frac{1}{2}$ & $\frac{1}{8}$ & $\frac{1}{3}$\\[3pt]
+2 & $\frac{1}{3}$ & $\frac{5}{12}$ & $\frac{1}{4}$ & $\frac{1}{12}$ & $\frac{1}{2}$\\[3pt]
+3 & $\frac{1}{2}$ & $\frac{17}{32}$ & $\frac{1}{8}$ & $\frac{3}{64}$ & $\frac{3}{5}$\\[3pt]
+4 & $\frac{3}{5}$ & $\frac{49}{80}$ & $\frac{1}{16}$ & $\frac{1}{40}$ & $\frac{2}{3}$\\[3pt]
+5 & $\frac{2}{3}$ & $\frac{43}{64}$ & $\frac{1}{32}$ & $\frac{5}{384}$ & $\frac{5}{7}$\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item Notes: Without a reserve price, revenue is $\frac{n-1}{n+1}$. With $r^*=\frac12$, revenue is $\frac{n-1}{n+1}+\frac{1}{(n+1)2^n}$, the revenue of the optimal mechanism. The probability of no sale is $2^{-n}$. Surplus lost is the expected value of the highest bidder when the object is not sold, $\frac{n}{n+1}2^{-(n+1)}$. The last column is the revenue of an English auction without reserve price and with $n+1$ bidders, $\frac{n}{n+2}$. With $n=1$ the optimal mechanism is a posted price of $\frac12$. All entries are exact.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Competition versus mechanism design}\label{sec:14-optimal-bk}
+
+The last column of \cref{tab:14-reserve-uniform} anticipates a striking result. In every row, an auction without a reserve price and with one more bidder beats the optimal mechanism.
+
+\begin{proposition}[\citealp{BulowKlemperer1996}]\label{prop:14-bk}
+Let \cref{ass:14-ipv} hold with symmetric bidders, a common regular distribution $F$ on $[\underline v,\bar v]$, and $\underline v\ge v_0$. Then an English auction without a reserve price and with $n+1$ bidders yields at least as much expected revenue as the optimal mechanism with $n$ bidders.
+\end{proposition}
+
+\begin{proof}
+Let $R_n^*$ denote the seller's expected payoff in the optimal mechanism with $n$ bidders. Construct a mechanism for $n+1$ bidders as follows. Run the optimal $n$-bidder mechanism among bidders $1,\dots,n$. If it sells the object, stop. If it does not, give the object to bidder $n+1$ at the price $\underline v$. This mechanism is incentive compatible, since bidder $n+1$'s report affects nothing. It is individually rational, and every lowest type earns zero. It always sells the object.
+
+By \eqref{eq:14-revenue-psi}, the constructed mechanism yields
+\[
+\E\Big[\sum_{i=1}^n\psi(V_i)q_i(\bm V)\Big]+\E\big[\psi(V_{n+1})\big]\Pr(\text{no sale among }1,\dots,n),
+\]
+where we used the independence of $V_{n+1}$ from the other values. Integration by parts gives $\E[\psi(V)]=\E[V]-\int_{\underline v}^{\bar v}(1-F(v))dv=\E[V]-(\E[V]-\underline v)=\underline v$. The optimal $n$-bidder mechanism yields the same first term plus $v_0\Pr(\text{no sale})$. Because $\underline v\ge v_0$, the constructed mechanism earns at least $R_n^*$.
+
+Now consider all incentive compatible mechanisms for $n+1$ bidders that always sell and leave the lowest types with zero. By \eqref{eq:14-revenue-psi}, revenue is $\E[\sum_i\psi(V_i)q_i(\bm V)]$ with $\sum_iq_i=1$. It is maximized pointwise by awarding the object to the highest virtual valuation, which under regularity is the highest value. The English auction without reserve price does exactly this, and its lowest types earn zero. Hence its revenue is at least that of the constructed mechanism, which is at least $R_n^*$.
+\end{proof}
+
+For uniform values, the optimal mechanism with two bidders earns $\frac{5}{12}$, while an English auction with three bidders earns $\frac{3-1}{3+1}=\frac12$. Even a single buyer facing an optimal posted price yields only $\frac14$, below the $\frac13$ of a two-bidder auction. \Citet{BulowKlemperer1996} frame the result as auctions versus negotiations. A seller who can recruit one more serious bidder should do so rather than negotiate optimally with the bidders it has. Competition is worth more than bargaining power and knowledge of the value distribution. The result needs symmetric bidders, regular distributions and costless participation. \Cref{sec:14-entry} studies what changes when entry is costly.
+
+The ranking also holds in data where its assumptions do not hold exactly. \Citet{RobertsSweeting2016} estimate a model of U.S.\ Forest Service timber auctions with asymmetric bidders and selective entry, in which entrants bid in a second-price auction. In their estimates, an additional bidder is worth more to the seller than an optimal reserve price \citep[Section~2.2, p.~92]{HortacsuPerrigne2021}.
+
+\subsection{Asymmetric bidders: favoring the weak}\label{sec:14-optimal-asym}
+
+With asymmetric bidders, the optimal mechanism discriminates. Consider two bidders and $v_0=0$. The weak bidder's value is uniform on $[0,1]$ and the strong bidder's value is uniform on $[0,2]$. The virtual valuations are
+\[
+\psi_w(v)=v-\frac{1-v}{1}=2v-1,\qquad \psi_s(v)=v-\frac{1-\frac{v}{2}}{\frac12}=2v-2.
+\]
+At equal values the weak bidder has the higher virtual valuation. By \cref{prop:14-myerson}, the weak bidder wins when $2v_w-1>\max\{2v_s-2,0\}$, that is, when $v_w>\frac12$ and $v_w>v_s-\frac12$. The strong bidder wins when $v_s>1$ and $v_s>v_w+\frac12$. The mechanism sets bidder-specific reserve prices, $\frac12$ for the weak bidder and $1$ for the strong bidder, and gives the weak bidder a head start of $\frac12$ in the competition.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=2.4]
+\fill[gray!25] (0,0) rectangle (0.5,1);
+\fill[c14blue!18] (0.5,0) -- (1,0) -- (1,1.5) -- (0.5,1) -- cycle;
+\fill[c14orange!15] (0,1) -- (0.5,1) -- (1,1.5) -- (1,2) -- (0,2) -- cycle;
+\fill[pattern=north east lines,pattern color=c14blue] (0.5,0.5) -- (1,1) -- (1,1.5) -- (0.5,1) -- cycle;
+\draw[thick] (0,0) rectangle (1,2);
+\draw[thick,dashed] (0,0) -- (1,1);
+\draw[thick] (0.5,0) -- (0.5,1) -- (1,1.5);
+\draw[thick] (0,1) -- (0.5,1);
+\node[font=\footnotesize] at (0.25,0.75) {no sale};
+\node[font=\small,align=center] at (0.78,0.25) {weak\\wins};
+\node[font=\small] at (0.45,1.55) {strong wins};
+\draw[->,thin] (1.12,1.2) node[right,font=\footnotesize,align=left] {weak wins with\\the lower value} -- (0.85,1.1);
+\node[font=\footnotesize,anchor=west] at (1.02,0.95) {$v_s=v_w$};
+\node[font=\footnotesize,anchor=west] at (1.02,1.55) {$v_s=v_w+\frac12$};
+\draw (0,0) -- (0,-0.04) node[below,font=\footnotesize] {$0$};
+\draw (0.5,0) -- (0.5,-0.04) node[below,font=\footnotesize] {$\frac12$};
+\draw (1,0) -- (1,-0.04) node[below,font=\footnotesize] {$1$};
+\draw (0,1) -- (-0.04,1) node[left,font=\footnotesize] {$1$};
+\draw (0,2) -- (-0.04,2) node[left,font=\footnotesize] {$2$};
+\draw (0,0) -- (-0.04,0) node[left,font=\footnotesize] {$0$};
+\node[below,font=\small] at (0.5,-0.3) {weak value $v_w$};
+\node[rotate=90,font=\small] at (-0.3,1) {strong value $v_s$};
+\end{tikzpicture}
+\caption{The optimal allocation with a weak bidder, $V_w\sim U[0,1]$, and a strong bidder, $V_s\sim U[0,2]$, when $v_0=0$. The hatched region is where the weak bidder wins although the strong bidder has the higher value.}\label{fig:14-asym-optimal}
+\end{figure}
+
+\Cref{fig:14-asym-optimal} shows the regions. Values are uniform on the rectangle $[0,1]\times[0,2]$, so each probability is half the corresponding area. The object is not sold with probability $\frac14$. The weak bidder wins with probability $\frac{5}{16}$ and the strong bidder with probability $\frac{7}{16}$. With probability $\frac18$ the weak bidder wins although the strong bidder values the object more. The seller's expected revenue is $\E[\max\{0,\psi_w(V_w),\psi_s(V_s)\}]=\frac{31}{48}\approx 0.646$. A second-price auction without reserve price earns $\E[\min\{V_w,V_s\}]=\frac{5}{12}\approx 0.417$. \Cref{sec:14-asym} computes the first-price revenue in the same example. Expected total surplus is $\frac{11}{12}$ under the optimal mechanism, against $\frac{13}{12}$ under the efficient allocation. Each fraction follows from integrating over the regions in \cref{fig:14-asym-optimal}.
+
+The logic resembles third-degree price discrimination, in which a monopolist charges less to the group with more elastic demand. In the auction the weak bidder plays the role of the elastic group. Here the head start for the weak bidder forces the strong bidder to pay more when it wins. The first-price auction also tilts outcomes toward weak bidders, although for different reasons (\cref{sec:14-asym}). This is one reason why it may raise more revenue than the second-price auction with asymmetric bidders. Bid preferences for small or domestic firms in public procurement have the same structure \citep{McAfeeMcMillan1989}, as \cref{sec:14-procurement} discusses.
+
+\subsection{Entry fees}\label{sec:14-optimal-fees}
+
+With symmetric independent private values, an entry fee can replace the reserve price. Suppose the seller runs a second-price auction without reserve price, values are bounded below by $\underline v=0$, and each participant pays a fee $e$. A bidder with value $v^*$ at the participation threshold wins only when no rival participates, which has probability $F(v^*)^{n-1}$, and then pays nothing. Its gross expected payoff is $v^*F(v^*)^{n-1}$, so the threshold solves $v^*F(v^*)^{n-1}=e$. Setting $e^*=r^*F(r^*)^{n-1}$ makes the threshold equal to $r^*$. The allocation is then the optimal one, and the threshold type earns zero. By \cref{prop:14-ret}, the entry fee $e^*$ yields the optimal revenue. With uniform values and $n=2$, $e^*=\frac12\cdot\frac12=\frac14$. Each bidder enters with probability $\frac12$, so fees bring in $2\cdot\frac12\cdot\frac14=\frac14$, and the price paid when both enter adds $\frac14\cdot\frac23=\frac16$. The total is $\frac{5}{12}$, as with the optimal reserve price.
+
+With affiliated values the equivalence breaks down. \Citet{MilgromWeber1982} compare reserve prices and entry fees that screen out the same types, and \cref{sec:14-mw-reserve} presents their result. With costly entry before bidders learn their values, reserve prices and fees also affect how many bidders participate (\cref{sec:14-entry}). The optimal reserve depends on $F$, which the seller does not observe directly. \Cref{ch:auction-empirics} shows how $F$ can be recovered from bids.
+
+\casehead{The original papers} \citet{Myerson1981} poses the general design problem. A seller faces bidders with independent private information and may use any selling procedure. He proves the revelation principle for this setting, derives the payment identity and revenue equivalence, and shows that the optimal mechanism allocates by virtual valuations, with ironing when they are not monotone.
+\Citet{RileySamuelson1981} reach the optimal reserve price \eqref{eq:14-optimal-reserve} within the class of standard auctions and show that it is independent of the number of bidders. \Citet[p.~87]{HortacsuPerrigne2021} attribute the formula to both papers. \Citet[p.~1093]{MilgromWeber1982} credit the optimal auction to the self-selection approach of \citet{HarrisRaviv1981}, \citet{Myerson1981} and \citet{RileySamuelson1981}. \Citet{BulowRoberts1989} interpret virtual valuations as marginal revenues and recast optimal auction design as monopoly pricing. \Citet{BulowKlemperer1996} prove \cref{prop:14-bk} and draw the lesson that attracting bidders matters more than fine-tuning the mechanism.

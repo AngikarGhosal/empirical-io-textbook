@@ -1,0 +1,261 @@
+\definecolor{c15blue}{HTML}{2A78D6}
+\definecolor{c15orange}{HTML}{EB6834}
+\definecolor{c15aqua}{HTML}{1BAF7A}
+\definecolor{c15gray}{HTML}{52514E}
+
+\chapter{Identification and Estimation of Single-Object Auctions}\label{ch:auction-empirics}
+\chaptermark{Estimating Single-Object Auctions}
+
+Auctions are the setting in which the structural program of empirical industrial organization, outlined in
+\cref{ch:intro}, works best. In
+\cref{ch:conduct} the way firms compete was itself unknown, so conduct entered the model as a parameter to be
+estimated. In an auction the seller writes down the rules. The researcher knows who wins and what each bidder
+pays as a function of the bids. The only behavioral assumption left is that bidders play an equilibrium
+\citep[Section~1]{AtheyHaile2007}. \Cref{ch:auction-theory} derived how bidders behave, given the joint
+distribution of their values and information. This chapter runs the argument in reverse. It asks what observed
+bids reveal about the distribution that generated them and how to estimate that distribution. It then uses
+the estimates to answer questions about reserve prices, auction formats, entry and collusion.
+
+The central idea fits in one display. In a first-price auction with $n$ symmetric bidders whose values are
+independent, let $G$ and $g$ be the distribution and density of a rival's bid. A bidder who bids $b$ must then
+have the value
+\[
+v=b+\frac{G(b)}{(n-1)\,g(b)} .
+\]
+The right side involves only the bid and the distribution of bids, which the data reveal. Each bid therefore
+maps into the value that rationalizes it, and no equilibrium needs to be computed. The formula is the auction
+counterpart of recovering marginal cost from a pricing first-order condition once demand has been estimated
+(\cref{ch:diffprod,ch:blp}). Here the distribution of rival bids plays the role of the demand curve. Much of the
+chapter extends this inversion to richer models and asks what remains identified when the data are poorer.
+
+Five questions organize the chapter. Which primitives are identified from which data? How should they be
+estimated, and how fast do the estimators converge? How can the information structure be tested, in particular
+private against common values? How should we handle heterogeneity that bidders see and the econometrician does
+not, and participation that responds to the auction's features? What does a complete application look like,
+from reduced-form evidence to counterfactual policy?
+
+The chapter is organized as follows. \Cref{sec:15-approach} defines the primitives, the observables, and what
+identification and testability mean. \Cref{sec:15-ascending} treats second-price and ascending auctions, where
+bids equal values but some bids are never observed. It also covers the bounds that survive when the button
+model of the English auction fails. \Cref{sec:15-direct,sec:15-gpv} turn to first-price auctions. The first
+studies direct parametric methods and the simulated estimator of \citet{LaffontOssardVuong1995}. The second
+develops the indirect approach of \citet{GuerrePerrigneVuong2000} in full. \Cref{sec:15-apv,sec:15-cv,sec:15-uh,sec:15-entry}
+relax the maintained assumptions one at a time. They cover affiliated and asymmetric private values, common
+values, unobserved auction heterogeneity, and entry, dynamics and risk aversion. \Cref{sec:15-als} then follows
+the timber study of \citet{AtheyLevinSeira2011} from question to counterfactuals. \Cref{sec:15-collusion} reviews
+tests for collusion and the auction designs that make bidding rings harder to run. \Cref{sec:15-divisible}
+turns to divisible goods, such as Treasury bills and central bank loans, for which bidders submit demand
+schedules. \Cref{sec:15-synthesis} collects the identification results in one map.
+\Cref{tab:15-roadmap} summarizes the plan. Apart from the short treatment of divisible goods in
+\cref{sec:15-divisible}, this book treats single-unit auctions only. Auctions of several different objects,
+such as spectrum licenses, raise separate problems.
+
+The chapter leans on the rest of the book in several places. \Cref{ch:auction-theory} supplies the equilibrium
+theory, and we recall its results by reference instead of deriving them again. The analysis of bidding rings
+connects to the cartel theory of \cref{ch:collusion-theory} and to the bid-rigging and knockout studies of
+\cref{ch:collusion-evidence}. \Cref{app:econometrics} reviews the econometric tools used here, including kernel
+density estimation, the delta method, the bootstrap, simulation estimators and matching. \Cref{app:math}
+collects the results on order statistics, characteristic functions, affiliation and log-concavity. Most
+sections close with the empirical magnitudes found in timber, procurement and offshore oil auctions. For
+studies that we summarize without a full treatment, we rely on the survey of \citet{HortacsuPerrigne2021}
+and cite its pages.
+
+\input{chapters/ch15/part1}
+\input{chapters/ch15/part2}
+\input{chapters/ch15/part3}
+\input{chapters/ch15/part4}
+\input{chapters/ch15/part5}
+
+\section{Bibliographic notes}\label{sec:15-notes}
+
+Structural econometrics of auctions began with parametric models. \citet{Paarsch1992} estimated parametric
+models with closed-form bid functions. \citet{DonaldPaarsch1993,DonaldPaarsch1996} worked out the
+non-standard asymptotics that a parameter-dependent support creates. \citet{LaffontOssardVuong1995} introduced
+simulation and showed that revenue equivalence can serve as an estimation device. The surveys of
+\citet{HendricksPaarsch1995}, \citet{Laffont1997} and \citet{PerrigneVuong1999} describe the field at that
+stage. \citet{PaarschHong2006} give a book-length treatment of the parametric and early nonparametric methods.
+\citet{Paarsch1997} used a parametric model of British Columbia timber sales to estimate an optimal reserve
+price, an early policy application of the structural approach.
+
+The indirect approach of \citet{GuerrePerrigneVuong2000} reorganized the field. It was extended to affiliated
+private values by \citet{LiPerrigneVuong2002} and to asymmetric bidders by \citet{CampoPerrigneVuong2003}.
+\citet{AtheyHaile2002} asked systematically which models are identified from which data, across formats, and
+\citet{AtheyHaile2007} restate the whole literature in that framework. Their survey is the natural next step
+for a reader of this chapter. \citet{HaileTamer2003} replaced the button model with weak behavioral
+restrictions, an early instance of partial identification in industrial organization.
+\citet{AradillasLopezGandhiQuint2013} bound revenue and the optimal reserve price with correlated private
+values. \citet{CoeyEtAl2017} tighten such bounds with observed bidder asymmetries, and
+\citet{CoeyLarsenSweeney2019} use the bidder exclusion effect to bound the gain from an optimal reserve.
+\citet{LiPerrigne2003} study secret reserves in French timber sales. Most of these applications find observed
+reserve prices low relative to the estimated optimum.
+
+On common values, \citet{LaffontVuong1996} established the observational equivalence with affiliated private
+values, and \citet{LiPerrigneVuong2000} added structure under which the mineral rights model is identified.
+\citet{HaileHongShum2003} developed tests based on variation in the number of bidders, and
+\citet{HendricksPinksePorter2003} used ex post values to test equilibrium bidding.
+\citet{CompianiHaileSantAnna2020} extended the tests to endogenous entry and unobserved heterogeneity and found
+common values in offshore oil leases. \citet{HongShum2002} measured the winner's curse in highway
+procurement. \citet{Somaini2020}
+obtained identification with interdependent costs from continuous variation in competitors' cost shifters.
+\citet{HendricksPorter1988} remains the leading field evidence on adverse selection in auctions, and
+\citet{HendricksPorter2007} survey the empirical literature on auctions. \citet{HortacsuPerrigne2021} update
+that survey market by market, covering timber, procurement, offshore oil and online auctions. Their survey
+complements \citet{AtheyHaile2007} on the applied side.
+
+Unobserved heterogeneity is now a standard concern. \citet{Krasnokutskaya2011} brought deconvolution to
+auctions. Her published application differs from that of the earlier working paper \citep{Krasnokutskaya2004},
+and we report the published estimates. \citet{Roberts2013} used reserve prices as a control, and
+\citet{HuMcAdamsShum2013} relaxed separability with three bids per auction. \citet{HaileKitamura2019} survey
+the identification results. Entry was modeled empirically by \citet{AtheyLevinSeira2011} in the tradition of
+\citet{LevinSmith1994}. Selective entry, in the spirit of \citet{Samuelson1985}, is studied by
+\citet{MarmerShneyerovXu2013}, \citet{GentryLi2014} and \citet{RobertsSweeting2013}. \citet{LiZheng2012} and
+\citet{RobertsSweeting2016} estimate entry costs under both entry models with timber data.
+\citet{JofreBonetPesendorfer2003} extended the two-step logic to dynamic auctions with capacity constraints.
+\citet{CampoEtAl2011} and \citet{GuerrePerrigneVuong2009} studied risk aversion, and \citet{LuPerrigne2008}
+and \citet{GrundlZhu2019} estimated it from timber sales. On collusion, \citet{PorterZona1993,PorterZona1999}
+and \citet{BajariYe2003} test competitive bidding directly, and \citet{Asker2010} studies a cartel's internal
+records. \Cref{ch:collusion-evidence} treats these studies in depth. \citet{MarshallMarx2012} analyze how the
+auction format shapes what a bidding ring gains, which designs make rings harder to sustain, and which
+patterns in bid records reveal them.
+
+\Cref{sec:15-divisible} gives a short treatment of divisible-good auctions, in which bidders submit demand
+schedules. The share auction model is due to \citet{Wilson1979}. \citet{HortacsuMcAdams2010} introduced the
+resampling estimator of the distribution of the clearing price and compared pay-as-bid with uniform pricing in
+Turkish Treasury auctions. \citet{Kastl2011} derived the first-order conditions for step bids under uniform
+pricing and applied them to Czech Treasury bills. \citet{CassolaHortacsuKastl2013} used the discriminatory
+version to measure banks' funding costs in the auctions of the European Central Bank during the 2007 crisis.
+\citet[Section~10]{AtheyHaile2007} discuss identification in multi-unit and multi-object auctions more
+broadly.
+
+\section{Exercises}\label{sec:15-exercises}
+
+\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=6pt]
+
+\item \textit{Precision of estimators from ascending-auction data.} Parts (a) to (c) ask which order statistic
+is more informative, and parts (d) to (f) show that estimated bounds can cross. Consider the SIPV model of a
+second-price sealed-bid auction with $n$ bidders. In each of $T$ auctions, either the highest bid
+$B^{(n:n)}$ or the second-highest bid $B^{(n-1:n)}$ is recorded.
+\begin{enumerate}[label=(\alph*)]
+  \item Use \eqref{eq:15-Lambda} to show that $\Lambda_{n:n}(x)=x^n$ and that $F$ is identified from the highest
+  bid by $F(v)=G_{B^{(n:n)}}(v)^{\frac1n}$.
+  \item Derive the delta-method variance of the estimator $\hat F(v)=\hat G_{B^{(n:n)}}(v)^{\frac1n}$, following
+  the steps that led to \eqref{eq:15-asc-var}. Show that its asymptotic variance per auction is
+  $\frac{F^{2-n}(1-F^n)}{n^2}$, evaluated at $F=F(v)$.
+  \item Let values be uniform on $[0,1]$ and $n=4$. Compare the asymptotic variances of the two estimators of
+  $F(0.2)$, and the variance $\frac{F(1-F)}{n}$ of the estimator that uses all bids. Show that the
+  second-highest bid is almost nine times as informative as the highest bid at this point. Explain the result
+  in terms of how often a value near 0.2 becomes the highest or the second-highest of four.
+  \item Suppose now that the button model holds with $\Delta=0$, so the bounds of \cref{thm:15-ht} coincide
+  with $F(v)$ at a point $v$. Two order statistics give estimators $\hat a_1$ and $\hat a_2$ of the upper bound,
+  and one gives an estimator $\hat c$ of the lower bound. Treat $\hat a_1$, $\hat a_2$ and $\hat c$ as
+  independent draws from $N\big(F(v),\sigma^2\big)$. Show that
+  $\E\big[\min\{\hat a_1,\hat a_2\}\big]=F(v)-\frac{\sigma}{\sqrt\pi}$, so the estimated upper bound is biased
+  downward.
+  \item Show that the estimated upper bound lies below the estimated lower bound with probability
+  $\frac23$. Note that the event is that $\hat c$ is not the smallest of three exchangeable draws.
+  \item Explain why replacing the minimum and maximum by smooth weighted averages, as
+  \citet{HaileTamer2003} do, reduces the problem. What does the example imply for reporting estimated bounds
+  without inference?
+\end{enumerate}
+
+\item \textit{The GPV inversion with power bids.} Bids in a symmetric first-price auction with $n$ bidders are
+i.i.d.\ with $G(b)=b^a$ on $[0,1]$, where $a>0$.
+\begin{enumerate}[label=(\alph*)]
+  \item Use \eqref{eq:15-gpv-xi} to show that $\xi(b)=q_a b$ with $q_a=\frac{a(n-1)+1}{a(n-1)}$.
+  \item Show that condition (C2) of \cref{thm:15-gpv-ident} holds for every $a>0$, both directly and by checking
+  that $\frac{g}{G^n}$ is strictly decreasing as in \cref{rem:15-c2}.
+  \item Use \eqref{eq:15-gpv-F} to derive $F$. Show that values follow a power distribution on $[0,q_a]$ and
+  that the result agrees with the bid function of \cref{ex:15-power-mle}.
+  \item Show that the relative markdown $\frac{v-b}{v}$ equals $\frac{1}{a(n-1)+1}$ for every bid. Compute it
+  for $a=\frac12$ with $n=2$ and for $a=2$ with $n=4$, and explain why more concentrated bids imply smaller
+  markdowns.
+\end{enumerate}
+
+\item \textit{The recurrence relation and the winner's curse.}
+\begin{enumerate}[label=(\alph*)]
+  \item Verify \cref{lem:15-recurrence} for three i.i.d.\ uniform draws, with $r=1$ and $r=2$, by computing each
+  order-statistic distribution explicitly.
+  \item In a symmetric second-price auction with common values, the bid function $b(s;n)$ falls strictly in $n$
+  (\cref{lem:15-pivotal-n}). Explain, without formulas, why the transaction price in $(n-1)$-bidder auctions is
+  then stochastically larger than the mixture of order statistics on the left side of \eqref{eq:15-ah-10}.
+  \item A researcher regresses winning bids from first-price auctions on the number of bidders and finds a
+  negative coefficient. She concludes that values are common. Give two reasons why the conclusion does not
+  follow, citing the results of \cref{sec:15-cv-tests}.
+\end{enumerate}
+
+\item \textit{Risk aversion and exogenous variation in $n$.} Values are uniform on $[0,1]$, and bidders have
+utility $\mathcal U(x)=x^{a}$ with $0<a\le1$. The symmetric first-price bid is then
+$\beta(v)=\frac{n-1}{n-1+a}\,v$, the solution of \eqref{eq:14-risk-ode} for uniform values.
+\begin{enumerate}[label=(\alph*)]
+  \item Write $c_n=\frac{n-1}{n-1+a}$. Show that bids in $n$-bidder auctions are uniform on $[0,c_n]$, that
+  $b_n(\alpha)=c_n\alpha$, and that $z_n(\alpha)=\frac{\alpha c_n}{n-1}$ in the notation of
+  \eqref{eq:15-risk-quantile}.
+  \item Using only $n$-bidder auctions, show that the risk-neutral inversion \eqref{eq:15-gpv-xi} rationalizes the
+  bids with values uniform on $\big[0,\frac{n}{n-1}c_n\big]$. Explain why this illustrates the non-identification
+  result of \cref{sec:15-risk}.
+  \item For two numbers of bidders $n_1<n_2$, show that
+  $\frac{b_{n_2}(\alpha)-b_{n_1}(\alpha)}{z_{n_1}(\alpha)-z_{n_2}(\alpha)}=a$ for every $\alpha$. Interpret this as
+  the overidentifying restriction of \cref{sec:15-risk}.
+\end{enumerate}
+
+\item \textit{Recovering an entry cost.} There are $N_L=6$ potential loggers. Mills always enter and their number
+is fixed. A participating logger's expected profit, estimated from bids as in \cref{prop:15-entry-ident}, is
+$\pi_L(n_L)=\frac{40}{n_L+1}$ thousand dollars when $n_L$ loggers participate.
+\begin{enumerate}[label=(\alph*)]
+  \item Write the indifference condition \eqref{eq:15-als-indiff} for a logger who enters when each other potential
+  logger enters with probability $p$.
+  \item Show that the ex ante entry profit $\Pi_L(p)$ falls strictly in $p$. Use first-order stochastic
+  dominance of the binomial distribution in $p$.
+  \item The observed entry probability is $p=0.5$. Show that the implied entry cost is $K\approx9.55$ thousand
+  dollars. Compute $\Pi_L(0)$ and $\Pi_L(1)$ and explain why any $K$ between them is consistent with mixed
+  entry.
+  \item Suppose a change in format lowers every $\pi_L(n_L)$ by 10 percent while $K$ stays fixed. Explain, using
+  \cref{fig:15-als-entry}, why logger entry falls, and why mill collusion would not change it.
+\end{enumerate}
+
+\item \textit{Interpreting the timber evidence.} Answer in words, citing the results of this chapter.
+\begin{enumerate}[label=(\alph*)]
+  \item Why does estimating the model from sealed-bid sales alone make the predictions for open auctions an
+  out-of-sample test, in two distinct senses?
+  \item Why is a sale with a single participating mill uninformative about collusion among mills? Which pattern
+  in \cref{tab:15-als-mills} would have contradicted the collusion interpretation?
+  \item Why does ignoring unobserved heterogeneity inflate estimated markups? Relate your answer to
+  \cref{ex:15-uh-uniform} and to the finding of \citet{AtheyLevinSeira2011} without heterogeneity.
+  \item Should a seller in the Northern forests worry more about the inefficiency of sealed bidding or about
+  collusion in open auctions? Use \cref{tab:15-als-welfare} to give a quantitative answer.
+\end{enumerate}
+
+\item \textit{What a ring gains at an ascending auction.} Five bidders have values drawn independently from the
+uniform distribution on $[0,1]$, and there is no reserve price. A ring of $k$ randomly chosen bidders operates
+as in \cref{ex:15-ring-gain}. Its highest-value member bids up to its value, and the other members do not bid.
+\begin{enumerate}[label=(\alph*)]
+  \item For $k=3$, find the probability that the ring holds the two highest values and the probability that it
+  holds the three highest values. Show that the expected price is $0.600$.
+  \item Show that the expected surplus of each bidder outside the ring is $\frac{1}{30}$ for every $k<5$. Use
+  this result and $\E[V^{(5:5)}]=\frac56$ to show that each ring member expects about $0.056$ when $k=3$.
+  \item In \cref{tab:15-mm-rings} the surplus of outside bidders at a first-price auction rises with $k$.
+  Explain why, and explain why this leakage weakens the incentive to form a ring under sealed bidding.
+  \item Explain why a pair of bidders who never bid against each other across many ascending auctions is a
+  super-plus factor, while light attendance at the auctions is not.
+\end{enumerate}
+
+\item\label{exc:15-divisible} \textit{Bidding with steps in a divisible-good auction.} A bidder has a strictly
+decreasing marginal value $v(q)$ on $[0,1]$ and gross utility $V(q)=\int_0^q v(u)\,du$. It is a price taker.
+The clearing price $P^{\mathrm c}$ has a continuous distribution $H$ with density $h$ on $[0,1]$, which the
+bidder's own bid does not affect.
+\begin{enumerate}[label=(\alph*)]
+  \item Under uniform pricing the bidder submits one step $(b,q)$. Explain why it wins $q$ at the price
+  $P^{\mathrm c}$ when $P^{\mathrm c}<b$ and wins nothing otherwise. Write its expected payoff as an integral
+  over the price. Show that the first-order condition for $q$ is $v(q)=\E(P^{\mathrm c}\mid P^{\mathrm c}<b)$,
+  as in \cref{cor:15-kastl-above}. Show that the condition for $b$ is $b=\frac{V(q)}{q}$, and conclude that
+  $b>v(q)$.
+  \item Let $v(q)=1-q$ and let $P^{\mathrm c}$ be uniform on $[0,1]$. Show that the optimal step has
+  $q=\frac23$ and $b=\frac23$, while $v(\frac23)=\frac13$. Check the second-order conditions.
+  \item Under discriminatory pricing the bidder submits two steps, with $b_1>b_2$ and $q_1<q_2$. Write its
+  expected payoff using $\Pr(P^{\mathrm c}<b_2)$ and $\Pr(b_2<P^{\mathrm c}<b_1)$. Differentiate with respect
+  to $q_1$ and $q_2$, and show that the results are \eqref{eq:15-chk-foc} for $k=1$ and $b_2=v(q_2)$.
+  \item Explain why the condition in (c) implies $v(q_1)\ge b_1$, while the condition in (a) implies $b>v(q)$.
+  Relate the difference to the use of truthful-bidding revenue as an upper bound in \cref{sec:15-kastl}.
+\end{enumerate}
+
+\end{enumerate}

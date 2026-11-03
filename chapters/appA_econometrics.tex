@@ -1,0 +1,310 @@
+\phantomsection\addcontentsline{toc}{part}{Appendices}
+\chapter{Econometric Toolkit}\label{app:econometrics}
+
+Every chapter of this book estimates something. \Cref{ch:conduct} regresses prices on taxes and estimates conduct
+by instrumental variables. \Cref{ch:blp} minimizes a generalized method of moments (GMM) criterion that contains a
+simulated integral.
+\Cref{ch:collusion-evidence} maximizes a likelihood with latent cartel regimes, and \cref{ch:auction-empirics}
+estimates value densities with kernels. \Cref{ch:mergers} compares merging and non-merging products before and after
+a merger. This appendix collects the econometric tools behind these exercises in one place. It develops each tool
+once, in general notation, and proves the results that the chapters rely on. Standard results that the book uses
+without relying on their proofs are stated with references to the textbooks listed in \cref{sec:A-notes}.
+
+The appendix assumes a first-year graduate sequence in econometrics, but it does not assume that the reader remembers
+it. Each section starts from definitions and then turns to worked applications drawn from the papers of the book, so
+that every tool is seen at work on data from industrial organization. When an application belongs to a chapter, the
+appendix gives the econometric point and a cross-reference, and the chapter gives the economics and the full tables.
+Several applications are recomputed here. We re-estimate the cigarette tax regression of \citet{Sumner1981} with
+modern standard errors and replicate the Monte Carlo design of \citet{GuerrePerrigneVuong2000}. We also study
+simulated designs for weak instruments, latent regimes, simulation estimators, clustering, kernels and staggered
+adoption.
+
+\casehead{Three styles of empirical work}
+We sort the uses of these tools into three broad styles. The division is ours, but it follows the history that
+\citet[pp.~146--147 and 157--158]{EinavLevin2010} sketch. They describe how the field moved from cross-industry
+regressions to studies of single industries, and they weigh structural work against (quasi-)experimental designs.
+\emph{Structural}
+work specifies demand, cost and conduct and estimates their parameters, as in the random coefficients model of
+\citet{BerryLevinsohnPakes1995} (\cref{ch:blp}). Its tools are GMM, maximum likelihood and simulation, and its
+identification rests on instruments, equilibrium conditions and functional forms. \emph{Design-based} work measures
+the effect of a discrete change by comparing exposed and unexposed units, as in merger retrospectives
+(\cref{ch:mergers}). Its tools are differences in differences, event studies and instrumental variables, and its
+identification rests on assumptions about counterfactual outcomes. \emph{Descriptive} or reduced-form work documents
+relations between market outcomes and market structure, as in the fare regressions of \citet{Borenstein1989}
+(\cref{ch:airlines}). Its main tools are least squares and instrumental variables, and its interpretation needs care
+because the regressors are themselves equilibrium outcomes. Many papers combine the three styles, and the same
+estimator often serves all of them.
+
+\casehead{Plan of the appendix}
+\Cref{sec:A-identification} defines identification and shows how simultaneity and selection defeat naive
+comparisons. \Cref{sec:A-ols,sec:A-iv} develop least squares, panel data, systems of equations and instrumental
+variables, including weak instruments and specification tests. \Cref{sec:A-extremum,sec:A-gmm,sec:A-mle} treat
+estimators defined by optimizing a criterion. They cover the general theory, the generalized method of moments, and
+maximum likelihood with latent variables. \Cref{sec:A-simulation} adds simulation to these estimators.
+\Cref{sec:A-se,sec:A-delta-boot} turn to inference, with standard errors under dependence, the delta method and the
+bootstrap. \Cref{sec:A-kde,sec:A-npreg} develop nonparametric estimators of densities and regression functions,
+deconvolution and estimation under partial identification. \Cref{sec:A-did,sec:A-eventstudy} cover the research
+designs of retrospective studies, namely differences in differences and financial event studies. \Cref{tab:A-map}
+lists, for each tool, the section that develops it, the chapters that use it and one example.
+
+\begin{table}[htbp]
+\centering
+\caption{Econometric tools, where this appendix develops them, and where the book uses them}
+\label{tab:A-map}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.27\textwidth}
+>{\raggedright\arraybackslash}p{0.1\textwidth} >{\raggedright\arraybackslash}p{0.16\textwidth}
+>{\raggedright\arraybackslash}X@{}}
+\toprule
+Tool & Section & Chapters & Example \\
+\midrule
+Identification, simultaneity and selection & \ref{sec:A-identification} & \ref{ch:intro}, \ref{ch:conduct},
+\ref{ch:airlines} & Supply and demand \citep{Working1927}, demand rotations \citep{Bresnahan1982} \\
+\addlinespace
+Least squares, panel data and systems & \ref{sec:A-ols} & \ref{ch:intro}, \ref{ch:conduct}, \ref{ch:aids} &
+Two-way fixed effects for tax pass-through \citep{Sumner1981} \\
+\addlinespace
+Instrumental variables, weak instruments and specification tests & \ref{sec:A-iv} & \ref{ch:conduct},
+\ref{ch:aids}, \ref{ch:logit}, \ref{ch:airlines}, \ref{ch:mergers} & Co-location as an instrument for rival mergers
+\citep{Dafny2009} \\
+\addlinespace
+Extremum estimators and GMM & \ref{sec:A-extremum}, \ref{sec:A-gmm} & \ref{ch:conduct}, \ref{ch:diffprod},
+\ref{ch:blp} & Demand and supply moments for automobiles \citep{BerryLevinsohnPakes1995} \\
+\addlinespace
+Maximum likelihood and latent regimes & \ref{sec:A-mle} & \ref{ch:discrete}, \ref{ch:collusion-evidence},
+\ref{ch:auction-empirics} & Switching regressions for a railroad cartel \citep{Porter1983,Ellison1994} \\
+\addlinespace
+Simulation estimators & \ref{sec:A-simulation} & \ref{ch:blp}, \ref{ch:newgoods}, \ref{ch:auction-empirics} &
+Simulated likelihood for newspaper demand \citep{Gentzkow2007} \\
+\addlinespace
+Clustered and HAC standard errors & \ref{sec:A-se} & \ref{ch:conduct}, \ref{ch:blp}, \ref{ch:mergers} & Sumner's
+regression with state clusters (\cref{tab:A-sumner}) \\
+\addlinespace
+Delta method and bootstrap & \ref{sec:A-delta-boot} & \ref{ch:aids}, \ref{ch:blp}, \ref{ch:collusion-evidence} &
+Bootstrapped counterfactuals for antibiotics \citep{ChaudhuriGoldbergJia2006} \\
+\addlinespace
+Kernels, deconvolution and bounds & \ref{sec:A-kde}, \ref{sec:A-npreg} & \ref{ch:discrete},
+\ref{ch:collusion-evidence}, \ref{ch:auction-empirics} & First-price auctions \citep{GuerrePerrigneVuong2000},
+unobserved heterogeneity \citep{Krasnokutskaya2011} \\
+\addlinespace
+Differences in differences and panel event studies & \ref{sec:A-did} & \ref{ch:conduct}, \ref{ch:aids},
+\ref{ch:airlines}, \ref{ch:mergers} & Consumer-product merger retrospectives \citep{AshenfelterHosken2010} \\
+\addlinespace
+Financial event studies & \ref{sec:A-eventstudy} & \ref{ch:airlines}, \ref{ch:mergers} & Entry by People Express
+\citep{WhinstonCollins1992} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\casehead{Conventions}
+Vectors are columns unless stated otherwise. The sample has $n$ observations $w_1, \dots, w_n$, where $w_i$ collects
+the data of observation $i$. We write $\xrightarrow{p}$ for convergence in probability and $\xrightarrow{d}$ for
+convergence in distribution. A sequence $X_n$ is $o_p(1)$ if $X_n \xrightarrow{p} 0$. It is $O_p(1)$, or
+\emph{bounded in probability}, if for every $\epsilon > 0$ there is an $M$ with $\Pr(\lVert X_n\rVert > M) < \epsilon$
+for all large $n$. For a positive sequence $a_n$, $X_n = o_p(a_n)$ means $\frac{X_n}{a_n} = o_p(1)$, and $O_p(a_n)$ is
+defined in the same way. An event occurs \emph{with probability approaching one} (w.p.a.1) if its probability tends to
+one as $n \to \infty$. Asymptotic statements are in $n$ unless stated otherwise. Sometimes a different count drives the
+asymptotics. In demand models estimated from market-level data it is the number of markets or products. It is the
+number of auctions $L$ in the estimators of \cref{sec:A-kde}, and the number of clusters $C$ for clustered data
+(\cref{sec:A-cluster}).
+
+The appendix uses generic notation, and several symbols have a local meaning that differs from their meaning in the
+chapters. The vector $\theta$ is a generic parameter with true value $\theta_0$, estimator $\hat\theta$ and parameter
+space $\Theta$. Elsewhere in the book $\theta$ is the conduct parameter, and we say so whenever that meaning appears
+here. A regressor vector $x_i$ is a $K \times 1$ column, unlike the characteristics row $x_{jt}$ of the demand
+chapters, and $\beta$ is a generic coefficient vector. Instruments form an $L \times 1$ vector $z_i$, so $L$ usually
+counts instruments or moments. The structure-conduct-performance examples of \cref{sec:A-potential,sec:A-bias} use the
+Lerner index $L_k$ instead. The letter $L$ is also the number of auctions in \cref{sec:A-kde,sec:A-npreg} and the
+length of the event window in \cref{sec:A-eventstudy}. Each of these uses is defined where it appears. First-stage coefficients
+are written $\pi$, which is not profit. The matrices $\Omega$ and $S$ usually denote covariance matrices of errors,
+scores or moments. The exceptions are the ownership matrix $\Omega_t$ in the supply moments of
+\cref{sec:A-gmm-moments} and Porter's parameter vector $\Omega$ in \cref{sec:A-mle-latent}. In \cref{sec:A-se} the index $c$ denotes a
+cluster, not marginal cost. \Cref{sec:A-did} uses $\tau_t$ for a period effect, while \cref{sec:A-eventstudy} uses
+$\tau$ for a trading day.
+
+\input{chapters/appA/part1}
+\input{chapters/appA/part2}
+\input{chapters/appA/part3}
+\input{chapters/appA/part4}
+\input{chapters/appA/part5}
+
+\section{Bibliographic notes}\label{sec:A-notes}
+
+Several textbooks cover the material of this appendix in more depth. \citet{Hayashi2000}, \citet{Wooldridge2010} and
+\citet{Hansen2022} treat least squares, instrumental variables, panel data and GMM at the level of
+\cref{sec:A-ols,sec:A-iv,sec:A-gmm}. \citet{CameronTrivedi2005} add many microeconometric applications.
+\citet{NeweyMcFadden1994} remains the standard reference for the large-sample theory of extremum estimators. It covers
+the consistency and normality theorems of \cref{sec:A-extremum}, two-step estimators and the efficiency of GMM.
+\citet{AndrewsStockSun2019} survey weak instruments and robust inference. \citet{AngristPischke2009} and
+\citet{ImbensRubin2015} present the potential-outcomes approach to instruments and treatment effects that underlies
+\cref{sec:A-potential,sec:A-late,sec:A-did}.
+
+For simulation, \citet{GourierouxMonfort1996} develop the asymptotic theory of simulated moments, simulated likelihood
+and indirect inference, and \citet{Train2009} is a practical guide to simulation in discrete choice models.
+\citet{CameronMiller2015} is the standard practitioner's guide to clustered standard errors, and \citet{AbadieEtAl2023}
+restate the case for clustering in design-based terms. For the bootstrap, \citet{EfronTibshirani1993} give an
+accessible introduction, \citet{Hall1992} develops the theory of asymptotic refinements, and \citet{Horowitz2001}
+surveys the method for econometricians. \citet{Silverman1986} is the classic introduction to density estimation.
+\citet{FanGijbels1996} cover local polynomial regression, and \citet{LiRacine2007} give a comprehensive treatment of
+nonparametric econometrics, including series estimators and the partially linear model.
+
+\citet{RothEtAl2023} survey the recent literature on differences in differences, with staggered adoption, robust
+estimators and violations of parallel trends. \citet{Abadie2021} discusses synthetic control in practice, and
+\citet{MacKinlay1997} remains the standard introduction to financial event studies. For partial identification,
+\citet{Manski2003} develops the general approach and \citet{Tamer2010} surveys its use in econometrics.
+
+For systems of demand equations, \citet[Section~3.3, pp.~67--75]{DeatonMuellbauer1980b} explain which restrictions
+of demand theory can be tested and review the early tests on Dutch and British data (\cref{sec:A-systems,sec:A-wald}).
+\citet{Davies1977} and \citet{Hansen1992} treat tests in which a parameter is identified only under the alternative,
+the problem behind Porter's test for regime switching (\cref{sec:A-mle-nonregular}).
+
+Several surveys connect these tools to industrial organization. \citet{AckerbergEtAl2007} cover demand estimation,
+production functions and dynamic models, with particular attention to GMM, simulation and instruments for
+differentiated-products demand. \citet{AtheyHaile2007} do the same for auctions, from nonparametric identification to
+the practical choices of kernels, trimming and bootstrap. Two chapters of the fifth volume of the Handbook of
+Industrial Organization \citep{HoHortacsuLizzeri2021} survey the later applications. \citet{HortacsuPerrigne2021}
+review empirical work on auctions. Their sections on timber and procurement auctions (pp.~86--123) cover two methods
+of this appendix. The entry model of \citet{AtheyLevinSeira2011} appears on pp.~90--91
+(\cref{sec:A-mle-discrete,sec:A-did-related}). The deconvolution estimator of \citet{Krasnokutskaya2011} appears on
+p.~103 (\cref{sec:A-deconv}). \citet{AskerNocke2021} review collusion and
+mergers. Their Section~2.3 (pp.~209--210) covers statistical tests for bid rigging from \citet{PorterZona1993} on.
+Their Section~3.7 (pp.~255--257) and their appendix table (pp.~261--265) cover merger retrospectives, the designs
+of \cref{sec:A-did}.
+\citet[p.~158]{EinavLevin2010} argue that structural and design-based work are often complementary, even for the same
+question.
+
+\section{Exercises}\label{sec:A-exercises}
+
+\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=6pt]
+
+\item \textit{Simultaneity with correlated shocks.} Take the market of \cref{ass:A-working}, but let the demand and
+supply shocks have covariance $\sigma_{ds}$.
+\begin{enumerate}[label=(\alph*)]
+  \item Show that the slope of the OLS regression of $q_t$ on $p_t$ converges to
+  \begin{equation*}
+  \frac{c\,\sigma_d^2 - b\,\sigma_s^2 + (b - c)\,\sigma_{ds}}{\sigma_d^2 + \sigma_s^2 - 2\sigma_{ds}} .
+  \end{equation*}
+  Check the result by computing $\Cov(q_t, p_t)$ twice, once from the supply equation as in the proof of
+  \cref{prop:A-ols-simultaneity} and once from the demand equation.
+  \item Let $\sigma_{ds} = 0$. Find the limit of the slope of the reverse regression of $p_t$ on $q_t$. Show that it
+  equals the inverse demand slope $-\frac{1}{b}$ only when $\sigma_d^2 = 0$ or $c = 0$, and interpret both cases.
+  \item Add the cost shifter $w_t$ of \cref{cor:A-shifter}. Show that IV with instrument $w_t$ is consistent for $-b$
+  whatever the value of $\sigma_{ds}$. Which assumption about $w_t$ does the argument use?
+  \item In the design of \cref{fig:A-simultaneity}, compute the concentration parameter $\mu^2$ of \eqref{eq:A-mu2}
+  for samples of 200 markets. Use \eqref{eq:A-EF} to compare it with the mean first-stage $F$ statistic of 331 reported
+  in the caption.
+\end{enumerate}
+
+\item \textit{Two-stage least squares and specification tests.}
+\begin{enumerate}[label=(\alph*)]
+  \item Let $L = K$ and let $A$ be any nonsingular $L \times L$ matrix. Show that IV with instruments $ZA$ gives the
+  same estimate as IV with $Z$. Explain why the choice among linear combinations of the instruments matters only when
+  $L > K$.
+  \item Consider one endogenous regressor, exogenous controls and excluded instruments. In the control-function
+  regression of \cref{prop:A-cf-2sls}, show that the coefficient on the first-stage residual is zero if and only if the
+  regressor is uncorrelated with the structural error. Explain why a heteroskedasticity-robust $t$ test of this
+  coefficient remains valid when OLS is not efficient.
+  \item For the 80th percentile fare in \citet{Borenstein1989}, the route-share coefficient is 0.1259 (0.0349) by OLS
+  and 0.2238 (0.0784) by 2SLS (\cref{sec:A-spectests}). Compute the Hausman statistic \eqref{eq:A-hausman} for this
+  coefficient alone, and compare it with the 5 percent cutoff of $\chi^2_1$.
+  \item Borenstein reports that Hausman tests reject the exogeneity of route share and the route Herfindahl index. Give two
+  reasons why a statistic for one coefficient in one percentile regression need not agree with the tests he reports.
+  \item In the Rotterdam system \eqref{eq:A-rotterdam}, show that adding up and symmetry together imply homogeneity.
+  Explain why OLS estimates satisfy adding up whatever the data (\cref{prop:A-addingup}), why homogeneity can be
+  tested one equation at a time, and why a test of symmetry needs the whole system.
+\end{enumerate}
+
+\item \textit{A two-step estimator.} Let $(x_i, y_i)$ be independent and identically distributed with
+$\E[x_i] = \mu \neq 0$, and let $\theta = \frac{\E[y_i]}{\mu}$. The first step estimates $\hat\mu = \bar x$, and the
+second solves $\frac{1}{n}\sum_i(y_i - \theta\hat\mu) = 0$.
+\begin{enumerate}[label=(\alph*)]
+  \item Write the two steps as the moments $m(w;\mu) = x - \mu$ and $g(w;\theta, \mu) = y - \theta\mu$. Use
+  \cref{prop:A-twostep} to show that $V_\theta = \frac{\Var(y_i - \theta x_i)}{\mu^2}$.
+  \item Show that the delta method (\cref{thm:A-delta}) applied to $\frac{\bar y}{\bar x}$ gives the same variance.
+  \item The naive variance treats $\hat\mu$ as known. Show that it equals $\frac{\Var(y_i)}{\mu^2}$, and find the
+  condition on $\Cov(x_i, y_i)$ under which it understates the true variance.
+  \item Relate the result to the generated regressand of \cref{sec:A-twostep}, in which every implied markup depends on
+  the estimated price coefficient.
+\end{enumerate}
+
+\item \textit{EM and regime persistence.} Let $y_t = \mu_1I_t + \mu_0(1 - I_t) + \sigma\varepsilon_t$ for
+$t = 1, \dots, T$, with $\varepsilon_t$ independent standard normal and $I_t$ independent Bernoulli with
+$\Pr(I_t = 1) = \lambda$.
+\begin{enumerate}[label=(\alph*)]
+  \item Write the likelihood and the posterior probability $w_t = \Pr(I_t = 1 \mid y_t)$ used in the E step.
+  \item Show that the M step gives $\lambda = \frac{1}{T}\sum_tw_t$, $\mu_1 = \frac{\sum_tw_ty_t}{\sum_tw_t}$ and
+  $\mu_0 = \frac{\sum_t(1 - w_t)y_t}{\sum_t(1 - w_t)}$. Derive the update for $\sigma^2$.
+  \item Show that if the algorithm starts with $\mu_1 = \mu_0$, every posterior equals $\lambda$ and the algorithm never
+  leaves the set $\{\mu_1 = \mu_0\}$. Relate this to the random start in \cref{fig:A-em}.
+  \item Let $I_t$ instead follow a Markov chain with $\Pr(I_{t+1} = 1 \mid I_t = 1) = p_1$ and
+  $\Pr(I_{t+1} = 1 \mid I_t = 0) = p_0$. Derive the stationary probability of the collusive regime and the expected
+  length of a spell in each regime. Evaluate them at Ellison's estimates $p_1 = 0.975$ and $p_0 = 0.067$, and compare
+  with \cref{sec:A-mle-latent}.
+  \item Return to the model of (a). The null of a single regime is $\mu_1 = \mu_0$. Show that the likelihood does not
+  depend on $\lambda$ under this null. Use the result to explain why the likelihood ratio statistic for this null has
+  no $\chi^2_1$ limit. Discuss whether Porter's statistic of 554.1 (\cref{sec:A-mle-nonregular}) leaves any doubt
+  about his rejection.
+\end{enumerate}
+
+\item \textit{Simulation estimators.} A binary outcome has $\Pr(y_i = 1 \mid x_i) = \int\Lambda(x_i^\top\beta_\nu)\,\dd F(\nu)$,
+where $\Lambda$ is the logistic distribution function and $\beta_\nu$ is a random coefficient vector.
+\begin{enumerate}[label=(\alph*)]
+  \item A frequency simulator draws $n_s$ latent utilities per observation and records the share of draws with
+  positive utility. Show that SML with this simulator evaluates the log of zero with positive probability. Show that
+  MSM with the moment $\E[z_i(y_i - \tilde P_i)] = 0$ has no such problem.
+  \item For the smooth simulator, use \cref{prop:A-sml-bias}(i) to explain why the bias of SML is largest for
+  observations whose observed outcome is unlikely under the model.
+  \item In the auction estimator of \cref{sec:A-snlls}, suppose a researcher drops the correction term from
+  \eqref{eq:A-lov-snlls}. Use \eqref{eq:A-lov-decomp} to explain the direction in which the estimated spread of values
+  moves when the simulator variance $\omega_l(\theta)$ increases with that spread.
+\end{enumerate}
+
+\item \textit{Inference in a state-year panel.}
+\begin{enumerate}[label=(\alph*)]
+  \item Let $y_{ic} = \alpha + \beta x_c + a_c + \varepsilon_{ic}$, with a regressor $x_c$ that is constant within state
+  $c$, independent state effects $a_c$ with variance $\sigma_a^2$, and independent $\varepsilon_{ic}$ with variance
+  $\sigma_\varepsilon^2$. Use \cref{prop:A-moulton} to compute the ratio of the true to the conventional standard error
+  of $\hat\beta$ when each state has 25 years and $\frac{\sigma_a^2}{\sigma_a^2 + \sigma_\varepsilon^2} = 0.3$.
+  \item Now let the regressor vary within states, and add state fixed effects. Show that the within transformation
+  removes $a_c$, so that conventional standard errors are valid in this model. Use \cref{ex:A-ar1-factor} to explain
+  why clustering by state still raised the standard error in row (1) of \cref{tab:A-sumner}.
+  \item In that row, $\hat\rho = 1.075$ with a state-clustered standard error of 0.034. Build a 95 percent interval for
+  $\ln(\rho - 1)$ by the delta method, with the $t_{47}$ quantile 2.012. Map it into an interval for the elasticity
+  $\frac{\rho}{\rho - 1}$.
+  \item Compare your interval with the intervals in \cref{tab:A-boot-intervals}. Which parametrization makes the normal
+  approximation more accurate here, and why?
+\end{enumerate}
+
+\item \textit{Kernel bandwidths and boundaries.}
+\begin{enumerate}[label=(\alph*)]
+  \item Use \eqref{eq:A-hstar} and the normal reference value of $\mathcal{R}(f'')$ to derive the rule of thumb for the
+  Epanechnikov kernel, $h = (40\sqrt\pi)^{\frac{1}{5}}\sigma n^{-\frac{1}{5}} \approx 2.34\,\sigma n^{-\frac{1}{5}}$.
+  Check the conversion factor reported in \cref{tab:A-kernels}.
+  \item \citet{GuerrePerrigneVuong2000} use the constant 1.06 with the triweight kernel, whose normal-reference
+  constant is $2.978 \times 1.06$. By what factor does their bandwidth differ from the normal-reference rule? What
+  does the difference imply for the bias and the variance of $\hat g$?
+  \item Let $f$ have support $[0, \infty)$ with $f(0^+) > 0$ and $f'(0^+) \neq 0$. Show that the reflection estimator
+  $\hat f_h(x) + \hat f_h(-x)$ has bias of order $h$ at $x = 0$. Find its leading term for a symmetric kernel.
+  \item Use \cref{prop:A-kde-boundary} and \eqref{eq:A-gpv-xi} to explain why pseudo-values computed near the upper end
+  of the bid support are biased upward.
+\end{enumerate}
+
+\item \textit{Control groups, staggered adoption and anticipation.}
+\begin{enumerate}[label=(\alph*)]
+  \item Extend \cref{prop:A-did-spillover} to a control group that is partly affected and also violates parallel trends
+  by $\delta = \E_1[y_{i1}(0) - y_{i0}(0)] - \E_0[y_{i1}(0) - y_{i0}(0)]$. Show that
+  $\E[\hat\beta^{\mathrm{DD}}] = (1 - \kappa)\mathrm{ATT} + \delta$.
+  \item For Pennzoil and Quaker State, \citet{AshenfelterHosken2010} estimate 0.052 with private-label controls and
+  0.014 with branded controls. Suppose private labels satisfy $\kappa = 0$ and $\delta = 0$, and branded substitutes
+  satisfy $\delta = 0$. What fraction $\kappa$ of the merging firms' price increase did branded rivals match? Repeat the
+  calculation for General Mills and Chex (0.032 and 0.057), and explain what the answer implies.
+  \item In the design of \cref{prop:A-bacon3}, let $(\omega_E, \omega_L, \omega_U) = (\frac{1}{4}, \frac{1}{4}, \frac{1}{2})$.
+  Compute the weights that \cref{cor:A-bacon3} places on $\mathrm{ATT}_E(0)$, $\mathrm{ATT}_E(1)$ and
+  $\mathrm{ATT}_L(0)$. For which shares is the weight on $\mathrm{ATT}_E(1)$ negative?
+  \item A merger announcement raises the market's probability that a merger will be completed from zero to $\pi$, and a
+  later antitrust challenge lowers it back to zero. Following \cref{prop:A-es-anticipation}, show that a rival's
+  abnormal values at the two dates are $\pi\Delta V$ and $-\pi\Delta V$. Explain why the sum of the two can test the
+  information hypothesis of \cref{sec:A-es-pitfalls}.
+\end{enumerate}
+
+\end{enumerate}

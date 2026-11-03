@@ -1,0 +1,235 @@
+\chapter{Random Coefficients Logit: The BLP Model}\label{ch:blp}
+
+Suppose two car makers propose to merge. To predict the effect on prices we need to know how buyers of each
+model would respond to a price increase, and where they would go. With a hundred models on the market, a demand
+system in product space has ten thousand own- and cross-price elasticities (\cref{ch:aids}). The logit model of
+\cref{ch:logit} needs only a handful of parameters, but it pays for its economy with substitution patterns that
+depend on market shares alone. It predicts that buyers who leave a luxury sedan spread over all other models in
+proportion to their sales, and that most of them stop buying cars altogether. Neither prediction is plausible,
+and a merger analysis built on them would be wrong.
+
+This chapter studies the model that resolves the tension, the \emph{random coefficients logit} of
+\citet{BerryLevinsohnPakes1995}, often called BLP. Consumers differ in how much they value each characteristic
+and how much they dislike paying. Each consumer makes a logit choice, and market shares average these choices
+over the distribution of tastes. Consumers who like large cars rank all large cars highly, so a price increase
+on one large car sends its buyers mostly to other large cars. Substitution follows the characteristics of the
+products. The number of parameters grows with the number of characteristics, however many products the market
+offers.
+
+BLP solve three problems at once. The first is to obtain plausible substitution patterns among many products
+from few parameters. The second is the endogeneity of prices when only market-level data on shares, prices and
+characteristics are available. Firms see product quality that the econometrician does not, and they price
+accordingly. The third is computation. The market shares of the model are integrals with no closed form, and the
+unobserved quality enters them nonlinearly. BLP compute the integrals by simulation and recover unobserved
+quality by inverting the share equations numerically. A generalized method of moments estimator then treats the
+recovered quality as the error term of an instrumental variables problem.
+
+The chapter builds directly on \cref{ch:logit}. There we derived the logit shares
+$s_j = \frac{e^{\delta_j}}{1 + \sum_k e^{\delta_k}}$ and the inversion $\delta_j = \ln s_j - \ln s_0$ of
+\citet{Berry1994}, which turns demand estimation into a linear instrumental variables regression. We also saw the
+costs of the logit. Its own-price elasticity $\alpha p_j(1 - s_j)$ rises almost in proportion to price, and its
+single-product markup $\frac{1}{\alpha(1 - s_j)}$ is nearly the same for every product. Its cross elasticities
+satisfy the independence of irrelevant alternatives (IIA). The nested logit relaxes this property only within groups
+of products that the researcher must specify in advance. Random coefficients instead generate correlation in the
+composite error through the characteristics of the products, and the data determine how strong it is.
+
+Mixtures of logits, known as \emph{mixed logit} or \emph{heterogeneous logit} models, were used in
+transportation research well before BLP \citep{BoydMellman1980,CardellDunbar1980}. The innovation of
+\citet{BerryLevinsohnPakes1995} is a computable estimator for aggregate data with endogenous prices, joined to a
+model of oligopoly pricing. Their framework is now the standard tool for demand estimation in industrial
+organization, with applications to mergers, trade policy, new goods and many other questions.
+
+The chapter has a theoretical half and an empirical half. \Cref{sec:08-model,sec:08-substitution,sec:08-simulation}
+specify the model, derive its substitution patterns and explain how to compute market shares by simulation.
+\Cref{sec:08-inversion,sec:08-gmm,sec:08-instruments} develop the estimator. They prove that the share equations
+can be inverted by a contraction, and they derive the nested fixed point GMM estimator and its asymptotic variance.
+They then ask what instruments identify the model, including the nonparametric results of \citet{BerryHaile2014}.
+\Cref{sec:08-supply,sec:08-micro,sec:08-practice} add the supply side, micro data and the practical and
+conceptual limits of the model. \Cref{sec:08-worked} estimates the model step by step on a simulated market whose
+true parameters we know. The empirical half consists of five case studies. \Cref{sec:08-blp95} studies the
+automobile market of \citet{BerryLevinsohnPakes1995}, and \cref{sec:08-nevo00} the practitioner's guide of
+\citet{Nevo2000a}. \Cref{sec:08-nevo01} turns to the cereal study of \citet{Nevo2001}. \Cref{sec:08-blp04,%
+sec:08-goldberg} cover two studies that use consumer-level data, \citet{BerryLevinsohnPakes2004} and
+\citet{Goldberg1995}.
+
+We draw on several earlier chapters. Multiproduct Bertrand pricing, the ownership matrix and the distinction
+between product space and characteristic space come from \cref{ch:diffprod}. Random utility, the outside good,
+the vertical model and the pure characteristics model come from \cref{ch:discrete}. The generalized method of
+moments, instrumental variables and simulation estimators are reviewed in \cref{app:econometrics}, and the
+contraction mapping and implicit function theorems in \cref{app:math}. In turn, \cref{ch:airlines} uses a two-type
+version of the model, \cref{ch:newgoods} uses it to value new products, and \cref{ch:mergers} uses it to simulate
+mergers. \Cref{app:problems} poses the simulated market of \cref{sec:08-worked} as a worked problem.
+
+Two conventions hold throughout the chapter. The symbol $\theta$ denotes a vector of demand and cost parameters,
+split into linear parameters $\theta_1$ and nonlinear parameters $\theta_2$. It is unrelated to the conduct
+parameter of \cref{ch:conduct}. The elasticity $\varepsilon_{jk} = \frac{\partial s_j}{\partial p_k}\frac{p_k}{s_j}$
+is signed, so its diagonal element $\varepsilon_{jj}$ is negative. In the theory sections the own-price elasticity
+$\varepsilon_j = -\varepsilon_{jj}$ is a positive number. Tables reproduced from papers keep the papers' signs, and
+their notes say so.
+
+\input{chapters/ch08/part1}
+\input{chapters/ch08/part2}
+\input{chapters/ch08/part3}
+\input{chapters/ch08/part4}
+\input{chapters/ch08/part5}
+
+\section{Bibliographic notes}\label{sec:08-notes}
+
+Random coefficients discrete choice models have roots in transportation economics. \citet{BoydMellman1980} and
+\citet{CardellDunbar1980} estimated mixed logit models of automobile demand. \citet{HausmanWise1978} proposed the
+multinomial probit with correlated errors as a way around the independence of irrelevant alternatives.
+\citet{McFadden1974,McFadden1978,McFadden1981} developed the conditional logit and the generalized extreme value
+family. \citet{McFadden1984} surveys these models, including the multilevel nested logit and its sequential
+estimation, which \citet{Goldberg1995} applies to automobile demand. \citet{Cardell1997} showed how the nested logit arises from random coefficients on group dummies.
+\citet{McFaddenTrain2000} proved that mixed logits can approximate any random utility model. \citet{Train2009}
+gives a textbook treatment of mixed logit and of simulation methods.
+
+The methods that made the model estimable with market data came in a few steps. \citet{Pakes1986} introduced
+aggregation by simulation, and \citet{PakesPollard1989} supplied the asymptotic theory of simulation estimators.
+\citet{Berry1994} showed how to invert market shares and treat unobserved quality as a structural error.
+\citet{BerryLevinsohnPakes1995} combined these ideas with a contraction mapping, characteristic-based instruments
+and a supply side, and \citet{BerryLintonPakes2004} derived limit theorems as the number of products grows.
+\citet{Nevo2000a} wrote the standard exposition, and \citet{Nevo2001} showed how to use brand fixed effects,
+prices in other markets as instruments, and the empirical distribution of demographics.
+\citet{BerryLevinsohnPakes2004} and \citet{Petrin2002} showed how micro data and micro moments sharpen the
+estimates.
+
+A large literature studies computation. \citet{DubeFoxSu2012} examined the inner-loop tolerance and proposed the
+MPEC formulation of \citet{SuJudd2012}. \citet{KnittelMetaxoglou2014} documented the sensitivity of estimates to
+optimizers and starting values. \citet{SkrainkaJudd2011} and \citet{HeissWinschel2008} studied quadrature rules,
+and \citet{ReynaertsVaradhanNash2012} studied accelerated fixed point methods. \citet{ReynaertVerboven2014}
+showed the gains from approximate optimal instruments, and \citet{ConlonGortmaker2020} collected best practices in
+the \texttt{pyblp} software. \citet{LeeSeo2015} and \citet{SalanieWolak2019} proposed approximate estimators.
+
+The identification of the model is now well understood. \citet{BerryGandhiHaile2013} gave general conditions for
+the invertibility of demand. \citet{BerryHaile2014} showed that market-level data identify demand and marginal
+costs nonparametrically given suitable instruments, and \citet{BerryHaile2024} showed that micro data halve the
+instrument requirements. \citet{BerryHaile2021} survey this work. \citet{Armstrong2016} showed that
+characteristic-based instruments can lose power in large markets, and \citet{GandhiHoude2019} proposed
+differentiation instruments.
+
+The model has been extended in many directions. \citet{BerryPakes2007} drop the idiosyncratic shock in the pure
+characteristics model, and \citet{BajariBenkard2005} develop a hedonic alternative. \citet{GrigolonVerboven2014}
+combine random coefficients with nested logit errors. Applications include mergers \citep{Nevo2000b}, trade policy
+\citep{Goldberg1995,BerryLevinsohnPakes1999}, airline hubs \citep{BerryCarnallSpiller2006}, new goods
+\citep{Petrin2002}, tests of conduct \citep{BackusConlonSinkinson2021} and the long-run evolution of markups in the
+automobile industry \citep{GriecoMurryYurukoglu2024}. \Cref{ch:airlines,ch:newgoods,ch:mergers} take up several of
+these applications.
+
+\section{Exercises}\label{sec:08-exercises}
+
+\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=6pt]
+
+\item Use the linear random coefficients model of \cref{sec:08-linear}.
+\begin{enumerate}[label=(\alph*)]
+  \item \Cref{prop:08-derivs} covers the specification \eqref{eq:08-blp-final-inside} of
+  \citet{BerryLevinsohnPakes1995} through $\alpha_{ij} = \frac{\alpha}{y_i - p_j}$. Write
+  $\frac{\partial s_j}{\partial p_j}$ for this specification as an integral over income and the taste draws.
+  Explain why an expensive car can have a lower own elasticity than a cheap car although every consumer has the
+  same $\alpha$.
+  \item Show that the formulas reduce to the logit derivatives when $\Pi = 0$ and $\Sigma = 0$.
+  \item Prove that the diversion ratios $D_{jk}$, $k \neq j$, sum to one when the outside good is included.
+  \item In the two-type market of \cref{ex:08-twotype}, compute the diversion ratios $D_{10}$ and $D_{20}$ from
+  the type-level probabilities in \cref{tab:08-twotype}. Explain in words why random coefficients raise the
+  outside diversion of the cheap good and lower that of the expensive good.
+\end{enumerate}
+
+\item Consider two consumer types with equal population shares, price coefficients $\alpha_H > \alpha_L > 0$, two
+inside goods with prices $p_1 < p_2$, quality indices $q_1 < q_2$, and utilities $V_{rj} = q_j - \alpha_r p_j$.
+\begin{enumerate}[label=(\alph*)]
+  \item Write the aggregate shares and the own-price elasticities $\varepsilon_1$ and $\varepsilon_2$ in closed
+  form.
+  \item Keep $\alpha_H = 4$ and the goods of \cref{ex:08-twotype}, and let $\alpha_L$ rise from 1 toward 4. Compute
+  $\varepsilon_1$ and $\varepsilon_2$ on a grid of values of $\alpha_L$. At what value does the ranking of
+  the two own elasticities reverse?
+  \item Compute the single-product markups $\frac{p_j}{\varepsilon_j}$ along the same grid. Explain why the
+  markup of the expensive good falls as the two types become more alike.
+\end{enumerate}
+
+\item This exercise concerns the contraction of \cref{sec:08-inversion}.
+\begin{enumerate}[label=(\alph*)]
+  \item Prove the row-sum formula \eqref{eq:08-rowsum} starting from the identity
+  $\sum_k \frac{\partial s_{ij}}{\partial \delta_k} = s_{ij}s_{i0}$.
+  \item Consider one inside good and two consumer types with equal weights and random utility terms $\mu_{i}
+  \in \{-c, c\}$. Write the derivative of the map $\Phi$ at the solution as a function of $\delta$ and $c$.
+  Show that it tends to one as $\delta \to \infty$, that is, as the outside share tends to zero.
+  \item Use the bound $h \geq \frac{m\ln 10}{-\ln\kappa}$ of \cref{sec:08-inv-practice} to compute how many iterations
+  are needed to reduce the initial error by a factor of $10^{-12}$ when $\kappa = 0.5$, $0.9$ and $0.99$.
+  \item Explain how a warm start from the previous outer iteration and the SQUAREM extrapolation change these
+  counts in practice.
+\end{enumerate}
+
+\item Let $\delta(\theta_2)$ be the inverted mean utilities, $\bm{X}$ the matrix of linear regressors, $\bm{Z}$ the
+instruments and $W$ a positive definite weighting matrix.
+\begin{enumerate}[label=(\alph*)]
+  \item Show that the matrix $\bm{M}$ of \cref{prop:08-concentrate} satisfies $\bm{M}\bm{X} = 0$ and
+  $\bm{M}^2 = \bm{M}$. Show also that $\bm{X}^\T\bm{Z}W\bm{Z}^\T\bm{M} = 0$, and interpret this identity as the
+  first-order condition for $\theta_1$.
+  \item Show that in the logit model with $W = (\frac{1}{N}\bm{Z}^\T\bm{Z})^{-1}$ the estimator is two-stage least
+  squares. Extend the argument to the nested logit.
+  \item Derive $\frac{\partial \delta_t}{\partial \sigma_k}$ by the implicit function theorem for a model with a
+  single random coefficient on one characteristic. Explain why the derivative is zero at $\sigma_k = 0$ when
+  $\nu_i$ is symmetric (\cref{prop:08-signsigma}).
+  \item Explain why the gradient of the profiled objective does not involve
+  $\frac{\partial \hat\theta_1}{\partial \theta_2}$.
+\end{enumerate}
+
+\item Suppose the individual purchase probability of a product equals 0.001 for 90 percent of consumers and 0.091
+for the other 10 percent.
+\begin{enumerate}[label=(\alph*)]
+  \item Compute the market share $s_j$, the variance of $s_{ij}$ and the coefficient of variation $c_j$ of
+  \cref{prop:08-simbias}.
+  \item Use the second-order approximation to compute the bias of the simulated log share with $n_s = 20$, 100 and
+  1,000 draws.
+  \item Prove that $\E[\ln s^{n_s}_j] < \ln s_j$ for any nondegenerate distribution of $s_{ij}$.
+  \item Explain the direction of the resulting error in the inverted mean utility, and why it does not average
+  out as the number of markets grows.
+\end{enumerate}
+
+\item A researcher has panel data on $J$ brands in $T$ markets with fixed characteristics and the same choice set
+in every market. Utility has $K$ characteristics, a random coefficient on $L$ of them and on price, and brand
+fixed effects.
+\begin{enumerate}[label=(\alph*)]
+  \item Count the minimum number of excluded instruments that the estimator needs.
+  \item Show that the BLP instruments \eqref{eq:08-blp-iv} are collinear with the brand dummies in this design.
+  \item Use \cref{prop:08-smallsigma} to explain which functions of the other products' characteristics shift the
+  constructed regressor that multiplies $\sigma^2$. Propose a differentiation instrument and state the assumption
+  under which it is valid.
+  \item Explain why prices of the same brand in other markets can serve as instruments here, and give one economic
+  shock that would invalidate them.
+\end{enumerate}
+
+\item Three products have logit demand with $\alpha = 2$ and shares $s = (0.10, 0.10, 0.20)$. Firm A owns products 1
+and 2 and firm B owns product 3.
+\begin{enumerate}[label=(\alph*)]
+  \item Hold the shares at these values, as \citet{Nevo2001} does when he computes implied margins. Use
+  \cref{prop:08-logit-markup} to compute the dollar markups of all three products under single-product pricing,
+  current ownership and joint ownership of all three products.
+  \item Verify that the markups are ordered as \cref{prop:08-nevo-ownership} predicts.
+  \item Show that, in the logit, the ratio of the joint-ownership markup to the single-product markup of product
+  $j$ is $\frac{1 - s_j}{1 - S}$, where $S$ is the combined share of the three products. Explain why this ratio is
+  close to one when the outside good is large.
+  \item Use the answer to explain why the logit cannot detect collusion in the cereal data of \citet{Nevo2001}
+  (\cref{tab:08-nevo-margins}), while the random coefficients model can.
+\end{enumerate}
+
+\item This exercise interprets the substitution results of \citet{BerryLevinsohnPakes1995} and
+\citet{BerryLevinsohnPakes2004}.
+\begin{enumerate}[label=(\alph*)]
+  \item Show that the logit diversion to the outside good is $\frac{s_0}{1 - s_j}$. Use the logit column of
+  \cref{tab:08-blp-outside} to bound the outside share in 1990.
+  \item Use \cref{cor:08-outside-diversion} to explain why random coefficients lower the outside diversion most for
+  luxury cars.
+  \item In the two-type market of \cref{ex:08-twotype}, apply \cref{lem:08-blp04-second} type by type. Compute
+  the probability that a buyer of good 1 names good 2 as her second choice, using the probabilities in
+  \cref{tab:08-twotype}. Compare it with the logit value $\frac{s_2}{1 - s_1}$ and explain the difference.
+  \item Explain which parameters the first-choice moments, the second-choice moments and the market shares
+  identify. Why does none of them pin down the level of the price elasticities in a single cross section?
+  \item In the nested logit of \citet{Goldberg1995}, the inclusive-value coefficient at the buy node is set to
+  zero. Use \cref{prop:08-gold-gev} and \cref{lem:08-gold-deriv} to show that a uniform rise in all new-car prices
+  then changes the probability of buying a new car only through the new-versus-used inclusive value. Explain why the coefficient of 0.011 at that node (\cref{tab:08-gold-price})
+  makes total new-car sales almost insensitive to such a rise. Contrast this with the diversion to the outside good
+  in the random coefficients model.
+\end{enumerate}
+
+\end{enumerate}
