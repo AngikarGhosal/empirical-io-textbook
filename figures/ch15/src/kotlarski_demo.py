@@ -148,7 +148,13 @@ C_TRUE = "#1f3b73"
 C_EST = "#c4512b"
 C_ALT = "#7a7a7a"
 
-fig, axes = plt.subplots(1, 2, figsize=(9.6, 3.8))
+# The figure is drawn at its printed size (included at width=\textwidth = 6.2 in), so the font sizes
+# below are the sizes on the page.
+FINAL_W, FINAL_H = 6.2, 3.2
+FS_TICK, FS_LABEL, FS_TITLE, FS_NOTE = 8.0, 8.5, 9.0, 8.0
+plt.rcParams.update({"xtick.labelsize": FS_TICK, "ytick.labelsize": FS_TICK, "axes.labelsize": FS_LABEL})
+
+fig, axes = plt.subplots(1, 2, figsize=(FINAL_W, FINAL_H))
 panels = [
     (axes[0], true3, np.maximum(est3, 0.0), r"(a) Common component $\ln\omega$", "true density"),
     (axes[1], true1, np.maximum(est1, 0.0), r"(b) Homogenized log bid $\ln B^0$", "true density"),
@@ -156,18 +162,21 @@ panels = [
 for ax, tr, es, title, lab in panels:
     ax.fill_between(x_grid, np.percentile(es, 5, axis=0), np.percentile(es, 95, axis=0),
                     color=C_EST, alpha=0.18, lw=0)
-    ax.plot(x_grid, tr, color=C_TRUE, lw=2.0, label=lab)
-    ax.plot(x_grid, np.median(es, axis=0), color=C_EST, lw=2.0, label="Kotlarski estimate")
-    ax.plot(x_grid, single, color=C_ALT, lw=1.1, ls="--", label="density of one log bid")
-    ax.set_title(title, fontsize=10)
+    ax.plot(x_grid, tr, color=C_TRUE, lw=1.4, label=lab)
+    ax.plot(x_grid, np.median(es, axis=0), color=C_EST, lw=1.4, label="Kotlarski estimate")
+    ax.plot(x_grid, single, color=C_ALT, lw=0.9, ls="--", label="density of one log bid")
+    ax.set_title(title, fontsize=FS_TITLE)
     ax.set_xlabel("log scale")
     ax.set_ylabel("density")
     ax.set_xlim(-1.2, 1.2)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    ax.legend(frameon=False, fontsize=8.0, loc="upper left")
 axes[0].set_ylim(0, 2.2)
 axes[1].set_ylim(0, 2.6)
-fig.tight_layout()
+# the three curves are the same in both panels, so one legend above the panels serves both
+handles, labels = axes[0].get_legend_handles_labels()
+fig.legend(handles, labels, loc="upper center", ncol=3, frameon=False, fontsize=FS_NOTE,
+           bbox_to_anchor=(0.5, 1.0))
+fig.tight_layout(rect=(0, 0, 1, 0.92))
 fig.savefig(OUT_FIG)
 print("saved", OUT_FIG)

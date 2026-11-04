@@ -6,7 +6,8 @@ brand-level demand for 25 cereals from city-level scanner data. It then computes
 demand implies under three models of conduct and compares them with accounting margins. The resulting
 decomposition of margins into a differentiation effect, a portfolio effect and a collusion effect is the
 paper's main methodological contribution. We follow the paper from its question to its contribution and
-reproduce all of its main tables. Page numbers refer to the journal article.\footnote{Nevo writes the
+reproduce all of its main tables. \Cref{tab:08-nevo01-map} at the end of the section maps the study. Page
+numbers refer to the journal article.\footnote{Nevo writes the
 market-specific deviation of unobserved quality as $\Delta\xi_{jt}$ and the econometric error as
 $\omega_{jt}$. We write $\tilde\xi_{jt}$ for both, because $\Delta$ is the matrix of share derivatives in this
 book (\cref{sec:08-model}) and $\omega$ is the cost unobservable in \cref{sec:08-supply}. Nevo writes firm
@@ -421,8 +422,11 @@ p_{jt} = mc_{jt} + f(\tilde\xi_{jt}, \dots)
 = \big(\overline{mc}_j + \bar f_j\big) + \big(\widetilde{mc}_{jt} + \tilde f_{jt}\big).
 \end{equation}
 Brand dummies absorb the first bracket. The error in \cref{eq:08-nevo-esteq} is $\tilde\xi_{jt}$, and firms
-observe it when they set prices, so the markup deviation $\tilde f_{jt}$ is correlated with it. Least squares,
-linear or nonlinear, therefore biases the estimate of $\alpha$ toward zero. The results confirm the bias.
+observe it when they set prices, so the markup deviation $\tilde f_{jt}$ is correlated with it. Unless the cost
+deviation $\widetilde{mc}_{jt}$ exactly cancels this correlation, prices are correlated with $\tilde\xi_{jt}$ and
+least squares, linear or nonlinear, is inconsistent. If the cost deviation $\widetilde{mc}_{jt}$ does not offset the markup
+response, prices covary positively with $\tilde\xi_{jt}$ and the estimate of $\alpha$ is biased toward zero
+(\cref{sec:08-endogeneity}). The results confirm this direction.
 
 \casehead{Why characteristic-based instruments fail here} The usual instruments of \cref{sec:08-instruments}
 are functions of the characteristics of rival products. They assume that product locations are exogenous or
@@ -553,8 +557,8 @@ proxies. Source: \citet{Nevo2001}, Table V.
 
 \casehead{OLS} Column (i) includes characteristics but no brand dummies, so its error contains $\xi_j$. The
 price coefficient is $-4.96$. Adding brand dummies in columns (ii) and (iii) raises it to $-7.26$ and $-7.97$,
-a large and significant change. Brands with high unobserved quality are both popular and expensive, which
-biases the coefficient toward zero. Even column (iii) implies a mean own elasticity of only $-1.53$ (median
+a large and significant change. The direction of the change indicates that, in these data, brands with high
+unobserved quality are both popular and expensive, which biases the column (i) coefficient toward zero. Even column (iii) implies a mean own elasticity of only $-1.53$ (median
 $-1.50$, standard deviation 0.39). Its implied demand is inelastic for 5.5\% of observations (p.~323), which no
 profit-maximizing firm would choose. The coefficients on characteristics in column (i) are not reported in the
 table.\footnote{With standard errors in parentheses, they are constant $-4.44$ (0.04), fat calories 0.17
@@ -594,9 +598,26 @@ standard errors from zero. With 20 such instruments, the $F$ statistics measure 
 any single coefficient does.
 
 Advertising is significant. Its coefficient falls from 0.158 to about 0.02 once brand dummies are included,
-because popular brands with high $\xi_j$ also advertise more. The implied mean advertising elasticity, about
-0.06, is an order of magnitude below what a Dorfman-Steiner condition requires. Nevo attributes the gap to
-measurement error in the advertising data (p.~326). He does not instrument for advertising. It varies by brand
+because popular brands with high $\xi_j$ also advertise more. The implied mean advertising elasticity is about
+0.06. Nevo calls this low, an order of magnitude below what a Dorfman-Steiner condition requires (p.~326).
+
+The Dorfman-Steiner condition is the advertising analogue of the Lerner rule \citep{DorfmanSteiner1954}. Consider a single-product firm with
+demand $q(p, A)$, where $A$ is advertising expenditure, constant marginal cost $c$ and profit $(p - c)\,q(p, A) -
+A$. The first-order condition for advertising is $(p - c)\frac{\partial q}{\partial A} = 1$. Multiplying both
+sides by $\frac{A}{pq}$ gives
+\begin{equation*}
+  \frac{A}{pq} = \frac{p - c}{p}\,\varepsilon_A, \qquad \varepsilon_A = \frac{\partial q}{\partial A}\,\frac{A}{q}.
+\end{equation*}
+The advertising-to-sales ratio equals the Lerner index times the advertising elasticity $\varepsilon_A$. Nevo
+does not report the inputs behind his comparison. Take advertising-to-sales ratios of 13\% to 18\% (p.~311), which we read as
+shares of manufacturer sales. On the same basis the margin bounds of \cref{sec:08-nevo01-margins} are about
+39\% (the 31\% retail-price gap divided by 0.80) and 64.4\%. The condition then requires $\varepsilon_A$
+between about 0.20 and 0.46, three to eight times the estimate (our calculation). The
+benchmark is static and treats each brand alone. Advertising that also raises demand in later quarters or for
+the firm's other brands changes the identity.
+
+Nevo attributes the gap to measurement error in the advertising data (p.~326). He does not instrument for
+advertising. It varies by brand
 and quarter but not by city, and its coefficient does not move when price is instrumented, which suggests
 little feedback onto the price coefficient (n.~24).
 
@@ -911,7 +932,7 @@ products \citep{Nevo1998}. The other is a non-nested test of fully specified mod
 assumptions on the errors and a complete supply equation, and there is no natural set of such assumptions.
 \Cref{ch:conduct} and \cref{sec:08-supply} discuss conduct testing more generally.
 
-\subsection{Robustness}\label{sec:08-nevo01-robust}
+\subsection{Robustness*}\label{sec:08-nevo01-robust}
 
 Appendix B of the paper reports four alternative specifications of the full model, reproduced in condensed form
 in \cref{tab:08-nevo-robust}. Column (i) drops the random shocks $\nu_i$ for the characteristics that interact
@@ -1000,6 +1021,50 @@ new cereal brand, discussed in \cref{ch:newgoods}, depends on the same kind of a
 competition that Nevo tests. Later work uses the demand elasticities to discriminate between models of conduct
 in the same industry, including common-ownership pricing \citep{BackusConlonSinkinson2021}.
 
+\begin{table}[htbp]
+\centering
+\caption{Identification and counterfactual map of Nevo (2001)}
+\label{tab:08-nevo01-map}
+\footnotesize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Observed data & IRI scanner prices and servings of 25 cereal brands in up to 65 cities, quarterly from 1988 to
+  1992 (27,862 brand-city-quarters). Brand characteristics, national advertising, CPS demographic draws, and
+  accounting margins for a typical brand. \\
+\addlinespace
+Latent objects & City-quarter quality deviations $\tilde\xi_{jt}$, consumer tastes $\nu_i$, marginal costs
+  and markups. \\
+\addlinespace
+Estimated parameters & The price and advertising coefficients, brand and quarter effects, demographic
+  interactions $\Pi$ and standard deviations $\Sigma$. Taste means come from a minimum-distance step. \\
+\addlinespace
+Identifying variation & Prices of the same brand in other cities of the region, checked against cost
+  proxies. Brand effects absorb national quality, and cross-city differences in demographics identify $\Pi$. \\
+\addlinespace
+Maintained assumptions & City demand shocks are independent across cities after brand, time and demographic
+  controls, and costs share a regional component. Static pricing, exogenous advertising, and a potential
+  market of one serving per person per day. \\
+\addlinespace
+Counterfactual and what it holds fixed & Margins implied by \eqref{eq:08-nevo-markup} under single-product,
+  current and joint ownership, at observed prices and shares. Demand is held at its estimates, and only the
+  ownership matrix changes. \\
+\addlinespace
+Conclusion & Current ownership predicts a median margin of 42.2 percent, whose interval contains the
+  observed margins. Joint ownership of the 25 brands predicts 72.6 percent and is rejected. Margins come
+  from differentiation and portfolios, given the Hausman instruments. \\
+\addlinespace
+One limitation & Only joint profit maximization over all 25 brands is tested. Collusion within a subset of
+  brands or firms is not. \\
+\addlinespace
+Source and our additions & The tables are Nevo's. \Cref{prop:08-nevo-ownership}, the advertising
+  benchmark and the logit share calculations behind the margin ratios are ours. \\
+\addlinespace
+Tools in the appendices & \Cref{sec:A-iv,sec:A-gmm,sec:A-delta-boot}. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \section{Case study: Berry, Levinsohn and Pakes (2004), micro and macro data}\label{sec:08-blp04}
 
 \citet{BerryLevinsohnPakes2004}, henceforth BLP (2004), return to the automobile market with a new kind of
@@ -1009,7 +1074,8 @@ been unavailable. The paper asks what such consumer-level data, and second choic
 identification of substitution patterns. The answer has three parts. Second choices pin down the parameters
 that govern substitution. Unobserved heterogeneity in tastes is needed to match them, even with rich
 demographics. A single cross section still cannot determine the level of price elasticities. The general
-estimator was introduced in \cref{sec:08-micro}. Here we follow the paper in detail. Page numbers refer to the
+estimator was introduced in \cref{sec:08-micro}. Here we follow the paper in detail, and
+\cref{tab:08-blp04-map} at the end of the section maps it. Page numbers refer to the
 journal article.\footnote{BLP (2004) write observed household attributes as $z_{ir}$, the coefficients on
 their interactions with characteristics as $\beta^{o}_{kr}$ (``observed'') and the standard deviations of
 unobserved tastes as $\beta^{u}_k$ (``unobserved''). We write $D_{ir}$, $\pi_{kr}$ and $\sigma_k$, so that
@@ -1735,6 +1801,52 @@ for events of the late 1990s. Despite these caveats, the paper set the template 
 moments. Micro moments of the kind in \eqref{eq:08-bayes-sim} are now a standard part of demand estimation
 (\cref{sec:08-micro}).
 
+\begin{table}[htbp]
+\centering
+\caption{Identification and counterfactual map of Berry, Levinsohn and Pakes (2004)}
+\label{tab:08-blp04-map}
+\footnotesize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Observed data & The CAMIP survey of 37,500 buyers of 1993 model-year vehicles, with their demographics, the
+  vehicle bought and their second choice. Prices, characteristics and aggregate shares of 203 vehicles, and
+  CPS demographics. \\
+\addlinespace
+Latent objects & Product constants $\delta_j$ and the unobserved characteristic $\xi_j$. Household tastes
+  $\nu_i$ and effective wealth $W_i$. \\
+\addlinespace
+Estimated parameters & Interactions $\Pi$ of household attributes with characteristics, standard deviations
+  $\Sigma$, outside-good parameters and the 203 product constants. The common price coefficient
+  $\bar\beta_p$ comes from a separate step. \\
+\addlinespace
+Identifying variation & First-choice moments identify $\Pi$, second-choice moments identify $\Sigma$, and
+  aggregate shares fix $\delta$. The level $\bar\beta_p$ needs the pricing equation with predicted-markup
+  instruments, or an outside estimate of one elasticity. \\
+\addlinespace
+Maintained assumptions & Normal tastes and type-I extreme value errors. A choice-based sample handled
+  through Bayes' rule. Multiproduct Nash pricing with marginal cost linear in characteristics, for the
+  level of elasticities. \\
+\addlinespace
+Counterfactual and what it holds fixed & Out-of-sample predictions for the launch of luxury sport utility
+  vehicles and the closure of Oldsmobile. They hold the prices of other vehicles fixed and allow no further
+  entry. \\
+\addlinespace
+Conclusion & Unobserved taste dispersion is needed to match second choices, even with rich demographics.
+  Second choices fix the pattern of substitution. A single cross section cannot fix the level of price
+  elasticities. \\
+\addlinespace
+One limitation & The survey omits not buying as a second choice, so diversion to the outside good rests on
+  functional form. \\
+\addlinespace
+Source and our additions & The tables are the paper's. \Cref{prop:08-blp04-affine} and the reading of the
+  units of the paper's Tables 12 and 13 are ours. \\
+\addlinespace
+Tools in the appendices & \Cref{sec:A-gmm,sec:A-simulation,sec:B-fixedpoint}. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \section{Case study: Goldberg (1995), micro data, nested choice and trade policy}\label{sec:08-goldberg}
 
 \citet{Goldberg1995} appeared in the same issue of \emph{Econometrica} as BLP (1995) and studies the same
@@ -1745,7 +1857,8 @@ evaluate the voluntary export restraint on Japanese cars and the weak response o
 rates. \citet[p.~70]{BerryLevinsohnPakes2004} cite it, with \citet{Petrin2002}, as recent work in industrial
 organization that uses data matching consumer attributes to their choices. It is also a structural application of
 differentiated-products oligopoly to trade policy, and \citet[p.~1749, n.~2]{BerryHaile2014} list it among
-such applications. Page numbers refer to the journal article.\footnote{Goldberg indexes households by $h$ and vehicle models by $m$, and writes the stage
+such applications. \Cref{tab:08-goldberg-map} at the end of the section maps the study. Page numbers
+refer to the journal article.\footnote{Goldberg indexes households by $h$ and vehicle models by $m$, and writes the stage
 coefficient vectors as $\alpha, \beta, \gamma, \delta, \zeta$. She writes the dissimilarity parameters as
 $\lambda$, the Lagrange multipliers as $\lambda_{ft}$ and marginal cost as $c$. We write $i$, $j$, $\theta_B, \theta_N,
 \theta_C, \theta_O, \theta_M$, $\lambda$, $\psi_{ft}$ and $mc$. In the notation of \cref{ch:logit}, the nesting
@@ -2120,7 +2233,7 @@ household error and the sampling error $\eta$, which firms indeed cannot observe
 product-level $\xi_j$ known to firms when they set prices, which is the endogeneity problem of
 \cref{sec:08-instruments}. The fixed effects in \cref{eq:08-gold-xi} address $\xi_j$ to the extent that it is
 common within segments, origins and brands. Within those cells, the price coefficient is identified from price
-differences across models, and model-level quality correlated with price would bias it toward zero. BLP (2004)
+differences across models. Model-level quality that is positively correlated with price would bias it toward zero. BLP (2004)
 make a general point here. Micro data identify the interactions between household attributes and
 characteristics without assumptions on $\xi$, but not the effect of price on the product constants
 (\cref{sec:08-blp04-model}). In Goldberg's model the income and repeat-purchase variation in the price
@@ -2249,12 +2362,18 @@ Accord or the Mazda 626. When foreign cars become more expensive, consumers tend
 origin. Goldberg suggests that household characteristics such as income, education, age and region drive the
 choice of origin more than prices do.
 
-\Cref{tab:08-gold-cross} reproduces the corner of her Table III that contains these models. Entry $(r, c)$ is the
-percent change in the demand for the column model $c$ when the price of the row model $r$ rises by one dollar. Read
-along the Civic row, a rise in the Civic's price raises demand for the Chevette by $7.6 \times 10^{-7}$ percent,
-against $14.9 \times 10^{-7}$ for the Accord and $21.8 \times 10^{-7}$ for the Mazda 626. Read down the Civic column,
-the Chevette's price moves Civic demand by $49.1 \times 10^{-7}$, against $66.2 \times 10^{-7}$ for the Accord and
-$50.1 \times 10^{-7}$ for the Mazda 626. Both readings rank the Chevette, the domestic model in the Civic's own
+\Cref{tab:08-gold-cross} reproduces the corner of her Table III that contains these models. Her note describes
+entry $(r, c)$ as the percent change in the demand for the column model $c$ when the price of the row model $r$
+changes by one dollar (p.~922). The paper gives no formula for these semi-elasticities. Footnote 51 gives a formula
+only for elasticities, where the scale question does not arise. We therefore cannot tell whether the entries are
+scaled by 100. If they are
+unscaled log derivatives $\frac{\partial \ln q_c}{\partial p_r}$, with $q_c$ the expected demand for model $c$,
+then an entry of $7.6 \times 10^{-7}$ means $7.6 \times 10^{-5}$ percent per dollar.
+
+The comparisons do not depend on the scale. Along the Civic row, the entry for the Chevette is $7.6 \times
+10^{-7}$, against $14.9 \times 10^{-7}$ for the Accord and $21.8 \times 10^{-7}$ for the Mazda 626. Down the Civic
+column, the entry for the Chevette's price is $49.1 \times 10^{-7}$, against $66.2 \times 10^{-7}$ for the Accord
+and $50.1 \times 10^{-7}$ for the Mazda 626. Both readings rank the Chevette, the domestic model in the Civic's own
 segment, last among the three.
 
 \begin{table}[htbp]
@@ -2279,11 +2398,11 @@ Mazda 626 & 6.4 & 50.1 & 15.3 & 1.7 & 72.2 & $-$3.4 \\
 
 \smallskip
 \begin{minipage}{0.86\linewidth}
-\footnotesize Notes: Off-diagonal entries are percent changes in the demand for the column model after a one-dollar
-rise in the price of the row model. They are in units of $10^{-7}$, and the paper prints, for example, 7.6E$-$07.
-Diagonal
-entries are own-price elasticities, which Goldberg reports in the same table (p.~921). The full table covers 15
-models. Source: \citet{Goldberg1995}, Table III (p.~922).
+\footnotesize Notes: Off-diagonal entries are cross-price semi-elasticities. Goldberg's note calls entry $(i, j)$ the
+percent change in the demand for column model $j$ when the price of row model $i$ changes by \$1. The paper does
+not state whether the entries are scaled by 100. They are in units of $10^{-7}$, and the paper prints, for example,
+7.6E$-$07. Diagonal entries are own-price elasticities, which Goldberg reports in the same table (p.~921). The full
+table covers 15 models. Source: \citet{Goldberg1995}, Table III (p.~922).
 \end{minipage}
 \end{table}
 
@@ -2362,7 +2481,7 @@ The coefficients on QUOT1 to QUOT5, the average Lagrange multipliers, indicate t
 suggest that Toyota and Nissan were less constrained than average and Mazda more constrained in 1984 to 1986
 (p.~926).
 
-\subsection{Specification tests}\label{sec:08-goldberg-tests}
+\subsection{Specification tests*}\label{sec:08-goldberg-tests}
 
 Goldberg tests the tree against three alternatives that let domestic and foreign models compete at lower levels
 or reverse the order of the class and origin nodes (pp.~915--916). The first alternative omits the origin node.
@@ -2385,7 +2504,10 @@ which omits the class node and has even broader choice sets. The third alternati
 nodes. Its inclusive-value coefficients above the bottom exceed one, for example 2.78 (standard error 0.086) at
 the origin node, so it is not globally consistent with utility maximization. \citet[pp.~1425--1426]{McFadden1984}
 notes that such estimates violate the ranking of cross elasticities implied by the tree and may signal a
-misspecified hierarchy. Only the original tree passes both checks.
+misspecified hierarchy. Goldberg's summary says that only the original tree is consistent with random utility
+maximization and free of IIA violations at each node (p.~916). Her Table C2 qualifies the second part. The
+original tree performs best among the trees considered, and its inclusive-value coefficients lie in the unit
+interval. IIA survives the test for small and luxury cars. For large cars it is still rejected at the 5\% level.
 
 The fit is mixed (pp.~916--920). \Cref{tab:08-gold-shares} compares the population-weighted predictions with
 industry aggregates from the \emph{Automotive News Market Data Book}. The model underpredicts total car sales in
@@ -2667,3 +2789,48 @@ random coefficients model, and \citet{GoldbergVerboven2001} apply a related nest
 dispersion in the European car market. \citet[p.~544]{Nevo2000a} cites the paper as an example of
 consumer-level estimation by maximum likelihood, and \citet[p.~524, n.~17]{Nevo2000a} as an example of multiple
 levels of nesting.
+
+\begin{table}[htbp]
+\centering
+\caption{Identification and counterfactual map of Goldberg (1995)}
+\label{tab:08-goldberg-map}
+\footnotesize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Observed data & Consumer Expenditure Survey households, 1983--1987, with their vehicle purchases,
+  demographics and transaction prices. About 200 models a year with list prices, sales and characteristics.
+  Exchange rates and the quota levels. \\
+\addlinespace
+Latent objects & Household taste shocks, model quality beyond the segment, origin and brand effects,
+  marginal costs, and the shadow price $\psi_t$ of the quota. \\
+\addlinespace
+Estimated parameters & Coefficients and dissimilarity parameters of a five-level nested logit (buying,
+  newness, segment, origin and model). Marginal-cost coefficients and yearly quota multipliers. \\
+\addlinespace
+Identifying variation & Household-level differences in prices and attributes, within segment, origin and
+  brand fixed effects. The quota multipliers are identified because Japanese firms also sell trucks and vans
+  outside the quota. \\
+\addlinespace
+Maintained assumptions & Prices are uncorrelated with household errors. Static multiproduct Bertrand-Nash
+  pricing with constant marginal cost, a common quota multiplier across Japanese firms, no spillovers of
+  rationed demand, and a unique equilibrium. \\
+\addlinespace
+Counterfactual and what it holds fixed & Equilibria with and without the VER, equivalent tariffs, and a
+  20 percent rise or fall of the dollar. They hold characteristics, the product set and used-car prices
+  fixed, and the pass-through runs at 1983 characteristics. \\
+\addlinespace
+Conclusion & The VER lowered the Japanese import share in 1983 and 1984 and raised prices, with limited
+  gains for domestic production. Tariffs dominate the quota. Low Japanese pass-through reflects the demand
+  elasticities of the segments where Japanese firms sell. \\
+\addlinespace
+One limitation & Price exogeneity rests on the fixed effects. Model-level quality correlated with price
+  would bias the price coefficient toward zero. \\
+\addlinespace
+Source and our additions & The tables are Goldberg's. \Cref{prop:08-gold-gev,lem:08-gold-deriv} are derived
+  in this book. \\
+\addlinespace
+Tools in the appendices & \Cref{sec:A-mle,sec:B-ev}. \\
+\bottomrule
+\end{tabularx}
+\end{table}

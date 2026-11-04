@@ -520,13 +520,18 @@ $s^2(X^\top X)^{-1}$ with $s^2 = \frac{\hat e^\top\hat e}{n - K}$. Without homos
 \end{equation}
 consistently estimates the variance of $\hat\beta$, in the sense that $n\hat V_{\mathrm{HC0}}
 \xrightarrow{p} Q^{-1}\Omega Q^{-1}$. Finite-sample versions adjust the squared residuals, which are too
-small on average. Let $h_{ii} = x_i^\top(X^\top X)^{-1}x_i$ be the \emph{leverage} of observation $i$. Under
-homoskedasticity, $\hat e = M_Xe$ implies
+small on average. Let $h_{ii} = x_i^\top(X^\top X)^{-1}x_i$ be the \emph{leverage} of observation $i$. The
+finite-sample calculation needs more than \cref{ass:A-ols}. Suppose that the regression is a conditional mean,
+$\E[e_i \mid x_i] = 0$, and that the errors are homoskedastic. Random sampling then gives $\E[e \mid X] = 0$ and
+$\E[ee^\top \mid X] = \sigma^2I_n$. Since $\hat e = M_Xe$ and $M_X$ is symmetric and idempotent,
+$\E[\hat e\hat e^\top \mid X] = M_X\E[ee^\top \mid X]M_X = \sigma^2M_X$, and in particular
 \begin{equation*}
 \E[\hat e_i^2 \mid X] = \sigma^2(M_X)_{ii} = \sigma^2(1 - h_{ii}) .
 \end{equation*}
+\Cref{ass:A-ols} imposes only $\E[x_ie_i] = 0$, which allows $\E[e_i \mid x_i] \ne 0$, and the identity can then
+fail even under homoskedasticity. The asymptotic results above do not need the conditional mean restriction.
 HC1 multiplies \eqref{eq:A-hc0} by $\frac{n}{n - K}$. HC2 replaces $\hat e_i^2$ by $\frac{\hat e_i^2}{1 - h_{ii}}$,
-which is unbiased under homoskedasticity. HC3 uses $\frac{\hat e_i^2}{(1 - h_{ii})^2}$, which approximates the
+whose conditional mean is exactly $\sigma^2$ under the two conditions above. HC3 uses $\frac{\hat e_i^2}{(1 - h_{ii})^2}$, which approximates the
 jackknife and is conservative in small samples \citep{MacKinnonWhite1985}. In this book ``robust'' standard
 errors mean heteroskedasticity-robust standard errors. They still assume independence across observations.
 Clustered and serially correlated data need the estimators of \cref{sec:A-se}, which also covers heteroskedasticity
@@ -728,8 +733,17 @@ with independence across $t$. Then $\Var(e) = \Sigma \otimes I_n$. Generalized l
 \hat\beta_{SUR} = \bigl[X^\top(\Sigma^{-1}\otimes I_n)X\bigr]^{-1}X^\top(\Sigma^{-1}\otimes I_n)\,y .
 \end{equation}
 Feasible SUR replaces $\Sigma$ by $\hat\Sigma_{gh} = \frac{1}{n}\hat e_g^\top\hat e_h$ from equation-by-equation OLS
-residuals. Iterating between $\hat\Sigma$ and $\hat\beta$ until convergence gives the Gaussian maximum likelihood
-estimator.
+residuals. \emph{Iterated SUR} alternates two steps. It recomputes $\hat\Sigma$ from the current residuals, and
+then it recomputes $\hat\beta$ from \eqref{eq:A-sur} with that $\hat\Sigma$. With Gaussian errors each step
+maximizes the likelihood over one block of parameters with the other block held fixed, so the likelihood never
+falls. A limit of the iteration is therefore a stationary point of the Gaussian likelihood, typically a local
+maximum. It is the maximum likelihood estimator only if it is the global maximum. When the regressors differ
+across equations, or when linear restrictions are imposed on the coefficients, the likelihood can have several
+local maxima. Different regressors are a special case, since they amount to exclusion restrictions in a system with
+common regressors. We drew samples of four observations from two
+equations with one regressor each. In one of them, the iteration started from OLS stops at a local maximum whose
+log likelihood is 0.25 below the global maximum (script \texttt{sur\_multimodal.py}). We therefore recommend
+restarting the iteration from several points (\cref{sec:A-numerical}).
 
 \begin{proposition}[When SUR equals OLS]\label{prop:A-sur-ols}
 If $X_g = X_0$ for every equation, or if $\Sigma$ is diagonal, then \eqref{eq:A-sur} equals equation-by-equation
@@ -764,7 +778,9 @@ coincides with SUR (\cref{sec:05-stone}).
 \casehead{Adding up and cross-equation restrictions}
 Budget shares sum to one, so the errors of a complete share system sum to zero for every observation, and
 $\Sigma$ is singular. We drop one equation and recover its coefficients from the adding-up restrictions. The
-maximum likelihood (iterated SUR) estimates do not depend on which equation is dropped \citep{Barten1969}.
+Gaussian likelihood, concentrated over $\Sigma$, is the same function of the coefficients whichever equation is
+dropped. Its global maximizer, the maximum likelihood estimate, therefore does not depend on that choice
+\citep{Barten1969}. Neither does any other stationary point at which iterated SUR can stop.
 Symmetry and homogeneity restrictions take the linear form $R\beta = r$. Restricted GLS minimizes
 $(y - Xb)^\top W(y - Xb)$ subject to $Rb = r$, with $W = \Sigma^{-1}\otimes I_n$. The Lagrangian first-order
 condition $-2X^\top W(y - Xb) + 2R^\top\ell = 0$ gives $b = \hat\beta - VR^\top\ell$ with

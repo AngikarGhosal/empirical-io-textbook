@@ -442,7 +442,7 @@ $a_h = \kappa_h a$ and common slope function $b - a$. So the PIGL family contain
 Engel curves, such as the linear expenditure system \citep[p.~324]{DeatonMuellbauer1980a}. The second
 case is less obvious.
 
-\begin{remark}[When the indirect translog aggregates]\label{rem:05-translog-piglog}
+\begin{remark}[When the indirect translog is PIGLOG]\label{rem:05-translog-piglog}
 The indirect translog of \citet{ChristensenJorgensonLau1975} specifies indirect utility as
 \begin{equation*}
   v = \tau_0 + \sum_i \tau_i \ln\frac{p_i}{I}
@@ -461,8 +461,30 @@ If $\sum_i \tau_{Mi} = 0$, utility is linear in $L$ and can be solved for the lo
 \end{equation*}
 This is linear in $v$, with an intercept and a slope that depend on prices, which is the PIGLOG form
 \eqref{eq:05-piglog-cost}. If $\sum_i\tau_{Mi} \neq 0$, utility is quadratic in $L$ and $\ln e$ is not
-linear in $v$. The indirect translog therefore aggregates in Muellbauer's sense under exactly one
-linear restriction (compare \citealp[eqs.~A11--A12]{DeatonMuellbauer1980a}). Deaton and Muellbauer add
+linear in $v$. Utility is ordinal, so this alone does not exclude a PIGLOG form for some increasing
+transformation of $v$. Budget shares do not depend on how utility is normalized, and they settle the
+question. Write $\tau_{MM} = \sum_i\tau_{Mi}$, $N_i(p) = \tau_i + \sum_j\tau_{ij}\ln p_j$ and $D(p) =
+\sum_j\tau_{Mj}\ln p_j - 1$. Roy's identity and the symmetry of $\tau_{ij}$ give
+\begin{equation*}
+  w_i = \frac{N_i(p) - \tau_{Mi}L}{D(p) - \tau_{MM}L}
+      = \frac{\tau_{Mi}}{\tau_{MM}} + \frac{c_i(p)}{D(p) - \tau_{MM}L},
+  \qquad c_i(p) = N_i(p) - \frac{\tau_{Mi}}{\tau_{MM}}D(p),
+\end{equation*}
+where the second form requires $\tau_{MM} \neq 0$. By \eqref{eq:05-pigl-shares}, PIGL shares are affine
+in $I^{-\psi}$, and PIGLOG shares are affine in $L$. The last term has neither form on an interval of
+budgets unless $c_i(p) = 0$. Matching the constant and the coefficients of $\ln p_j$ in $c_i(p) = 0$ gives
+$\tau_{Mi} = -\tau_i\tau_{MM}$ and $\tau_{ij} = \tau_i\tau_j\tau_{MM}$, so that $w_i = -\tau_i$ at all
+prices and budgets. These are Cobb-Douglas preferences. With $t = L + \sum_i\tau_i\ln p_i$, utility is
+$v = \tau_0 + t + \frac{1}{2}\tau_{MM}t^2$, which represents them only where $1 + \tau_{MM}t > 0$.
+Apart from this homothetic case, the indirect translog is PIGLOG exactly when $\tau_{MM} = 0$. For
+$\tau_{MM} \neq 0$ the display still has the generalized linear form \eqref{eq:05-gl}, with
+$v_h(p, I_h) = \frac{1}{D(p) - \tau_{MM}\ln I_h}$, $A_i = c_i(p)$ and $B_i = \frac{\tau_{Mi}}{\tau_{MM}}$.
+Because $\sum_i N_i(p) = D(p)$, these satisfy $\sum_i c_i(p) = 0$ and $\sum_i B_i = 1$. A
+representative budget level in the sense of \eqref{eq:05-muellbauer} then exists. The shares are
+neither PIGL nor PIGLOG, so by \eqref{eq:05-pigl} that level depends on prices.
+\citet[p.~325, eqs.~A11--A12]{DeatonMuellbauer1980a} call $\tau_{MM} = 0$ the only case in which the
+indirect translog allows consistent aggregation. Their claim is right for a representative budget level
+that does not depend on prices, apart from the homothetic exception, which they do not note. They add
 that no such result holds for any interesting special case of the direct translog.
 \end{remark}
 
@@ -1019,11 +1041,16 @@ products, compete for the analyst's attention.'' In automobiles, size segments, 
 country reputations all shape substitution, and many consumer product markets mix named segments with a
 private-label versus brand-name split.
 
-Separability can be tested. Under weak separability the individual prices of goods outside a group
-affect the group's demand only through the group price indices and group expenditure. Adding individual
-outside prices to a group-level equation and testing their exclusion is therefore a specification test
-of the grouping. \citet{HausmanLeonardZona1994} implement such a test by adding the prices of individual
-light beers to the segment equation for premium beer (\cref{sec:05-hlz}).
+Separability can be tested at two levels. Under weak separability, the prices of goods outside a group
+affect the conditional demands within the group only through group expenditure $X_G$. Adding individual
+outside prices to a within-group equation that conditions on observed $X_G$ and testing their exclusion
+is therefore a test of the grouping. A group-level equation explains the demand for a group by one price
+index per group. Outside prices then enter only through the indices if group expenditures depend on
+prices only through them, as under the conditions of \cref{prop:05-first-stage}. Weak separability alone
+does not deliver this (\cref{sec:05-first-stage}). An exclusion test in a group-level equation is
+therefore a joint test of the grouping and of this index aggregation. \citet{HausmanLeonardZona1994}
+implement such a test by adding the prices of individual light beers to the segment equation for premium
+beer (\cref{sec:05-hlz}).
 
 Under weak separability alone, the first stage takes a differential form with two price indices per
 group. The result goes back to \citet{BartenTurnovsky1966}, and we
@@ -1141,7 +1168,12 @@ held fixed, $\frac{\partial w_G}{\partial\ln P_G} = \gamma_{GG} - \beta_G w_G$. 
 The middle factor shows when the correction matters. If the group as a whole has unit-elastic demand
 ($\varepsilon_{GG} = -1$), a higher group price leaves group expenditure unchanged and unconditional and
 conditional elasticities coincide. If group demand is inelastic, a higher group price draws spending into
-the group, and the correction is positive. If group demand is elastic, spending leaves the group.
+the group. If it is elastic, spending leaves the group. The sign of the correction is the product of the
+signs of the three factors in \eqref{eq:05-uncond-elast}. Suppose good $i$ is normal within its group, $1
++ \frac{\beta_i}{w_{i|G}} > 0$, and $p_j$ raises the group index, $w_{j|G} - \beta_j\ln\frac{X_G}{P_G} >
+0$. The correction is then positive when group demand is inelastic and negative when it is elastic. Both
+signs reverse for a good that is inferior within its group. In the AIDS this happens when $\beta_i < 0$
+and $w_{i|G} < -\beta_i$, and a negative semidefinite Slutsky matrix does not rule it out.
 
 For goods in different groups, $i \in G$ and $j \in G'$ with $G' \neq G$, the conditional term vanishes
 and only the expenditure channel remains:
@@ -1346,8 +1378,12 @@ $Rb = r_0$. Minimizing the generalized least squares criterion subject to them g
   V = \bigl[\mathbf{X}^{\T}(\hat\Omega^{-1}\otimes I_T)\mathbf{X}\bigr]^{-1}.
 \end{equation}
 \Cref{sec:A-systems} derives this formula from the Lagrangian. Recomputing $\hat\Omega$ from the new residuals
-and iterating until convergence gives the Gaussian maximum likelihood estimator. Iterated SUR therefore shares
-the invariance of \cref{prop:05-barten}. \emph{Three-stage least squares} applies \eqref{eq:05-sur} after
+and iterating never lowers the Gaussian likelihood. A limit of the iteration is a stationary point of that
+likelihood, typically a local maximum. It is the maximum likelihood estimator only if it is the global maximum
+(\cref{sec:A-systems}). Restarting from several points guards against a local maximum (\cref{sec:A-numerical}).
+The proof of \cref{prop:05-barten} shows that the concentrated likelihood is the same function of the parameters
+whichever equation is dropped. Every stationary point that iterated SUR can reach therefore shares that
+invariance. \emph{Three-stage least squares} applies \eqref{eq:05-sur} after
 replacing $\mathbf{X}$ by its projection on the instruments, with $\hat\Omega$ estimated from two-stage least
 squares residuals (\cref{sec:A-3sls}).
 
@@ -1598,9 +1634,15 @@ which is the log of the exact cost-of-living index at $u$. The \emph{Divisia ind
 shares in this integral by observed shares. Unless preferences are homothetic, observed shares move with
 utility along the path, so the Divisia index depends on the path. Prices are observed only at discrete
 dates, so the integral must be approximated. The Tornqvist index is a natural approximation, since it
-averages the shares at the two ends. Following \citet{Diewert1976}, it equals an exact index when the log
-expenditure function is quadratic in log prices and utility, with reference utility the geometric mean
-of the two utilities (p.~174). A fixed-weight index shares the units invariance but not this link to the
+averages the shares at the two ends. Following \citet{Diewert1976}, it equals the exact index at a
+reference utility $u^*$ when the log expenditure function is quadratic in log prices and log utility. The
+reference is then $u^* = \sqrt{u^0u^1}$, the geometric mean of the utilities at the two dates \citep[p.~174]{DeatonMuellbauer1980b}.
+The reason is an identity for quadratic functions. Their change between two points equals the average of
+the end-point gradients times the change in the arguments. At a fixed reference utility, the price
+gradients are the Hicksian shares at that utility. They differ from the observed shares by terms linear
+in the utility gap, which cancel when $\ln u^*$ is the midpoint of $\ln u^0$ and $\ln u^1$. If $\ln e$ is
+quadratic in log prices and in $u$ itself, the reference is the arithmetic mean $\frac{1}{2}(u^0 + u^1)$
+instead. A fixed-weight index shares the units invariance but not this link to the
 exact index. A Stone index with lagged
 shares removes the contemporaneous correlation with $\xi_t$ when the errors are serially uncorrelated.
 Finally, we can iterate toward the exact model, as \citet[p.~321]{DeatonMuellbauer1980a} suggest:
@@ -1703,7 +1745,8 @@ translog models had rejected homogeneity. The AIDS lets the question be posed wi
 flexible enough to approximate any demand system to first order (\cref{sec:05-flexible}). A rejection
 then speaks against the theory or its static formulation, and an arbitrary functional form cannot take
 the blame. A second question is practical. Does the linear approximation with the Stone
-index work well enough to serve as a routine tool?
+index work well enough to serve as a routine tool? \Cref{tab:05-dm-map} at the end of this case study maps
+its data, identifying variation and maintained assumptions.
 
 \casehead{Data}
 The data are 21 annual British observations, from 1954 to 1974 inclusive. They cover eight groups of
@@ -2029,6 +2072,47 @@ estimated on time series can reject the restrictions of theory for reasons that 
 preferences, such as dynamics, aggregation or trends. Applications in industrial organization use panels
 of markets with market-specific intercepts, partly to absorb such omitted factors. Examples are the
 product-by-region effects of \citet{ChaudhuriGoldbergJia2006} and the city effects of \citet{Hausman1997}.
+
+\begin{table}[htbp]
+\centering
+\caption{Identification and counterfactual map of the British application of Deaton and Muellbauer (1980)}
+\label{tab:05-dm-map}
+\footnotesize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Observed data & Annual British budget shares and price indexes for eight groups of nondurables, with total
+  expenditure on the eight groups, 1954--1974. There are 21 observations. \\
+\addlinespace
+Latent objects & The cost function of a representative household, the aggregation index $\kappa$ and the
+  share disturbances. \\
+\addlinespace
+Estimated parameters & Intercepts $\alpha_i$, expenditure coefficients $\beta_i$ and price coefficients
+  $\gamma_{ij}$, with $\alpha_0$ fixed a priori. \\
+\addlinespace
+Identifying variation & Year-to-year co-movement of budget shares with relative prices and real
+  expenditure. Prices and expenditure are treated as exogenous. \\
+\addlinespace
+Maintained assumptions & A representative household with a constant aggregation index, a static model
+  with weakly separable nondurables, and the restricted covariance structure \eqref{eq:05-dm-cov}. \\
+\addlinespace
+Counterfactual and what it holds fixed & None. The object is a test of homogeneity, symmetry and
+  negativity. \\
+\addlinespace
+Conclusion & Homogeneity is rejected in levels ($LR = 138.7$ with 7 degrees of freedom), and the symmetric
+  estimates violate concavity. In first differences homogeneity is not rejected at 5 percent, which points
+  to dynamic misspecification. \\
+\addlinespace
+One limitation & Twenty-one observations support a system with dozens of parameters, so the tests rest on
+  asymptotic approximations in a short sample. \\
+\addlinespace
+Source and our additions & The tables reproduce the article and the authors' book. The exception is Panel
+  B of \cref{tab:05-dm-table4}, whose likelihood-ratio statistics and $p$-values are our computation. \\
+\addlinespace
+Tools in the appendices & \Cref{sec:A-ols,sec:A-mle,sec:B-duality}. \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \subsection{Endogenous prices, endogenous expenditure and measured group prices}\label{sec:05-endogeneity}
 

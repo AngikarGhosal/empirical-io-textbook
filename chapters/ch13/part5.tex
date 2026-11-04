@@ -793,8 +793,10 @@ predictions are averaged. The bid equation is
 \begin{equation}\label{eq:13-pz99-bid}
   b_{idt} = x_{idt}\beta + e_{idt}, \qquad b_{idt} \text{ observed only if } S_{idt} = 1 ,
 \end{equation}
-with $(e_{idt}, u_{idt})$ bivariate normal, $\Var(e_{idt}) = \sigma_e^2$ and correlation $\varrho$. Bids are
-observed only for firms that chose to bid, so ordinary least squares on submitted bids is biased if $\varrho \neq 0$.
+with $(e_{idt}, u_{idt})$ independent of the regressors $(x_{idt}, w_{idt})$ and bivariate normal with mean zero,
+$\Var(e_{idt}) = \sigma_e^2$, $\Var(u_{idt}) = 1$ and correlation $\varrho$. The conditional distribution of the
+errors given the regressors is then this fixed bivariate normal. Bids are observed only for firms that chose to bid,
+so ordinary least squares on submitted bids is biased if $\varrho \neq 0$.
 
 \begin{lemma}[Selection correction]\label{lem:13-heckman}
 In the model \eqref{eq:13-pz99-probit}--\eqref{eq:13-pz99-bid},
@@ -807,8 +809,10 @@ where $\phi$ and $\Phi$ are the standard normal density and distribution functio
 \end{lemma}
 
 \begin{proof}
-For a bivariate normal pair with $\Var(u) = 1$, the regression of $e$ on $u$ is linear, $\E[e \mid u] = \varrho\sigma_e u$.
-Since $S = 1$ exactly when $u > -w\gamma$, iterated expectations give
+Condition on $(x, w)$ throughout. Since the errors are independent of the regressors, the pair $(e, u)$ keeps its
+bivariate normal distribution given $(x, w)$. For a bivariate normal pair with mean zero and $\Var(u) = 1$, the
+regression of $e$ on $u$ is linear, $\E[e \mid u] = \varrho\sigma_e u$. Since $S = 1$ exactly when $u > -w\gamma$,
+iterated expectations give
 $\E[e \mid u > -w\gamma] = \varrho\sigma_e\,\E[u \mid u > -w\gamma]$. Write $a = w\gamma$. Using $\phi'(u) = -u\phi(u)$,
 \begin{equation*}
   \E[u \mid u > -a] = \frac{\int_{-a}^{\infty}u\,\phi(u)\,du}{1 - \Phi(-a)}
@@ -990,7 +994,7 @@ scheme implies that when one member bids high, the cover bids are high too.
 
 The authors test independence of submission decisions with the Lagrange multiplier (LM) statistic of \citet{Kiefer1982}.
 Its logic is easy to derive. Consider two firms facing the same district-year, with probits $S_k = \indic\{a_k +
-u_k > 0\}$, $a_k = w_k\gamma_k$, $k = 1, 2$, and let $(u_1, u_2)$ be standard bivariate normal with correlation
+u_k > 0\}$, $a_k = w_k\gamma_k$, $k = 1, 2$, and let $(u_1, u_2)$, independent of $(w_1, w_2)$, be standard bivariate normal with correlation
 $\rho_{12}$ (a local symbol). With $q_k = 2S_k - 1$, the probability of the observed pair is
 $\Phi_2(q_1a_1, q_2a_2; q_1q_2\rho_{12})$, where $\Phi_2$ is the bivariate normal distribution function. The
 derivative of $\Phi_2$ with respect to its correlation argument is the bivariate normal density $\phi_2$, which at
@@ -1387,8 +1391,10 @@ cartel cases in 1982, with fines of \$36.8 million \citep[p.~182]{AskerNocke2021
 fines of \$2.79 billion. Fewer cases need not mean less collusion, because penalties, detection and the
 size of the economy all changed. Where collusion can be measured directly, it is common.
 \citet{KawaiNakabayashi2020} flag about 970 collusive firms in Japanese national procurement, and scaling up their
-estimate implies that collusion affects about 0.85 percent of Japan's GDP. \citet{ConleyDecarolis2016} find that
-coordination among bidders affected more than 30 percent of Italian regional procurements from 2005 to 2010. When
+estimate implies that collusion affects about 0.85 percent of Japan's GDP. \citet[pp.~4, 6 and~29--30]{ConleyDecarolis2016}
+estimate that groups of bidders whose entry and bids appear coordinated affected at least 30 percent of 802
+average-bid roadwork auctions in northern Italy. Counties and municipalities in five regions held these auctions
+between 2005 and 2010. When
 Finnish cartels were legal and had to register, \citet{HyytinenSteenToivanen2018} count 900 of them between 1951
 and 1990. \Cref{sec:12-eu-facts} discusses this evidence further.
 
@@ -1533,9 +1539,14 @@ an upward-sloping $MC_1$, as in their figure, the points $F$ and $E$ lie below t
 $BCEF$ is then no longer contained in the umbrella rectangle. The total welfare loss $BFDC$ is the sum of productive
 inefficiency and the deadweight loss $CDE$. With the illustrative curves of the figure, damages are 10, umbrella
 damages 6 and the deadweight loss 8, so consumers lose 24. Productive inefficiency is 4.5, fringe firms keep 1.5 of
-the umbrella overcharge, and the total welfare loss is 12.5 (our computation). Umbrella damages are 37.5 percent of
-all overcharge damages in this example. \citet{Caoui2020} estimates that umbrella damages exceeded 35 percent of
-total damages in the Texas school milk cartel of 1980--1992 \citep[p.~212, note~82]{AskerNocke2021}.
+the umbrella overcharge, and the total welfare loss is 12.5 (our computation). In this illustrative example of our
+own, umbrella damages are 37.5 percent of all overcharge damages. \citet{Caoui2020} measures a different ratio in the
+Texas school milk cartel of 1980--1992. Per contract, umbrella damages conditional on a non-cartel firm winning are
+at least 35 percent of cartel damages conditional on the cartel winning. The lower bound comes from an efficient
+cartel, which always sends its lowest-cost member to bid. With a randomly chosen cartel bidder the two can be equal
+in size. Asker and Nocke summarize the result in terms of total cartel damages
+(p.~212, note~82). The ratio compares two conditional means per contract, and it gives no aggregate share without
+the probabilities of each winner.
 
 \begin{figure}[htbp]
 \centering

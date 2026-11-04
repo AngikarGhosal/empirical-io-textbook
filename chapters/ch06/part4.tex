@@ -561,9 +561,12 @@ differentiable, with kinks where some draw changes its frontier. Suppose that at
 whose frontier changes there have probability zero under $G$. Independent draws from $G$ then avoid such changes with
 probability one, so the simulated share is differentiable at that value almost surely. As the example shows, this
 does not make it continuously differentiable everywhere. The same condition makes the exact share
-\eqref{eq:06-bp-share18} differentiable at that value if the conditional shares are Lipschitz in the parameters, with a
-constant that does not depend on $\beta$. Dominated convergence then allows differentiation under the integral. The
-simulation adds error to the computed shares, as in \citet{BerryLevinsohnPakes1995}.
+\eqref{eq:06-bp-share18} differentiable at that value if the conditional shares are \emph{Lipschitz} in the parameters
+with a constant $C$ that does not depend on $\beta$. This means that a move of the parameters from $\theta$ to
+$\theta'$ changes each conditional share by at most $C\lVert \theta - \theta' \rVert$. The appendix states the
+definition right after \cref{def:B-contraction}. Every difference quotient of a conditional share is then bounded by $C$,
+and dominated convergence allows differentiation under the integral. The simulation adds error to the computed
+shares, as in \citet{BerryLevinsohnPakes1995}.
 
 The comparison with the random coefficients logit is instructive. There the first step integrates out $\epsilon_{ij}$
 analytically conditional on $\beta_i$, which yields the logit formula. Here the first step integrates out $\alpha_i$
@@ -584,7 +587,7 @@ In the Monte Carlo design of \cref{sec:06-bp-design}, $\ln\alpha_i = \sigma_p \n
 independent of $\beta_i$. Step 4 then uses $F(a \mid \beta) = \Phi\bigl(\frac{\ln a}{\sigma_p}\bigr)$ for $a > 0$, with $\Phi$
 the standard normal distribution function.
 
-\subsection{Existence and uniqueness of the inverse}\label{sec:06-bp-inverse}
+\subsection{Existence and uniqueness of the inverse*}\label{sec:06-bp-inverse}
 
 Estimation follows the three steps of \citet{BerryLevinsohnPakes1995}. For each parameter vector one recovers the
 unobserved characteristics from the observed shares, computes them with an algorithm, and then chooses the parameters
@@ -721,7 +724,7 @@ modulus may equal one. \citet{BerryPakes2007} report that they could not prove a
 computational difference from the logit-based contraction of \citet{BerryLevinsohnPakes1995}, which converges at a
 geometric rate.
 
-\subsection{Computing the inverse}\label{sec:06-bp-compute}
+\subsection{Computing the inverse*}\label{sec:06-bp-compute}
 
 Berry and Pakes offer three methods, because each fails in some of their experiments.
 
@@ -799,7 +802,7 @@ $\mu_\epsilon$ if numerical errors arise.
 For large problems, use only a few values such as $t = 0.99$, $0.995$ and $0.998$.
 \end{enumerate}
 
-\subsection{Simulation error and limit theory}\label{sec:06-bp-simerror}
+\subsection{Simulation error and limit theory*}\label{sec:06-bp-simerror}
 
 \citet{BerryLintonPakes2004} derive limit theorems as the number of products $J$ grows, for models with and without
 tastes for products. The two classes behave very differently, and the difference has computational consequences.
@@ -853,7 +856,7 @@ satisfying $\E[\xi_j z_j] = 0$, the GMM estimator solves
 where $Z$ stacks the instruments and $W$ is a weighting matrix. The linear parameters can be concentrated out by
 instrumental variables regression of $\delta(\theta_2)$ on $x$, exactly as in \cref{ch:blp}.
 
-Price is correlated with $\xi$ in any equilibrium model, so the instruments must exclude it. The small Monte Carlo design
+Equilibrium prices respond to $\xi$, so price is in general correlated with it, and the instruments must exclude it. The small Monte Carlo design
 uses five instruments. They are a constant, $x$, $x^2$, the market mean of $x$ and the distance from each product to its
 nearest neighbor in $x$. These functions of the characteristics of rival products shift each product's competitive
 environment, and so its price and share, without entering its own utility. The distance to the nearest neighbor suits
@@ -1479,8 +1482,10 @@ a nonparametric estimate (their eq.~18):
 \begin{equation}\label{eq:06-bb-xihat}
   \hat\xi_{jt} = \hat F_{p_t \mid x = x_j}(p_{jt}) .
 \end{equation}
-Kernel or series estimators can be used. In the application a local linear kernel estimator \citep{FanGijbels1996}
-worked best.
+Kernel estimators, which weight products by the closeness of their characteristics to $x_j$, can be used. So can
+series estimators, which fit a regression on a growing set of known functions of the characteristics
+(\cref{sec:A-nw,sec:A-series}). In the application a local linear kernel estimator \citep{FanGijbels1996} worked
+best.
 
 Bajari and Benkard offer three alternatives to independence. Under \emph{options packages} (their Theorem~3), products are
 grouped into models, such as a particular line of desktop computers, and an options package $x$ is chosen within a model.
@@ -1539,13 +1544,27 @@ eq.~15)
 \end{equation}
 so $\beta_i$ lies in the \emph{revealed preference set} $A_{ij} = \{\beta : \text{\eqref{eq:06-bb-ineq} holds}\}$ (their
 eq.~16). The set typically contains more than one point, so individual tastes are not identified. It can still be small when
-the choice set is rich. If every characteristic is continuous and the products fill a compact set, the sets shrink to points as the number
-of products grows (their Appendix~B, Theorem~8). Their rate argument is simple. In their Appendix~B, utility
-$u(x_j, p_j; \beta_i)$ does not depend on income, and there is no outside option. Each set then depends only on the
-product chosen, and the sets for the $J$ products partition the bounded parameter space $\mathcal{B}$. Their average
-Lebesgue measure is therefore $\frac{m(\mathcal{B})}{J}$. An outside option would add one more set and leave the rate
-unchanged. Consumers who buy
-nothing are treated as buying a bundle with zero characteristics at zero price (their eq.~17):
+the choice set is rich. Their Appendix~B makes this precise when every characteristic is observed. Utility
+$u(x_j, p_j; \beta_i)$ does not depend on income, and there is no outside option. The characteristics lie in an open,
+bounded and convex set $\mathcal{X}$, and the tastes lie in an open, bounded and convex set $\mathcal{B}$ (their
+Assumption~1). When the whole of $\mathcal{X}$ is available, the Jacobian $x'(\beta)$ is positive or negative definite
+for every taste vector (their Assumption~2). As in the continuous case above, this makes the continuum choice map
+$x(\cdot)$ one-to-one. Products are drawn at random from $\mathcal{X}$. Their Theorem~8 states that, with probability
+one, a consumer's revealed preference set shrinks to her taste vector as the number of products grows.
+
+Their rate argument concerns only an average. Each set depends only on the product chosen, and the sets for the $J$
+products partition $\mathcal{B}$. Their average Lebesgue measure, or volume, is therefore $\frac{m(\mathcal{B})}{J}$. An
+outside option would add one more set and leave the rate unchanged. A small average volume does not make every set
+small, and their Theorem~8 needs their Assumption~2 for that conclusion. Suppose two characteristics take values on a square grid
+with spacing $h$ in $[1,2]^2$, with price $p(x) = \frac{x_1^2 + x_2^2}{2}$ and utility $\beta_1 x_1 + \beta_2 x_2 - p(x)$. Let
+tastes be uniform on $[1,3]^2$. With the whole square available, the choice is $x_k = \min\{\beta_k, 2\}$. Every
+consumer with both tastes above 2 then chooses the corner $(2,2)$, so their Assumption~2 fails. On the grid, the corner product
+is chosen exactly when $\beta_1$ and $\beta_2$ both exceed $2 - \frac{h}{2}$. Its set has area $(1 + \frac{h}{2})^2$,
+which tends to 1, and it holds a share $\frac{(1 + \frac{h}{2})^2}{4}$ of consumers, which tends to $\frac{1}{4}$. The
+average area $\frac{4}{J}$ still tends to zero. With tastes uniform on $[1,2]^2$ instead, the choice map is $x(\beta) =
+\beta$, and every set has sides of length at most $h$.
+
+Consumers who buy nothing are treated as buying a bundle with zero characteristics at zero price (their eq.~17):
 \begin{equation*}
   u(0, 0, y_i; \beta_i) \ge u(x_k, \xi_k, y_i - p_{kt}; \beta_i) \quad\text{for all } k .
 \end{equation*}
@@ -1624,10 +1643,18 @@ The data come from the PC Data Retail Hardware Monthly Report. They contain quan
 desktop computers for 29 months. The analysis concentrates on December 1999, with 695 models, a cross-section in which
 traditional demand methods typically struggle. The data reportedly cover about 75 percent of U.S.\ retail computer sales.
 Processor dummies are replaced by a CPU benchmark score, which a regression on chip speed interacted with chip dummies explains
-with an $R^2$ of 0.999. The final data contain 19 characteristics. The three main continuous characteristics are the benchmark, RAM
+with an $R^2$ of 0.999. The score is an index of processor performance taken from the website cpuscorecard.com (their
+footnote~10). The paper gives it no physical unit. Within a chip family it rises with clock speed, as Panel~A of
+\cref{tab:06-bb-elast} shows. The final data contain 19 characteristics. The three main continuous characteristics are the benchmark, RAM
 and hard drive capacity. Following their Table~1, the others are MMX, SCSI, CD-ROM, DVD, a network card, a monitor dummy, monitor size, a zip
-drive, desktop versus tower, refurbished and no modem. Five operating-system dummies complete the list, one of which is
-omitted in the regression. With all characteristics treated as observed, 357 of the 695 products are dominated.
+drive, desktop versus tower, refurbished and no modem. All of them except monitor size are dummies. Five
+operating-system dummies complete the list, one of which is omitted in the regression. The paper does not define the
+hardware labels, so we give their standard meanings. MMX is a set of instructions for multimedia work that Intel
+introduced in 1997. The paper does not say how the MMX dummy was coded. Nearly every desktop processor sold in 1999
+supported MMX, yet the dummy has mean 0.64. It therefore cannot simply record support for the instruction set. The SCSI dummy marks a machine with the Small Computer
+System Interface, a fast connection for hard drives and other devices. Only about 1 percent of the machines have one.
+A zip drive reads removable high-capacity disks, and a network card connects the computer to a local network. With all
+characteristics treated as observed, 357 of the 695 products are dominated.
 \Cref{tab:06-bb-data} reproduces selected rows of their Table~1, including an OLS hedonic regression.
 
 \begin{table}[htbp]
@@ -1777,8 +1804,9 @@ the curve to slope down, but nothing else restricts its shape. Bajari and Benkar
 discrete choice models, which approach both axes, and with those of multi-stage budgeting models, which are typically quadratic.
 
 Panel (b) shows estimates from other months of the data. The distribution of the CPU taste shifts up sharply between August
-1997 and December 1999. In the intermediate period it has markedly higher variance. Bajari and Benkard attribute the shift to
-complementarity with the rapidly growing use of the internet. The evidence suggests that the common assumption of a taste
+1997 and December 1999. In the intermediate period it has markedly higher variance. Bajari and Benkard speculate that the
+shift reflects complementarity between computer hardware and the rapidly growing use of the internet (their p.~33). The
+estimates document the shift, but they do not test this explanation. The evidence suggests that the common assumption of a taste
 distribution that is constant over time would fail in this industry.
 
 \casehead{Assessment}

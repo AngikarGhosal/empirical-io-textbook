@@ -44,10 +44,12 @@ By the implicit function theorem (\cref{app:math}),
 \frac{d p_j}{d \xi_j} = -\frac{\frac{\partial F}{\partial \xi_j}}{\frac{\partial F}{\partial p_j}}
 = \frac{s_j}{\alpha(1 - s_j)}\,(1 - s_j) = \frac{s_j}{\alpha} > 0 .
 \end{equation}
-Products with high unobserved quality carry high prices. In the logit estimating equation $\ln s_j - \ln s_0 =
-x_j\beta - \alpha p_j + \xi_j$ of \cref{ch:logit}, the regressor $p_j$ is therefore positively correlated with the
-error $\xi_j$. Least squares biases the price coefficient $-\alpha$ toward zero, and estimated demand looks too
-inelastic.
+Holding marginal cost fixed, products with high unobserved quality carry high prices. Consider the logit estimating
+equation $\ln s_j - \ln s_0 = x_j\beta - \alpha p_j + \xi_j$ of \cref{ch:logit}. When marginal cost is independent
+of $\xi_j$ or rises with it, the regressor $p_j$ is positively correlated with the error $\xi_j$. Least squares then
+biases the price coefficient $-\alpha$ toward zero, and estimated demand looks too inelastic. Costs that fall with
+unobserved quality can make the covariance zero or negative (\cref{sec:08-endogeneity} gives an example). Price is
+in general correlated with $\xi_j$, so instruments are needed whatever the sign.
 
 The price equation also tells us which variables can serve as instruments. A valid instrument moves $p_j$ and is
 uncorrelated with $\xi_j$. By \eqref{eq:04-price-decomp} three groups of variables move prices. Cost shifters
@@ -203,14 +205,19 @@ markups but are mean independent of $\omega_j$.
 
 \casehead{The recovered cost is a generated regressand}
 The left side of \eqref{eq:04-cost-est} depends on $\hat\theta_d$. Consistency of $\hat\gamma$ follows from
-consistency of $\hat\theta_d$. The usual standard errors are wrong, however, because they ignore the estimation
-error in $\hat\theta_d$. With least squares on the stacked cost shifters $\mathcal{W}$, a first-order expansion gives
+consistency of $\hat\theta_d$. The usual standard errors are generally invalid, however, because they ignore the
+estimation error in $\hat\theta_d$. With least squares on the stacked cost shifters $\mathcal{W}$, a first-order expansion gives
 \begin{equation}\label{eq:04-generated}
 \hat\gamma - \gamma_0 \approx \big(\mathcal{W}^\top \mathcal{W}\big)^{-1}\mathcal{W}^\top\Big[\omega + \frac{\partial\,\widehat{mc}(\theta_{d0})}
 {\partial\theta_d^\top}\big(\hat\theta_d - \theta_{d0}\big)\Big].
 \end{equation}
-The second term adds variance, and it is correlated across all products and markets that share $\hat\theta_d$.
-There are two remedies. We can stack the demand and supply moments into one GMM problem and use its joint
+The variance of the bracket equals the variance of $\omega$ plus the variance of the second term and its two
+cross-covariance matrices with $\omega$. When demand is estimated on the same markets, $\hat\theta_d - \theta_{d0}$
+depends on the demand shocks $\xi$, which may be correlated with $\omega$. These cross-covariances then need not
+vanish, and their sum can more than offset the variance of the second term. The adjustment to the conventional
+variance, which uses $\omega$ alone, therefore has no general sign. Conventional standard errors are too small when
+the two terms are asymptotically uncorrelated. The second term is also common to all products and markets that share $\hat\theta_d$, so it makes
+their errors correlated. There are two remedies. We can stack the demand and supply moments into one GMM problem and use its joint
 asymptotic variance (\cref{ch:blp,app:econometrics}). Or we can bootstrap, resampling markets and re-estimating
 demand in each replication.
 
@@ -444,7 +451,10 @@ Step 4 is the computational core. Four solution methods are common.
   right side, often help.
   \item \emph{Newton's method.} Write the stacked conditions as $G(p) = q(p) + (\Omega \odot \Delta(p)^\top)(p -
   mc)$ and iterate $p \leftarrow p - [\frac{\partial G}{\partial p^\top}]^{-1}G(p)$. Convergence is quadratic near
-  the solution. The Jacobian involves second derivatives of demand, given in \eqref{eq:04-dGdp} below, and the
+  a solution where the Jacobian $\frac{\partial G}{\partial p^\top}$ is nonsingular and Lipschitz continuous, so that
+  its change is at most a constant times the change in $p$ (\cref{sec:B-metric}). This holds near the solution when
+  demand is three times continuously differentiable. A Jacobian that is merely continuous and nonsingular guarantees
+  only superlinear convergence (\cref{sec:B-fp-computation}). The Jacobian involves second derivatives of demand, given in \eqref{eq:04-dGdp} below, and the
   method can wander when it starts far from the solution.
   \item \emph{The Morrow-Skerlos iteration.} For random coefficients logit demand with price coefficient $\alpha_i > 0$,
   split the share Jacobian as $\Delta^s(p) = -\Lambda(p) + \Gamma(p)$, with the diagonal matrix
@@ -889,7 +899,7 @@ characteristics-based instruments, and it fails if firms choose characteristics 
 (\cref{sec:06-charinst}). It also leaves out product choice, which the location models of \cref{sec:04-location}
 study.
 
-\subsection{The dimension of characteristics space shapes competition}\label{sec:04-spaces-dimension}
+\subsection{The dimension of characteristics space shapes competition*}\label{sec:04-spaces-dimension}
 
 The dimension of characteristics space is a modeling choice with first-order consequences. In a space of one or
 two dimensions each product competes, on average, with a few neighbors. In a logit-type model every product competes with every other.
@@ -1163,7 +1173,7 @@ income in the fixed proportions $\beta_i$. Its cross-price effects are $\frac{\p
 Rotterdam model approximates the demand functions themselves in differential form. The translog approximates the
 indirect utility function to second order. The Almost Ideal Demand System starts from a class of preferences that
 aggregates across consumers and yields shares that are nearly linear in the parameters. \Cref{ch:aids} develops the
-AIDS in full, and \cref{rem:05-translog-piglog} states when the translog aggregates.
+AIDS in full, and \cref{rem:05-translog-piglog} states when the translog is PIGLOG.
 
 \casehead{Three problems in practice}
 The first problem is dimensionality. A linear system $q = a + Ap$ has $J$ intercepts and $J^2$ price

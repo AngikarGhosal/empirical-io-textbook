@@ -256,10 +256,12 @@ positive and continuous density of consumer unobservables suffices \citep[p.~260
 \cref{sec:08-bh14} states.
 \end{remark}
 
-\subsection{Speed of convergence and the practice of the inner loop}\label{sec:08-inv-practice}
+\subsection{Speed of convergence and the practice of the inner loop*}\label{sec:08-inv-practice}
 
-\Cref{cor:08-rowsum} tells us how fast the iteration converges. The local contraction modulus is the
-largest row sum of the Jacobian of $\Phi_t$. By \eqref{eq:08-rowsum}, the row sum of product $j$ is one minus
+\Cref{cor:08-rowsum} tells us how fast the iteration converges near the solution. The Jacobian of $\Phi_t$ has
+nonnegative entries, so its operator norm in the sup norm is its largest row sum. At the solution this row sum is
+a local rate. Once the iterates are close, each step shrinks the error by at most about this factor. By
+\eqref{eq:08-rowsum}, the row sum of product $j$ is one minus
 the average outside-good probability among the consumers who buy $j$. The weights $\frac{s_{ijt}}
 {s_{jt}}$ in \eqref{eq:08-rowsum} are the distribution of consumer types conditional on buying $j$. The
 modulus is close to one when the buyers of some product rarely choose the outside good. This happens when the
@@ -270,8 +272,10 @@ lower bound on it, computed from the data and the model parameters (their p.~223
 from 0.91 to 0.35, this value rises from 0.891 to 0.997. The total number of contraction iterations needed for estimation rises from about 10,400 to 262,000 (their Tables~III
 and~IV).
 
-The standard contraction bound makes the cost explicit. Writing $\delta^*_t$ for the solution and
-$\kappa_t$ for the modulus,
+The standard contraction bound makes the cost explicit, but it needs a uniform modulus. Write $\delta^*_t$
+for the solution, and let $\kappa_t < 1$ bound the largest row sum of the Jacobian of $\Phi_t$ on every segment
+that joins an iterate to $\delta^*_t$. The mean value theorem then gives $\Vert \Phi_t(\delta^h_t) -
+\delta^*_t\Vert \leq \kappa_t\Vert \delta^h_t - \delta^*_t\Vert$ at each step, and hence
 \begin{equation*}
   \Vert \delta^h_t - \delta^*_t\Vert \leq \kappa_t^h\, \Vert \delta^0_t - \delta^*_t\Vert.
 \end{equation*}
@@ -282,14 +286,23 @@ Reducing the initial error by a factor $10^{-m}$ therefore takes
 iterations, where the approximation uses $-\ln\kappa \approx 1 - \kappa$ for $\kappa$ near one. The
 required number of iterations grows like $\frac{1}{1 - \kappa_t}$.
 
+The row sum at the solution alone does not deliver this bound. Take one product with observed share 0.5.
+Then $\Phi(\delta) = \ln 0.5 + \ln(1 + e^{\delta})$, with fixed point zero and derivative $\frac{e^{\delta}}{1 +
+e^{\delta}}$, which equals 0.5 there. From $\delta^0 = 10$, one step gives $\delta^1 = 9.31$, far above the value
+5 that the factor 0.5 would allow. The iterates stay in $[0, 10]$, where the uniform modulus is $\frac{e^{10}}{1
++ e^{10}} \approx 0.99995$, and the bound with this modulus holds. Far from the solution, the local rate can be
+much too optimistic.
+
 \Cref{fig:08-contraction} illustrates with three simulated markets. Each has ten inside products and random
 coefficients on the constant, on one characteristic and on price, and we use $n_s = 1{,}000$ draws. The
 markets differ only in a common shift of the mean utilities, chosen so that the outside share is about 0.9,
 0.5 and 0.1. The largest row sum at the solution is 0.357, 0.725 and 0.948 in the three markets. Starting from
 the logit inversion \eqref{eq:08-logit-inv}, the plain iteration needs 25, 63 and 332 evaluations of the
 share function to bring the sup-norm error below $10^{-13}$. The observed linear rates are 0.28, 0.63 and
-0.92, a little below the worst-case row sums. In the third market the bound with $\kappa = 0.948$ predicts
-about 550 iterations, and the observed rate predicts about 336, close to the realized 332.
+0.92, a little below these local rates. On a grid of 21 points per segment, the largest row sum on the segments
+between the iterates and the solution is 0.487, 0.737 and 0.948. These are uniform moduli for the three paths.
+In the third market the largest grid value is attained at the solution, so the bound with $\kappa = 0.948$ applies.
+It predicts about 550 iterations, and the observed rate predicts about 336, close to the realized 332.
 
 \begin{figure}[htbp]
   \centering
@@ -300,7 +313,7 @@ about 550 iterations, and the observed rate predicts about 336, close to the rea
   the plain iteration $\delta^{h+1} = \Phi(\delta^h)$. Dashed lines show SQUAREM, the extrapolation method
   described below, on the same map. The
   horizontal axis counts evaluations of the share function. The legend reports the largest row sum $\kappa$
-  of the Jacobian of $\Phi$ at the solution. Computed in \texttt{fig\_contraction.py}.}
+  of the Jacobian of $\Phi$ at the solution, the local rate. Computed in \texttt{fig\_contraction.py}.}
   \label{fig:08-contraction}
 \end{figure}
 
@@ -342,8 +355,11 @@ Collecting the terms in $\Vert \delta^H_t - \delta^*_t\Vert$ gives $(1 - \kappa)
 \delta^*_t\Vert \leq \kappa\epsilon_{in}$.
 \end{proof}
 
-When $\kappa$ is near one, the error can exceed the tolerance by orders of magnitude. In the third market of
-\cref{fig:08-contraction} ($\kappa = 0.948$), stopping at a step size of $10^{-4}$ leaves a true error of
+The proof uses the modulus only for the step from $\delta^{H-1}_t$, so a bound on the row sums along the
+segment from $\delta^{H-1}_t$ to $\delta^*_t$ suffices. The row sum at the solution can serve as $\kappa$ when it
+bounds the row sums along that segment. When $\kappa$ is near one, the error can
+exceed the tolerance by orders of magnitude. In the third market of \cref{fig:08-contraction}, the largest row sum
+on the final segment is $\kappa = 0.948$. Stopping at a step size of $10^{-4}$ leaves a true error of
 $1.0 \times 10^{-3}$, against a bound of $1.7 \times 10^{-3}$. Stopping at $10^{-8}$ leaves $1.0 \times
 10^{-7}$. The error is about ten times the tolerance.
 
@@ -613,7 +629,7 @@ parameters are concentrated out, and the profiled GMM objective is evaluated.}
 \label{fig:08-nfxp}
 \end{figure}
 
-\subsection{The gradient}\label{sec:08-gradient}
+\subsection{The gradient*}\label{sec:08-gradient}
 
 Quasi-Newton methods need the gradient of $Q^c_N$. Because $\delta(\theta_2)$ is defined implicitly by the
 share equations, its derivative comes from the implicit function theorem (\cref{app:math}).
@@ -704,7 +720,7 @@ specification it converges in distribution to a $\chi^2$ with $L - K_1 - K_2$ de
 signals that some instruments are invalid or that the model is misspecified. With tens of thousands of
 observations the test rejects almost any model, as \citet[p.~325, n.~23]{Nevo2001} notes.
 
-\subsection{Asymptotic distribution and simulation error}\label{sec:08-asymptotics}
+\subsection{Asymptotic distribution and simulation error*}\label{sec:08-asymptotics}
 
 The estimator departs from textbook GMM in two ways. The moments are computed from sampled shares, and the
 share integral is simulated. \citet[Section 5]{BerryLevinsohnPakes1995} account for both. Their setting is a
@@ -791,7 +807,7 @@ $\hat\theta$, computes $\varphi(\theta^{(r)})$ for each draw, and reads off perc
 \citet[pp.~319, 333]{Nevo2001} uses the bootstrap, with 1,500 draws for the margins of his Table VIII
 (\cref{sec:08-nevo01}).
 
-\subsection{MPEC: estimation as constrained optimization}\label{sec:08-mpec}
+\subsection{MPEC: estimation as constrained optimization*}\label{sec:08-mpec}
 
 \citet{SuJudd2012} propose to estimate structural models by \emph{mathematical programming with equilibrium
 constraints} (MPEC), and \citet{DubeFoxSu2012} apply the idea to BLP. Instead of solving the share equations
@@ -892,20 +908,29 @@ The implicit function theorem then gives the response of the best-response marku
   \frac{\partial m_j}{\partial \xi_j} = -\frac{\partial G}{\partial \xi_j}\Big(\frac{\partial G}{\partial
   m_j}\Big)^{-1} = \frac{s_j}{\alpha(1 - s_j)}\,(1 - s_j) = \frac{s_j}{\alpha} > 0.
 \end{equation*}
-A better unobserved product sells more and carries a higher markup, so $\Cov(p_{jt}, \xi_{jt}) > 0$.
+A better unobserved product sells more and carries a higher markup. This comparative static holds marginal cost
+fixed, so the sign of $\Cov(p_{jt}, \xi_{jt})$ also depends on how costs move with $\xi_{jt}$. In this logit
+example the covariance is positive when marginal cost is independent of $\xi_{jt}$ or increases with it, as when
+better products cost more to make. If cost falls with unobserved quality fast enough, the covariance can be zero or negative.
 
 Consider the logit estimating equation $\ln s_{jt} - \ln s_{0t} = x_{jt}\beta - \alpha p_{jt} + \xi_{jt}$
 and let $\tilde p_{jt}$ be the residual from projecting $p_{jt}$ on $x_{jt}$. By the Frisch-Waugh theorem the
 OLS coefficient on price satisfies
 \begin{equation*}
-  \plim\, \widehat{(-\alpha)}_{OLS} = -\alpha + \frac{\Cov(\tilde p_{jt}, \xi_{jt})}{\Var(\tilde p_{jt})}
-  > -\alpha,
+  \plim\, \widehat{(-\alpha)}_{OLS} = -\alpha + \frac{\Cov(\tilde p_{jt}, \xi_{jt})}{\Var(\tilde p_{jt})}.
 \end{equation*}
-when $x_{jt}$ is uncorrelated with $\xi_{jt}$. The estimated price coefficient is biased toward zero, and
-demand looks too inelastic. Random coefficients do not remove the problem, since $\xi_{jt}$ enters
-$\delta_{jt}$ in the same way.
+When $x_{jt}$ is uncorrelated with $\xi_{jt}$, $\Cov(\tilde p_{jt}, \xi_{jt}) = \Cov(p_{jt}, \xi_{jt})$. If this
+covariance is positive, the estimated price coefficient is biased toward zero, and demand looks too inelastic.
+Random coefficients do not remove the problem, since $\xi_{jt}$ enters $\delta_{jt}$ in the same way.
 
-The evidence matches the theory. In the automobile data of \citet[Table III]{BerryLevinsohnPakes1995}, the
+The cost condition matters. Take one product per market, $\alpha = 1$, no characteristics other than a constant, $\xi_j$ uniform on
+$[-0.2, 0.2]$ and marginal cost $mc_j = 1 - \xi_j - e^{2\xi_j - 2}$, which is positive on this range. The
+pricing condition then gives $p_j = 2 - \xi_j$, with markup $1 + e^{2\xi_j - 2}$. Hence $\Cov(p_j, \xi_j) =
+-\Var(\xi_j)$, and the OLS price coefficient converges to $-2$ instead of $-1$. Least squares now overstates
+price sensitivity. The case for instruments does not depend on the sign. Equilibrium prices respond to
+$\xi_{jt}$, and OLS is inconsistent whenever the covariance is nonzero.
+
+In the leading applications the evidence points to a positive covariance. In the automobile data of \citet[Table III]{BerryLevinsohnPakes1995}, the
 OLS logit price coefficient is $-0.089$ (0.004). It implies that 1,494 of the 2,217 models have inelastic
 demand, which is inconsistent with profit maximization. With instruments the coefficient becomes $-0.216$
 (0.123), and only 22 models have inelastic demand (pp.~873--874). In the cereal data of \citet[Table V]%
@@ -1272,7 +1297,7 @@ the estimation error in $\hat d$ and ignores $\Var(\xi_b)$. The estimator of $\b
 number of brands grows. Its precision is governed by the number of brands, whatever the number of markets,
 and standard errors based on $V_d$ alone understate the uncertainty.
 
-\subsection{Nonparametric identification with market data}\label{sec:08-bh14}
+\subsection{Nonparametric identification with market data*}\label{sec:08-bh14}
 
 The previous subsections relied on parametric assumptions. \citet{BerryHaile2014} ask whether those
 assumptions are essential for identification, or whether they play only their usual roles of approximation and

@@ -12,6 +12,8 @@ For each market we start from the logit inversion delta^0_j = ln s_j - ln s_0 an
   (b) SQUAREM (scheme S3 of Varadhan and Roland 2008) on the same map.
 We record the sup-norm error against the number of evaluations of the share function, and the
 modulus kappa = max_j sum_k dPhi_j/d delta_k = max_j [1 - (1/s_j) int s_ij s_i0 dF] at delta*.
+The row sum at delta* is a local rate. The error bounds in the text need a uniform modulus, so we
+also record the largest row sum on the segments between the iterates and delta*.
 
 Output: figures/ch08/fig_contraction.pdf, src/contraction_numbers.txt
 """
@@ -176,6 +178,50 @@ for tol_in in [1e-4, 1e-8]:
     err = np.abs(dd - dstar).max()
     out(f"  tolerance {tol_in:.0e}: last step {step:.2e}, true error {err:.2e}, "
         f"bound kappa*step/(1-kappa) = {kmax * step / (1 - kmax):.2e}")
+
+
+# --------------------------------------------------------------------------- uniform modulus on the path
+def segment_modulus(d_from, dstar, npts=21):
+    """Largest row sum of the Jacobian of Phi on the segment from d_from to dstar (grid of npts points)."""
+    return max(modulus(dstar + t * (d_from - dstar))[0] for t in np.linspace(0.0, 1.0, npts))
+
+
+out("\nUniform modulus over the path of the plain iteration (largest row sum on the segments")
+out("between each iterate and delta*, 21 grid points per segment):")
+for s0_target in targets:
+    a = brentq(lambda a: shares(a + b)[1] - s0_target, -30, 30)
+    dstar = a + b
+    s, s0v = shares(dstar)
+    ln_sobs = np.log(s)
+    d = np.log(s) - np.log(s0v)
+    iterates = [d.copy()]
+    while np.abs(d - dstar).max() >= 1e-13:
+        d = phi(d, ln_sobs)
+        iterates.append(d.copy())
+    errs = np.array([np.abs(z - dstar).max() for z in iterates])
+    k_loc = modulus(dstar)[0]
+    k_uni = max(segment_modulus(z, dstar) for z in iterates)
+    holds = bool(np.all(errs <= k_uni ** np.arange(len(errs)) * errs[0] * (1 + 1e-12)))
+    h_uni = np.log(errs[0] / 1e-13) / -np.log(k_uni)
+    h_loc = np.log(errs[0] / 1e-13) / -np.log(k_loc)
+    out(f"  s0 = {s0_target}: row sum at delta* = {k_loc:.4f}, uniform modulus on path = {k_uni:.6f}, "
+        f"a priori bound holds on path = {holds}")
+    out(f"    iterations to 1e-13 implied by the uniform modulus = {h_uni:.0f}, "
+        f"by the row sum at delta* = {h_loc:.0f}, realized = {len(errs) - 1}")
+    if s0_target == 0.1:
+        for tol_in in [1e-4, 1e-8]:
+            H = next(h for h in range(1, len(iterates))
+                     if np.abs(iterates[h] - iterates[h - 1]).max() < tol_in)
+            step = np.abs(iterates[H] - iterates[H - 1]).max()
+            k_tail = segment_modulus(iterates[H - 1], dstar)
+            out(f"    tolerance {tol_in:.0e}: modulus on the last segment = {k_tail:.4f}, "
+                f"bound = {k_tail * step / (1 - k_tail):.2e}, true error = {errs[H]:.2e}")
+
+out("\nOne-product logit with observed share 0.5: Phi(d) = ln 0.5 + ln(1 + e^d), fixed point 0,")
+out("derivative e^d / (1 + e^d), equal to 0.5 at the fixed point.")
+d1 = np.log(0.5) + np.log1p(np.exp(10.0))
+out(f"  from d0 = 10: d1 = {d1:.6f}; bound from the derivative at the fixed point = {0.5 * 10:.1f}; "
+    f"uniform modulus on [0, 10] = {np.exp(10.0) / (1 + np.exp(10.0)):.6f}")
 
 # --------------------------------------------------------------------------- figure
 plt.rcParams.update({"font.size": 9, "axes.edgecolor": INK2, "axes.labelcolor": INK,

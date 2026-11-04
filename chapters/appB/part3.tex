@@ -1379,10 +1379,16 @@ Near the equilibrium the iteration therefore behaves like best-response iteratio
 \begin{equation*}
   p^{(h+1)} = p^{(h)} - \big[D_p\Psi(p^{(h)})\big]^{-1}\Psi(p^{(h)}).
 \end{equation*}
-Near a solution with a nonsingular Jacobian it converges quadratically, so the number of correct digits
-roughly doubles at each step \citep{Judd1998}. It needs second derivatives of demand and can fail far from
-the solution. A common hybrid starts with a fixed-point iteration and switches to Newton steps near the
-solution.
+Suppose the Jacobian $D_p\Psi$ is nonsingular at a solution and Lipschitz continuous near it. From nearby starting
+points Newton's method then converges quadratically, so the number of correct digits roughly doubles at each step
+\citep{Judd1998}. The Lipschitz condition holds when shares are three times continuously differentiable, as logit
+shares are. A Jacobian that is merely continuous and nonsingular guarantees only \emph{superlinear} convergence, in
+which the ratio of successive errors tends to zero. For example, the scalar function $\psi(x) = x +
+x|x|^{\frac{1}{2}}$ has root $0$ and $\psi'(0) = 1$. For $x > 0$ the next Newton iterate is $x - \frac{\psi(x)}{\psi'(x)} =
+\frac{x^{\frac{3}{2}}}{2 + 3x^{\frac{1}{2}}}$. For small $x$ the new error is thus close to $\frac{1}{2}x^{\frac{3}{2}}$, so
+the number of correct digits grows by a factor of about $\frac{3}{2}$ per step. This rate is superlinear but slower
+than quadratic. The method needs second derivatives of demand and can fail far from the solution. A common hybrid
+starts with a fixed-point iteration and switches to Newton steps near the solution.
 
 Two devices improve slow fixed-point iterations. Dampening replaces $\Phi$ by $x + \omega[\Phi(x) - x]$ with a
 step $\omega \in (0, 1)$. This maps each eigenvalue $\varsigma$ of the Jacobian to $1 - \omega(1 - \varsigma)$. A

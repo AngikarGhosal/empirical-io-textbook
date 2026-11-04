@@ -178,36 +178,42 @@ C_TRUE = "#1f3b73"
 C_EST = "#c4512b"
 C_ALT = "#7a7a7a"
 
-fig, axes = plt.subplots(1, 2, figsize=(9.6, 3.9))
+# The figure is drawn at its printed size (included at width=\textwidth = 6.2 in), so the font sizes
+# below are the sizes on the page.
+FINAL_W, FINAL_H = 6.2, 3.0
+FS_TICK, FS_LABEL, FS_TITLE, FS_NOTE = 8.0, 8.5, 9.0, 8.0
+plt.rcParams.update({"xtick.labelsize": FS_TICK, "ytick.labelsize": FS_TICK, "axes.labelsize": FS_LABEL})
+
+fig, axes = plt.subplots(1, 2, figsize=(FINAL_W, FINAL_H))
 
 ax = axes[0]
 bb = np.linspace(1.0, 1.75, 50)
-ax.plot(bb, (4 * bb - 1) / 3, color=C_TRUE, lw=2.0, label=r"true, $\omega=1$")
+ax.plot(bb, (4 * bb - 1) / 3, color=C_TRUE, lw=1.4, label=r"true, $\omega=1$")
 for om_, ls in ((np.exp(-SIG), ":"), (np.exp(SIG), "--")):
     bb2 = np.linspace(om_, 1.75 * om_, 50)
-    ax.plot(bb2, (4 * bb2 - om_) / 3, color=C_TRUE, lw=1.1, ls=ls)
+    ax.plot(bb2, (4 * bb2 - om_) / 3, color=C_TRUE, lw=0.9, ls=ls)
 ax.fill_between(b_grid[ok], xi_lo[ok], xi_hi[ok], color=C_EST, alpha=0.18, lw=0)
-ax.plot(b_grid[ok], xi_med[ok], color=C_EST, lw=2.0, label="GPV on pooled bids")
-ax.text(0.74, 0.66, r"true, $\omega=e^{-0.3}$", color=C_TRUE, fontsize=8.5)
-ax.text(1.95, 1.80, r"true, $\omega=e^{0.3}$", color=C_TRUE, fontsize=8.5)
+ax.plot(b_grid[ok], xi_med[ok], color=C_EST, lw=1.4, label="GPV on pooled bids")
+ax.text(0.74, 0.66, r"true, $\omega=e^{-0.3}$", color=C_TRUE, fontsize=FS_NOTE)
+ax.text(1.95, 1.80, r"true, $\omega=e^{0.3}$", color=C_TRUE, fontsize=FS_NOTE)
 ax.set_xlabel(r"bid $b$")
 ax.set_ylabel(r"implied value $\xi(b)$")
-ax.set_title("(a) Inverse bid functions", fontsize=10)
-ax.legend(frameon=False, fontsize=8.5, loc="upper left")
+ax.set_title("(a) Inverse bid functions", fontsize=FS_TITLE)
+ax.legend(frameon=False, fontsize=FS_NOTE, loc="upper left")
 ax.set_xlim(0.7, 2.5)
 ax.set_ylim(0.6, 3.6)
 
 ax = axes[1]
-ax.plot(v_grid, f_true, color=C_TRUE, lw=2.0, label=r"true density of $V=\omega A$")
+ax.plot(v_grid, f_true, color=C_TRUE, lw=1.4, label=r"true density of $V=\omega A$")
 ax.fill_between(v_grid, f_lo, f_hi, color=C_EST, alpha=0.18, lw=0)
-ax.plot(v_grid, f_med, color=C_EST, lw=2.0, label="GPV on pooled bids")
-ax.plot([1, 1, 2, 2], [0, 1, 1, 0], color=C_ALT, lw=1.0, ls="--", label=r"density of $A$ ($\omega=1$)")
+ax.plot(v_grid, f_med, color=C_EST, lw=1.4, label="GPV on pooled bids")
+ax.plot([1, 1, 2, 2], [0, 1, 1, 0], color=C_ALT, lw=0.9, ls="--", label=r"density of $A$ ($\omega=1$)")
 ax.set_xlabel(r"value $v$")
 ax.set_ylabel("density")
-ax.set_title("(b) Value densities", fontsize=10)
-ax.legend(frameon=False, fontsize=8.5, loc="upper right")
+ax.set_title("(b) Value densities", fontsize=FS_TITLE)
+ax.legend(frameon=False, fontsize=FS_NOTE, loc="upper right")
 ax.set_xlim(0.4, 3.6)
-ax.set_ylim(0, 1.25)
+ax.set_ylim(0, 1.45)
 
 for a in axes:
     a.spines["top"].set_visible(False)

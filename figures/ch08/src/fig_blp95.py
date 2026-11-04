@@ -5,6 +5,8 @@ Outputs (in Textbook/figures/ch08/):
   blp95_outside.pdf   Table VII, diversion to the outside good, logit vs BLP
   blp95_markup.pdf    Table VIII markups vs price, with the IV-logit markup band (p. 874)
   blp95_ownelas.pdf   Table V own-price elasticities vs price, with logit benchmarks (Table III)
+The markup and own-elasticity plots are drawn at their printed size (full text width), so their
+annotation fonts (8 pt) keep their size on the page.
 Run:  python fig_blp95.py
 """
 import os
@@ -86,34 +88,56 @@ def outside():
     plt.close(fig)
 
 
+# The markup and own-elasticity plots are drawn at their printed size (the full text width of 6.2 in,
+# included at width=\textwidth), so the font sizes below are the sizes on the page.
+FINAL_W, FINAL_H = 6.2, 4.3
+FS_LABEL, FS_TICK, FS_NOTE = 9.5, 8.5, 8.0
+
+
+def _final_size_axes(ax):
+    ax.xaxis.label.set_size(FS_LABEL)
+    ax.yaxis.label.set_size(FS_LABEL)
+    ax.tick_params(labelsize=FS_TICK)
+
+
+def _label_points(ax, xs, ys, place):
+    """Write each car's name at an offset (points) from its marker; far labels get a leader line."""
+    for c, x, yv in zip(CARS, xs, ys):
+        dx, dy, ha = place[c]
+        far = abs(dx) > 12 or abs(dy) > 12
+        ax.annotate(c, (x, yv), xytext=(dx, dy), textcoords="offset points", fontsize=FS_NOTE,
+                    color=MUTED, ha=ha, va="center",
+                    arrowprops=dict(arrowstyle="-", color=GRAY, lw=0.5, shrinkA=1, shrinkB=3)
+                    if far else None)
+
+
 def markup():
     mk = np.array(MARKUP) / 1000.0
     lo, hi = (v / 1000.0 for v in IVLOGIT_MARKUP_RANGE)
-    fig, ax = plt.subplots(figsize=(6.0, 3.8))
+    fig, ax = plt.subplots(figsize=(FINAL_W, FINAL_H))
     ax.axhspan(lo, hi, color=ORANGE, alpha=0.35, lw=0)
-    ax.text(0.8, hi + 0.25, "IV logit: all models between \\$4,630 and \\$4,805",
-            ha="left", va="bottom", fontsize=7.5, color=INK)
+    ax.text(0.8, hi + 0.3, "IV logit, all models: \\$4,630 to \\$4,805",
+            ha="left", va="bottom", fontsize=FS_NOTE + 0.5, color=INK)
     ax.plot(p, mk, color=BLUE, lw=1.2, alpha=0.6, zorder=2)
-    ax.scatter(p, mk, s=28, color=BLUE, edgecolor="white", linewidth=1.0, zorder=3,
+    ax.scatter(p, mk, s=30, color=BLUE, edgecolor="white", linewidth=1.0, zorder=3,
                label="BLP (Table VIII)")
-    # A third entry sets the horizontal alignment; the Cavalier label is centered above-left of its
-    # point so that it clears the y-axis.
-    offs = {"Nissan Sentra": (6, -8), "Ford Escort": (6, 0), "Mazda 323": (-6, -5),
-            "Chevy Cavalier": (-8, 9, "center"), "Ford Taurus": (-6, 4), "Honda Accord": (6, -9),
-            "Buick Century": (6, -3), "Acura Legend": (6, -11)}
-    for c, x, yv in zip(CARS, p, mk):
-        o = offs.get(c, (5, -3))
-        dx, dy = o[0], o[1]
-        ha = o[2] if len(o) > 2 else ("left" if dx >= 0 else "right")
-        ax.annotate(c, (x, yv), xytext=(dx, dy), textcoords="offset points", fontsize=6.5,
-                    color=MUTED, ha=ha)
+    # (dx, dy, ha): offset of the label in points and its horizontal alignment.
+    place = {"Mazda 323": (-4, -2, "right"), "Nissan Sentra": (8, -9, "left"),
+             "Ford Escort": (9, 1, "left"), "Chevy Cavalier": (-8, 20, "center"),
+             "Honda Accord": (8, -10, "left"), "Ford Taurus": (-30, 24, "right"),
+             "Buick Century": (7, -4, "left"), "Nissan Maxima": (7, -4, "left"),
+             "Acura Legend": (7, -11, "left"), "Lincoln Town Car": (7, -3, "left"),
+             "Cadillac Seville": (7, -3, "left"), "Lexus LS400": (7, -3, "left"),
+             "BMW 735i": (-7, 6, "right")}
+    _label_points(ax, p, mk, place)
     ax.set_xlabel("price (thousands of 1983 dollars)")
     ax.set_ylabel("markup $p-mc$ (thousands of 1983 dollars)")
     ax.set_xlim(0, 40)
     ax.set_ylim(0, 12)
     ax.yaxis.grid(True, color="#e3e2de", linewidth=0.6)
     ax.set_axisbelow(True)
-    ax.legend(loc="upper left", frameon=False)
+    ax.legend(loc="upper left", frameon=False, fontsize=FS_TICK)
+    _final_size_axes(ax)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "blp95_markup.pdf"))
     plt.close(fig)
@@ -122,32 +146,32 @@ def markup():
 def ownelas():
     eps = np.array(OWN_ELAS)
     grid = np.linspace(0, 40, 200)
-    fig, ax = plt.subplots(figsize=(6.0, 3.8))
+    fig, ax = plt.subplots(figsize=(FINAL_W, FINAL_H))
     ax.plot(grid, ALPHA_IV * grid, color=ORANGE, lw=2, label=r"IV logit: $0.216\,p$")
     ax.plot(grid, ALPHA_OLS * grid, color=ORANGE, lw=1.4, ls="--",
             label=r"OLS logit: $0.089\,p$")
     ax.axhline(1.0, color=GRAY, lw=0.8, ls=":")
-    ax.text(39.5, 1.15, "unit elasticity", ha="right", fontsize=7, color=MUTED)
-    ax.scatter(p, eps, s=28, color=BLUE, edgecolor="white", linewidth=1.0, zorder=3,
+    ax.text(39.5, 1.15, "unit elasticity", ha="right", fontsize=FS_NOTE, color=MUTED)
+    ax.scatter(p, eps, s=30, color=BLUE, edgecolor="white", linewidth=1.0, zorder=3,
                label="BLP (Table V)")
-    # A third entry sets the horizontal alignment; the Sentra label is centered above its point so
-    # that it clears the y-axis.
-    offs = {"Nissan Sentra": (0, 6, "center"), "Mazda 323": (-5, -7), "Ford Escort": (5, -9),
-            "Chevy Cavalier": (5, -1), "Buick Century": (5, 2), "Honda Accord": (-5, -2),
-            "Ford Taurus": (5, -9), "Acura Legend": (4, -11), "Lincoln Town Car": (5, 3)}
-    for c, x, yv in zip(CARS, p, eps):
-        o = offs.get(c, (5, 2))
-        dx, dy = o[0], o[1]
-        ha = o[2] if len(o) > 2 else ("left" if dx >= 0 else "right")
-        ax.annotate(c, (x, yv), xytext=(dx, dy), textcoords="offset points", fontsize=6.5,
-                    color=MUTED, ha=ha)
+    # (dx, dy, ha): offset of the label in points and its horizontal alignment.
+    place = {"Mazda 323": (-4, -3, "right"), "Nissan Sentra": (-4, 30, "center"),
+             "Ford Escort": (7, -9, "left"), "Chevy Cavalier": (34, 30, "left"),
+             "Honda Accord": (-7, 0, "right"), "Ford Taurus": (7, -9, "left"),
+             "Buick Century": (7, 3, "left"), "Nissan Maxima": (7, 3, "left"),
+             "Acura Legend": (6, -12, "left"), "Lincoln Town Car": (6, 9, "left"),
+             "Cadillac Seville": (7, -1, "left"), "Lexus LS400": (7, 8, "left"),
+             "BMW 735i": (0, 12, "center")}
+    _label_points(ax, p, eps, place)
     ax.set_xlim(0, 40)
     ax.set_ylim(0, 9)
     ax.set_xlabel("price (thousands of 1983 dollars)")
     ax.set_ylabel(r"own-price elasticity $\varepsilon_j$")
     ax.yaxis.grid(True, color="#e3e2de", linewidth=0.6)
     ax.set_axisbelow(True)
-    ax.legend(loc="upper left", frameon=False)
+    ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=3, frameon=False,
+              fontsize=FS_TICK)
+    _final_size_axes(ax)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "blp95_ownelas.pdf"))
     plt.close(fig)

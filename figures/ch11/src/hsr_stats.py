@@ -1,4 +1,8 @@
-"""Hart-Scott-Rodino filings, Second Requests and enforcement actions, fiscal years 1991-2025.
+"""Hart-Scott-Rodino reported transactions, Second Requests and enforcement actions, FY1991-2025.
+
+The unit is the transaction reported under HSR (the annual reports' "Transactions Reported" row).
+Both parties usually file, so the reports' separate "Filings Received" row is roughly twice as large
+(FY2025: 2,006 transactions, 3,851 filings).
 
 Data:
   FY1991-2002: Ashenfelter and Hosken (2008, NBER WP 13859), Table 1 ("Mergers Filed",
@@ -15,14 +19,15 @@ Combined FY2015-2023 counts and their agency splits:
   FY2020 43 (FTC 28, DOJ 15), FY2021 32 (FTC 18), FY2022 49 (FTC 23, DOJ 26), FY2023 28 (FTC 16).
 The FTC later revised its FY2017 count to 23, which would give a combined 41; we keep the report's 39.
 Each report counts an action in the fiscal year of the agency's first public action, so an action
-need not concern a transaction filed that year, and some actions concern transactions that were not
+need not concern a transaction reported that year, and some actions concern transactions that were not
 reportable (two of the 18 in FY2025). The ratios below are annual activity ratios, not the share of
-a filing cohort that met enforcement.
+a cohort of reported transactions that met enforcement.
 
-Both ratios are computed as a percentage of all filings in the same year. (Ashenfelter and Hosken's own
-percentage column divides by the smaller number of filings for which a Second Request could be issued.)
+Both ratios are computed as a percentage of all reported transactions in the same year. (Ashenfelter and
+Hosken's own percentage column, like the annual reports' Second Request percentages, divides by the smaller
+number of adjusted transactions in which a Second Request could have been issued.)
 
-Two panels share the year axis (no dual y-axis): filings in the top panel, the two rates in the
+Two panels share the year axis (no dual y-axis): reported transactions in the top panel, the two rates in the
 bottom panel.
 
 Output: figures/ch11/hsr_stats.pdf
@@ -92,7 +97,7 @@ fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(6.4, 5.0), sharex=True,
 src_ah = years <= 2002
 ax1.bar(years[src_ah], filed[src_ah], width=0.72, color=COLORS[0], alpha=0.55, lw=0)
 ax1.bar(years[~src_ah], filed[~src_ah], width=0.72, color=COLORS[0], lw=0)
-ax1.set_ylabel("HSR filings")
+ax1.set_ylabel("reported transactions")
 ax1.set_ylim(0, 5600)
 ax1.annotate("threshold raised to\n\\$50 million (2001)", xy=(2001.6, 1500), xytext=(2003.6, 4200),
              fontsize=8.5, color=INK2, arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7))
@@ -106,7 +111,7 @@ ax2.plot(years, sr, color=COLORS[1], lw=2.0, ls="-", marker="o", ms=3.5, mec="wh
 ax2.plot(years, ea, color=COLORS[2], lw=2.0, ls="--", marker="s", ms=3.2, mec="white", mew=0.6,
          label="enforcement actions")
 ax2.legend(loc="upper right", fontsize=8.5, frameon=False, ncol=2, handlelength=2.6)
-ax2.set_ylabel("ratio to filings (percent)")
+ax2.set_ylabel("ratio to transactions (percent)")
 ax2.set_ylim(0, 6.0)
 ax2.grid(axis="y", color=GRID, lw=0.6)
 ax2.set_axisbelow(True)

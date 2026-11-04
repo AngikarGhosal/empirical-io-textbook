@@ -168,8 +168,9 @@ conduct tests in \cref{sec:01-today-pricing}, and diversion ratios return in \cr
 \begin{enumerate}[label=\textit{Step \arabic*.}, leftmargin=*, itemsep=4pt]
   \item \textit{Estimate demand.} We estimate $\gamma$ from data on shares, prices and characteristics,
         usually across many markets. Firms observe $\xi_j$ when they set prices, and
-        \eqref{eq:01-implied-mc} shows that markups depend on shares. Prices are therefore correlated with
-        $\xi_j$, and least squares estimates of price sensitivity are biased. The remedy is a set of
+        \eqref{eq:01-implied-mc} shows that markups depend on shares. Prices therefore respond to $\xi_j$
+        and are in general correlated with it, so least squares estimates of price sensitivity are
+        inconsistent. The remedy is a set of
         instruments $z_j$ that satisfy $\E[\xi_j \mid z_j] = 0$ and move prices
         (\cref{sec:01-today-demand}).
   \item \textit{Recover marginal costs or test conduct.} Given $\hat\gamma$, we compute $\hat\Delta$ and the
@@ -383,9 +384,10 @@ the market shares invert to the linear estimating equation
 \begin{equation}\label{eq:01-logit-inversion}
   \ln s_{jt} - \ln s_{0t} = x_{jt}\beta - \alpha p_{jt} + \xi_{jt}
 \end{equation}
-of \citet{Berry1994}, derived in \cref{ch:logit}. Firms set higher prices for products with high $\xi_{jt}$,
-so $\Cov(p_{jt}, \xi_{jt}) > 0$. Least squares then biases the estimate of $\alpha$ toward zero and makes
-demand look less elastic than it is. Estimation instead uses moment conditions $\E[z_{jt}\xi_{jt}] = 0$
+of \citet{Berry1994}, derived in \cref{ch:logit}. Holding costs fixed, firms set higher prices for products with
+high $\xi_{jt}$. When marginal cost is independent of $\xi_{jt}$ or rises with it, $\Cov(p_{jt}, \xi_{jt}) > 0$.
+Least squares then biases the estimate of $\alpha$ toward zero and makes demand look less elastic than it is.
+Costs that fall with quality can change the sign (\cref{sec:08-endogeneity}). Estimation instead uses moment conditions $\E[z_{jt}\xi_{jt}] = 0$
 for instruments $z_{jt}$.
 
 Because independent movements in many prices are rare, the most popular instruments exploit restrictions
@@ -1155,7 +1157,8 @@ questions.
 
 \subsection{Structural and design-based approaches}\label{sec:01-today-debate}
 
-Thirty years ago empirical IO resembled other applied fields \citep[p.~157]{EinavLevin2010}. Industrial
+Writing in 2010, \citet[p.~157]{EinavLevin2010} look back thirty years, to around 1980, when empirical IO broadly
+resembled other applied fields. Industrial
 organization economists ran cross-industry regressions and faced endogeneity, omitted variables and reverse
 causality, much as labor economists running wage regressions did. Since then IO has moved in a distinctive
 direction. It turned toward single industries, where measurement and identification are cleaner, and toward
@@ -1227,7 +1230,7 @@ Einav and Levin also voice concerns about the field itself (pp.~159--160). Their
 little effort goes into compelling applications relative to new econometric methods. Better methods are
 valuable if they are eventually used in compelling ways and do not become an end in themselves. In demand
 estimation, researchers may have tolerated imperfect price variation because the main contribution was a
-method that applies more broadly. Data limitations explain part of the current balance. Some of the most
+method that applies more broadly. Data limitations explain part of the balance they observed in 2010. Some of the most
 influential methods were responses to scarce data. The entry model of \citet{BresnahanReiss1991} gets around
 missing data on prices and quantities, and the demand model of \citet{BerryLevinsohnPakes1995} needs only
 market-level data. As firms collect vast amounts of data on customers, prices, quantities and locations,
@@ -1241,10 +1244,10 @@ Researchers should ``resist the temptation of grabbing a hammer and letting it p
 of nails'' (p.~160).
 
 The last concern is about scope. Schmalensee's review of the cross-industry literature concluded that it had
-taught us little about how markets work (\cref{sec:01-scp-today}). After two decades of industry studies, we know a
-lot about specific industries such as automobiles, airlines, electricity, and cement and concrete. This
-knowledge is extremely disaggregated and does not easily accumulate across industries. As a result, IO has
-ceded many important questions about the overall organization of production to trade and macroeconomics.
+taught us little about how markets work (\cref{sec:01-scp-today}). By 2010, Einav and Levin write, two
+decades of industry studies had produced detailed knowledge of specific industries such as automobiles,
+airlines, electricity, and cement and concrete (p.~160). This knowledge was extremely disaggregated and did
+not easily accumulate across industries. As a result, IO had ceded many important questions about the overall organization of production to trade and macroeconomics.
 Einav and Levin suggest that ``it may be time to reclaim them'' (p.~160). The debate over rising markups in
 \cref{sec:01-rising-markups} is one place where IO economists are doing so, and it shows how hard the
 cross-industry questions remain.
@@ -1372,9 +1375,22 @@ readings in its scope.
 \end{minipage}
 \end{table}
 
-\subsection{Reading paths}
+\subsection{Reading paths}\label{sec:01-reading-paths}
 
-The chapters build on one another, but several shorter paths through the book work well.
+The book can be read from cover to cover, and it also supports a shorter first reading. An asterisk at the end of
+a section or subsection title, as in \cref{sec:08-mpec}, marks optional material. Material marked this way is of
+four kinds. It contains proofs of general results whose statements the text uses, computational and numerical
+detail, replications and robustness checks of case studies, and extensions of the theory or the evidence that
+later chapters do not need. An asterisk on a section covers all of its subsections.
+
+The \emph{core path} reads the unmarked sections of \crefrange{ch:intro}{ch:auction-empirics} in order. It keeps
+every step of the main economic argument, and each full case study keeps its question, model, identification,
+main results and assessment. Unmarked sections sometimes cite a result that a marked section states and proves,
+or point to it for a detail. The statement of the result is enough to follow the argument. The appendices are
+reference material. Each chapter's introduction names the appendix sections that the chapter uses, so a reader
+can turn to a tool when the chapter calls on it.
+
+The chapters build on one another, and several shorter paths through the book also work well.
 \begin{itemize}
   \item A reader interested in antitrust and merger analysis can read
         \cref{ch:theory,ch:conduct,ch:diffprod,ch:logit,ch:blp,ch:mergers}. This path runs from pricing
@@ -1459,3 +1475,10 @@ instruments and the identification argument. We reproduce the key results in a t
 in the original paper, and discuss robustness, interpretation, the critiques raised in the literature and the
 paper's contribution. Every chapter ends with exercises and with bibliographic notes that place its papers in
 context.
+
+The longest applications are those of \cref{ch:aids,ch:blp,ch:airlines,ch:newgoods}. Each empirical case study in
+these chapters ends with an \emph{identification and counterfactual map}, a table such as \cref{tab:08-blp95-map}.
+Its first rows list the observed data, the latent objects, the estimated parameters, the identifying variation and
+the maintained assumptions. The next rows state the counterfactual and what it holds fixed, the economic
+conclusion with the assumption it rests on, and one limitation. The last rows separate the paper's own results
+from the derivations and calculations that this book adds, and they name the appendix sections the case uses.

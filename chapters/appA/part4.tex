@@ -125,7 +125,7 @@ observations within $h$ of $x$ divided by $2h$, a histogram whose bin moves with
 \begin{definition}[Second-order kernel]\label{def:A-kernel}
 A \emph{second-order kernel} is a bounded function $\mathcal{K}$ with $\int\mathcal{K}(u)\,\dd u=1$,
 $\int u\mathcal{K}(u)\,\dd u=0$, $0<\mu_2=\int u^2\mathcal{K}(u)\,\dd u<\infty$ and
-$\kappa_2=\int\mathcal{K}(u)^2\,\dd u<\infty$. A symmetric density with finite variance is a
+$\kappa_2=\int\mathcal{K}(u)^2\,\dd u<\infty$. A bounded symmetric density with finite variance is a
 second-order kernel.
 \end{definition}
 
@@ -226,9 +226,12 @@ The kernel enters \eqref{eq:A-hstar} only through $\delta_{\mathcal{K}}=(\frac{\
 and the minimized AMISE only through $\sqrt{\mu_2}\,\kappa_2$. Two consequences follow. A bandwidth
 rule derived for one kernel converts to another kernel by the factor
 $\frac{\delta_{\mathcal{K}}}{\delta_{\phi}}$, whatever $f$ is. And kernels differ little in efficiency
-once their bandwidths are scaled correctly. \Cref{tab:A-kernels} reports the constants. The Epanechnikov
-kernel minimizes $\sqrt{\mu_2}\,\kappa_2$, and every other kernel in the table attains at least 93
-percent of its efficiency.
+once their bandwidths are scaled correctly. \Cref{tab:A-kernels} reports the constants. Among nonnegative
+kernels the Epanechnikov kernel minimizes $\sqrt{\mu_2}\,\kappa_2$, and every other kernel in the table
+attains at least 92.9 percent of its efficiency. The restriction to nonnegative kernels matters, because
+\cref{def:A-kernel} allows negative values. Put weight $\lambda$ on the Epanechnikov kernel and $1 - \lambda$
+on a bounded kernel of order four with compact support (\cref{sec:A-kde-higher}). The mixture is a second-order
+kernel with $\mu_2 = \frac{\lambda}{5}$ and bounded $\kappa_2$, so its criterion tends to zero as $\lambda \to 0$.
 
 \begin{table}[htbp]
 \centering
@@ -765,8 +768,8 @@ on the regressors, and whenever $\sum_iw_i\ne0$,
 \begin{equation*}
 \E[\hat m_{\mathrm{LL}}(x)\mid x_1,\dots,x_n]-m(x)=\frac{\sum_iw_i\,\frac{1}{2}m''(\tilde x_i)(x_i-x)^2}{\sum_iw_i},
 \end{equation*}
-with $\tilde x_i$ between $x$ and $x_i$. At interior points the conditional bias is
-$\frac{h^2}{2}\mu_2m''(x)+o_p(h^2)$, free of the design term. At boundary points it remains of order
+with $\tilde x_i$ between $x$ and $x_i$. Under the conditions of \cref{prop:A-nw}, the conditional bias at an
+interior point is $\frac{h^2}{2}\mu_2m''(x)+o_p(h^2)$, free of the design term. At boundary points it remains of order
 $h^2$. The interior variance is the Nadaraya-Watson variance $\frac{\sigma^2(x)\kappa_2}{nhf(x)}$
 \citep{FanGijbels1996}.
 \end{proposition}
@@ -779,8 +782,11 @@ $\frac{\sum_iw_i(r_i+e_i)}{\sum_iw_i}$, whose conditional mean is the displayed 
 with $|x_i-x|\le h$ receive weight, so $|r_i|\le\frac{1}{2}h^2\sup|m''|$ wherever $x$ lies, and the bias
 is $O_p(h^2)$ as long as $\frac{\sum_i|w_i|}{|\sum_iw_i|}$ stays bounded. That ratio is bounded at the
 boundary too, because $S_0S_2-S_1^2>0$ when the window contains data on a set of positive length. In the
-interior, $\frac{S_1}{S_0}=O_p(h^2)$ and $\frac{S_2}{S_0}=h^2\mu_2+o_p(h^2)$, so the weights behave like
-$\mathcal{K}_h(x_i-x)$ to first order and the bias becomes $\frac{h^2}{2}\mu_2m''(x)$. The variance
+interior, $\frac{S_0}{n}\xrightarrow{p}f(x)$, $\E[\frac{S_1}{n}]=h^2\mu_2f'(x)+o(h^2)$ and $\Var(\frac{S_1}{n})=O(\frac{h}{n})$.
+Hence $\frac{S_1}{S_0}=O_p(h^2+\sqrt{\frac{h}{n}})=o_p(h)$, because $\sqrt{\frac{h}{n}}=\frac{h}{\sqrt{nh}}$ and
+$nh\to\infty$. The same calculation gives $\frac{S_2}{S_0}=h^2\mu_2+o_p(h^2)$. For $|x_i-x|\le h$ the
+correction $\frac{(x_i-x)S_1}{S_2}$ in the weights is then $o_p(1)$. The weights therefore behave like
+$\mathcal{K}_h(x_i-x)$ to first order, and the bias becomes $\frac{h^2}{2}\mu_2m''(x)$. The variance
 argument is that of \cref{prop:A-nw}.
 \end{proof}
 
@@ -834,7 +840,9 @@ the boundary problems of \cref{sec:A-kde-boundary} in the covariate dimension.
 \subsection{Series and sieve estimators}\label{sec:A-series}
 
 A \emph{series estimator} approximates $m$ by a linear combination of $K_n$ known basis functions
-$\psi(x)=(\psi_1(x),\dots,\psi_{K_n}(x))^\top$, such as powers of $x$ or regression splines. It fits the
+$\psi(x)=(\psi_1(x),\dots,\psi_{K_n}(x))^\top$, such as powers of $x$ or regression splines. A regression
+spline of degree $r$ is a polynomial of degree $r$ between consecutive points called knots, with $r-1$ continuous
+derivatives at each knot. B-splines are a convenient basis for this space. The series estimator fits the
 coefficients by least squares,
 \begin{equation}\label{eq:A-series}
 \hat m(x)=\psi(x)^\top\hat\gamma,\qquad \hat\gamma=(\Psi^\top\Psi)^{-1}\Psi^\top y .
@@ -854,7 +862,8 @@ Series estimators are global. A misbehaving term affects the fit everywhere, and
 polynomials are unstable at the boundary, which favors splines. In exchange, restrictions such as
 additivity, $m(x)=m_1(x_1)+m_2(x_2)$, are easy to impose by choosing the basis, and the estimator is a
 least squares regression whose inference is standard for fixed $K_n$. A \emph{sieve} is the general
-version, an approximating parameter space that grows with $n$ \citep{Chen2007}. Three uses appear in
+version. It is a sequence of increasingly rich approximating function classes, and the estimator uses a richer
+class as $n$ grows \citep{Chen2007}. Three uses appear in
 the book. Approximations to optimal instruments use series in the instruments (\cref{sec:A-optimal-iv}).
 The marginal cost of an airline segment in \citet{BerryCarnallSpiller1996} is a cubic polynomial in leg
 distance and leg density, with two congestion shifters (WP Table~5, \cref{sec:09-bcs-supply}). It is a
@@ -1127,8 +1136,14 @@ $a_1=a_2$, so the delta method fails there, and the bootstrap can fail for the s
 \casehead{Set estimators and confidence regions}
 Define the criterion $Q(\theta)=\sum_j(\min\{\E[m_j(W;\theta)],0\})^2$, which is zero exactly on
 $\Theta_I$. Its sample analogue $Q_n$ is zero on the sample identified set, which may be empty or too
-small. \citet{ChernozhukovHongTamer2007} estimate the set by $\{\theta:\ nQ_n(\theta)\le c_n\}$ with
-$c_n\to\infty$ and $\frac{c_n}{n}\to0$, which is consistent in the Hausdorff distance. Confidence regions
+small. \citet{ChernozhukovHongTamer2007} estimate the set by $\hat\Theta_I=\{\theta:\ nQ_n(\theta)\le c_n\}$
+with $c_n\to\infty$ and $\frac{c_n}{n}\to0$. The Hausdorff distance between sets $A$ and $B$ is
+\begin{equation*}
+d_H(A,B)=\max\Bigl\{\sup_{a\in A}\inf_{b\in B}\lVert a-b\rVert,\ \sup_{b\in B}\inf_{a\in A}\lVert a-b\rVert\Bigr\}.
+\end{equation*}
+It is the larger of two directed distances. Each is the largest distance from a point of one set to the nearest
+point of the other. The estimator is consistent in this distance, so $d_H(\hat\Theta_I,\Theta_I)\to0$ in
+probability. Confidence regions
 for $\Theta_I$ invert tests of $Q(\theta)=0$, with cutoffs from subsampling or the bootstrap.
 
 For an interval $[\theta_l,\theta_u]$ there is an important distinction. A region that covers the whole

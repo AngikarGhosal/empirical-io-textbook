@@ -44,8 +44,8 @@ Supergame with perfect monitoring & Stable collusive price, any $p \in [c, p^m]$
 $\delta \ge 1 - \frac{1}{N}$ & Observed deviations, never on the path & No wars on the path &
 Stable high prices. Theory does not pin down the level. & \Cref{sec:13-legal}\\
 \addlinespace
-\citet{GreenPorter1984} & Collusive phases alternate with reversion phases & An unexpectedly low price or a low own
-share & Fixed length $T-1$ & Regimes are Markov of order $T-1$. Wars follow negative demand innovations. Collusive price
+\citet{GreenPorter1984} & Collusive phases alternate with reversion phases & An unexpectedly low market price (a
+low own share in extensions) & Fixed length $T-1$ & Regimes are Markov of order $T-1$. Wars follow negative demand innovations. Collusive price
 below static monopoly \citep{Porter1983b}. & \Cref{sec:13-tests,sec:13-jec}\\
 \addlinespace
 \citet{AbreuPearceStacchetti1986} & Two states, collusion and punishment & A low public signal & Random length &
@@ -293,16 +293,18 @@ $X_t$ collect the constant, $L_t$, $S_t$ and seasonal dummies, and let $e_2 = (0
 \begin{equation}\label{eq:13-system}
   B y_t = \Gamma X_t + e_2 \beta_3 I_t + U_t, \qquad
   B = \begin{pmatrix} 1 & -\alpha_1 \\ -\beta_1 & 1 \end{pmatrix}, \qquad
-  U_t = \begin{pmatrix} U_{1t} \\ U_{2t}\end{pmatrix} \sim N(0, \Sigma),
+  U_t = \begin{pmatrix} U_{1t} \\ U_{2t}\end{pmatrix}, \qquad U_t \mid X_t \sim N(0, \Sigma),
 \end{equation}
-which is Porter's eq.~(4). The matrix $\Gamma$ has a zero for $S_t$ in the demand row and a zero for $L_t$ in the
+which is Porter's eq.~(4). The shocks are \emph{conditionally} normal. Given any value of the exogenous variables
+$X_t$, the vector $U_t$ is normal with mean zero and the same covariance matrix $\Sigma$. Equivalently, $U_t$ is
+distributed $N(0,\Sigma)$ and is independent of $X_t$. The matrix $\Gamma$ has a zero for $S_t$ in the demand row and a zero for $L_t$ in the
 supply row. The determinant is $\det B = 1 - \alpha_1\beta_1$, positive when $\alpha_1 < 0 < \beta_1$. The reduced
 form is
 \begin{equation}\label{eq:13-reduced}
   y_t = \Pi X_t + d\, I_t + V_t, \qquad \Pi = B^{-1}\Gamma, \qquad
   d = B^{-1}e_2\beta_3 = \frac{\beta_3}{1 - \alpha_1\beta_1}\begin{pmatrix}\alpha_1 \\ 1\end{pmatrix},
 \end{equation}
-with $V_t = B^{-1}U_t \sim N(0, \Omega)$ and $\Omega = B^{-1}\Sigma B^{-\top}$. The coefficients on $L_t$ are
+with $V_t = B^{-1}U_t$, $V_t \mid X_t \sim N(0, \Omega)$ and $\Omega = B^{-1}\Sigma B^{-\top}$. The coefficients on $L_t$ are
 $\frac{\alpha_2}{1-\alpha_1\beta_1}(1, \beta_1)^\top$.
 
 \casehead{Known regimes}
@@ -323,7 +325,7 @@ given $X_t$ is a two-component normal mixture,
 The components share a covariance matrix and differ only in their means.
 
 \begin{proposition}[Identification of the switching model]\label{prop:13-switch-id}
-Suppose $I_t$ is i.i.d.\ and independent of $(X_t, U_t)$, $U_t \sim N(0,\Sigma)$, $\E[X_tX_t^\top]$ is nonsingular,
+Suppose $I_t$ is i.i.d.\ and independent of $(X_t, U_t)$, $U_t \mid X_t \sim N(0,\Sigma)$, $\E[X_tX_t^\top]$ is nonsingular,
 $\alpha_1\beta_1 \ne 1$ and $\alpha_2 \ne 0$. If $\beta_3 \ne 0$ and $\lambda \in (0,1)$, then
 $(\Pi, \Omega, d, \lambda)$ are identified up to the relabeling
 $(\lambda, d, \Pi X_t) \mapsto (1 - \lambda, -d, \Pi X_t + d)$. The normalization $\beta_3 > 0$ selects one
@@ -356,6 +358,14 @@ normalization $\beta_3 > 0$ selects one labeling. Finally $\Gamma = B\Pi$ and $\
 components coincide and $\lambda$ drops out of the likelihood. If $\lambda \in \{0,1\}$, only one component is ever
 observed and $d$ drops out.
 \end{proof}
+
+The proof conditions on $X_t = x$, so it needs the conditional normality of $U_t$. Marginal normality is not
+enough. Suppose for this example that the demand shifter $L_t$ is continuous, and let $L_t$ and $\tilde U_{1t}$ be
+independent standard normals. Set $U_{1t} = \tilde U_{1t} - L_t$. Then $U_{1t}$ is normal with variance 2, and
+$\alpha_2 L_t + U_{1t} = (\alpha_2 - 1)L_t + \tilde U_{1t}$. For $\alpha_2 \ne 1$, so that both coefficients are
+nonzero, demand with coefficient $\alpha_2$ and shock $U_{1t}$ generates exactly the same data as demand with coefficient $\alpha_2 - 1$
+and shock $\tilde U_{1t}$. Both shocks are marginally normal, so $\alpha_2$ would not be identified. The condition
+$U_t \mid X_t \sim N(0,\Sigma)$ rules out the first version, because there $\E[U_{1t} \mid X_t] = -L_t$.
 
 The proposition has a practical meaning. With known regimes the demand curve is traced by an observed instrument.
 With unknown regimes it is traced by a latent one, and the latent instrument is recovered from the shape of the
@@ -891,7 +901,8 @@ twelve seasonal dummies added to both:
   \log GR_t &= \beta_0 + \beta_1 \log TQG_t + \beta_2^\top (DM1_t, \dots, DM4_t)^\top + \beta_3 I_t
   + \text{seasonal dummies} + U_{2t}. \label{eq:13-porter-supply}
 \end{align}
-The errors are i.i.d.\ bivariate normal with covariance $\Sigma$. By \cref{prop:13-porter-supply}, if wars are
+The errors are i.i.d.\ bivariate normal with covariance $\Sigma$, independent of LAKES, the structural
+dummies and the seasonal dummies, as in \eqref{eq:13-system}. By \cref{prop:13-porter-supply}, if wars are
 Bertrand reversions, $\beta_0 = \log A$, $\beta_1 = \psi - 1 > 0$ and $\beta_3 > 0$. If cooperative periods
 maximized static joint profit, $\beta_3$ would equal $\log\frac{\alpha_1}{1+\alpha_1}$ (\cref{cor:13-static-monopoly}).
 Porter leaves $\beta_3$ unrestricted. An optimal trigger-price cartel should set $\beta_3$ positive but below that
@@ -1176,7 +1187,7 @@ with $|\rho| < 1$. The supply relation is
   \log P_t = \beta_0 + \beta_1\log Q_t + \beta_3 I_t + \sum_{k=1}^{4}\beta_{3+k}\,DM_{kt} + U_{2t},
 \end{equation}
 where we keep our $\beta_3$ for the coefficient that Ellison writes $\beta_2$. The errors $(V_{1t}, U_{2t})$ are
-bivariate normal. Regimes follow the logit Markov chain \eqref{eq:13-logit-transition}, with
+bivariate normal with mean zero and a fixed covariance matrix, independent of the exogenous variables. Regimes follow the logit Markov chain \eqref{eq:13-logit-transition}, with
 \begin{equation}\label{eq:13-ellison-logit}
   \Pr(I_{t+1} = 1 \mid I_t, Z_t) = \Lambda\left(\gamma_1 I_t + \gamma_0(1 - I_t) + \gamma_Z^\top Z_t I_t\right),
 \end{equation}
@@ -1509,9 +1520,11 @@ to the right, as occasional price cuts of similar size would produce \citep[Figu
 
 The second is historical evidence on cutting. Ellison codes two indicators from the \textit{Daily Commercial
 Bulletin}. CUTREPORTED marks the 12 weeks in which an article reported rumors of secret cuts. CUTLISTED marks the 18
-weeks in which the average listed daily price was at least three cents below the official price. Overall, 26 percent
-of weeks fall in the high-demand regime. One and two weeks after a CUTREPORTED week, the shares are 57 and 66 percent,
-both significantly higher (Table~8, p.~54). Four weeks after a CUTLISTED week the share is 60 percent, and after a
+weeks in which the average listed daily price was at least three cents below the official price. Among collusive weeks,
+about 26 percent fall in the high-demand regime. Ellison's Table~8 computes its shares only over pairs of weeks $t$ and
+$t+s$ that both involve collusive pricing (p.~53). Pairs with a price war in week $t$ or in week $t+s$ therefore drop out. Among such
+pairs, one and two weeks after a CUTREPORTED week the shares are 57 and 66 percent, both significantly higher than in
+the rest of the sample (Table~8, p.~54). Four weeks after a CUTLISTED week the share is 60 percent, and after a
 reported war it is 40 to 46 percent at lags of two to four weeks. The pattern fits retaliatory cutting after reports of
 cheating. About 15 percent of high-demand weeks are attributable to these excess occurrences.
 

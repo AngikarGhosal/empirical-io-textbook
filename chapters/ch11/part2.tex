@@ -274,8 +274,16 @@ them in the ordinary course of business, to learn whom they lose customers to an
 Consumer surveys and switching data are other sources. In bidding markets the diversion ratio from A to B is the
 probability that B is the buyer's second choice when A wins, which win-loss records can reveal
 \citep[Section 2.G]{FarrellShapiro2010}. In the Oracle and PeopleSoft merger, bid data showed that the two firms
-were often the two leading bidders for large customers. Every source measures diversion for small changes near
-pre-merger prices. Diversion after a large price change, or after a change in $p_2$ instead of $p_1$, can differ.
+were often the two leading bidders for large customers. These sources need not measure the same object. The
+pricing conditions below use \emph{marginal} diversion, the response to a small change in $p_1$ near pre-merger
+prices. Second-choice surveys, win-loss records and product removals such as stock-outs describe where buyers go
+when product 1 is unavailable, which is a large change. With heterogeneous buyers the two ratios differ, because
+they weight consumer types differently (\eqref{eq:04-diversion-marginal} and \eqref{eq:04-diversion-secondchoice}
+in \cref{sec:04-diversion}). Take two equally common logit types with price coefficients 1 and 2. Over product 1,
+product 2 and the outside good, their choice probabilities are $(0.8, 0.1, 0.1)$ and $(0.2, 0.7, 0.1)$. Marginal
+diversion from 1 to 2 is then 0.75, while removing product 1 diverts only 0.575 of its buyers to product 2. Turning
+such data into marginal diversion therefore requires a demand model or extra restrictions, such as a single logit
+type. Diversion after a moderate price change, or after a change in $p_2$ instead of $p_1$, can differ again.
 
 \subsection{Upward pricing pressure: Farrell and Shapiro (2010)}\label{sec:11-uppfs}
 
@@ -496,15 +504,17 @@ complements are not necessary, since in Cournot equilibrium a rise in some firms
 raises price.
 
 \casehead{Decentralizing the merged firm} The first-round taxes are computed at pre-merger prices. The next result
-shows that taxes computed at post-merger prices reproduce the merger exactly.
+shows that taxes computed at post-merger prices reproduce the merged firm's pricing conditions exactly.
 
 \begin{proposition}[\citealp{FarrellShapiro2010}, Proposition 2]\label{prop:11-fs2}
-Let $p_1^*$ and $p_2^*$ be the post-merger equilibrium prices of the merging products. Headquarters can decentralize
-them by imposing the per-unit taxes
+Let $p^*$ be the post-merger equilibrium price vector, with $p_1^*$ and $p_2^*$ the prices of the merging products.
+Suppose each merging product is sold by a division that maximizes its own profit net of the per-unit tax
 \begin{equation}\label{eq:11-fs-tstar}
-  t_1^* = D_{12}(p^*)\,(p_2^* - c_2) , \qquad t_2^* = D_{21}(p^*)\,(p_1^* - c_1)
+  t_1^* = D_{12}(p^*)\,(p_2^* - c_2) , \qquad t_2^* = D_{21}(p^*)\,(p_1^* - c_1) .
 \end{equation}
-on divisions that each maximize their own profit net of the tax.
+Then each division's first-order condition at $p^*$ coincides with the merged firm's condition for that price. If,
+in addition, each division's taxed profit is concave in its own price, then $p^*$ is an equilibrium of the
+game in which the two divisions and the rivals set prices independently. Headquarters then decentralizes $p^*$.
 \end{proposition}
 
 \begin{proof}
@@ -514,12 +524,24 @@ Division A maximizes $(p_1 - c_1 - t_1^*)q_1$. Its first-order condition at $p^*
 \end{equation*}
 By the definition of diversion, $-t_1^* \frac{\partial q_1}{\partial p_1} = (p_2^* - c_2)\frac{\partial q_2}{\partial
 p_1}$. The divisional condition is therefore identical to the merged firm's condition for $p_1$ at $p^*$. The same
-holds for division B, and rivals' conditions are unchanged.
+holds for division B, and rivals' conditions are unchanged. Under concavity, a price that satisfies its
+first-order condition maximizes the division's taxed profit given the other prices. No division and no rival then
+gains from a unilateral deviation, so $p^*$ is an equilibrium.
 \end{proof}
 
+The concavity condition is needed. Quasi-concavity alone would not suffice, because a profit that rises with the
+division's price can have a point of zero slope where the first-order condition holds. The second-order conditions of the division and of the merged firm differ.
+For $p_1$ the merged firm's condition contains $(p_2^* - c_2)\frac{\partial^2 q_2}{\partial p_1^2}$, and the
+division's contains $-t_1^*\frac{\partial^2 q_1}{\partial p_1^2}$ in its place. With enough demand curvature, the
+division's second derivative can be positive while the merged firm's is negative. The division's first-order
+condition then holds at a local minimum of its taxed profit, even though $p^*$ maximizes joint profit, and the
+division would deviate from $p^*$. \citet{FarrellShapiro2010} prove the result from the first-order conditions
+alone, so their statement needs the same qualification.
+
 \Cref{prop:11-fs2} is not a computational method, since the taxes depend on the unknown post-merger prices. It shows
-something more useful. With default efficiencies, the price effects of the merger equal those of cost increases
-$t_1^* - E c_1$ and $t_2^* - E c_2$ applied to the merging products alone, with no change in industry structure.
+something more useful. Suppose the condition holds and the taxed game has a unique equilibrium. With default
+efficiencies, the price effects of the merger then equal those of cost increases $t_1^* - E c_1$ and $t_2^* - E c_2$
+applied to the merging products alone, with no change in industry structure.
 Predicting the size of the price effect is therefore a question about the pass-through of idiosyncratic cost shocks.
 \Cref{sec:11-passthrough} takes up that question.
 
@@ -618,8 +640,8 @@ and margins.
 
 \subsection{From pricing pressure to price changes: pass-through}\label{sec:11-passthrough}
 
-\Cref{prop:11-fs2} says that the price effect of a merger equals the price response to a cost increase on the
-merging products. That response is a \emph{pass-through rate}. It is the pass-through of a cost shock to some
+Under the conditions of \cref{prop:11-fs2}, the price effect of a merger equals the price response to a cost
+increase on the merging products. That response is a \emph{pass-through rate}. It is the pass-through of a cost shock to some
 products only, and it is an equilibrium rate, including rivals' responses. We first derive single-product pass-through
 and then the multi-product approximation of \citet{JaffeWeyl2013}. \Cref{ch:theory} treats pass-through in general.
 

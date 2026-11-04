@@ -399,30 +399,38 @@ states its Lerner form without proof.
 
 \begin{proposition}[Supply function equilibrium markups]\label{prop:03-sfe-markup}
 Two firms have cost functions $C_i$ with $C_i' \ge 0$. Demand is $D(P) + u$, with $D' < 0$ and a shock $u$ whose support
-is an interval. Before $u$ is known, firm $i$ chooses a differentiable, nondecreasing supply function $S_i(P)$, and the
-price clears $S_1(P) + S_2(P) = D(P) + u$. Suppose each $S_i$ maximizes firm $i$'s profit for every realization of $u$,
-given $S_j$. Then at every clearing price
+is an interval. Before $u$ is known, firm $i$ chooses a differentiable, nondecreasing, nonnegative supply function
+$S_i(P)$, and the price clears $S_1(P) + S_2(P) = D(P) + u$. Suppose each $S_i$ maximizes firm $i$'s profit for every
+realization of $u$, given $S_j$. Then at every clearing price at which firm $i$ sells a positive quantity,
 \begin{equation}\label{eq:03-sfe-ode}
-S_i(P) = \bigl(P - C_i'(S_i(P))\bigr)\bigl(S_j'(P) - D'(P)\bigr), \qquad i \ne j,
+S_i(P) = \bigl(P - C_i'(S_i(P))\bigr)\bigl(S_j'(P) - D'(P)\bigr), \qquad i \ne j.
 \end{equation}
-and the Lerner index of firm $i$ is
+At a clearing price with $S_i(P) = 0$, optimality requires only $P \le C_i'(0)$. If both firms sell positive
+quantities at $P$, the Lerner index of firm $i$ is
 \begin{equation}\label{eq:03-sfe-lerner}
 L_i = \frac{s_i}{\varepsilon + s_j\,\eta_j}, \qquad \eta_j = \frac{P\,S_j'(P)}{S_j(P)} \ge 0,
 \end{equation}
-where $s_i = \frac{S_i}{Q}$ and $\varepsilon = -\frac{P D'(P)}{Q}$. Hence $0 \le L_i \le \frac{s_i}{\varepsilon}$, and
+where $s_i = \frac{S_i}{Q}$ and $\varepsilon = -\frac{P D'(P)}{Q}$. Hence $0 < L_i \le \frac{s_i}{\varepsilon}$, and
 firm $i$'s conduct parameter is $\tilde\theta_i = \frac{\varepsilon}{\varepsilon + s_j\eta_j} \in (0, 1]$.
 \end{proposition}
 
 \begin{proof}
 Fix $S_j$ and a realization $u$. Whatever $S_i$ is, firm $i$ ends up at some price $P$ and sells its residual demand
-$R_i(P, u) = D(P) + u - S_j(P)$. Choosing a supply function is therefore equivalent to choosing, for each $u$, a price
-on the residual demand curve. Profit at price $P$ is $P R_i(P, u) - C_i(R_i(P, u))$, and the first-order condition is
+$R_i(P, u) = D(P) + u - S_j(P)$. Since supply cannot be negative, only prices with $R_i(P, u) \ge 0$ can clear the
+market. Choosing a supply function is therefore equivalent to choosing, for each $u$, such a price on the residual
+demand curve. Profit at price $P$ is $\pi_i(P, u) = P R_i(P, u) - C_i(R_i(P, u))$, with derivative
 \begin{equation*}
-R_i(P, u) + \bigl(P - C_i'(R_i(P, u))\bigr)\bigl(D'(P) - S_j'(P)\bigr) = 0.
+\frac{\partial \pi_i}{\partial P} = R_i(P, u) + \bigl(P - C_i'(R_i(P, u))\bigr)\bigl(D'(P) - S_j'(P)\bigr).
 \end{equation*}
+Residual demand strictly decreases in $P$, because $D' - S_j' < 0$. If the optimal price leaves firm $i$ a positive
+quantity, nearby prices are also feasible, so the derivative is zero there. If it leaves the firm nothing, only lower
+prices are feasible, and lowering the price must not raise profit. The derivative is then nonnegative. With
+$R_i = 0$ it equals $\bigl(P - C_i'(0)\bigr)(D' - S_j')$, so this holds exactly when $P \le C_i'(0)$.
 The shock shifts residual demand horizontally without changing its slope, so different realizations select different
-optimal prices. The supply function $S_i$ implements all these optima only if $S_i(P) = R_i(P, u)$ at each optimal pair,
-which gives \eqref{eq:03-sfe-ode}. Divide \eqref{eq:03-sfe-ode} by $P$ and then numerator and denominator by $Q$:
+optimal prices. The supply function $S_i$ implements all these optima only if $S_i(P) = R_i(P, u)$ at each optimal pair.
+Setting the derivative to zero then gives \eqref{eq:03-sfe-ode} wherever $S_i(P) > 0$. Its left side is positive, so
+$P > C_i'$ and $L_i > 0$. When $S_j(P) > 0$ as well, divide \eqref{eq:03-sfe-ode} by $P$ and then numerator and
+denominator by $Q$:
 \begin{equation*}
 \frac{P - C_i'}{P} = \frac{S_i}{P(S_j' - D')} = \frac{\frac{S_i}{Q}}{\frac{S_j}{Q}\cdot\frac{P S_j'}{S_j} -
 \frac{P D'}{Q}} = \frac{s_i}{s_j\eta_j + \varepsilon}.
@@ -431,11 +439,14 @@ Since $\eta_j \ge 0$, $L_i \le \frac{s_i}{\varepsilon}$. Comparing with the firm
 $L_i = \tilde\theta_i\frac{s_i}{\varepsilon}$ of \cref{prop:03-aggregation} gives $\tilde\theta_i$.
 \end{proof}
 
+The equality \eqref{eq:03-sfe-ode} is required only of active firms. With asymmetric costs, a high-cost firm can optimally supply nothing
+at some or all clearing prices. Its condition then holds only as the inequality $P \le C_i'(0)$.
 The proposition places supply function equilibria between competition and Cournot. If the rival's supply does not
 respond to price ($\eta_j = 0$), firm $i$ faces the Cournot residual demand. As the rival's supply becomes very elastic
 ($\eta_j \to \infty$), the markup goes to zero. The formula also shows why the concept suits electricity. As demand
 becomes perfectly inelastic, the Cournot markup explodes, while the supply function markup stays finite at
-$\frac{s_i}{s_j\eta_j}$, disciplined by the rival's supply response. In the symmetric case \eqref{eq:03-sfe-ode} becomes
+$\frac{s_i}{s_j\eta_j}$, disciplined by the rival's supply response. In a symmetric equilibrium with positive supply,
+\eqref{eq:03-sfe-ode} becomes
 the differential equation $S'(P) = \frac{S(P)}{P - C'(S(P))} + D'(P)$, which has a continuum of solutions. Klemperer and
 Meyer show that the equilibria form a range when the shock has bounded support. Wolfram computes the \emph{highest}
 supply function equilibrium, the solution that passes through the symmetric Cournot point on the right-most demand
@@ -921,7 +932,7 @@ the conduct-parameter method performs when the truth is known. Its design of a c
 costs became a standard tool for studying restructured electricity markets \citep[p.~692]{KelloggReguant2021}, the
 subject of the next subsection.
 
-\subsection{Later evidence from restructured markets}\label{sec:03-wolfram-later}
+\subsection{Later evidence from restructured markets*}\label{sec:03-wolfram-later}
 
 Restructuring in the United States and elsewhere produced a second generation of studies built on Wolfram's design.
 Most of them measure marginal cost plant by plant. Several also observe the output and the bids of each firm.
@@ -942,7 +953,8 @@ $P$ is
 \begin{equation*}
 \Pi_{it}(P) = P\,R_{it}(P) - C_{it}\bigl(R_{it}(P)\bigr) - (P - F_{it})\,x_{it}.
 \end{equation*}
-Differentiating with respect to $P$ gives the first-order condition
+If the optimal price leaves the firm a positive output, differentiating with respect to $P$ gives the first-order
+condition
 \begin{equation*}
 R_{it}(P) + P\,R_{it}'(P) - C_{it}'\bigl(R_{it}(P)\bigr)\,R_{it}'(P) - x_{it} = 0 .
 \end{equation*}
@@ -1072,12 +1084,24 @@ restructuring exceeded the competitive level by 13 to 21 percent. Against the fl
 to 8 percent (p.~699).
 
 Third, \citet{Reguant2014} studies the Spanish market. There firms can submit ``complementary'' bids that state the
-minimum revenue a unit needs before it starts, and these bids identify start-up costs. A static analysis finds
-negative markups at night. Her dynamic model shows that pricing below marginal cost at night is optimal for
-competitive and strategic firms alike. Market power still raises prices in every hour. When demand peaks for only a
-few periods, few plants run and competition is limited, so a static model understates market power at the peak
-(pp.~699--700). Once start-up costs are accounted for, firms appear to have more market power
-\citep[p.~147]{HortacsuPerrigne2021}.
+minimum revenue a unit needs before it starts, and these bids identify start-up costs. She compares a strategic firm's
+simulated best response with a competitive counterfactual in which the firm minimizes its production costs. The
+markup is the percentage gap between the two simulated prices (sec.~5.3).\footnote{We cite \citet{Reguant2014} by the
+section, page and table numbers of the January 2014 version that the author posts as the article. The journal version
+has the same abstract.} Earlier studies compare outcomes that reflect start-up costs with a
+competitive benchmark that omits them. This comparison gives negative average markups at night (p.~38). A dynamic
+model shows that pricing below marginal cost at night is optimal for competitive and strategic firms alike. Market
+power still raises prices in every hour \citep[pp.~699--700]{KelloggReguant2021}. During the day, comparisons whose competitive simulation omits start-up
+costs err upward. From 9~a.m. to 3~p.m., the markup averages about 10.1 percent when both simulations include
+start-up costs. It averages 10.7 percent when neither does and 12.4 percent when only the strategic one does
+\citep[Table~5]{Reguant2014}. Through a model without start-up costs, firms seem to run too many plants at night and too few during the
+day. Such a model underestimates market power at night, overestimates it during the day and overstates markup
+volatility (p.~40). \citet[p.~700]{KelloggReguant2021} write instead that a static model tends to underestimate market
+power in hours of high demand. Reguant's table and conclusion support the direction given here.
+\citet[p.~147]{HortacsuPerrigne2021} summarize the paper as finding more market power once start-up costs are
+accounted for. By our calculation, her eight three-hour blocks average 9.1 percent with start-up costs in both
+simulations, 8.9 percent with none and 9.0 percent with the strategic one only. The correction
+mainly smooths markups over the day, as the paper's conclusion states (p.~40).
 
 \casehead{What the later studies add}
 These studies extend Wolfram's conclusions in four ways. First, cost-based benchmarks measure markups, but a model of
@@ -1087,8 +1111,8 @@ British contract changes of 1993 did little. Third, observed bids and costs turn
 object into data. Conduct then need not be assumed to identify the model \citep[p.~696]{KelloggReguant2021}. This
 removes much of the identification problem of \cref{sec:03-identification} at the level of the firm, and it lets
 researchers test optimizing behavior instead of assuming it. Fourth, ignoring dynamic
-costs can mislead in either direction. It makes night-time markups look negative and peak markups too small, and it
-overstates the cost inefficiency of restructured markets.
+costs can mislead in either direction. It makes night-time markups look too small, even negative, and daytime
+markups too large. It also overstates the cost inefficiency of restructured markets.
 
 \section{Synthesis: what conduct parameters can and cannot tell us}\label{sec:03-synthesis}
 

@@ -313,8 +313,10 @@ The theorems describe the global maximizer. A computer returns a point where an 
 two is a frequent source of error in structural IO, and good practice narrows it.
 
 Gradient methods iterate $\theta^{(m+1)} = \theta^{(m)} - \lambda_m A_m^{-1}\nabla_\theta Q_n(\theta^{(m)})$, where
-$\lambda_m > 0$ is a step length and $A_m$ approximates the Hessian. Newton's method uses the Hessian itself and converges
-quadratically near a maximum with a negative definite Hessian. Quasi-Newton methods such as BFGS build $A_m$ from
+$\lambda_m > 0$ is a step length and $A_m$ approximates the Hessian. Newton's method uses the Hessian itself. It
+converges quadratically near a maximum where the Hessian is negative definite and Lipschitz continuous
+(\cref{sec:B-metric}), for example when $Q_n$ is three times continuously differentiable. A negative definite Hessian
+that is merely continuous guarantees only superlinear convergence (\cref{sec:B-fp-computation}). Quasi-Newton methods such as BFGS build $A_m$ from
 successive gradients. For maximum likelihood, the method of \citet{BerndtEtAl1974} (BHHH) replaces the Hessian by minus
 the outer product of the scores. That matrix is negative semidefinite by construction. By the information equality of
 \cref{sec:A-mle-score}, it is consistent for the Hessian at the truth. Derivative-free methods such as Nelder and Mead's simplex need only

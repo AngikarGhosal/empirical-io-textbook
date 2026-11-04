@@ -76,9 +76,10 @@ conditioning removes the variance of the integrated part (\cref{lem:08-smooth}).
 An estimator that uses simulated integrals evaluates them at many trial values of $\theta$. The draws must be taken
 once, before estimation, and held fixed across all evaluations. With fresh draws at each evaluation the objective
 function becomes a different random function every time it is computed. It is then discontinuous in $\theta$, and a
-numerical optimizer never converges. With fixed draws the simulated objective is a deterministic and smooth
-function of $\theta$, so the draws can be treated as part of the data. The asymptotic theory below takes this
-view. The practical rule ``take the draws only once'' is therefore part of the definition of the estimator.
+numerical optimizer never converges. With fixed draws the simulated objective is a single deterministic function
+of $\theta$, so the draws can be treated as part of the data. Fixing the draws does not make that function smooth.
+It is smooth when the simulator is smooth, while a frequency simulator remains a step function of $\theta$. The asymptotic theory below
+treats the draws as part of the data. The practical rule ``take the draws only once'' is therefore part of the definition of the estimator.
 
 \casehead{Importance sampling}
 Draws from $F$ can be wasteful when $q$ is large only on a small region of the support. \emph{Importance sampling}
@@ -1336,8 +1337,15 @@ The same failure appears in other non-regular problems. Parameters on the bounda
 zero variance component, invalidate the bootstrap of the estimator \citep{Andrews2000}. Non-smooth functionals,
 such as bounds formed as the maximum or minimum of estimated functions, behave like the maximum above
 (\cref{sec:A-partialid}). With weak instruments the estimator is not asymptotically normal and the bootstrap does not
-fix it (\cref{sec:A-weakiv}). Heavy tails and statistics without moments, like the elasticity ratio above, are a further
-case. Two remedies are general \citep{PolitisRomanoWolf1999}. \emph{Subsampling} recomputes the statistic on
+fix it (\cref{sec:A-weakiv}). Data with infinite variance are a further case, since the bootstrap of the sample mean
+then fails. A statistic without finite moments, like the elasticity ratio above, needs a separate diagnosis. Missing
+moments alone do not make the bootstrap distribution inconsistent. When the true $\rho$ is bounded away from one, the
+map $\frac{\rho}{\rho - 1}$ is smooth near it. The extension of \cref{prop:A-boot-mean} to smooth functions of means
+then makes the bootstrap distribution of $\sqrt n(\hat\varepsilon^* - \hat\varepsilon)$ consistent, although
+$\hat\varepsilon$ has no finite moments in any finite sample. What can fail are summaries that estimate
+finite-sample moments, such as the bootstrap standard deviation, because the moments they target do not exist. A true denominator at zero, or close to zero relative to its sampling error, is a
+genuine non-regularity like a weak instrument. The Sumner estimate of $\rho$, about two standard errors above one, is
+close to that case. Two remedies are general \citep{PolitisRomanoWolf1999}. \emph{Subsampling} recomputes the statistic on
 subsamples of size $b$ drawn without replacement, with $b \to \infty$ and $\frac{b}{n} \to 0$, and rescales by the
 known rate. The \emph{$m$-out-of-$n$ bootstrap} draws $m < n$ observations with replacement, with $\frac{m}{n} \to 0$.
 Both work under much weaker conditions because a small subsample behaves like a fresh sample from the population.

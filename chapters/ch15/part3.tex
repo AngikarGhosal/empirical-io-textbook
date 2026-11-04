@@ -701,7 +701,9 @@ types, with exchangeability within a type, as with joint and solo bidders or log
 \citep[Section~3.2.2]{AtheyHaile2007}. All auctions with the same number of bidders of each type can then be
 pooled. Asymmetry can also come from bidder covariates, such as the distance from a contractor's plant to the
 project. With discrete covariates this is the approach by types again. With continuous covariates the bid
-distributions are estimated conditional on them by kernel or sieve methods. The timber study of
+distributions are estimated conditional on them by kernel or sieve methods. A sieve method approximates the
+unknown function within a sequence of increasingly rich function classes, such as polynomials of growing degree
+(\cref{sec:A-series}). The timber study of
 \cref{sec:15-als} applies \eqref{eq:15-asym-xi} with parametric bid distributions.
 
 \citet{FlambardPerrigne2006} apply the procurement version nonparametrically to snow removal contracts in
@@ -1168,7 +1170,7 @@ First-price, two bidders & Bids and identities & Quasi-symmetry rejects asymmetr
 \end{tabularx}
 \end{table}
 
-\subsection{Interdependent costs: Somaini (2020)}\label{sec:15-cv-somaini}
+\subsection{Interdependent costs: Somaini (2020)*}\label{sec:15-cv-somaini}
 
 \casehead{Question} Most empirical work picks one of two polar models. Under private costs there is no
 winner's curse. Under pure common costs every bidder would incur the same cost, so the allocation cannot be
@@ -1370,9 +1372,10 @@ probability $\phi_i(\bm W\mid H)$. The moment conditional on participation repla
 $\min\bigl(\frac{\tau}{\phi_i(\bm W\mid H)},1\bigr)$ \citep[eqs.~(13)--(14)]{Somaini2020}. The parameters are
 estimated by instrumental variable quantile regression \citep{ChernozhukovHansen2006}. The instrument for $k_i$
 is its projection on the bidder's own covariates and rivals' distances. Rivals' distances are excluded from own
-cost by A3, and they move the pivotal sets and hence $k_i$. The first stage estimates the marginal bid
-distributions with cubic B-splines in the project's latitude, longitude and the bid, and the copula by simulated
-maximum likelihood. The markups $\iota_i$ and $k_i$ come from spline estimates of win and tie probabilities.
+cost by A3, and they move the pivotal sets and hence $k_i$. The first stage estimates the copula by simulated
+maximum likelihood and the marginal bid distributions with cubic B-splines in the project's latitude, longitude and
+the bid. Cubic B-splines are a basis for piecewise cubic polynomials joined smoothly at chosen points called knots
+(\cref{sec:A-series}). The markups $\iota_i$ and $k_i$ come from spline estimates of win and tie probabilities.
 Standard errors come from 200 bootstrap samples of the 1,925 auctions (p.~3850).
 
 \casehead{Results} The analysis covers 19 frequent bidders, with the remaining firms grouped as a fringe
@@ -1429,13 +1432,16 @@ errors from 200 bootstrap samples. * $p<0.1$, ** $p<0.05$, *** $p<0.01$. Source:
 \end{table}
 
 \casehead{Counterfactuals} Somaini simulates restricting participation to the $N$ bidders with the lowest median
-cost in 250 randomly drawn auctions. Three models are compared: the estimated common-cost model (CC), an
-affiliated private cost model that sets $\alpha_{i2}=0$ (APC), and an independent private cost model that also
-sets $L=0$ (IPC). Inviting more bidders lowers procurement costs in all three models. Going from two to seven
+cost in 250 randomly drawn auctions. Three models are compared: the estimated common-cost model (CC), a
+correlated private cost model that sets $\alpha_{i2}=0$, and an independent private cost model that also sets
+$L=0$ (IPC). The paper labels the second model APC, for affiliated private costs, and we keep that label.
+Somaini notes that some estimated signal correlations are negative, so the signals are correlated but not
+affiliated \citep[footnote~14]{Somaini2020}. Inviting more bidders lowers procurement costs in all three models. Going from two to seven
 invitees lowers costs by 5.48 percentage points under IPC, 5.00 under APC and 4.40 under CC (p.~3862). The bidder
 with the lowest median cost bids more aggressively with more rivals under IPC and APC. Under CC it bids less
 aggressively, because the winner's curse worsens. \Cref{tab:15-somaini-comp} decomposes the cost saving. The
-competitive and sampling effects lower costs. Affiliation and the winner's curse raise them. The winner's curse is
+competitive and sampling effects lower costs. The correlation effect, which the paper labels affiliation, and the
+winner's curse raise them. The winner's curse is
 strong enough to make the first invitee bid higher when competition grows, but not strong enough to make
 restricting entry profitable for the buyer.
 
@@ -1448,7 +1454,7 @@ restricting entry profitable for the buyer.
 Invitees & 3 vs.\ 2 & 4 vs.\ 2 & 5 vs.\ 2 & 6 vs.\ 2 & 7 vs.\ 2 & 8 vs.\ 2 & 9 vs.\ 2 & 10 vs.\ 2 \\
 \midrule
 Competitive & 1.98 & 2.52 & 2.71 & 2.79 & 2.92 & 2.95 & 2.97 & 2.97 \\
-Affiliation & $-0.45$ & $-0.57$ & $-0.51$ & $-0.50$ & $-0.59$ & $-0.61$ & $-0.63$ & $-0.64$ \\
+Correlation & $-0.45$ & $-0.57$ & $-0.51$ & $-0.50$ & $-0.59$ & $-0.61$ & $-0.63$ & $-0.64$ \\
 Winner's curse & $-1.52$ & $-2.21$ & $-3.06$ & $-3.37$ & $-3.65$ & $-3.84$ & $-3.95$ & $-3.96$ \\
 Sampling & 2.83 & 3.88 & 4.91 & 5.38 & 5.71 & 5.95 & 6.08 & 6.10 \\
 Total & 2.84 & 3.63 & 4.05 & 4.30 & 4.40 & 4.45 & 4.47 & 4.47 \\
@@ -1459,7 +1465,8 @@ Total & 2.84 & 3.63 & 4.05 & 4.30 & 4.40 & 4.45 & 4.47 & 4.47 \\
 \begin{minipage}{0.95\textwidth}
 \footnotesize \textit{Notes.} Cost savings relative to inviting two bidders, with 100 equal to average procurement cost
 with two invitees. The competitive effect is the fall in the average bid of the first invitee under IPC. The
-affiliation effect is the difference in that fall between APC and IPC, and the winner's curse effect the
+correlation effect, labeled Affiliation in the source, is the difference in that fall between APC and IPC.
+The APC signals are correlated but not affiliated (footnote~14). The winner's curse effect is the
 difference between CC and APC. The sampling effect is the difference between the first invitee's bid reduction
 and the fall in procurement cost under CC. Source: \citet[Table~8, top panel]{Somaini2020}.
 \end{minipage}

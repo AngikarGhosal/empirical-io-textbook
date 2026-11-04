@@ -5,7 +5,8 @@ its rivals imitated within two years. The paper answers two questions. The first
 gains to consumers and to each producer, and how were they shared? The second is methodological. How can a
 researcher who has only market-level data discipline the random coefficients that govern substitution, and therefore
 welfare? Petrin's answer to the second question, the use of \emph{micro moments}, is now a standard part of demand
-estimation (\cref{sec:08-micro-moments}). We follow the paper from its question to its contribution, as in
+estimation (\cref{sec:08-micro-moments}). \Cref{tab:10-petrin-map} at the end of the section maps the study.
+We follow the paper from its question to its contribution, as in
 \cref{sec:10-hausman}.\footnote{Petrin writes $\gamma_k$ for the scale of the random coefficient on characteristic $k$,
 $\gamma_{mi}$, $\gamma_{sw}$, $\gamma_{su}$ and $\gamma_{pv}$ for the family-vehicle interactions, and $\tau$ for the
 cost parameters. In his text the income-group price coefficients are $\alpha_0$, $\alpha_1$ and $\alpha_2$, while his
@@ -153,7 +154,9 @@ Market derivatives integrate these over households.
 \casehead{Random tastes for characteristics} Household $i$ draws a taste $\nu_{ik}$ for each characteristic $k$,
 scaled by $\sigma_k$. Petrin draws the $\nu_{ik}$ independently from a $\chi^2(3)$ distribution truncated at its 95th
 percentile (p.~711). He gives two reasons. The distribution is bounded above and below, and it skews heterogeneity in
-the direction of positive taste. The random coefficient on the constant makes the value of buying any new vehicle,
+the direction of positive taste. Taken as written, the draws lie between 0 and 7.81, with mean about 2.63 and standard
+deviation about 1.83 (our computation). The paper does not say whether the draws are \emph{centered}, that is, whether
+their mean is subtracted before they enter utility. The random coefficient on the constant makes the value of buying any new vehicle,
 relative to the outside option, heterogeneous across households.
 
 \casehead{Demographic tastes for family vehicles} The taste of household $i$ for a family vehicle of type $g$ is
@@ -174,13 +177,19 @@ and tastes $\nu_i$, the probability of buying $j$ is the logit formula (p.~711)
   s_{ij} = \frac{\exp V_{ij}}{\exp\bigl(\alpha_i \ln y_i\bigr) + \sum_{l=1}^{J} \exp V_{il}} ,\qquad
   V_{ij} = \alpha_i\ln(y_i - p_j) + \delta_j + \mu_{ij},
 \end{equation}
-with mean utility $\delta_j = x_j\beta + \xi_j$ and household-specific deviation $\mu_{ij} = \sum_k\sigma_k\nu_{ik}x_{jk} +
-\ln(fs_i)\nu_{i,\mathrm{fv}}\sum_g \pi_g d_{jg}$. Price is not part of $\delta_j$. It enters only through the income
+with base utility $\delta_j = x_j\beta + \xi_j$ and household-specific term
+\begin{equation*}
+  \mu_{ij} = \sum_k\sigma_k\nu_{ik}x_{jk} + \ln(fs_i)\,\nu_{i,\mathrm{fv}}\sum_g \pi_g d_{jg} .
+\end{equation*}
+Price is not part of $\delta_j$. It enters only through the income
 term, so the $\alpha_g$ are nonlinear parameters, as in \cref{sec:08-income}. The market share is $s_j = \int s_{ij}\,
 \dd P(D_i, \nu_i)$, where $D_i$ follows the empirical distribution of the CEX and $\nu_i$ the truncated $\chi^2(3)$
-distribution.
+distribution. Petrin calls the elements of $\beta$ \emph{base coefficients} (Table~4). If the draws are centered,
+$\mu_{ij}$ has mean zero and $\delta_j$ is the mean utility of product $j$, net of the income term. Otherwise
+$\delta_j$ is that utility for a household whose draws are all zero, and the mean taste for characteristic $k$ is
+$\beta_k + 2.63\,\sigma_k$.
 
-The demand side has 24 parameters: three price coefficients, eleven mean coefficients, six random-coefficient scales
+The demand side has 24 parameters: three price coefficients, eleven base coefficients, six random-coefficient scales
 and four family-vehicle interactions. Eleven of them describe family vehicles and income effects: the three
 $\alpha_g$, the four type dummies and the four $\pi_g$. The micro moments speak most directly to these eleven.
 
@@ -454,16 +463,25 @@ van interaction, 0.42 (0.21), has a ratio of about two.}
 The parameters closest to the added information gain the most precision. The standard error of $\pi_{\mathrm{mv}}$,
 for example, falls from 2.62 to 0.10.
 
-The estimates with micro data have an intuitive structure. The mean coefficients on the four family-vehicle dummies
-are negative, while the four $\pi_g$ are positive and precise. The average household dislikes family vehicles, and
-the taste for them rises with family size. The scale of the random coefficient on miles per dollar is precisely
-estimated, at 2.58 (0.14). The truncated $\chi^2(3)$ draws of \cref{sec:10-petrin-model} have a standard deviation of
-about 1.83. The implied standard deviation of the taste for miles per dollar is therefore about 4.7 (our computation),
-and tastes for fuel economy are heterogeneous.
+The estimates with micro data have an intuitive structure. The base coefficients on the four family-vehicle dummies
+are negative, while the four $\pi_g$ are positive and precise. Relative to a car with the same observed
+characteristics, household $i$ values a vehicle of type $g$ at $\beta_g + \pi_g\ln(fs_i)\,\nu_{i,\mathrm{fv}}$. A
+one-person household has $\ln fs_i = 0$, so it values type $g$ at $\beta_g < 0$ whether or not the draws are centered.
+For a household with a positive draw, the taste rises with family size. The draw is independent of demographics
+(p.~710), so the average taste is $\beta_g + \pi_g\E[\ln fs_i]\,\E[\nu_{i,\mathrm{fv}}]$. With centered draws it equals
+$\beta_g$. With uncentered draws $\E[\nu_{i,\mathrm{fv}}] \approx 2.63$, and Jensen's inequality gives $\E[\ln fs_i]
+\le \ln\E[fs_i] = \ln 2.58$, where 2.58 is the CEX mean family size for 1987--92 (Table~2, p.~717). The largest resulting bound,
+for station wagons, is $-1.31 + 0.28 \times 2.63 \times \ln 2.58 \approx -0.61$, and it stays negative for any mean
+family size below 5.9. Under either normalization the
+average household therefore values each family-vehicle type below a comparable car (our computation).
+
+The scale of the random coefficient on miles per dollar is precisely estimated, at 2.58 (0.14). Since the draws of
+\cref{sec:10-petrin-model} have a standard deviation of about 1.83, the implied standard deviation of the taste for
+miles per dollar is about 4.7 (our computation). Tastes for fuel economy are therefore heterogeneous.
 
 \begin{table}[htbp]
 \centering
-\caption{Petrin's demand estimates: price and mean coefficients}\label{tab:10-petrin-demand}
+\caption{Petrin's demand estimates: price and base coefficients}\label{tab:10-petrin-demand}
 \small
 \setlength{\tabcolsep}{3.4pt}
 \begin{tabular}{@{}lcccc@{}}
@@ -477,7 +495,7 @@ $\alpha_1$ (low income)    & 0.07 (0.01)$^{**}$ & 0.13 (0.01)$^{**}$ & 4.92 (9.7
 $\alpha_2$ (middle income) &                    &                    & 11.89 (21.41)         & 31.13 (4.07)$^{**}$ \\
 $\alpha_3$ (high income)   &                    &                    & 37.92 (18.64)$^{**}$  & 34.49 (2.56)$^{**}$ \\
 \midrule
-\multicolumn{5}{@{}l}{\textit{B. Mean coefficients}} \\
+\multicolumn{5}{@{}l}{\textit{B. Base coefficients}} \\
 Constant                  & $-10.03$ (0.32)$^{**}$ & $-10.04$ (0.34)$^{**}$ & $-12.74$ (5.65)$^{**}$ & $-15.67$ (4.39)$^{**}$ \\
 Horsepower per weight     & 1.48 (0.34)$^{**}$     & 3.78 (0.44)$^{**}$     & 3.40 (39.79)           & $-2.83$ (8.16) \\
 Size                      & 3.17 (0.26)$^{**}$     & 3.25 (0.27)$^{**}$     & 4.60 (24.64)           & 4.80 (3.57)$^{*}$ \\
@@ -497,7 +515,10 @@ Percent change in GNP     & 0.03 (0.01)$^{**}$     & 0.03 (0.01)$^{**}$     & 0.
 \footnotesize Source: \citet[Table~4]{Petrin2002}. Standard errors in parentheses. $^{*}$ $z$-statistic above one.
 $^{**}$ $z$-statistic above two (stars as printed). A quadratic time trend is included in all specifications. The
 logit models (columns 1--2) have one price coefficient and no income effects. In columns 3--4 the $\alpha_g$ multiply
-$\ln(y_i - p_j)$. Estimation uses 2,407 nameplate-years (916 independent models), 1981--93.
+$\ln(y_i - p_j)$. In columns 1--2 the base coefficients are mean tastes. In columns 3--4 the coefficient on the change in GNP,
+which has no random term, is also a mean taste. The other base coefficients are mean tastes only if the taste draws
+are centered, which the paper does not state (\cref{sec:10-petrin-model}). Estimation uses 2,407
+nameplate-years (916 independent models), 1981--93.
 \end{minipage}
 \end{table}
 
@@ -821,7 +842,7 @@ The 1984 numbers can be cross-checked against Table~8. Minivans took 1.58 percen
 1984, or about 168,000 vehicles (Table~3). Minivan buyers received \$367.29 million less the \$157 million that went to
 other households. That leaves about \$1,250 per minivan buyer, close to the mean of \$1,247 in Table~8.
 
-\subsection{Robustness}\label{sec:10-petrin-robustness}
+\subsection{Robustness*}\label{sec:10-petrin-robustness}
 
 The paper's main robustness check is the comparison across its four demand models, and we gather its results here.
 Instrumenting almost doubles the logit price coefficient (p.~719). Wald tests reject both logit models in favor of
@@ -872,6 +893,50 @@ through competition (43 percent in 1984), how much the innovator earned, and how
 concludes that large improvements in consumers' standard of living arise from competition among firms that seek
 temporary market power through new goods (p.~728).
 
+\begin{table}[htbp]
+\centering
+\caption{Identification and counterfactual map of Petrin (2002)}
+\label{tab:10-petrin-map}
+\footnotesize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Observed data & Prices, sales and characteristics of 2,407 U.S. nameplate-years, 1981--1993. CEX
+  averages of the demographics of new-vehicle buyers, 1987--1992, and the CPS income distribution. \\
+\addlinespace
+Latent objects & Product quality $\xi_j$, cost shocks $\omega_j$, household tastes and incomes, and
+  marginal costs. \\
+\addlinespace
+Estimated parameters & Price coefficients for three income groups, random-coefficient scales $\sigma_k$,
+  family-vehicle interactions $\pi$, mean tastes and the cost coefficients $\gamma$. \\
+\addlinespace
+Identifying variation & Characteristics-based instruments for prices, as in BLP, plus micro moments that
+  match purchase probabilities by income group and the family size and age of the buyers of each vehicle
+  type. \\
+\addlinespace
+Maintained assumptions & Static multiproduct Bertrand-Nash pricing, log-linear marginal cost, the income
+  term $\alpha_i\ln(y_i-p_j)$, exogenous characteristics, and a market size equal to the number of
+  households. \\
+\addlinespace
+Counterfactual and what it holds fixed & Removal of all minivans, with the prices of the other vehicles
+  re-solved. Marginal costs, characteristics and $\xi_j$ are held fixed. A second counterfactual removes
+  only the Ford and GM minivans. \\
+\addlinespace
+Conclusion & The compensating variation is \$2,804.55 million over 1984--1988, and about 43 percent of the
+  consumer gain in 1984 came through lower prices of other vehicles. Micro moments shrink the share of the
+  logit errors in buyers' gains. \\
+\addlinespace
+One limitation & Rivals cannot reposition their products in the counterfactual, although they might have
+  done so in a world without Chrysler's minivan. \\
+\addlinespace
+Source and our additions & The tables are Petrin's. \Cref{prop:10-logit-buyer-cv,lem:10-micro-moment} and the
+  diversion form \eqref{eq:10-petrin-diversion} are ours. \\
+\addlinespace
+Tools in the appendices & \Cref{sec:A-gmm,sec:A-simulation,sec:B-fixedpoint}. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \section{Case study: complementarity and online news (Gentzkow 2007)}\label{sec:10-gentzkow}
 
 Every discrete choice model of this chapter so far assumes that a consumer chooses one product. In those models the
@@ -880,7 +945,8 @@ AIDS system of \cref{sec:10-hausman}, are different, since they let spending spr
 \citet{Gentzkow2007} builds a discrete choice model in which consumers may choose
 several goods at once, and in which the data decide whether goods are substitutes or complements. He applies it to the
 \textit{Washington Post}, its online edition (the post.com) and the competing daily \textit{Washington Times}. We follow
-the paper from its question to its contribution.\footnote{Gentzkow writes $\sigma$ for the correlation of the
+the paper from its question to its contribution, and \cref{tab:10-gentzkow-map} at the end of the section maps
+it.\footnote{Gentzkow writes $\sigma$ for the correlation of the
 unobservables in his two-good model and $\Gamma$ for the interaction term. He writes $\gamma$ for the probability of a
 news-day shock, $\lambda$ for the number of readers per copy, $\kappa$ for the transaction cost of online payment and
 $\Psi$ for the fixed cost. We write $\rho$, $\Gamma_{AB}$ (or $\Gamma_r$ for bundle $r$), $\varpi$, $\kappa$, $\chi$ and
@@ -1813,7 +1879,7 @@ $\frac{9{,}000{,}000}{365 \times 541{,}000} = \$0.046$ a day (our computation). 
 utility penalty of 0.13 is worth only $\frac{0.13}{9.72} = \$0.013$.} With the 2004 advertising market the optimal price falls to \$0.09, the loss from a zero price to \$1.7
 million, and the threshold to \$0.02. The zero price may have been part of a rational forward-looking strategy.
 
-\subsection{Robustness}\label{sec:10-gentzkow-robust}
+\subsection{Robustness*}\label{sec:10-gentzkow-robust}
 
 \Cref{tab:10-gentzkow-robust} reproduces Table~12 (pp.~741--742). The first two experiments recompute $\alpha$ from
 print prices of \$0.25 and \$0.35, the prices before and after the 2002 increase. The next two vary the marginal cost of
@@ -1872,6 +1938,49 @@ Whether a single-unit model is acceptable depends on the market. It suits durabl
 cars. It fails for goods that households consume together, such as newspapers, music or groceries. In those markets a
 model like Gentzkow's is needed before any welfare number can be trusted.
 
+\begin{table}[htbp]
+\centering
+\caption{Identification and counterfactual map of Gentzkow (2007)}
+\label{tab:10-gentzkow-map}
+\footnotesize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Observed data & A survey of 16,179 adults in the Washington area, 2000--2003, with 24-hour and five-day
+  readership of the \textit{Post}, the \textit{Times} and the post.com, and their demographics. \\
+\addlinespace
+Latent objects & Consumer random effects $\nu_i$ that are constant over the survey week, news-day shocks
+  $\tau_{it}$, and bundle-specific shocks. \\
+\addlinespace
+Estimated parameters & Mean utilities, bundle interaction terms $\Gamma_r$, the covariance of the random
+  effects, the news-day shock, coefficients on demographics and on four excluded variables, and the price
+  coefficient $\alpha$. \\
+\addlinespace
+Identifying variation & Variables that shift only the online paper and repeated choices within the survey
+  week separate complementarity from correlated tastes. The \textit{Post}'s print pricing condition gives
+  $\alpha$. \\
+\addlinespace
+Maintained assumptions & Quasi-linear utility, the exclusion of the four variables from print utilities,
+  and an optimal print price with a fixed advertising price per reader. \\
+\addlinespace
+Counterfactual and what it holds fixed & Removal of the post.com, and positive online prices. The prices and
+  characteristics of other news sources, and the print price, are held fixed. \\
+\addlinespace
+Conclusion & The post.com adds about \$45.0 million a year to consumer surplus. It substitutes for the
+  print \textit{Post} and costs it about \$5.5 million a year in print profits. Models without unobserved
+  heterogeneity find complementarity instead. \\
+\addlinespace
+One limitation & Prices do not vary, so every dollar value scales with $\frac{1}{\hat\alpha}$ from a
+  stylized supply side. \\
+\addlinespace
+Source and our additions & The tables are Gentzkow's. The exact statement and proof of
+  \cref{prop:10-gentzkow-subst} are ours. \\
+\addlinespace
+Tools in the appendices & \Cref{sec:A-simulation,sec:A-mle,sec:B-ev}. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \section{Synthesis: what determines a measured value}\label{sec:10-synthesis}
 
 The four studies of this chapter value very different goods with very different data. Their answers nevertheless depend
@@ -1918,7 +2027,8 @@ New good & Apple-Cinnamon Cheerios, U.S., 1990--92 & CT scanners, U.S., 1973--82
 Data & City-week scanner prices and quantities (959 observations) & All scanner models, prices and characteristics,
   with over 2,000 installations & 2,407 nameplate-years plus CEX averages for buyers & Survey of 16,179 adults,
   24-hour and 5-day readership \\
-Demand model & Three-level AIDS in product space & Multinomial and nested logit with hedonic residual price & Random
+Demand model & Three-level budgeting in product space: AIDS for brands within segments, log-log demand for segments
+  and for total cereal & Multinomial and nested logit with hedonic residual price & Random
   coefficients logit with income effects and demographics & Logit over bundles with correlated normal random effects \\
 Source of price sensitivity & Prices of the same brand in other cities (Hausman instruments) & Head-scanner price
   coefficients, to net out quality signalling & Characteristics-based instruments plus micro moments & The
